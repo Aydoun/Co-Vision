@@ -1,8 +1,8 @@
 var express = require('express');
 var AllRoutes = express.Router();
 
-var notices = require('./notice');
+var contributors = require('./contributor');
 
-AllRoutes.use('/notice' , notices);
+AllRoutes.use('/contributor' , contributors);
 
 module.exports = AllRoutes;

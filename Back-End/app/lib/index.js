@@ -5,3 +5,7 @@ exports.Formatter = function(msg , err = false){
         error : err
     }
 }
+
+exports.nowDate = function(){
+    return  Math.round(new Date().getTime()/1000);
+}
