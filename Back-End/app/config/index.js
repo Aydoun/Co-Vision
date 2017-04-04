@@ -1,6 +1,6 @@
 const config = {
   mongoURL: process.env.MONGO_URL || 'mongodb://localhost:27017/Co-Vision',
-  port: 8000,
+  port: 3005,
   hostname: 'localhost'
 };
 

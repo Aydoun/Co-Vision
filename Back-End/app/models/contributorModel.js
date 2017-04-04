@@ -19,4 +19,4 @@ module.exports = mongoose.model('cov-contributor', new Schema({
   status : {type : String , enum: ['Active', 'Inactive', 'Banned'] , default : 'Active'},
   password : {type : String , required: true},
   salt : {type : String}
-} , {timestamps: true}));
+} , {timestamps: true}).plugin(require('mongoose-paginate')));
