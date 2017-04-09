@@ -32,7 +32,7 @@ app.get('/api-docs', function (req, res) {
         res.sendFile(__dirname + '/dist/index.html');
 });
 
-swagger.configureSwaggerPaths('', 'api-docs', '');
+swagger.configureSwaggerPaths('/api-docs', 'api-docs', '');
 
 module.exports = {
   app : app,

@@ -1,5 +1,5 @@
-var contributorModel = require('../models/contributorModel');
-var {Formatter , nowDate} = require('../lib');
+var visionModel = require('../models/visionModel');
+var {Formatter} = require('../lib');
 
 exports.get = function (req, res , next){
     var reqQuery = req.query;
@@ -12,7 +12,8 @@ exports.get = function (req, res , next){
     delete reqQuery['pageSize'];
     var filterParams =  reqQuery;
 
-    contributorModel.paginate(filterParams, { page: query.page, limit: parseInt(query.pageSize) }, function(err, result) {
+    var query = Object.assign({} , defaults , req.query);
+    visionModel.paginate(filterParams, { page: query.page, limit: parseInt(query.pageSize) }, function(err, result) {
         if (err) return res.status(200).send(Formatter(err , true));
         res.status(200).send(Formatter({result}));
     });
@@ -21,7 +22,7 @@ exports.get = function (req, res , next){
 exports.getById = function(req, res, next) {
   if (!req.params.id) res.status(200).send(Formatter(data , true));
 
-	contributorModel.findById(req.params.id, function (err, data) {
+	visionModel.findById(req.params.id, function (err, data) {
   		if (err) return res.status(200).send(Formatter(err , true));
 
       res.status(200).send(Formatter(data));
@@ -31,7 +32,7 @@ exports.getById = function(req, res, next) {
 exports.getOne = function(req, res, next) {
   var query = req.query;
 
-	contributorModel.find(query, function (err, data) {
+	visionModel.find(query, function (err, data) {
   		if (err) return res.status(200).send(Formatter(err , true));
 
       res.status(200).send(Formatter(data));
@@ -39,9 +40,9 @@ exports.getOne = function(req, res, next) {
 };
 
 exports.create = function (req, res, next) {
-	var newContributor = new contributorModel(req.body);
+	var newVision = new visionModel(req.body);
 
-	newContributor.save(function (err, data) {
+	newVision.save(function (err, data) {
 		if (err) return res.status(200).send(Formatter(err , true));
 
 		return res.status(200).send(Formatter(data));
@@ -51,13 +52,8 @@ exports.create = function (req, res, next) {
 
 exports.update = function (req, res, next) {
 	var id = req.params.id;
-  var body = req.body;
 
-  if (body.vision_id != null) {
-      //Vision Update
-  }
-
-	contributorModel.update({_id: id}, req.body, function (err, data) {
+	visionModel.update({_id: id}, req.body, function (err, data) {
   		if (err) return res.status(200).send(Formatter(err , true));
 
   		res.status(200).send(Formatter(data));
@@ -67,16 +63,15 @@ exports.update = function (req, res, next) {
 exports.remove = function (req, res, next) {
 	var id = req.params.id;
 
-  contributorModel.update({_id: id}, {status : 'Inactive'}, function (err, data) {
+	visionModel.findOne({_id: id}).remove(function (err , data) {
   		if (err) return res.status(200).send(Formatter(err , true));
 
   		res.status(200).send(Formatter(data));
 	});
-
 };
 
 exports.exists = function (req, res, next) {
-	contributorModel.findById(req.params.id , function (err , data) {
+	visionModel.findById(req.params.id , function (err , data) {
   		if (err) return res.status(200).send(Formatter(err , true));
 
   		res.status(200).send(Formatter(data != null));
@@ -86,7 +81,7 @@ exports.exists = function (req, res, next) {
 exports.count = function (req, res, next) {
   var query = req.query;
 
-	contributorModel.count(query , function (err , count) {
+	visionModel.count(query , function (err , count) {
   		if (err) return res.status(200).send(Formatter(err , true));
 
   		res.status(200).send(Formatter(count));

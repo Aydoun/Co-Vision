@@ -19,9 +19,9 @@ var mongoose = require('mongoose');
  var port = normalizePort(process.env.PORT || serverConfig.port);
 
 // Set and display the application URL
-var applicationUrl = 'http://' + domain + ':' + port + 'api-docs';
+var applicationUrl = 'http://' + domain + ':' + port + '/api-docs';
 
-//swagger.configure(applicationUrl, '1.0.0');
+swagger.configure(applicationUrl, '1.0.0');
 
 
 app.set('port', port);
