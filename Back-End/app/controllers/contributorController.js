@@ -1,5 +1,4 @@
 var contributorModel = require('../models/contributorModel');
-var parallel = require('async/parallel');
 var {Formatter , nowDate} = require('../lib');
 
 exports.get = function (req, res , next){
