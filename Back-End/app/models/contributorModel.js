@@ -1,16 +1,21 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+var Visions = new Schema({
+	visionId : Schema.Types.ObjectId,
+	role : {type : String , enum: ['Owner', 'Admin', 'Common'] , default : 'Common'},
+} , {timestamps: true});
+
 module.exports = mongoose.model('cov-contributor', new Schema({
-	fullName: {type: String , required: true},
+	fullName: {type: String , required: true , unique : true},
   nickName: {type: String},
   addresses : {type : Array},
   contactInfo : {type:Array},
-  phone : {type : String},
+  phone : {type : String , unique : true},
   privacy : {type:Array},
   email : {type : String , required: true},
   avatar : {type : String},
-	visions: [Schema.Types.ObjectId],
+	visions: [Visions],
   lastLocation : { any: Object , default : {
 			lg : 0,
 			alt : 0

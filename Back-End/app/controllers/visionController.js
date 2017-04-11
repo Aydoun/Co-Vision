@@ -1,19 +1,17 @@
 var visionModel = require('../models/visionModel');
-var {Formatter} = require('../lib');
+var magicNumbers = require('../constants/magicNumbers');
+var {Formatter , ListFilter} = require('../lib');
 
 exports.get = function (req, res , next){
     var reqQuery = req.query;
     var defaults = {
         page : 1,
-        pageSize : 10
+        pageSize : magicNumbers.default_page_size,
+        status : 'Active'
     }
-    var query = Object.assign({} , defaults , req.query);
-    delete reqQuery['page'];
-    delete reqQuery['pageSize'];
-    var filterParams =  reqQuery;
+    var query = Object.assign({} , defaults , reqQuery);
 
-    var query = Object.assign({} , defaults , req.query);
-    visionModel.paginate(filterParams, { page: query.page, limit: parseInt(query.pageSize) }, function(err, result) {
+    visionModel.paginate(ListFilter(reqQuery), { page: query.page, limit: parseInt(query.pageSize) }, function(err, result) {
         if (err) return res.status(200).send(Formatter(err , true));
         res.status(200).send(Formatter({result}));
     });
@@ -63,7 +61,7 @@ exports.update = function (req, res, next) {
 exports.remove = function (req, res, next) {
 	var id = req.params.id;
 
-	visionModel.findOne({_id: id}).remove(function (err , data) {
+  visionModel.update({_id: id}, {status : 'Inactive'}, function (err, data) {
   		if (err) return res.status(200).send(Formatter(err , true));
 
   		res.status(200).send(Formatter(data));
