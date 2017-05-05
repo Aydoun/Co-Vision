@@ -11,10 +11,10 @@ module.exports = mongoose.model('cov-contributor', new Schema({
   nickName: {type: String},
   addresses : {type : Array},
   contactInfo : {type:Array},
-  phone : {type : String , unique : true},
+  phone : {type : String},
   privacy : {type:Array},
   email : {type : String , required: true},
-  avatar : {type : String},
+  avatar : {type : String , default : ''},
 	visions: [Visions],
   lastLocation : { any: Object , default : {
 			lg : 0,

@@ -1,6 +1,8 @@
 var visionModel = require('../models/visionModel');
+var contributorModel = require('../models/contributorModel');
 var magicNumbers = require('../constants/magicNumbers');
-var {Formatter , ListFilter} = require('../lib');
+var reduce = require('lodash/reduce');
+var {Formatter , ListFilter , picking} = require('../lib');
 
 exports.get = function (req, res , next){
     var reqQuery = req.query;
@@ -84,4 +86,14 @@ exports.count = function (req, res, next) {
 
   		res.status(200).send(Formatter(count));
 	});
+};
+
+exports.contributorList = function (req, res, next) {
+  var visionId = req.params.id;
+
+  contributorModel.find({'visions.visionId' : visionId} , 'fullName email avatar' , function(err , data){
+      if (err) return res.status(200).send(Formatter(err , true));
+
+      res.status(200).send(Formatter(data));
+  });
 };
