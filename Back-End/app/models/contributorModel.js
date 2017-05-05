@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 var Visions = new Schema({
 	visionId : Schema.Types.ObjectId,
 	role : {type : String , enum: ['Owner', 'Admin', 'Common'] , default : 'Common'},
+	status : {type : String , enul:['Active' , 'Inactive'] , default : 'Active'}
 } , {timestamps: true});
 
 module.exports = mongoose.model('cov-contributor', new Schema({

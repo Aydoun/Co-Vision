@@ -98,7 +98,6 @@ exports.count = function (req, res, next) {
 exports.visionList = function(req, res, next) {
     if (!req.params.id) res.status(200).send(Formatter(data , true));
     var contributor = contributorModel.findById(req.params.id , function(err , data){
-      console.log(data.visions);
       visionModel.find({}).
       where('_id').
       in(data.visions.map((item)=>item.visionId)).
