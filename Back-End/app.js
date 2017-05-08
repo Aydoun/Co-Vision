@@ -5,7 +5,7 @@ var compression = require ('compression');
 var bodyParser = require('body-parser');
 var cors = require('cors')
 var routes = require('./app/routes');
-var home = require('./app/routes/home');
+var notFound = require('./app/routes/notFound');
 var app = express();
 var subpath = express();
 var swagger = require('swagger-node-express').createNew(subpath);
@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/api", subpath);
 subpath.use(cors());
 subpath.use('/', routes);
-subpath.use('*', home);
+subpath.use('*', notFound);
 
 swagger.setApiInfo({
         title: "Co-Vision Rest API",
