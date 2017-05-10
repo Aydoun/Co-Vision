@@ -1,3 +1,4 @@
+var mongoose = require('mongoose');
 var pickBy = require('lodash/pickBy');
 var pick = require('lodash/pick');
 var each = require('lodash/each');
@@ -27,4 +28,8 @@ exports.nowDate = function(){
 
 exports.picking = function(data , pickParams){
     return pick(data, pickParams);
+}
+
+exports.convertToObjectId = function(strId){
+    return mongoose.Types.ObjectId(strId);
 }
