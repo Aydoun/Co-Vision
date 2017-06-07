@@ -1,6 +1,5 @@
 var express = require('express');
 var logger = require('morgan');
-var argv = require('minimist')(process.argv.slice(2));
 var compression = require ('compression');
 var bodyParser = require('body-parser');
 var cors = require('cors')

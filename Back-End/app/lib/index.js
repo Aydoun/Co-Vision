@@ -31,3 +31,15 @@ exports.picking = function(data , pickParams){
 exports.convertToObjectId = function(strId){
     return mongoose.Types.ObjectId(strId);
 }
+
+exports.queryCheck = function(clientInput , requiredParams){
+    var _returned = true;
+    _.each(requiredParams , function(item , key){
+          if (!clientInput[item]) {
+              _returned = item;
+              return ;
+          }
+    });
+
+    return _returned;
+}
