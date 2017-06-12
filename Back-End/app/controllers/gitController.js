@@ -67,18 +67,26 @@ exports.history = function(req, res, next) {
     });
 };
 
-exports.initRepository = function(req , res, next){
-    var clientInput = req.body;
+exports.initRepository = function(inputs){
+    var clientInput = inputs;
     var checkRes = queryCheck(clientInput , ['repoName' , 'description' , 'author' , 'authorMail']);
 
     if (checkRes !== true) {
-        res.status(200).send({data : 'Nope' , msg : checkRes + ' is Required'});
-        return ;
+        return checkRes + ' is Required';
     }
+
+    // clientInput = {
+    //     repoName : clientInput.repoName || 'testRepo',
+    //     description : clientInput.description || 'description',
+    //     author : clientInput.author || 'Amino',
+    //     authorMail : clientInput.authorMail || 'aydoun@qq.com',
+    //     // repoName : clientInput.repoName || 'testRepo',
+    //     // repoName : clientInput.repoName || 'testRepo',
+    // }
 
     var pathToRepo = path.resolve("C://" + clientInput.repoName);
 
-    Git.Repository.init(pathToRepo, 0).then(function (repo) {
+    return Git.Repository.init(pathToRepo, 0).then(function (repo) {
         var inputs = Object.assign({} , clientInput , {
             fileName : "Readme.md",
             fileContent : clientInput.description,
@@ -86,7 +94,7 @@ exports.initRepository = function(req , res, next){
             initalCommit : true
         });
 
-        registerCommit(res , inputs , repo);
+        return registerCommit(inputs , repo);
     });
 }
 
@@ -94,7 +102,7 @@ exports.initRepository = function(req , res, next){
   Helper Functions
 
 */
-function registerCommit(res , inputs , repo) {
+function registerCommit(inputs , repo) {
       var fileName = inputs.fileName;
       var fileContent = inputs.fileContent;
       var index;
@@ -138,9 +146,12 @@ function registerCommit(res , inputs , repo) {
           return repo.createCommit("HEAD", author, committer, inputs.message, oid, _parent);
       })
       .then(function(commitId){
-          res.status(200).send({data : 'Yep' , Id : commitId.tostrS()});
+          console.log(commitId.tostrS());
+          return commitId.tostrS();
+          //res.status(200).send({data : 'Yep' , Id : commitId.tostrS()});
       })
       .catch(function(err){
-          res.status(200).send({data : 'Nope' , err : err});
+          console.log(err);
+          //res.status(200).send({data : 'Nope' , err : err});
       })
 }
