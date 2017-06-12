@@ -8,7 +8,7 @@ import React from 'react';
 export default function NotFound() {
   return (
     <article>
-      <p>Nope</p>
+      <p>Not Found</p>
     </article>
   );
 }

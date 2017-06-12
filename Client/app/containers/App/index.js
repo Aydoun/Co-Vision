@@ -7,20 +7,10 @@
  */
 
 import React from 'react';
-import Helmet from 'react-helmet';
-import styled from 'styled-components';
 
 import Header from 'components/Header';
 import Footer from 'components/Footer';
-
-const AppWrapper = styled.div`
-  max-width: calc(768px + 16px * 2);
-  margin: 0 auto;
-  display: flex;
-  min-height: 100%;
-  padding: 0 16px;
-  flex-direction: column;
-`;
+import './index.css';
 
 class App extends React.Component {
     constructor(props){
@@ -29,11 +19,13 @@ class App extends React.Component {
 
     render(){
         return (
-          <AppWrapper>
+          <div >
             <Header />
-            {React.Children.toArray(this.props.children)}
-            <Footer />
-          </AppWrapper>
+            <div className="app-general__wrapper">
+              {React.Children.toArray(this.props.children)}
+              <Footer />
+            </div>
+          </div>
         )
     }
 }

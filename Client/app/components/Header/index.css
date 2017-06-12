@@ -1,0 +1,17 @@
+.header-wrapper {
+    background: white;
+    height: 52px;
+    padding: 12px 30px;
+    border-bottom: 1px solid #ccc;
+}
+
+.header-content a {
+    text-decoration: none;
+    margin-left: 10px;
+    color: black;
+}
+
+.header-content a.app-header-logo img {
+    height: 25px;
+    width: 52px;
+}

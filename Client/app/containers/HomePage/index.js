@@ -5,12 +5,10 @@
  */
 
 import React from 'react';
-import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 
-import { makeSelectRepos, makeSelectLoading, makeSelectError } from 'containers/App/selectors';
-import CenteredSection from './CenteredSection';
+import Input from './Input';
+import Button from '../../components/Button';
 import { loadRepos } from '../App/actions';
 import { changeUsername } from './actions';
 
@@ -18,15 +16,14 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
   /**
    * when initial state username is not null, submit the form to load repos
    */
-  componentDidMount() {
-    if (this.props.username && this.props.username.trim().length > 0) {
-      this.props.onSubmitForm();
-    }
+  submitIt(){
+      if (this.props.username && this.props.username.trim().length > 0) {
+        this.props.onSubmitForm();
+      }
   }
 
-
   render() {
-    const { loading, error, repos } = this.props;
+    const { loading, error, repos , username } = this.props;
     const reposListProps = {
       loading,
       error,
@@ -34,7 +31,20 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
     };
 
     return (
-      <p>Home Page</p>
+      <div>
+        <Input
+          id="username"
+          type="text"
+          placeholder="mxstbr"
+          value={this.props.username}
+          onChange={this.props.onChangeUsername}
+        />
+        <Button
+            onClick={this.submitIt.bind(this)}
+          >
+            Submit
+        </Button>
+      </div>
     );
   }
 }
@@ -64,11 +74,14 @@ export function mapDispatchToProps(dispatch) {
   };
 }
 
-const mapStateToProps = createStructuredSelector({
-  repos: makeSelectRepos(),
-  loading: makeSelectLoading(),
-  error: makeSelectError(),
-});
+
+function mapStateToProps(state) {
+  var homeState = state.get('home');
+  return {
+      username : homeState.get('username')
+  };
+}
+
 
 // Wrap the component to inject dispatch and state into it
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

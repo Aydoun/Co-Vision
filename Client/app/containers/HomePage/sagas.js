@@ -1,7 +1,6 @@
 /**
  * Gets the repositories of the user from Github
  */
-
 import { take, call, put, select, cancel, takeLatest } from 'redux-saga/effects';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { LOAD_REPOS } from 'containers/App/constants';
@@ -16,7 +15,7 @@ import { makeSelectUsername } from 'containers/HomePage/selectors';
 export function* getRepos() {
   // Select username from store
   const username = yield select(makeSelectUsername());
-  const requestURL = `https://api.github.com/users/${username}/repos?type=all&sort=updated`;
+  const requestURL = `http://api.vision.com/api/vision`;
 
   try {
     // Call our request helper (see 'utils/request')
@@ -35,6 +34,7 @@ export function* githubData() {
   // By using `takeLatest` only the result of the latest API call is applied.
   // It returns task descriptor (just like fork) so we can continue execution
   const watcher = yield takeLatest(LOAD_REPOS, getRepos);
+  console.log('githubData');
 
   // Suspend execution until location changes
   yield take(LOCATION_CHANGE);
