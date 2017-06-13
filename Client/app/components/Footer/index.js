@@ -1,14 +1,11 @@
 import React from 'react';
 
-import A from 'components/A';
-import Wrapper from './Wrapper';
-import messages from './messages';
-
+import './index.css';
 
 function Footer() {
   return (
-    <div>
-      <p>Footer</p>
+    <div className="app-footer_wrapper">
+         All rights Reservec(C)2017-2017 Property of Aydoun The Great!
     </div>
   );
 }
