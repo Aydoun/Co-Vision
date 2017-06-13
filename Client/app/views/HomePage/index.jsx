@@ -6,6 +6,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 import Input from './Input';
 import Button from '../../components/Button';
@@ -18,17 +19,26 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
    */
   submitIt(){
       if (this.props.username && this.props.username.trim().length > 0) {
-        this.props.onSubmitForm();
+        this.props.loadRepos();
+      } else {
+        console.log('fucking time');
+        this.props.fuckLoad();
       }
   }
 
+  onChangeUsername(e){
+    this.props.changeUsername(e.target.value);
+  }
+
   render() {
-    const { loading, error, repos , username } = this.props;
+    const { loading, error, repos , username , issues } = this.props;
     const reposListProps = {
       loading,
       error,
       repos,
     };
+
+    console.log(this.props , 'this.props');
 
     return (
       <div>
@@ -37,7 +47,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
           type="text"
           placeholder="mxstbr"
           value={this.props.username}
-          onChange={this.props.onChangeUsername}
+          onChange={this.onChangeUsername.bind(this)}
         />
         <Button
             onClick={this.submitIt.bind(this)}
@@ -64,21 +74,18 @@ HomePage.propTypes = {
   onChangeUsername: React.PropTypes.func,
 };
 
-export function mapDispatchToProps(dispatch) {
-  return {
-    onChangeUsername: (evt) => dispatch(changeUsername(evt.target.value)),
-    onSubmitForm: (evt) => {
-      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
-      dispatch(loadRepos());
-    },
-  };
+function mapDispatchToProps(dispatch){
+  return bindActionCreators({changeUsername , loadRepos} , dispatch)
 }
 
 
 function mapStateToProps(state) {
+  console.log(state , "state");
   var homeState = state.get('home');
+  var globalState = state.get('global');
   return {
-      username : homeState.get('username')
+      username : homeState.get('username'),
+      issues : globalState.get('issues'),
   };
 }
 

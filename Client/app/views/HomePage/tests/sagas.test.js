@@ -7,8 +7,8 @@ import { createMockTask } from 'redux-saga/lib/utils';
 
 import { LOCATION_CHANGE } from 'react-router-redux';
 
-import { LOAD_REPOS } from 'containers/App/constants';
-import { reposLoaded, repoLoadingError } from 'containers/App/actions';
+import { LOAD_REPOS } from 'views/App/constants';
+import { reposLoaded, repoLoadingError } from 'views/App/actions';
 
 import { getRepos, githubData } from '../sagas';
 

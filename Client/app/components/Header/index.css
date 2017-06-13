@@ -1,8 +1,8 @@
 .header-wrapper {
     background: white;
-    height: 52px;
-    padding: 12px 30px;
-    border-bottom: 1px solid #ccc;
+    height: 64px;
+    padding: 20px 22px 0px;
+    border-bottom: 1px solid #c0c0c0;
 }
 
 .header-content a {
