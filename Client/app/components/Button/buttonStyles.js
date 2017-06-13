@@ -3,7 +3,7 @@ import { css } from 'styled-components';
 const buttonStyles = css`
   display: inline-block;
   box-sizing: border-box;
-  padding: 0.25em 2em;
+  padding: 0.5em 8px;
   text-decoration: none;
   border-radius: 4px;
   -webkit-font-smoothing: antialiased;
@@ -13,10 +13,10 @@ const buttonStyles = css`
   outline: 0;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: bold;
-  font-size: 16px;
-  border: 2px solid #41addd;
+  font-size: 14px;
+  border: 1px solid #41addd;
   color: #41addd;
-
+  line-height: 11px;
   &:active {
     background: #41addd;
     color: #fff;

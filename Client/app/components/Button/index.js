@@ -30,9 +30,9 @@ function Button(props) {
   }
 
   return (
-    <Wrapper>
-      {button}
-    </Wrapper>
+      <span>
+          {button}
+      </span>
   );
 }
 

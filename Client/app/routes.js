@@ -46,7 +46,17 @@ export default function createRoutes(store) {
           .then(loadModule(cb))
           .catch(errorLoading);
       },
-    }, {
+    },
+    {
+      path: '/vision-create',
+      name: 'Create Vision Page',
+      getComponent(nextState, cb) {
+        import('views/VisionPage')
+          .then(loadModule(cb))
+          .catch(errorLoading);
+      },
+    },
+    {
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {

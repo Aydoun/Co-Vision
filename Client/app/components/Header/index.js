@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
 import './index.css';
+import Input from 'components/Input';
+import Button from 'components/Button';
 //import Logo from './logo.png';
 
 
@@ -9,11 +11,20 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
     return (
       <div className="header-wrapper">
         <div className="header-content">
-            <a className="app-header-logo" href="#">
+            <Link to="/" className="app-header-logo">
                 <img src="http://tse2.mm.bing.net/th?id=OIP.73gq0A_pbB-ZNayGmF-68QEsCN&pid=15.1" />
-            </a>
+            </Link>
             <Link to="/">Home</Link>
             <Link to="/features">Features</Link>
+            <Input
+                placeholder="vision name..."
+            />
+          <Link to="/vision-create" style={{float:'right'}} >
+                <Button >
+                    New Vision
+                </Button>
+            </Link>
+
         </div>
       </div>
     );
