@@ -3,7 +3,7 @@ var _ = require('lodash');
 
 exports.Formatter = function(msg , err = false){
     return {
-        data : msg,
+        response : msg,
         status : !err
     }
 }

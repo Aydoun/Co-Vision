@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var Vision = new Schema({
 	title : {type: String , required: true},
   description : {type: String , required : true},
-  creator : {type : Schema.Types.ObjectId , required: true },
+  creator : {type : Schema.Types.ObjectId },
   privacy : {type:Array},
   avatar : {type : String},
   status : {type : String , enum: ['Active', 'Inactive'] , default : 'Active'},

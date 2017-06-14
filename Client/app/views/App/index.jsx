@@ -5,7 +5,6 @@ import Footer from 'components/Footer';
 import SideBar from 'components/SideBar';
 
 import 'assets/public/skeleton.css';
-import 'assets/public/index.css';
 import './index.css';
 
 class App extends React.Component {
@@ -26,7 +25,6 @@ class App extends React.Component {
                     {React.Children.toArray(this.props.children)}
                 </div>
               </div>
-
             </div>
             <div style={{clear:'both'}}></div>
             <Footer />

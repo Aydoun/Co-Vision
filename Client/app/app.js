@@ -15,7 +15,6 @@ import { Provider } from 'react-redux';
 import { applyRouterMiddleware, Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { useScroll } from 'react-router-scroll';
-//import 'sanitize.css/sanitize.css';
 
 // Import root app
 import App from 'views/App';
@@ -23,19 +22,12 @@ import App from 'views/App';
 // Import selector for `syncHistoryWithStore`
 import { makeSelectLocationState } from 'views/App/selectors';
 
-// Import Language Provider
-
-// Load the favicon, the manifest.json file and the .htaccess file
-/* eslint-disable import/no-webpack-loader-syntax */
-// import '!file-loader?name=[name].[ext]!./favicon.ico';
-// import '!file-loader?name=[name].[ext]!./manifest.json';
-// import 'file-loader?name=[name].[ext]!./.htaccess'; // eslint-disable-line import/extensions
-/* eslint-enable import/no-webpack-loader-syntax */
 
 import configureStore from './store';
 
 // Import CSS reset and Global Styles
 import './global-styles';
+import config from './config';
 // Import routes
 import createRoutes from './routes';
 
@@ -58,6 +50,8 @@ const rootRoute = {
   component: App,
   childRoutes: createRoutes(store),
 };
+
+window.config = config;
 
 ReactDOM.render(
   <Provider store={store}>

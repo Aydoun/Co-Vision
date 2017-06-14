@@ -69,20 +69,19 @@ exports.history = function(req, res, next) {
 
 exports.initRepository = function(inputs){
     var clientInput = inputs;
-    var checkRes = queryCheck(clientInput , ['repoName' , 'description' , 'author' , 'authorMail']);
+    //var checkRes = queryCheck(clientInput , ['repoName' , 'description' , 'author' , 'authorMail']);
+    var checkRes = queryCheck(clientInput , ['repoName' , 'description']);
 
     if (checkRes !== true) {
         return checkRes + ' is Required';
     }
 
-    // clientInput = {
-    //     repoName : clientInput.repoName || 'testRepo',
-    //     description : clientInput.description || 'description',
-    //     author : clientInput.author || 'Amino',
-    //     authorMail : clientInput.authorMail || 'aydoun@qq.com',
-    //     // repoName : clientInput.repoName || 'testRepo',
-    //     // repoName : clientInput.repoName || 'testRepo',
-    // }
+    clientInput = {
+        repoName : clientInput.repoName || 'testRepo',
+        description : clientInput.description || 'description',
+        author : clientInput.author || 'Amino',
+        authorMail : clientInput.authorMail || 'aydoun@qq.com',
+    }
 
     var pathToRepo = path.resolve("C://" + clientInput.repoName);
 
@@ -108,7 +107,7 @@ function registerCommit(inputs , repo) {
       var index;
       var oid;
 
-      fse.writeFile(path.join(repo.workdir(), fileName), fileContent)
+      return fse.writeFile(path.join(repo.workdir(), fileName), fileContent)
       .then(function() {
           return repo.refreshIndex();
       })
@@ -148,10 +147,8 @@ function registerCommit(inputs , repo) {
       .then(function(commitId){
           console.log(commitId.tostrS());
           return commitId.tostrS();
-          //res.status(200).send({data : 'Yep' , Id : commitId.tostrS()});
       })
       .catch(function(err){
           console.log(err);
-          //res.status(200).send({data : 'Nope' , err : err});
       })
 }

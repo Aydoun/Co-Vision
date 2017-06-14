@@ -51,9 +51,22 @@ export default function createRoutes(store) {
       path: '/vision-create',
       name: 'Create Vision Page',
       getComponent(nextState, cb) {
-        import('views/VisionPage')
-          .then(loadModule(cb))
-          .catch(errorLoading);
+        const importModules = Promise.all([
+          import('views/VisionPage/reducer'),
+          import('views/VisionPage/sagas'),
+          import('views/VisionPage'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('vision', reducer.default);
+          injectSagas(sagas.default);
+
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
       },
     },
     {

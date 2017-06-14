@@ -1,0 +1,3 @@
+
+export const VISION_SAVED = 'VISION_SAVED';
+export const VISION_LOADING = 'VISION_LOADING';

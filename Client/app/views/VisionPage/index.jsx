@@ -1,22 +1,26 @@
-/*
- * FeaturePage
- *
- * List all the features
- */
 import React from 'react';
+import { connect } from 'react-redux';
+import {bindActionCreators} from 'redux';
 
-export default class VisionPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
+import { prepareSaving } from './actions';
+
+class VisionPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   handleSubmit(e){
       e.preventDefault();
+
+      var params = {
+          repoName : 'testify',
+          title : 'testify',
+          description : 'Nari Nari'
+      }
+
+      this.props.prepareSaving(params);
+
       console.log('form Submitted');
-  }
-  // Since state and props are static,
-  // there's no need to re-render this component
-  shouldComponentUpdate() {
-    return false;
   }
 
   render() {
+    console.log(this.props.visionId , "Vision Id");
 
     return (
       <form>
@@ -33,3 +37,17 @@ export default class VisionPage extends React.Component { // eslint-disable-line
     );
   }
 }
+
+function mapDispatchToProps(dispatch){
+  return bindActionCreators({prepareSaving} , dispatch)
+}
+
+function mapStateToProps(state) {
+  console.log(state , "state");
+  var visionState = state.get('vision');
+  return {
+      visionId : visionState.get('visionId'),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(VisionPage);
