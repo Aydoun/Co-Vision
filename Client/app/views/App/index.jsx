@@ -3,8 +3,10 @@ import React from 'react';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import SideBar from 'components/SideBar';
-import './index.css';
+
+import 'assets/public/skeleton.css';
 import 'assets/public/index.css';
+import './index.css';
 
 class App extends React.Component {
     constructor(props){
@@ -19,9 +21,12 @@ class App extends React.Component {
               <div className="side-bar__wrapper">
                   <SideBar />
               </div>
-              <div className="main-content__wrapper">
-                  {React.Children.toArray(this.props.children)}
+              <div className="">
+                <div className="container main-content__wrapper">
+                    {React.Children.toArray(this.props.children)}
+                </div>
               </div>
+
             </div>
             <div style={{clear:'both'}}></div>
             <Footer />

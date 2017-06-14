@@ -5,9 +5,9 @@ import Input from 'components/Input';
 import Button from 'components/Button';
 //import Logo from './logo.png';
 
-
 class Header extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
+
     return (
       <div className="header-wrapper">
         <div className="header-content">
@@ -16,14 +16,8 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
             </Link>
             <Link to="/">Home</Link>
             <Link to="/features">Features</Link>
-            <Input
-                placeholder="vision name..."
-            />
-          <Link to="/vision-create" style={{float:'right'}} >
-                <Button >
-                    New Vision
-                </Button>
-            </Link>
+            <Link className="button button-primary right" to="/vision-create">New Vision</Link>
+
 
         </div>
       </div>
