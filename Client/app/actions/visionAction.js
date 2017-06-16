@@ -3,7 +3,7 @@ import {
   VISION_LOADING,
   VISION_LIST,
   VISION_LIST_LOADING
-} from './constants';
+} from 'constants/visionConstants';
 
 
 export function prepareSaving(params) {
@@ -23,6 +23,7 @@ export function visionSaved(res) {
 }
 
 export function prepareListing(params) {
+  console.log('got it');
   return {
     type: VISION_LIST_LOADING,
     playload : params
@@ -32,7 +33,7 @@ export function prepareListing(params) {
 export function showVisionList(res) {
   var response = res.data.response;
   console.log(response , 'response');
-  
+
   return {
     type: VISION_LIST,
     visionList : response,

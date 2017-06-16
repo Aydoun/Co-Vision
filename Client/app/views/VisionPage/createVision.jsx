@@ -21,11 +21,7 @@ class addVision extends React.Component { // eslint-disable-line react/prefer-st
           description : description
       }
 
-      this.props.prepareSaving(params)
-      .then(function(){
-          console.log('we have a then!');
-      });
-
+      this.props.prepareSaving(params);
       console.log('form Submitted');
   }
 

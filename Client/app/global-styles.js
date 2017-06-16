@@ -11,6 +11,9 @@ injectGlobal`
   body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
+  a{
+    text-decoration:none;
+  }
 
   body.fontLoaded {
     font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;

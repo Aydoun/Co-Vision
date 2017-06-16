@@ -2,24 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import { prepareListing } from './actions';
+import { prepareListing } from 'actions/visionAction';
 
-class VisionPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class VisionPage extends React.Component { 
 
   componentDidMount(){
       this.props.prepareListing();
   }
 
   render() {
-    const {visionList} = this.props;
-    console.log('Received List' , visionList);
     return (
       <div>
-          {
-              visionList.result ?
-              visionList.result.docs.map((item , index) => <p key={index}>{item.title}</p>) :
-              null
-          }
+        <p>Hey Mama</p>
       </div>
     );
   }
@@ -30,10 +24,8 @@ function mapDispatchToProps(dispatch){
 }
 
 function mapStateToProps(state) {
-  console.log(state , "state");
-  var visionState = state.get('vision');
   return {
-      visionList : visionState.get('visionList'),
+      visionList : state.vision.get('visionList'),
   };
 }
 

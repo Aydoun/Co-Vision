@@ -5,7 +5,7 @@ import {
   VISION_LOADING,
   VISION_LIST,
   VISION_LIST_LOADING
-} from './constants';
+} from 'constants/visionConstants';
 
 // The initial state of the App
 const initialState = fromJS({
