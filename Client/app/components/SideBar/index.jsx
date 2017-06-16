@@ -22,10 +22,13 @@ class SideBar extends React.Component {
         return (
             <ul>
                 <li>
-                    <Link to="/features">Time Line</Link>
+                    <Link to="/vision">My Vision</Link>
                 </li>
                 <li>
-                    <Link to="/">issues</Link>
+                    <Link to="/vision-TimeLine">Vision TimeLine</Link>
+                </li>
+                <li>
+                    <Link to="/">Home</Link>
                 </li>
             </ul>
         )

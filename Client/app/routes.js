@@ -48,7 +48,7 @@ export default function createRoutes(store) {
       },
     },
     {
-      path: '/vision-create',
+      path: '/vision',
       name: 'Create Vision Page',
       getComponent(nextState, cb) {
         const importModules = Promise.all([

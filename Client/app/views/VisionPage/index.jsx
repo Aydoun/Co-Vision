@@ -2,51 +2,38 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import { prepareSaving } from './actions';
+import { prepareListing } from './actions';
 
 class VisionPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  handleSubmit(e){
-      e.preventDefault();
 
-      var params = {
-          repoName : 'testify',
-          title : 'testify',
-          description : 'Nari Nari'
-      }
-
-      this.props.prepareSaving(params);
-
-      console.log('form Submitted');
+  componentDidMount(){
+      this.props.prepareListing();
   }
 
   render() {
-    console.log(this.props.visionId , "Vision Id");
-
+    const {visionList} = this.props;
+    console.log('Received List' , visionList);
     return (
-      <form>
-        <div className="row">
-          <div className="columns">
-            <label >Vision Name</label>
-            <input className="u-full-width" type="text" placeholder="Change The World!" id="visionName" />
-          </div>
-        </div>
-        <label >Description</label>
-        <textarea className="u-full-width" placeholder="" id="visonDesc"></textarea>
-        <input className="button-primary" type="submit" value="Submit" onClick={this.handleSubmit.bind(this)}/>
-      </form>
+      <div>
+          {
+              visionList.result ?
+              visionList.result.docs.map((item , index) => <p key={index}>{item.title}</p>) :
+              null
+          }
+      </div>
     );
   }
 }
 
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({prepareSaving} , dispatch)
+  return bindActionCreators({prepareListing} , dispatch)
 }
 
 function mapStateToProps(state) {
   console.log(state , "state");
   var visionState = state.get('vision');
   return {
-      visionId : visionState.get('visionId'),
+      visionList : visionState.get('visionList'),
   };
 }
 
