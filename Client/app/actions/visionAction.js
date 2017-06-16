@@ -23,7 +23,6 @@ export function visionSaved(res) {
 }
 
 export function prepareListing(params) {
-  console.log('got it');
   return {
     type: VISION_LIST_LOADING,
     playload : params

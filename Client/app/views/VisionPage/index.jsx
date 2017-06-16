@@ -4,16 +4,28 @@ import {bindActionCreators} from 'redux';
 
 import { prepareListing } from 'actions/visionAction';
 
-class VisionPage extends React.Component { 
+class VisionPage extends React.Component {
 
   componentDidMount(){
       this.props.prepareListing();
   }
 
   render() {
+    const {visionList} = this.props;
     return (
       <div>
-        <p>Hey Mama</p>
+        <ul>
+          {
+            visionList.map(function(elem , i){
+                return (
+                    <li key={i}>
+                        <a href="#">{elem.title}</a>
+                    </li>
+                )
+            })
+          }
+        </ul>
+
       </div>
     );
   }
@@ -24,8 +36,9 @@ function mapDispatchToProps(dispatch){
 }
 
 function mapStateToProps(state) {
+  console.log(state , 'state');
   return {
-      visionList : state.vision.get('visionList'),
+      visionList : state.vision.visionList.result.docs,
   };
 }
 

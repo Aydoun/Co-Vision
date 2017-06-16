@@ -8,7 +8,7 @@ import {
 } from 'constants/visionConstants';
 
 // The initial state of the App
-const initialState = fromJS({
+const initialState = {
   visionList: [],
   loading:false,
   newVision : null,
@@ -17,7 +17,7 @@ const initialState = fromJS({
         docs : []
     }
   }
-});
+};
 
 function visionReducer(state = initialState, action) {
   switch (action.type) {
@@ -29,8 +29,7 @@ function visionReducer(state = initialState, action) {
     case VISION_LIST_LOADING:
       return state;
     case VISION_LIST:
-      return state
-        .set('visionList' , action.visionList)
+      return Object.assign({} , state , {...action})
     default:
       return state;
   }
