@@ -9,9 +9,15 @@ const initialState = {
   visionList: [],
   loading:false,
   newVision : null,
-  historyList : [],
-  visionList : []
+  historyList : [{
+      comment : 'Apprently This Vision lacks history!'
+  }],
+  visionList : [{
+      title : 'No Active Visions Yet!',
+      _id : 0
+  }]
 };
+
 
 function visionReducer(state = initialState, action) {
   switch (action.type) {

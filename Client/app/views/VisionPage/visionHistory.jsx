@@ -15,13 +15,11 @@ class VisionHistory extends React.Component {
            id : _id,
            repoName : FoundVision.title
         }
-        console.log(params , 'params');
         this.props.preHistory(params);
       }
   }
 
   render() {
-    console.log(this.props , 'history props');
     const {historyList} = this.props;
     return (
       <div>

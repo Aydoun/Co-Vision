@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {getRandomString} from 'utils';
 import find from 'lodash/find';
 
 import { preContribution } from 'actions/visionAction';
@@ -20,11 +21,11 @@ class VisionLab extends React.Component {
         var params = {
             repoName : FoundVision.title,
             message : contributionComment,
+            fileName : getRandomString() + '.txt',
             fileContent : visonContribution
         }
 
         this.props.preContribution(params);
-        console.log(params , 'form Submitted');
       } else {
           console.log('Searched Object Not Found');
       }
@@ -55,7 +56,7 @@ function mapDispatchToProps(dispatch){
 
 function mapStateToProps(state) {
   return {
-      visionList : state.vision.visionList.result.docs,
+      visionList : state.vision.visionList,
   };
 }
 

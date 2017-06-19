@@ -1,22 +1,17 @@
 var visionModel = require('../models/visionModel');
 var contributorModel = require('../models/contributorModel');
-var {commit , initRepository , history } = require('./gitController');
+var {commit , initRepository , history , treeWalk } = require('./gitController');
 var {Formatter} = require('../lib');
 var parallel = require('async/parallel');
 
 
 exports.historyList = function (req, res, next) {
-    var hois = history(res , req.query);
-    console.log(hois , 'got It!');
-    // if (typeof backPromise == "string") {
-    //     res.status(200).send(Formatter(backPromise , true));
-    // } else {
-    //     backPromise.then(function(historyinfo){
-    //         console.log(historyinfo , 'history');
-    //         res.status(200).send(Formatter(historyinfo));
-    //     });
-    // }
+    history(res , req.query);
 };
+
+exports.historyTree = function(req , res , next){
+    treeWalk(res , req.query)
+}
 
 exports.contributorList = function (req, res, next) {
   var visionId = req.params.id;

@@ -7,15 +7,13 @@ var fse = promisify(require("fs-extra"));
 exports.commit = function(inputs) {
       var clientInput = inputs;
       // var checkRes = queryCheck(clientInput , ['fileContent' , 'fileName' , 'repoName' , 'author' , 'authorMail' , 'message']);
-      var checkRes = queryCheck(clientInput , ['fileContent' , 'repoName' , 'message']);
+      var checkRes = queryCheck(clientInput , ['fileContent' , 'repoName' , 'message' , 'fileName']);
 
       if (checkRes !== true) {
           return checkRes + ' is Required';
       }
 
       clientInput = Object.assign({} , {
-          description : 'description',
-          fileName : 'default.txt',
           author : 'Amino',
           authorMail : 'aydoun@qq.com',
       } , clientInput)
@@ -29,11 +27,7 @@ exports.commit = function(inputs) {
       })
       .then(function(repo){
           return registerCommit(clientInput , repo);
-      })
-      // .catch(function(err){
-      //     console.log(err , 'err');
-      //     //res.status(200).send({data : 'Nope2' , err : err});
-      // });
+      });
 };
 
 exports.history = function(res , params) {
@@ -47,7 +41,7 @@ exports.history = function(res , params) {
 
     var pathToRepo = path.resolve("C://" + clientInput.repoName);
 
-    return Git.Repository.open(pathToRepo)
+    Git.Repository.open(pathToRepo)
     .then(function(repository) {
         return repository.getMasterCommit();
     })
@@ -57,7 +51,7 @@ exports.history = function(res , params) {
 
         history.on("commit", function(commit) {
           infoHistory.push({
-              serialCode : commit.sha(),
+              sha : commit.sha(),
               Author : commit.author().name() + " <" + commit.author().email() + ">",
               Date : commit.date(),
               comment : commit.message()
@@ -67,9 +61,7 @@ exports.history = function(res , params) {
         history.on('end', function(commits) {
           // Use commits
           res.status(200).send(Formatter(infoHistory));
-          return infoHistory;
         });
-
 
         history.start();
     })
@@ -106,6 +98,41 @@ exports.initRepository = function(inputs){
 
         return registerCommit(inputs , repo);
     });
+}
+
+exports.treeWalk = function(res , params){
+    var clientInput = params;
+
+    var pathToRepo = path.resolve("C://" + clientInput.repoName);
+
+    Git.Repository.open(pathToRepo)
+    .then(function(repo) {
+      return repo.getMasterCommit();
+    })
+    .then(function(firstCommitOnMaster) {
+        return firstCommitOnMaster.getTree();
+    })
+    .then(function(tree) {
+      // `walk()` returns an event.
+      var walker = tree.walk();
+      var files = [];
+      walker.on("entry", function(entry) {
+        files.push({
+            path:entry.path(),
+            isDirectory : entry.isDirectory(),
+            isFile : entry.isFile(),
+            isTree : entry.isTree(),
+            name : entry.name(),
+        });
+      });
+
+      walker.on('end', function() {
+        res.status(200).send(Formatter(files));
+      });
+
+      walker.start();
+    })
+    .done();
 }
 
 /*
