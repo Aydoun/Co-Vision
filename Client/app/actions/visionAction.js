@@ -2,6 +2,7 @@ import {
   VISION_LOADING,
   SAVE_CONTRIBUTION_LOADING,
   DUPLICATE_VISION_ACTION,
+  VISION_HISTORY_LOADING,
   VISION_LIST_LOADING
 } from 'constants/visionConstants';
 
@@ -23,6 +24,13 @@ export function prepareListing(params) {
 export function preContribution(params) {
   return {
     type: SAVE_CONTRIBUTION_LOADING,
+    playload : params
+  };
+}
+
+export function preHistory(params) {
+  return {
+    type: VISION_HISTORY_LOADING,
     playload : params
   };
 }
@@ -50,6 +58,17 @@ export function showVisionList(res) {
 
   return {
     type: DUPLICATE_VISION_ACTION,
-    visionList : response,
+    visionList : response.result.docs,
+  };
+}
+
+//showHistoryList
+
+export function showHistoryList(res) {
+  var response = res.data.response;
+  console.log(response , 'history response');
+  return {
+    type: DUPLICATE_VISION_ACTION,
+    historyList : response,
   };
 }

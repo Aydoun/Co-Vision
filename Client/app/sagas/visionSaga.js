@@ -1,6 +1,13 @@
-import { call, put, takeLatest , cancel , take , fork } from 'redux-saga/effects';
-import { VISION_LOADING , VISION_LIST_LOADING , SAVE_CONTRIBUTION_LOADING , DUPLICATE_VISION_ACTION } from 'constants/visionConstants';
-import { visionSaved , showVisionList , saveContribution , fakeStuff } from 'actions/visionAction';
+import { call, put, takeLatest , fork } from 'redux-saga/effects';
+import {
+  VISION_LOADING ,
+  VISION_LIST_LOADING ,
+  SAVE_CONTRIBUTION_LOADING ,
+  DUPLICATE_VISION_ACTION,
+  VISION_HISTORY_LOADING
+} from 'constants/visionConstants';
+
+import { visionSaved , showVisionList , saveContribution , showHistoryList } from 'actions/visionAction';
 
 import request from 'utils/request';
 
@@ -47,7 +54,7 @@ function* listVision(returnedData) {
   const GetOptions = {
     method: 'GET',
     url: requestURL,
-    data: returnedData.playload
+    params: returnedData.playload
   }
 
   try {
@@ -58,12 +65,37 @@ function* listVision(returnedData) {
   }
 }
 
+
+function* listHistory(returnedData) {
+
+  const requestURL = config.apiBase + '/vision/' + returnedData.playload.id + '/history';
+  console.log(returnedData , 'returnedData');
+  console.log(requestURL , 'requestURL');
+  const GetOptions = {
+    method: 'GET',
+    url: requestURL,
+    params: returnedData.playload
+  }
+
+  try {
+    const res = yield call(request, GetOptions);
+    yield put(showHistoryList(res));
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+
 function* _saveVisionSaga() {
     yield takeLatest(VISION_LOADING, createVision);
 }
 
 function* _listVisionSaga() {
     yield takeLatest(VISION_LIST_LOADING, listVision);
+}
+
+function* _visionHistoryList() {
+    yield takeLatest(VISION_HISTORY_LOADING, listHistory);
 }
 
 function* _saveContribution() {
@@ -73,5 +105,6 @@ function* _saveContribution() {
 export default [
   fork(_saveVisionSaga),
   fork(_listVisionSaga),
+  fork(_visionHistoryList),
   fork(_saveContribution)
 ]

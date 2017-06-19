@@ -20,7 +20,8 @@ class VisionPage extends React.Component {
             visionList.map(function(elem , i){
                 return (
                     <li key={i}>
-                        <Link to={"/vision/" + elem._id + "/lab"}>{elem.title}</Link>
+                        <Link to={"/vision/" + elem._id + "/lab"}>{elem.title}</Link>&nbsp;&nbsp;&nbsp;
+                        <Link to={"/vision/"+ elem._id + "/history"}>Details</Link>
                     </li>
                 )
             })
@@ -38,7 +39,7 @@ function mapDispatchToProps(dispatch){
 
 function mapStateToProps(state) {
   return {
-      visionList : state.vision.visionList.result.docs,
+      visionList : state.vision.visionList,
   };
 }
 

@@ -9,11 +9,8 @@ const initialState = {
   visionList: [],
   loading:false,
   newVision : null,
-  visionList : {
-    result : {
-        docs : []
-    }
-  }
+  historyList : [],
+  visionList : []
 };
 
 function visionReducer(state = initialState, action) {

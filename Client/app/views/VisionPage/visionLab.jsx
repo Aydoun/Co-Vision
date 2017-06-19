@@ -5,7 +5,7 @@ import find from 'lodash/find';
 
 import { preContribution } from 'actions/visionAction';
 
-class addVision extends React.Component {
+class VisionLab extends React.Component {
   handleSubmit(e){
       e.preventDefault();
       var visonContribution = document.getElementById('visonContribution').value;
@@ -59,4 +59,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(addVision);
+export default connect(mapStateToProps, mapDispatchToProps)(VisionLab);
