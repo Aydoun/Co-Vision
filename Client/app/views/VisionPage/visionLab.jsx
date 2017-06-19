@@ -1,27 +1,33 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
+import find from 'lodash/find';
 
-import { prepareSaving } from 'actions/visionAction';
+import { preContribution } from 'actions/visionAction';
 
-class addVision extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class addVision extends React.Component {
   handleSubmit(e){
       e.preventDefault();
       var visonContribution = document.getElementById('visonContribution').value;
-
-      if (!visonContribution) {
+      var contributionComment = document.getElementById('contributionComment').value;
+      if (!(visonContribution && contributionComment)) {
           console.log('Form Not Completely Filled');
           return ;
       }
+      var FoundVision = find(this.props.visionList , ['_id' , this.props.routeParams.id]);
 
-      // var params = {
-      //     repoName : visionName,
-      //     title : visionName,
-      //     description : description
-      // }
-      //
-      // this.props.prepareSaving(params);
-      console.log('form Submitted');
+      if (FoundVision) {
+        var params = {
+            repoName : FoundVision.title,
+            message : contributionComment,
+            fileContent : visonContribution
+        }
+
+        this.props.preContribution(params);
+        console.log(params , 'form Submitted');
+      } else {
+          console.log('Searched Object Not Found');
+      }
   }
 
   render() {
@@ -31,6 +37,8 @@ class addVision extends React.Component { // eslint-disable-line react/prefer-st
         <div className="row">
           <div className="columns">
             <h3>Vision Lab</h3>
+            <label >Contribution Comment</label>
+            <input className="u-full-width" type="text" id="contributionComment" />
           </div>
         </div>
         <label >Contribution</label>
@@ -42,11 +50,12 @@ class addVision extends React.Component { // eslint-disable-line react/prefer-st
 }
 
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({prepareSaving} , dispatch)
+  return bindActionCreators({preContribution} , dispatch)
 }
 
 function mapStateToProps(state) {
   return {
+      visionList : state.vision.visionList.result.docs,
   };
 }
 

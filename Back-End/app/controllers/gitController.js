@@ -92,13 +92,6 @@ exports.initRepository = function(inputs){
         authorMail : 'aydoun@qq.com',
     } , clientInput);
 
-    // clientInput = {
-    //     repoName : clientInput.repoName || 'testRepo',
-    //     description : clientInput.description || 'description',
-    //     author : clientInput.author || 'Amino',
-    //     authorMail : clientInput.authorMail || 'aydoun@qq.com',
-    // }
-
     var pathToRepo = path.resolve("C://" + clientInput.repoName);
 
     return Git.Repository.init(pathToRepo, 0).then(function (repo) {

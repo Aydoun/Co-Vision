@@ -1,12 +1,11 @@
 import { call, put, takeLatest , cancel , take , fork } from 'redux-saga/effects';
-import { VISION_SAVED , VISION_LOADING , VISION_LIST , VISION_LIST_LOADING } from 'constants/visionConstants';
-import { LOCATION_CHANGE } from 'react-router-redux';
-import { visionSaved , showVisionList } from 'actions/visionAction';
+import { VISION_LOADING , VISION_LIST_LOADING , SAVE_CONTRIBUTION_LOADING , DUPLICATE_VISION_ACTION } from 'constants/visionConstants';
+import { visionSaved , showVisionList , saveContribution } from 'actions/visionAction';
 
 import request from 'utils/request';
 
 
-export function* createVision(returnedData) {
+function* createVision(returnedData) {
   const requestURL = config.apiBase + '/vision';
 
   const PostOptions = {
@@ -24,7 +23,25 @@ export function* createVision(returnedData) {
 
 }
 
-export function* listVision(returnedData) {
+function* createContribution(returnedData) {
+  const requestURL = config.apiBase + '/vision/' + returnedData.id + '/contribute';
+
+  const PostOptions = {
+    method: 'POST',
+    url: requestURL,
+    data: returnedData.playload
+  }
+
+  try {
+    const res = yield call(request, PostOptions);
+    yield put(saveContribution(res));
+  } catch (err) {
+    console.log(err);
+  }
+
+}
+
+function* listVision(returnedData) {
   const requestURL = config.apiBase + '/vision';
 
   const GetOptions = {
@@ -41,15 +58,20 @@ export function* listVision(returnedData) {
   }
 }
 
-export function* saveVisionSaga() {
+function* _saveVisionSaga() {
     yield takeLatest(VISION_LOADING, createVision);
 }
 
-export function* listVisionSaga() {
+function* _listVisionSaga() {
     yield takeLatest(VISION_LIST_LOADING, listVision);
 }
 
+function* _saveContribution() {
+    yield takeLatest(SAVE_CONTRIBUTION_LOADING, createContribution);
+}
+
 export default [
-  fork(saveVisionSaga),
-  fork(listVisionSaga)
+  fork(_saveVisionSaga),
+  fork(_listVisionSaga),
+  fork(_saveContribution)
 ]

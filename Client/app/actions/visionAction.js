@@ -1,7 +1,7 @@
 import {
-  VISION_SAVED,
   VISION_LOADING,
-  VISION_LIST,
+  SAVE_CONTRIBUTION_LOADING,
+  DUPLICATE_VISION_ACTION,
   VISION_LIST_LOADING
 } from 'constants/visionConstants';
 
@@ -13,15 +13,6 @@ export function prepareSaving(params) {
   };
 }
 
-export function visionSaved(res) {
-  var response = res.data.response;
-  return {
-    type: VISION_SAVED,
-    visionId : response.internal,
-
-  };
-}
-
 export function prepareListing(params) {
   return {
     type: VISION_LIST_LOADING,
@@ -29,11 +20,36 @@ export function prepareListing(params) {
   };
 }
 
+export function preContribution(params) {
+  return {
+    type: SAVE_CONTRIBUTION_LOADING,
+    playload : params
+  };
+}
+
+export function visionSaved(res) {
+  var response = res.data.response;
+
+  return {
+    type: DUPLICATE_VISION_ACTION,
+    visionId : response.internal,
+  };
+}
+
+export function saveContribution(res) {
+  var response = res.data.response;
+  console.log(response , 'response');
+  return {
+    type: DUPLICATE_VISION_ACTION,
+    commitId : response.internal,
+  };
+}
+
 export function showVisionList(res) {
   var response = res.data.response;
 
   return {
-    type: VISION_LIST,
+    type: DUPLICATE_VISION_ACTION,
     visionList : response,
   };
 }
