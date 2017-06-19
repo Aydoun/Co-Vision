@@ -1,6 +1,6 @@
 import { call, put, takeLatest , cancel , take , fork } from 'redux-saga/effects';
 import { VISION_LOADING , VISION_LIST_LOADING , SAVE_CONTRIBUTION_LOADING , DUPLICATE_VISION_ACTION } from 'constants/visionConstants';
-import { visionSaved , showVisionList , saveContribution } from 'actions/visionAction';
+import { visionSaved , showVisionList , saveContribution , fakeStuff } from 'actions/visionAction';
 
 import request from 'utils/request';
 

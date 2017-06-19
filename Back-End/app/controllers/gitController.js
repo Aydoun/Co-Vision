@@ -1,6 +1,6 @@
 var Git = require('../../nodegit');
 var path = require('path');
-var {queryCheck} = require('../lib');
+var {queryCheck , Formatter} = require('../lib');
 var promisify = require("promisify-node");
 var fse = promisify(require("fs-extra"));
 
@@ -36,18 +36,18 @@ exports.commit = function(inputs) {
       // });
 };
 
-exports.history = function(req, res, next) {
-    var clientInput = req.query;
+exports.history = function(res , params) {
+    var clientInput = params;
 
     var checkRes = queryCheck(clientInput , ['repoName']);
 
     if (checkRes !== true) {
-        res.status(200).send({data : 'Nope' , msg : checkRes + ' is Required'});
-        return ;
+        res.status(200).send(Formatter(checkRes + ' is Required' , true))
     }
+
     var pathToRepo = path.resolve("C://" + clientInput.repoName);
 
-    Git.Repository.open(pathToRepo)
+    return Git.Repository.open(pathToRepo)
     .then(function(repository) {
         return repository.getMasterCommit();
     })
@@ -66,8 +66,10 @@ exports.history = function(req, res, next) {
 
         history.on('end', function(commits) {
           // Use commits
-          res.status(200).send({data : infoHistory});
+          res.status(200).send(Formatter(infoHistory));
+          return infoHistory;
         });
+
 
         history.start();
     })
