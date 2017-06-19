@@ -4,10 +4,17 @@ import {
   VISION_LIST_LOADING ,
   SAVE_CONTRIBUTION_LOADING ,
   DUPLICATE_VISION_ACTION,
-  VISION_HISTORY_LOADING
+  VISION_HISTORY_LOADING,
+  VISION_FS_LOADING
 } from 'constants/visionConstants';
 
-import { visionSaved , showVisionList , saveContribution , showHistoryList } from 'actions/visionAction';
+import {
+        visionSaved,
+        showVisionList,
+        saveContribution,
+        showHistoryList,
+        showContentList
+} from 'actions/visionAction';
 
 import request from 'utils/request';
 
@@ -67,10 +74,7 @@ function* listVision(returnedData) {
 
 
 function* listHistory(returnedData) {
-
   const requestURL = config.apiBase + '/vision/' + returnedData.playload.id + '/history';
-  console.log(returnedData , 'returnedData');
-  console.log(requestURL , 'requestURL');
   const GetOptions = {
     method: 'GET',
     url: requestURL,
@@ -84,6 +88,26 @@ function* listHistory(returnedData) {
     console.log(err);
   }
 }
+
+function* listContent(returnedData) {
+
+  const requestURL = config.apiBase + '/vision/' + returnedData.playload.id + '/tree';
+
+  const GetOptions = {
+    method: 'GET',
+    url: requestURL,
+    params: returnedData.playload
+  }
+
+  try {
+    const res = yield call(request, GetOptions);
+    yield put(showContentList(res));
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+
 
 
 function* _saveVisionSaga() {
@@ -102,9 +126,14 @@ function* _saveContribution() {
     yield takeLatest(SAVE_CONTRIBUTION_LOADING, createContribution);
 }
 
+function* _visionContent() {
+    yield takeLatest(VISION_FS_LOADING, listContent);
+}
+
 export default [
   fork(_saveVisionSaga),
   fork(_listVisionSaga),
   fork(_visionHistoryList),
+  fork(_visionContent),
   fork(_saveContribution)
 ]

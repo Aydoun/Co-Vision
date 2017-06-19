@@ -8,7 +8,7 @@ import {
 const initialState = {
   visionList: [],
   loading:false,
-  newVision : null,
+  visionFS : [],
   historyList : [{
       comment : 'Apprently This Vision lacks history!'
   }],
@@ -24,7 +24,7 @@ function visionReducer(state = initialState, action) {
     case DUPLICATE_VISION_ACTION:
       return Object.assign({} , state , {...action});
     case VISION_SAVED:
-      return Object.assign({} , state , {...action})
+      return Object.assign({} , state , {...action});
     default:
       return state;
   }

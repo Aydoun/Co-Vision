@@ -20,7 +20,7 @@ class VisionPage extends React.Component {
             visionList.map(function(elem , i){
                 return elem._id ? (
                     <li key={i}>
-                        <Link to={"/vision/" + elem._id + "/lab"}>{elem.title}</Link>&nbsp;&nbsp;&nbsp;
+                        <Link to={"/vision/" + elem._id + "/content"}>{elem.title}</Link>&nbsp;&nbsp;&nbsp;
                         <Link to={"/vision/"+ elem._id + "/history"}>TimeLine</Link>
                     </li>
                 ) : (
