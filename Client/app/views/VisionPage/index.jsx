@@ -12,6 +12,7 @@ class VisionPage extends React.Component {
 
   render() {
     const {visionList} = this.props;
+    console.log(this.props , 'vision Props');
     return (
       <div>
         <ul>
@@ -36,7 +37,6 @@ function mapDispatchToProps(dispatch){
 }
 
 function mapStateToProps(state) {
-  console.log(state , 'state');
   return {
       visionList : state.vision.visionList.result.docs,
   };

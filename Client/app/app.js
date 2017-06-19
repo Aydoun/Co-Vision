@@ -7,6 +7,9 @@ import store , {history} from 'store';
 import allRoutes from 'routes';
 
 import 'global-styles.js';
+import config from 'config';
+
+window.config = config;
 
 ReactDOM.render(
   <Provider store={store}>

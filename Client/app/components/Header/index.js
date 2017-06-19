@@ -16,7 +16,7 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
             </Link>
             <Link to="/">Home</Link>
             <Link to="/features">Features</Link>
-            <Link className="button button-primary right" to="/vision-create">New Vision</Link>
+            <Link className="button button-primary right" to="/vision/create">New Vision</Link>
         </div>
       </div>
     );

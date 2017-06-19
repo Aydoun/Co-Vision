@@ -25,12 +25,12 @@ export function* createVision(returnedData) {
 }
 
 export function* listVision(returnedData) {
-  const requestURL = "http://api.vision.com/api" + '/vision';
+  const requestURL = config.apiBase + '/vision';
 
   const GetOptions = {
     method: 'GET',
     url: requestURL,
-    //data: returnedData.playload
+    data: returnedData.playload
   }
 
   try {
@@ -42,7 +42,7 @@ export function* listVision(returnedData) {
 }
 
 export function* saveVisionSaga() {
-    var requestWatcher = yield takeLatest(VISION_LOADING, createVision);
+    yield takeLatest(VISION_LOADING, createVision);
 }
 
 export function* listVisionSaga() {

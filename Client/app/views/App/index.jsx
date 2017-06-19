@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 import Header from 'components/Header';
 import Footer from 'components/Footer';
@@ -37,4 +39,14 @@ App.propTypes = {
   children: React.PropTypes.node,
 };
 
-export default App;
+function mapDispatchToProps(dispatch){
+  return bindActionCreators({} , dispatch)
+}
+
+function mapStateToProps(state) {
+  console.log(state , 'App State');
+  return {
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

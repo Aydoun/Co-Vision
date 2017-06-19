@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import { prepareSaving } from './actions';
+import { prepareSaving } from 'actions/visionAction';
 
 class addVision extends React.Component { // eslint-disable-line react/prefer-stateless-function
   handleSubmit(e){
@@ -48,10 +48,7 @@ function mapDispatchToProps(dispatch){
 }
 
 function mapStateToProps(state) {
-  console.log(state , "state");
-  var visionState = state.get('vision');
   return {
-      visionId : visionState.get('visionId'),
   };
 }
 
