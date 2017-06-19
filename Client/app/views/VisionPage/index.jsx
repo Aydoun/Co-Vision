@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {Link} from 'react-router';
 
 import { prepareListing } from 'actions/visionAction';
 
@@ -12,7 +13,6 @@ class VisionPage extends React.Component {
 
   render() {
     const {visionList} = this.props;
-    console.log(this.props , 'vision Props');
     return (
       <div>
         <ul>
@@ -20,7 +20,7 @@ class VisionPage extends React.Component {
             visionList.map(function(elem , i){
                 return (
                     <li key={i}>
-                        <a href="#">{elem.title}</a>
+                        <Link to={"/vision/" + elem._id + "/lab"}>{elem.title}</Link>
                     </li>
                 )
             })
