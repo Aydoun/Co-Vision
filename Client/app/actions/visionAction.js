@@ -31,7 +31,6 @@ export function prepareListing(params) {
 
 export function showVisionList(res) {
   var response = res.data.response;
-  console.log(response , 'response');
 
   return {
     type: VISION_LIST,

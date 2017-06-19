@@ -4,27 +4,36 @@ var {queryCheck} = require('../lib');
 var promisify = require("promisify-node");
 var fse = promisify(require("fs-extra"));
 
-exports.commit = function(req, res, next) {
-      var clientInput = req.body;
-      var checkRes = queryCheck(clientInput , ['fileContent' , 'fileName' , 'repoName' , 'author' , 'authorMail' , 'message']);
+exports.commit = function(inputs) {
+      var clientInput = inputs;
+      // var checkRes = queryCheck(clientInput , ['fileContent' , 'fileName' , 'repoName' , 'author' , 'authorMail' , 'message']);
+      var checkRes = queryCheck(clientInput , ['fileContent' , 'repoName' , 'message']);
 
       if (checkRes !== true) {
-          res.status(200).send({data : 'Nope' , msg : checkRes + ' is Required'});
-          return ;
+          return checkRes + ' is Required';
       }
+
+      clientInput = Object.assign({} , {
+          description : 'description',
+          fileName : 'default.txt',
+          author : 'Amino',
+          authorMail : 'aydoun@qq.com',
+      } , clientInput)
+
 
       var pathToRepo = path.resolve("C://" + clientInput.repoName);
 
-      Git.Repository.open(pathToRepo)
+      return Git.Repository.open(pathToRepo)
       .then(function(repository){
           return repository;
       })
       .then(function(repo){
-          registerCommit(res , clientInput , repo);
+          return registerCommit(clientInput , repo);
       })
-      .catch(function(err){
-          res.status(200).send({data : 'Nope2' , err : err});
-      });
+      // .catch(function(err){
+      //     console.log(err , 'err');
+      //     //res.status(200).send({data : 'Nope2' , err : err});
+      // });
 };
 
 exports.history = function(req, res, next) {
@@ -76,12 +85,19 @@ exports.initRepository = function(inputs){
         return checkRes + ' is Required';
     }
 
-    clientInput = {
-        repoName : clientInput.repoName || 'testRepo',
-        description : clientInput.description || 'description',
-        author : clientInput.author || 'Amino',
-        authorMail : clientInput.authorMail || 'aydoun@qq.com',
-    }
+    clientInput  = Object.assign({} , {
+        repoName : 'testRepo',
+        description : 'description',
+        author : 'Amino',
+        authorMail : 'aydoun@qq.com',
+    } , clientInput);
+
+    // clientInput = {
+    //     repoName : clientInput.repoName || 'testRepo',
+    //     description : clientInput.description || 'description',
+    //     author : clientInput.author || 'Amino',
+    //     authorMail : clientInput.authorMail || 'aydoun@qq.com',
+    // }
 
     var pathToRepo = path.resolve("C://" + clientInput.repoName);
 
@@ -102,53 +118,54 @@ exports.initRepository = function(inputs){
 
 */
 function registerCommit(inputs , repo) {
-      var fileName = inputs.fileName;
-      var fileContent = inputs.fileContent;
-      var index;
-      var oid;
+        var fileName = inputs.fileName;
+        var fileContent = inputs.fileContent;
+        var index;
+        var oid;
 
-      return fse.writeFile(path.join(repo.workdir(), fileName), fileContent)
-      .then(function() {
-          return repo.refreshIndex();
-      })
-      .then(function(indexResult) {
-          index = indexResult;
-      })
-      .then(function() {
-          return index.addByPath(fileName);
-      })
-      .then(function() {
-          return index.write();
-      })
-      .then(function() {
-          return index.writeTree();
-      })
-      .then(function(oidResult){
-          oid = oidResult;
-          if (!inputs.initalCommit) {
-              return Git.Reference.nameToId(repo, "HEAD");
-          }
-      })
-      .then(function(head){
-          if (!inputs.initalCommit) {
-              return repo.getCommit(head);
-          }
-      })
-      .then(function(parent){
-          var _parent = inputs.initalCommit ? [] : [parent];
-          var now = Date.now() / 1000;
-          var author = Git.Signature.create(inputs.author,
-            inputs.authorMail, now, 480);
-          var committer = Git.Signature.create(inputs.author,
-            inputs.authorMail, now, 480);
+return fse.writeFile(path.join(repo.workdir(), fileName), fileContent)
+        .then(function() {
+            return repo.refreshIndex();
+        })
+        .then(function(indexResult) {
+            index = indexResult;
+        })
+        .then(function() {
+            return index.addByPath(fileName);
+        })
+        .then(function() {
+            return index.write();
+        })
+        .then(function() {
+            return index.writeTree();
+        })
+        .then(function(oidResult){
+            oid = oidResult;
+            if (!inputs.initalCommit) {
+                return Git.Reference.nameToId(repo, "HEAD");
+            }
+        })
+        .then(function(head){
+            if (!inputs.initalCommit) {
+                return repo.getCommit(head);
+            }
+        })
+        .then(function(parent){
+            console.log(inputs , 'inputs');
+            var _parent = inputs.initalCommit ? [] : [parent];
+            var now = Date.now() / 1000;
+            var author = Git.Signature.create(inputs.author,
+              inputs.authorMail, now, 480);
+            var committer = Git.Signature.create(inputs.author,
+              inputs.authorMail, now, 480);
 
-          return repo.createCommit("HEAD", author, committer, inputs.message, oid, _parent);
-      })
-      .then(function(commitId){
-          console.log(commitId.tostrS());
-          return commitId.tostrS();
-      })
-      .catch(function(err){
-          console.log(err);
-      })
+            return repo.createCommit("HEAD", author, committer, inputs.message, oid, _parent);
+        })
+        .then(function(commitId){
+            console.log(commitId.tostrS());
+            return commitId.tostrS();
+        })
+        .catch(function(err){
+            console.log(err);
+        })
 }

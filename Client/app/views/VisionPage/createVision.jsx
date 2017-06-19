@@ -22,7 +22,6 @@ class addVision extends React.Component { // eslint-disable-line react/prefer-st
       }
 
       this.props.prepareSaving(params);
-      console.log('form Submitted');
   }
 
   render() {

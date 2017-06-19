@@ -1,6 +1,6 @@
 var visionModel = require('../models/visionModel');
 var contributorModel = require('../models/contributorModel');
-var {registerCommit , initRepository } = require('./gitController');
+var {commit , initRepository } = require('./gitController');
 var {Formatter} = require('../lib');
 var parallel = require('async/parallel');
 
@@ -37,6 +37,29 @@ exports.createVision = function(req , res , next){
               callback(null , data);
           }
       	});
+      }
+    },
+    function(err, results) {
+        res.status(200).send(Formatter(results));
+    });
+}
+
+exports.contribute = function(req , res , next){
+    parallel({
+      internal : function(callback) {
+        var backPromise = commit(req.body);
+
+        if (typeof backPromise == "string") {
+            callback(true , backPromise)
+        } else {
+            backPromise.then(function(commitId){
+                callback(null , commitId);
+            });
+        }
+      },
+      base : function(callback) {
+        //Empty Database Query
+        callback(null , {});
       }
     },
     function(err, results) {

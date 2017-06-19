@@ -2,7 +2,7 @@ var express = require('express');
 var visions = express.Router();
 var visionModel = require('../models/visionModel');
 var base = require('../controllers/baseCrudController')(visionModel);
-var {contributorList , createVision } = require('../controllers/visionController');
+var {contributorList , createVision , contribute } = require('../controllers/visionController');
 
 
 //General Crud Routing
@@ -16,6 +16,7 @@ visions.put('/:id', base.update);
 visions.delete('/:id', base.remove);
 
 visions.get('/:id/contributor', contributorList);
+visions.post('/:id/contribute', contribute);
 
 
 module.exports = visions;
