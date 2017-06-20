@@ -10,7 +10,8 @@ var {
   visionStatus,
   createBranch,
   readFile,
-  checkoutBranch
+  checkoutBranch,
+  branchList
 } = require('../controllers/visionController');
 
 
@@ -29,6 +30,7 @@ visions.get('/:id/tree', historyTree);
 visions.get('/:id/status', visionStatus);
 visions.get('/:id/file', readFile);
 visions.post('/:id/contribute', contribute);
+visions.get('/:id/branch', branchList);
 visions.post('/:id/branch', createBranch);
 visions.put('/:id/branch', checkoutBranch);
 

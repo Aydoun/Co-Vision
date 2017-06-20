@@ -8,7 +8,8 @@ var {
     status,
     createBranch,
     readFileContent,
-    checkoutBranch
+    checkoutBranch,
+    getAllBranchList
 } = require('./gitController');
 var {Formatter} = require('../lib');
 var parallel = require('async/parallel');
@@ -44,6 +45,19 @@ exports.readFile = function(req , res , next){
     });
 }
 
+exports.branchList = function(req , res , next){
+    var branchPromise = getAllBranchList(req.query);
+
+    branchPromise.then(function(data){
+        res.status(200).send(Formatter({data : data}));
+    });
+
+    branchPromise.catch(function(err){
+        res.status(200).send(Formatter({data : err.message} , true));
+        return ;
+    });
+}
+
 exports.createBranch = function(req , res , next){
     var branchPromise = createBranch(req.body);
 
@@ -57,8 +71,6 @@ exports.createBranch = function(req , res , next){
         return ;
     });
 }
-
-//checkoutBranch
 
 exports.checkoutBranch = function(req , res , next){
     var checkoutPromise = checkoutBranch(req.body);
