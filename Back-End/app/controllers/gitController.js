@@ -188,6 +188,26 @@ exports.createBranch = function(params){
     });
 }
 
+exports.checkoutBranch = function(params){
+    var clientInput = params;
+
+    var checkRes = queryCheck(clientInput , ['repoName' , 'branchName']);
+
+    if (checkRes !== true) {
+        throw new Error(checkRes + ' is Required');
+      //  return checkRes + ' is Required';
+    }
+
+    var pathToRepo = path.resolve("C://" + clientInput.repoName);
+
+    return Git.Repository.open(pathToRepo)
+    .then(function(repo) {
+        repo.checkoutBranch(clientInput.branchName, {}).then(function() {
+          return 'switched to ' + clientInput.branchName;
+        });
+    });
+}
+
 exports.readFileContent = function(params){
     var clientInput = params;
     var _entry;

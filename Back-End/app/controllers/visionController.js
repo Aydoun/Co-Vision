@@ -1,6 +1,15 @@
 var visionModel = require('../models/visionModel');
 var contributorModel = require('../models/contributorModel');
-var {commit , initRepository , history , treeWalk , status , createBranch , readFileContent } = require('./gitController');
+var {
+    commit,
+    initRepository,
+    history,
+    treeWalk,
+    status,
+    createBranch,
+    readFileContent,
+    checkoutBranch
+} = require('./gitController');
 var {Formatter} = require('../lib');
 var parallel = require('async/parallel');
 
@@ -44,6 +53,22 @@ exports.createBranch = function(req , res , next){
     });
 
     branchPromise.catch(function(err){
+        res.status(200).send(Formatter({data : err.message} , true));
+        return ;
+    });
+}
+
+//checkoutBranch
+
+exports.checkoutBranch = function(req , res , next){
+    var checkoutPromise = checkoutBranch(req.body);
+
+    checkoutPromise.then(function(message){
+
+        res.status(200).send(Formatter({data : message}));
+    });
+
+    checkoutPromise.catch(function(err){
         res.status(200).send(Formatter({data : err.message} , true));
         return ;
     });
