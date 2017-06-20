@@ -7,7 +7,7 @@ var visions = require('./vision');
 var invitations = require('./invitation');
 var issues = require('./issue');
 var feedbacks = require('./feedback');
-//var test = require('./git');
+var tests = require('./test')
 
 AllRoutes.use('/contributor' , contributors);
 AllRoutes.use('/contribution' , contributions);
@@ -15,6 +15,6 @@ AllRoutes.use('/issue' , issues);
 AllRoutes.use('/invitation' , invitations);
 AllRoutes.use('/feedback' , feedbacks);
 AllRoutes.use('/vision' , visions);
-//AllRoutes.use('/git' , test);
+AllRoutes.use('/test' , tests);
 
 module.exports = AllRoutes;

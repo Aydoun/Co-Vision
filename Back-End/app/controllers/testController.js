@@ -2,14 +2,13 @@ var {
     gitTest
 } = require('./gitController');
 
-exports.get = function (req, res, next) {
-    return res.status(200).send({message:"Welcome To CO-VISION API"});
-};
+var {Formatter} = require('../lib');
 
 exports.testify = function(req , res , next){
     var testPromise = gitTest(req.query);
 
     testPromise.then(function(msg){
+        console.log(msg , 'msg');
         res.status(200).send(Formatter(msg));
     })
 
