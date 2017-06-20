@@ -188,6 +188,34 @@ exports.createBranch = function(params){
     });
 }
 
+exports.readFileContent = function(params){
+    var clientInput = params;
+    var _entry;
+    var checkRes = queryCheck(clientInput , ['repoName' , 'fileName' , 'commitSha']);
+
+    if (checkRes !== true) {
+        throw new Error(checkRes + ' is Required');
+    }
+
+    var pathToRepo = path.resolve("C://" + clientInput.repoName);
+
+    return Git.Repository.open(pathToRepo)
+      .then(function(repo) {
+        return repo.getCommit(clientInput.commitSha);
+      })
+      .then(function(commit) {
+        return commit.getEntry(clientInput.fileName);
+      })
+      .then(function(entry) {
+        _entry = entry;
+        return _entry.getBlob();
+      })
+      .then(function(blob) {
+        //first Ten Lines
+        return blob.toString().split("\n").slice(0, 10).join("\n");
+      });
+}
+
 /*
   Helper Functions
 

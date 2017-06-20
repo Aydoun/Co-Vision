@@ -1,6 +1,6 @@
 var visionModel = require('../models/visionModel');
 var contributorModel = require('../models/contributorModel');
-var {commit , initRepository , history , treeWalk , status , createBranch } = require('./gitController');
+var {commit , initRepository , history , treeWalk , status , createBranch , readFileContent } = require('./gitController');
 var {Formatter} = require('../lib');
 var parallel = require('async/parallel');
 
@@ -20,6 +20,19 @@ exports.visionStatus = function(req , res , next){
         console.log(statuses , 'received ');
         res.status(200).send(Formatter(statuses));
     })
+}
+
+exports.readFile = function(req , res , next){
+    var filePromise = readFileContent(req.query);
+
+    filePromise.then(function(fileContent){
+        res.status(200).send(Formatter(fileContent));
+    });
+
+    filePromise.catch(function(err){
+        res.status(200).send(Formatter({data : err.message} , true));
+        return ;
+    });
 }
 
 exports.createBranch = function(req , res , next){

@@ -8,7 +8,8 @@ var {
   historyList,
   historyTree,
   visionStatus,
-  createBranch
+  createBranch,
+  readFile
 } = require('../controllers/visionController');
 
 
@@ -25,8 +26,10 @@ visions.delete('/:id', base.remove);
 visions.get('/:id/history', historyList);
 visions.get('/:id/tree', historyTree);
 visions.get('/:id/status', visionStatus);
+visions.get('/:id/file', readFile);
 visions.post('/:id/contribute', contribute);
 visions.post('/:id/branch', createBranch);
+
 
 
 module.exports = visions;
