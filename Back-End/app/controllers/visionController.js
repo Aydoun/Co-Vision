@@ -1,6 +1,6 @@
 var visionModel = require('../models/visionModel');
 var contributorModel = require('../models/contributorModel');
-var {commit , initRepository , history , treeWalk , status } = require('./gitController');
+var {commit , initRepository , history , treeWalk , status , createBranch } = require('./gitController');
 var {Formatter} = require('../lib');
 var parallel = require('async/parallel');
 
@@ -14,19 +14,27 @@ exports.historyTree = function(req , res , next){
 }
 
 exports.visionStatus = function(req , res , next){
-    status(res , req.query)
+    var statusPromise = status(req.query);
+
+    statusPromise.then(function(statuses){
+        console.log(statuses , 'received ');
+        res.status(200).send(Formatter(statuses));
+    })
 }
 
-exports.contributorList = function (req, res, next) {
-  var visionId = req.params.id;
+exports.createBranch = function(req , res , next){
+    var branchPromise = createBranch(req.body);
 
-  contributorModel.find({'visions.visionId' : visionId} , 'fullName email avatar' , function(err , data){
-      if (err) return res.status(200).send(Formatter(err , true));
-      res.status(200).send(Formatter(data));
-  });
-};
+    branchPromise.then(function(ref){
 
-//
+        res.status(200).send(Formatter({data : ref.name()}));
+    });
+
+    branchPromise.catch(function(err){
+        res.status(200).send(Formatter({data : err.message} , true));
+        return ;
+    });
+}
 
 exports.createVision = function(req , res , next){
     parallel({

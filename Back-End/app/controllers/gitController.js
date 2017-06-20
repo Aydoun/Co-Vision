@@ -135,14 +135,13 @@ exports.treeWalk = function(res , params){
     .done();
 }
 
-exports.status = function(res , params){
+exports.status = function(params){
     var clientInput = params;
-
     var pathToRepo = path.resolve("C://" + clientInput.repoName);
 
-    Git.Repository.open(pathToRepo)
+    return Git.Repository.open(pathToRepo)
     .then(function(repo) {
-        repo.getStatus().then(function(statuses) {
+        return repo.getStatus().then(function(statuses) {
           var allStatus = [];
           function statusToText(status) {
             var words = [];
@@ -159,8 +158,33 @@ exports.status = function(res , params){
             allStatus.push(file.path() + " " + statusToText(file));
           });
 
-          res.status(200).send(Formatter(allStatus));
+          return allStatus;
         });
+    });
+}
+
+exports.createBranch = function(params){
+    var clientInput = params;
+
+    var checkRes = queryCheck(clientInput , ['repoName' , 'branchName']);
+
+    if (checkRes !== true) {
+        throw new Error(checkRes + ' is Required');
+      //  return checkRes + ' is Required';
+    }
+
+    var pathToRepo = path.resolve("C://" + clientInput.repoName);
+
+    return Git.Repository.open(pathToRepo)
+    .then(function(repo) {
+      // Create a new branch on head
+      return repo.getHeadCommit()
+      .then(function(commit) {
+        return repo.createBranch(
+          params.branchName,
+          commit,
+          0);
+      });
     });
 }
 
