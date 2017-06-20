@@ -1,6 +1,6 @@
 var visionModel = require('../models/visionModel');
 var contributorModel = require('../models/contributorModel');
-var {commit , initRepository , history , treeWalk } = require('./gitController');
+var {commit , initRepository , history , treeWalk , status } = require('./gitController');
 var {Formatter} = require('../lib');
 var parallel = require('async/parallel');
 
@@ -13,6 +13,10 @@ exports.historyTree = function(req , res , next){
     treeWalk(res , req.query)
 }
 
+exports.visionStatus = function(req , res , next){
+    status(res , req.query)
+}
+
 exports.contributorList = function (req, res, next) {
   var visionId = req.params.id;
 
@@ -21,6 +25,8 @@ exports.contributorList = function (req, res, next) {
       res.status(200).send(Formatter(data));
   });
 };
+
+//
 
 exports.createVision = function(req , res , next){
     parallel({

@@ -1,5 +1,5 @@
 import {
-  VISION_LOADING,
+  VISION_SAVE_LOADING,
   SAVE_CONTRIBUTION_LOADING,
   DUPLICATE_VISION_ACTION,
   VISION_HISTORY_LOADING,
@@ -10,7 +10,7 @@ import {
 
 export function prepareSaving(params) {
   return {
-    type: VISION_LOADING,
+    type: VISION_SAVE_LOADING,
     playload : params
   };
 }

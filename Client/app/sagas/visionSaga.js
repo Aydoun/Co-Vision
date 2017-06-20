@@ -1,6 +1,6 @@
 import { call, put, takeLatest , fork } from 'redux-saga/effects';
 import {
-  VISION_LOADING ,
+  VISION_SAVE_LOADING ,
   VISION_LIST_LOADING ,
   SAVE_CONTRIBUTION_LOADING ,
   DUPLICATE_VISION_ACTION,
@@ -107,11 +107,8 @@ function* listContent(returnedData) {
   }
 }
 
-
-
-
 function* _saveVisionSaga() {
-    yield takeLatest(VISION_LOADING, createVision);
+    yield takeLatest(VISION_SAVE_LOADING, createVision);
 }
 
 function* _listVisionSaga() {

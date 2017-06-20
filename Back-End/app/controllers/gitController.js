@@ -135,6 +135,35 @@ exports.treeWalk = function(res , params){
     .done();
 }
 
+exports.status = function(res , params){
+    var clientInput = params;
+
+    var pathToRepo = path.resolve("C://" + clientInput.repoName);
+
+    Git.Repository.open(pathToRepo)
+    .then(function(repo) {
+        repo.getStatus().then(function(statuses) {
+          var allStatus = [];
+          function statusToText(status) {
+            var words = [];
+            if (status.isNew()) { words.push("NEW"); }
+            if (status.isModified()) { words.push("MODIFIED"); }
+            if (status.isTypechange()) { words.push("TYPECHANGE"); }
+            if (status.isRenamed()) { words.push("RENAMED"); }
+            if (status.isIgnored()) { words.push("IGNORED"); }
+
+            return words.join(" ");
+          }
+
+          statuses.forEach(function(file) {
+            allStatus.push(file.path() + " " + statusToText(file));
+          });
+
+          res.status(200).send(Formatter(allStatus));
+        });
+    });
+}
+
 /*
   Helper Functions
 
