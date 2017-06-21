@@ -1,6 +1,7 @@
 import React from 'react';
 import {Router, Route , IndexRedirect } from 'react-router';
 
+
 import App from 'views/App';
 import VisionRoutes from './visionRoutes';
 import HomeRoutes from './homeRoutes';
@@ -16,5 +17,5 @@ export default ()=> (
         </Route>
       </Route>
       <Route path="*" component={NotFound} />
-    </Route>
+  </Route>
 )
