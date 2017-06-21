@@ -49,6 +49,13 @@ injectGlobal`
       float: right;
   }
 
+  .list-items__margin{
+    margin-bottom:8px;
+  }
+  .bottomMargin {
+      margin-bottom : 8px;
+  }
+
   ul , li {
     list-style: none;
     margin: 0;

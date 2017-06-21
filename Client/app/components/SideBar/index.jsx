@@ -8,6 +8,7 @@
 
 import React, { PropTypes, Children } from 'react';
 import {Link} from 'react-router';
+import './index.css';
 
 class SideBar extends React.Component {
 

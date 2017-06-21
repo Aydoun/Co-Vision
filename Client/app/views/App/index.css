@@ -3,29 +3,6 @@
    padding: 30px 50px;
 }
 
-.side-bar__wrapper{
-    float:left;
-    width:200px;
-    height:100%;
-    margin-right:20px;
-    border:1px solid #ccc;
-    background:white;
-}
-
-.side-bar__wrapper li {
-    border-bottom: 1px solid #ccc;
-    padding: 20px;
-}
-
-.side-bar__wrapper li:last-child {
-    border-bottom: 0;
-}
-
-.side-bar__wrapper li a:hover{
-    border-bottom:1px solid green;
-    opacity: 1;
-}
-
 .main-content__wrapper{
     float: left;
     width: 72%;

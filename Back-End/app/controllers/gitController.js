@@ -40,27 +40,30 @@ exports.history = function(res , params) {
     }
 
     var pathToRepo = path.resolve("C://" + clientInput.repoName);
+    var branchName = clientInput.branchName || 'master';
 
     Git.Repository.open(pathToRepo)
     .then(function(repository) {
-        return repository.getMasterCommit();
+        return repository.getBranchCommit(branchName);
     })
-    .then(function(firstCommitOnMaster){
-        var history = firstCommitOnMaster.history(Git.Revwalk.SORT.Time);
-        var infoHistory = [];
+    .then(function(firstCommit){
+        var history = firstCommit.history(Git.Revwalk.SORT.Time);
 
         history.on("commit", function(commit) {
-          infoHistory.push({
-              sha : commit.sha(),
-              Author : commit.author().name() + " <" + commit.author().email() + ">",
-              Date : commit.date(),
-              comment : commit.message()
-          })
+
         });
 
         history.on('end', function(commits) {
           // Use commits
-          res.status(200).send(Formatter(infoHistory));
+          var results = commits.map(function(commit) {
+              return {
+                  sha : commit.sha(),
+                  Author : commit.author().name() + " <" + commit.author().email() + ">",
+                  Date : commit.date(),
+                  comment : commit.message()
+              }
+          });
+          res.status(200).send(Formatter(results));
         });
 
         history.start();

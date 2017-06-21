@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Link} from 'react-router';
+import {Timeline , Card , Tag , Button} from 'antd';
 
 import { prepareListing } from 'actions/visionAction';
 
@@ -13,27 +14,31 @@ class VisionPage extends React.Component {
 
   render() {
     const {visionList} = this.props;
+
     return (
       <div>
-        <ul>
           {
             visionList.map(function(elem , i){
-                return elem._id ? (
-                    <li key={i}>
-                        <Link to={"/vision/" + elem._id + "/content"}>{elem.title}</Link>&nbsp;&nbsp;&nbsp;
-                        <Link to={"/vision/"+ elem._id + "/history"}>TimeLine</Link>
-                    </li>
-                ) : (
-                    <li key={i}>
-                        <Link to={"/vision"}>{elem.title}</Link>&nbsp;&nbsp;&nbsp;
-                    </li>
+                return (
+                  <div className="list-items__margin">
+                    <Card key={i} title={elem.title} extra={<a href="#">More</a>}>
+                      <p className="bottomMargin">{elem.description}</p>
+                      <p>
+                        <Tag color="#2db7f5">
+                          {elem.updatedAt}
+                        </Tag>
+                        <Tag color="#87d068">
+                          {elem.createdAt}
+                        </Tag>
+                      </p>
+                    </Card>
+                  </div>
                 )
             })
           }
-        </ul>
-
+          <Button style={{width:'100%'}}>More</Button>
       </div>
-    );
+    )
   }
 }
 
