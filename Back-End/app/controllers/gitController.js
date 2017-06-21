@@ -124,9 +124,11 @@ exports.treeWalk = function(res , params){
     })
     .then(function(tree) {
       var files = [];
+      var index = 0;
       tree.entries().forEach(function(entry) {
           files.push({
               path:entry.path(),
+              key : entry.sha(),
               isDirectory : entry.isDirectory(),
               isFile : entry.isFile(),
               isTree : entry.isTree(),
