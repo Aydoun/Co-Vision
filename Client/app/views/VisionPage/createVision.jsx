@@ -1,10 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {Form , Button , Input , Card} from 'antd';
+
+const FormItem = Form.Item;
 
 import { prepareSaving } from 'actions/visionAction';
 
-class addVision extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class addVision extends React.Component {
   handleSubmit(e){
       e.preventDefault();
       var visionName = document.getElementById('visionName').value;
@@ -25,19 +28,28 @@ class addVision extends React.Component { // eslint-disable-line react/prefer-st
   }
 
   render() {
+    const formItemLayout =  null;
+    const buttonItemLayout = null;
 
     return (
-      <form>
-        <div className="row">
-          <div className="columns">
-            <label >Vision Name</label>
-            <input className="u-full-width" type="text" placeholder="Change The World!" id="visionName" />
-          </div>
-        </div>
-        <label >Description</label>
-        <textarea className="u-full-width" placeholder="" id="visonDesc"></textarea>
-        <input className="button-primary" type="submit" value="Submit" onClick={this.handleSubmit.bind(this)}/>
-      </form>
+      <Card >
+        <Form layout="vertical">
+          <FormItem
+            label="Vision Name"
+          >
+            <Input placeholder="Cure For Cancer..." />
+          </FormItem>
+          <FormItem
+            label="Short Introduction"
+
+          >
+            <Input type="textarea" rows={8} placeholder="This Vision Would..." />
+          </FormItem>
+          <FormItem {...buttonItemLayout}>
+            <Button type="primary" icon="save">Create</Button>
+          </FormItem>
+        </Form>
+      </Card>
     );
   }
 }

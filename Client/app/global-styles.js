@@ -19,6 +19,17 @@ injectGlobal`
     font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
 
+  a {
+    text-decoration: none;
+    color: #41addd;
+    font-size:14px;
+    opacity: 0.7;
+  }
+
+  a:hover{
+      opacity: 1;
+  }
+
   #app {
     background-color: #fafafa;
     min-height: 100%;

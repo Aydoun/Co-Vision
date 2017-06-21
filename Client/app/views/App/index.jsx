@@ -6,7 +6,6 @@ import Header from 'components/Header';
 import Footer from 'components/Footer';
 import SideBar from 'components/SideBar';
 
-import 'assets/public/skeleton.css';
 import './index.css';
 
 class App extends React.Component {
