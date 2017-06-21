@@ -1,11 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
 import './index.css';
-import Input from 'components/Input';
-import Button from 'components/Button';
-//import Logo from './logo.png';
 
-class Header extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class Header extends React.Component {
   render() {
 
     return (

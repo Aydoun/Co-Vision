@@ -11,6 +11,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
     return (
       <div>
         <Button icon="save">Welcome Home!</Button>
+        
       </div>
     );
   }
