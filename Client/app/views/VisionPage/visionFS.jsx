@@ -4,12 +4,19 @@ import {bindActionCreators} from 'redux';
 import find from 'lodash/find';
 import {Icon , Table , Select} from 'antd';
 import Columns from './table-columns/fileSystem';
-
 import { preContent , preBranch } from 'actions/visionAction';
 
 const Option = Select.Option;
 
 class VisionFS extends React.Component {
+
+  constructor(props){
+      super(props);
+      this.state = {
+          VisionObject : null
+      }
+  }
+
   componentDidMount() {
       var _id = this.props.routeParams.id;
       var FoundVision = find(this.props.visionList , ['_id' , _id]);
@@ -24,25 +31,41 @@ class VisionFS extends React.Component {
       }
   }
 
+  branchChanged(value , label){
+      const {VisionObject} = this.state;
+
+      this.props.preContent({
+          id : this.props.routeParams.id,
+          repoName : VisionObject.title,
+          branchName : value
+      });
+  }
+
+  componentWillReceiveProps(nextProps) {
+      var _id = this.props.routeParams.id;
+      var Found = find(nextProps.visionList , ['_id' , _id]);
+
+      if (Found && this.state.VisionObject == null) {
+          this.setState({VisionObject : Found});
+      }
+  }
+
   render() {
     const {visionFS , branchList} = this.props;
-    const FoundVision = find(this.props.visionList , ['_id' , this.props.routeParams.id]);
+    const {VisionObject} = this.state;
 
     return (
       <div>
-
-        <h3>Vision {FoundVision ? FoundVision.title : ''} Content</h3>
+        <h3>Vision {VisionObject ? VisionObject.title : ''} Content</h3>
         <div className="bottomMargin">
           <label>Branches : </label>
-          <Select style={{width:155}}>
+          <Select style={{width:155}} onChange={this.branchChanged.bind(this)}>
               {
                 branchList.map((item , i) => <Option key={i} value={item.name}>{item.name}</Option>)
               }
           </Select>
         </div>
-
         <hr/>
-
         <Table
           columns={Columns.bind(this)()}
           dataSource={visionFS}

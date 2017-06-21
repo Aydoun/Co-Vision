@@ -86,7 +86,6 @@ exports.checkoutBranch = function(req , res , next){
     var checkoutPromise = checkoutBranch(req.body);
 
     checkoutPromise.then(function(message){
-
         res.status(200).send(Formatter({data : message}));
     });
 
