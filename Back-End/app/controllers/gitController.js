@@ -183,7 +183,7 @@ exports.getAllBranchList = function(params){
       return repo.getReferenceNames(3).then(function(arrayReference) {
         // Use reference
         return arrayReference
-        .filter(function(elem){return elem.isBranch()})
+        //.filter(function(elem){return elem.isBranch()})
         .map(function(reference){
             var _name = reference.toString().split('/');
             return {

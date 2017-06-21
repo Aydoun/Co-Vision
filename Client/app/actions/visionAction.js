@@ -4,6 +4,7 @@ import {
   DUPLICATE_VISION_ACTION,
   VISION_HISTORY_LOADING,
   VISION_FS_LOADING,
+  BRANCH_LIST_LOADING,
   VISION_LIST_LOADING
 } from 'constants/visionConstants';
 
@@ -40,6 +41,15 @@ export function preHistory(params) {
 export function preContent(params) {
   return {
     type: VISION_FS_LOADING,
+    playload : params
+  };
+}
+
+//BRANCH_LIST_LOADING
+
+export function preBranch(params) {
+  return {
+    type: BRANCH_LIST_LOADING,
     playload : params
   };
 }
@@ -85,5 +95,14 @@ export function showContentList(res) {
   return {
     type: DUPLICATE_VISION_ACTION,
     visionFS : response,
+  };
+}
+
+export function showBranchList(res) {
+  var response = res.data.response;
+
+  return {
+    type: DUPLICATE_VISION_ACTION,
+    branchList : response,
   };
 }

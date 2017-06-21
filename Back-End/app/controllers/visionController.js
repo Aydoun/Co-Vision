@@ -59,7 +59,7 @@ exports.branchList = function(req , res , next){
     var branchPromise = getAllBranchList(req.query);
 
     branchPromise.then(function(data){
-        res.status(200).send(Formatter({data : data}));
+        res.status(200).send(Formatter(data));
     });
 
     branchPromise.catch(function(err){

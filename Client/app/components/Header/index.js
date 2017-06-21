@@ -12,8 +12,6 @@ class Header extends React.Component {
             <Link to="/" className="app-header-logo">
                 <img src="http://tse2.mm.bing.net/th?id=OIP.73gq0A_pbB-ZNayGmF-68QEsCN&pid=15.1" />
             </Link>
-            <Link to="/">Home</Link>
-            <Link to="/features">Features</Link>
             <Link className="right" to="/vision/create"><Button icon="plus" >New Vision</Button></Link>
         </div>
       </div>

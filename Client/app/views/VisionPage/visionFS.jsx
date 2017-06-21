@@ -2,10 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import find from 'lodash/find';
-import {Icon , Table} from 'antd';
+import {Icon , Table , Select} from 'antd';
 import Columns from './table-columns/fileSystem';
 
-import { preContent } from 'actions/visionAction';
+import { preContent , preBranch } from 'actions/visionAction';
+
+const Option = Select.Option;
 
 class VisionFS extends React.Component {
   componentDidMount() {
@@ -18,17 +20,30 @@ class VisionFS extends React.Component {
            repoName : FoundVision.title
         }
         this.props.preContent(params);
+        this.props.preBranch(params);
       }
   }
 
   render() {
-    const {visionFS} = this.props;
+    const {visionFS , branchList} = this.props;
     const FoundVision = find(this.props.visionList , ['_id' , this.props.routeParams.id]);
-  //  const tableData =
+
     return (
       <div>
+
         <h3>Vision {FoundVision ? FoundVision.title : ''} Content</h3>
-        <Table  
+        <div className="bottomMargin">
+          <label>Branches : </label>
+          <Select style={{width:155}}>
+              {
+                branchList.map((item , i) => <Option key={i} value={item.name}>{item.name}</Option>)
+              }
+          </Select>
+        </div>
+
+        <hr/>
+
+        <Table
           columns={Columns.bind(this)()}
           dataSource={visionFS}
           showHeader={false}
@@ -41,13 +56,14 @@ class VisionFS extends React.Component {
 }
 
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({preContent} , dispatch)
+  return bindActionCreators({preContent , preBranch} , dispatch)
 }
 
 function mapStateToProps(state) {
   return {
       visionList : state.vision.visionList,
-      visionFS : state.vision.visionFS
+      visionFS : state.vision.visionFS,
+      branchList : state.vision.branchList
   };
 }
 

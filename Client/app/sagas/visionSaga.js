@@ -5,6 +5,7 @@ import {
   SAVE_CONTRIBUTION_LOADING ,
   DUPLICATE_VISION_ACTION,
   VISION_HISTORY_LOADING,
+  BRANCH_LIST_LOADING,
   VISION_FS_LOADING
 } from 'constants/visionConstants';
 
@@ -13,7 +14,8 @@ import {
         showVisionList,
         saveContribution,
         showHistoryList,
-        showContentList
+        showContentList,
+        showBranchList
 } from 'actions/visionAction';
 
 import request from 'utils/request';
@@ -89,6 +91,26 @@ function* listHistory(returnedData) {
   }
 }
 
+//listBranch
+
+function* listBranch(returnedData) {
+
+  const requestURL = config.apiBase + '/vision/' + returnedData.playload.id + '/branch';
+
+  const GetOptions = {
+    method: 'GET',
+    url: requestURL,
+    params: returnedData.playload
+  }
+
+  try {
+    const res = yield call(request, GetOptions);
+    yield put(showBranchList(res));
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 function* listContent(returnedData) {
 
   const requestURL = config.apiBase + '/vision/' + returnedData.playload.id + '/tree';
@@ -115,6 +137,10 @@ function* _listVisionSaga() {
     yield takeLatest(VISION_LIST_LOADING, listVision);
 }
 
+function* _branchList() {
+    yield takeLatest(BRANCH_LIST_LOADING, listBranch);
+}
+
 function* _visionHistoryList() {
     yield takeLatest(VISION_HISTORY_LOADING, listHistory);
 }
@@ -127,10 +153,13 @@ function* _visionContent() {
     yield takeLatest(VISION_FS_LOADING, listContent);
 }
 
+//BRANCH_LIST_LOADING
+
 export default [
   fork(_saveVisionSaga),
   fork(_listVisionSaga),
   fork(_visionHistoryList),
   fork(_visionContent),
+  fork(_branchList),
   fork(_saveContribution)
 ]

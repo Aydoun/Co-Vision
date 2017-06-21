@@ -6,7 +6,7 @@ export default function Columns(){
       {
           dataIndex: 'name',
           render(item , row , index){
-              var iconType = row.isDirectory ? 'folder' : 'file';
+              var iconType = row.isDirectory ? 'folder' : 'file-text';
 
               return (
                   <div>
