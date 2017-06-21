@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {Router, Route} from 'react-router';
 import 'babel-polyfill';
+import 'antd/dist/antd.min.css';
 import store , {history} from 'store';
 import allRoutes from 'routes';
 
