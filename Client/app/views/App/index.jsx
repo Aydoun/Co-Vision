@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {BackTop} from 'antd';
 
 import Header from 'components/Header';
 import Footer from 'components/Footer';
@@ -16,6 +17,7 @@ class App extends React.Component {
     render(){
         return (
           <div >
+            <BackTop />
             <Header />
             <div className="app-general__wrapper">
               <div className="side-bar__wrapper">

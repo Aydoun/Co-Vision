@@ -8,28 +8,39 @@ const FormItem = Form.Item;
 import { prepareSaving } from 'actions/visionAction';
 
 class addVision extends React.Component {
-  handleSubmit(e){
-      e.preventDefault();
-      var visionName = document.getElementById('visionName').value;
-      var description = document.getElementById('visonDesc').value;
 
-      if (!(visionName && description)) {
-          console.log('Form Not Completely Filled');
-          return ;
+  handleSubmit(){
+
+    this.props.form.validateFields((err, fieldsValue) => {
+      if (err) {
+        return;
       }
+      console.log('Received values of form: ', fieldsValue);
 
-      var params = {
-          repoName : visionName,
-          title : visionName,
-          description : description
-      }
 
-      this.props.prepareSaving(params);
+    });
+      // var visionName = document.getElementById('visionName').value;
+      // var description = document.getElementById('visonDesc').value;
+      //
+      // if (!(visionName && description)) {
+      //     console.log('Form Not Completely Filled');
+      //     return ;
+      // }
+      //
+      // var params = {
+      //     repoName : visionName,
+      //     title : visionName,
+      //     description : description
+      // }
+      //
+      // this.props.prepareSaving(params);
   }
 
   render() {
-    const formItemLayout =  null;
-    const buttonItemLayout = null;
+    const { getFieldDecorator } = this.props.form;
+    const config = {
+      rules: [{ type: 'string', required: true, message: 'Required Field' }],
+    };
 
     return (
       <Card >
@@ -37,16 +48,19 @@ class addVision extends React.Component {
           <FormItem
             label="Vision Name"
           >
-            <Input placeholder="Cure For Cancer..." />
+            {getFieldDecorator('visionName', config)(
+              <Input placeholder="Cure For Cancer..." />
+            )}
           </FormItem>
           <FormItem
             label="Short Introduction"
-
           >
-            <Input type="textarea" rows={8} placeholder="This Vision Would..." />
+            {getFieldDecorator('description', config)(
+              <Input type="textarea" rows={8} placeholder="This Vision Would..." />
+            )}
           </FormItem>
-          <FormItem {...buttonItemLayout}>
-            <Button type="primary" icon="save">Create</Button>
+          <FormItem >
+            <Button type="primary" icon="save" onClick={this.handleSubmit.bind(this)}>Create</Button>
           </FormItem>
         </Form>
       </Card>
@@ -63,4 +77,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(addVision);
+export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(addVision));
