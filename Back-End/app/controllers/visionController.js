@@ -20,7 +20,17 @@ exports.historyList = function (req, res, next) {
 };
 
 exports.historyTree = function(req , res , next){
-    treeWalk(res , req.query)
+    var treePromise = treeWalk(res , req.query);
+
+    treePromise.then(function(files){
+        res.status(200).send(Formatter(files));
+    });
+
+    treePromise.catch(function(err){
+        res.status(200).send(Formatter({data : err.message} , true));
+        return ;
+    });
+
 }
 
 exports.visionStatus = function(req , res , next){

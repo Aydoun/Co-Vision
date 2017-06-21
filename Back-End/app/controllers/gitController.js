@@ -103,36 +103,35 @@ exports.initRepository = function(inputs){
 exports.treeWalk = function(res , params){
     var clientInput = params;
 
+    var checkRes = queryCheck(clientInput , ['repoName']);
+
+    if (checkRes !== true) {
+        throw new Error(checkRes + ' is Required');
+    }
+
+    var branchName = clientInput.branchName || 'master';
     var pathToRepo = path.resolve("C://" + clientInput.repoName);
 
-    Git.Repository.open(pathToRepo)
+    return Git.Repository.open(pathToRepo)
     .then(function(repo) {
-      return repo.getMasterCommit();
+      return repo.getBranchCommit(branchName);
     })
-    .then(function(firstCommitOnMaster) {
-        return firstCommitOnMaster.getTree();
+    .then(function(firstCommit) {
+      return firstCommit.getTree();
     })
     .then(function(tree) {
-      // `walk()` returns an event.
-      var walker = tree.walk();
       var files = [];
-      walker.on("entry", function(entry) {
-        files.push({
-            path:entry.path(),
-            isDirectory : entry.isDirectory(),
-            isFile : entry.isFile(),
-            isTree : entry.isTree(),
-            name : entry.name(),
-        });
+      tree.entries().forEach(function(entry) {
+          files.push({
+              path:entry.path(),
+              isDirectory : entry.isDirectory(),
+              isFile : entry.isFile(),
+              isTree : entry.isTree(),
+              name : entry.name(),
+          });
       });
-
-      walker.on('end', function() {
-        res.status(200).send(Formatter(files));
-      });
-
-      walker.start();
-    })
-    .done();
+      return files;
+    });
 }
 
 exports.status = function(params){
@@ -176,9 +175,8 @@ exports.getAllBranchList = function(params){
 
     return Git.Repository.open(pathToRepo)
     .then(function(repo) {
-      return repo.getReferences(3).then(function(arrayReference) {
+      return repo.getReferenceNames(3).then(function(arrayReference) {
         // Use reference
-        var refs = [];
         return arrayReference
         .filter(function(elem){return elem.isBranch()})
         .map(function(reference){
@@ -198,14 +196,12 @@ exports.createBranch = function(params){
 
     if (checkRes !== true) {
         throw new Error(checkRes + ' is Required');
-      //  return checkRes + ' is Required';
     }
 
     var pathToRepo = path.resolve("C://" + clientInput.repoName);
 
     return Git.Repository.open(pathToRepo)
     .then(function(repo) {
-      // Create a new branch on head
       return repo.getHeadCommit()
       .then(function(commit) {
         return repo.createBranch(
@@ -223,7 +219,6 @@ exports.checkoutBranch = function(params){
 
     if (checkRes !== true) {
         throw new Error(checkRes + ' is Required');
-      //  return checkRes + ' is Required';
     }
 
     var pathToRepo = path.resolve("C://" + clientInput.repoName);

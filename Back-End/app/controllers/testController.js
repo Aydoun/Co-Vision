@@ -8,7 +8,6 @@ exports.testify = function(req , res , next){
     var testPromise = gitTest(req.query);
 
     testPromise.then(function(msg){
-        console.log(msg , 'msg');
         res.status(200).send(Formatter(msg));
     })
 
