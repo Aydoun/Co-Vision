@@ -2,8 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import find from 'lodash/find';
+import {Timeline , Icon , Card , Tag , Spin , Pagination} from 'antd';
 
 import { preHistory } from 'actions/visionAction';
+import {GlobalPagination} from 'utils';
 
 class VisionHistory extends React.Component {
   componentDidMount() {
@@ -19,23 +21,34 @@ class VisionHistory extends React.Component {
       }
   }
 
+  onPageChange(page, pageSize){
+      console.log(page, pageSize);
+  }
+
   render() {
-    const {historyList} = this.props;
+    const {historyList , listPagination , loading} = this.props;
+
     return (
       <div>
-        <ul>
-            {
-                historyList.map(function(elem , i){
-                    return (
-                        <li key={i}>
-                            {elem.comment}
-                        </li>
-                    )
-                })
-            }
-        </ul>
+          <Spin spinning={loading}>
+            <Timeline>
+              {
+                  historyList.map(function(elem , i){
+                      return (
+                          <Timeline.Item key={i}>
+                              <p>{elem.Date}</p>
+                              <Card title={elem.comment} >
+                                  <Tag>{elem.Author}</Tag>
+                              </Card>
+                          </Timeline.Item>
+                      )
+                  })
+              }
+            </Timeline>
+            <Pagination onChange={this.onPageChange.bind(this)} {...listPagination} />
+          </Spin>
       </div>
-    );
+    )
   }
 }
 
@@ -46,7 +59,9 @@ function mapDispatchToProps(dispatch){
 function mapStateToProps(state) {
   return {
       visionList : state.vision.visionList,
-      historyList : state.vision.historyList
+      loading : state.vision.loading,
+      historyList : state.vision.historyList,
+      listPagination : GlobalPagination(state.vision.historyList)
   };
 }
 

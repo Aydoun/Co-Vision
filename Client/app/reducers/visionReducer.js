@@ -2,7 +2,6 @@
 
 import {
   DUPLICATE_VISION_ACTION,
-  VISION_SAVED
 } from 'constants/visionConstants';
 
 const initialState = {
@@ -20,11 +19,14 @@ const initialState = {
 
 
 function visionReducer(state = initialState, action) {
+
+  if (action.type.indexOf('LOADING') >= 0) {
+      return Object.assign({} , state , {loading:true});
+  }
+
   switch (action.type) {
     case DUPLICATE_VISION_ACTION:
-      return Object.assign({} , state , {...action});
-    case VISION_SAVED:
-      return Object.assign({} , state , {...action});
+      return Object.assign({} , state , {...action} , {loading:false});
     default:
       return state;
   }
