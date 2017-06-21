@@ -56,6 +56,10 @@ injectGlobal`
       margin-bottom : 8px;
   }
 
+  .global-padding{
+    padding:4px;
+  }
+
   ul , li {
     list-style: none;
     margin: 0;
