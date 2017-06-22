@@ -1,62 +1,49 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getRandomString} from 'utils';
 import find from 'lodash/find';
+import {Input , Spin} from 'antd';
 
-import { preContribution } from 'actions/visionAction';
+import { fileContent , preRead } from 'actions/visionAction';
 
 class VisionLab extends React.Component {
-  handleSubmit(e){
-      e.preventDefault();
-      var visonContribution = document.getElementById('visonContribution').value;
-      var contributionComment = document.getElementById('contributionComment').value;
-      if (!(visonContribution && contributionComment)) {
-          console.log('Form Not Completely Filled');
-          return ;
-      }
-      var FoundVision = find(this.props.visionList , ['_id' , this.props.routeParams.id]);
+
+  componentDidMount(){
+      const {fileName , visionId , sha} = this.props.location.query;
+      var FoundVision = find(this.props.visionList , ['_id' , visionId]);
 
       if (FoundVision) {
-        var params = {
-            repoName : FoundVision.title,
-            message : contributionComment,
-            fileName : getRandomString() + '.txt',
-            fileContent : visonContribution
-        }
-
-        this.props.preContribution(params);
-      } else {
-          console.log('Searched Object Not Found');
+        this.props.preRead({
+            id : visionId,
+            commitSha : sha,
+            fileName : fileName,
+            repoName : FoundVision.title
+        })
       }
+
   }
 
   render() {
+    const {ContentString} = this.props;
+
+    if (!ContentString) return <Spin spinning={true} />
 
     return (
-      <form>
-        <div className="row">
-          <div className="columns">
-            <h3>Vision Lab</h3>
-            <label >Contribution Comment</label>
-            <input className="u-full-width" type="text" id="contributionComment" />
-          </div>
-        </div>
-        <label >Contribution</label>
-        <textarea className="u-full-width" placeholder="" id="visonContribution"></textarea>
-        <input className="button-primary" type="submit" value="Contribute" onClick={this.handleSubmit.bind(this)}/>
-      </form>
-    );
+      <div>
+        <Input type="textarea" rows={8} defaultValue={ContentString} />
+      </div>
+    )
   }
 }
 
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({preContribution} , dispatch)
+  return bindActionCreators({fileContent , preRead} , dispatch)
 }
 
 function mapStateToProps(state) {
   return {
       visionList : state.vision.visionList,
+      ContentString : state.vision.ContentString
   };
 }
 

@@ -11,7 +11,7 @@ export default (
       <Route path="/vision" component={Vision}>
       </Route>
       <Route path="/vision/create" component={createVision} />
-      <Route path="/vision/:id/lab" component={visionLab} />
+      <Route path="/vision/lab" component={visionLab} />
       <Route path="/vision/:id/history" component={visionHistory} />
       <Route path="/vision/:id/content" component={visionFs} />
   </Route>

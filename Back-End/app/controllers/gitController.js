@@ -105,6 +105,7 @@ exports.initRepository = function(inputs){
 
 exports.treeWalk = function(res , params){
     var clientInput = params;
+    var sha;
 
     var checkRes = queryCheck(clientInput , ['repoName']);
 
@@ -120,6 +121,7 @@ exports.treeWalk = function(res , params){
       return repo.getBranchCommit(branchName);
     })
     .then(function(firstCommit) {
+      sha = firstCommit.sha();
       return firstCommit.getTree();
     })
     .then(function(tree) {
@@ -129,6 +131,7 @@ exports.treeWalk = function(res , params){
           files.push({
               path:entry.path(),
               key : entry.sha(),
+              sha : sha,
               isDirectory : entry.isDirectory(),
               isFile : entry.isFile(),
               isTree : entry.isTree(),

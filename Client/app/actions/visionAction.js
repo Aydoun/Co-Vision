@@ -5,6 +5,7 @@ import {
   VISION_HISTORY_LOADING,
   VISION_FS_LOADING,
   BRANCH_LIST_LOADING,
+  FILE_READ_LOADING,
   VISION_LIST_LOADING
 } from 'constants/visionConstants';
 
@@ -45,11 +46,16 @@ export function preContent(params) {
   };
 }
 
-//BRANCH_LIST_LOADING
-
 export function preBranch(params) {
   return {
     type: BRANCH_LIST_LOADING,
+    playload : params
+  };
+}
+
+export function preRead(params) {
+  return {
+    type: FILE_READ_LOADING,
     playload : params
   };
 }
@@ -104,5 +110,14 @@ export function showBranchList(res) {
   return {
     type: DUPLICATE_VISION_ACTION,
     branchList : response,
+  };
+}
+
+export function fileContent(res) {
+  var response = res.data.response;
+
+  return {
+    type: DUPLICATE_VISION_ACTION,
+    ContentString : response,
   };
 }
