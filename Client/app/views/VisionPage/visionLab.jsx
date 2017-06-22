@@ -10,19 +10,15 @@ class VisionLab extends React.Component {
 
   constructor(props){
       super(props);
-
       this.state = {
           value : null
       }
   }
 
   componentWillReceiveProps(nextProps) {
-      // console.log(this.props.error , 'this');
-      // console.log(nextProps.error , 'next');
       if (!nextProps.error.status && this.props.error.errorMessage != nextProps.error.errorMessage) {
           message.error(nextProps.error.errorMessage)
       }
-
   }
 
   componentDidMount(){

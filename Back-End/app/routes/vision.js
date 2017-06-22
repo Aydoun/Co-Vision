@@ -11,7 +11,8 @@ var {
   createBranch,
   readFile,
   checkoutBranch,
-  branchList
+  branchList,
+  visionSummary
 } = require('../controllers/visionController');
 
 
@@ -26,6 +27,7 @@ visions.put('/:id', base.update);
 visions.delete('/:id', base.remove);
 
 visions.get('/:id/history', historyList);
+visions.get('/:id/summary', visionSummary);
 visions.get('/:id/tree', historyTree);
 visions.get('/:id/status', visionStatus);
 visions.get('/:id/file', readFile);

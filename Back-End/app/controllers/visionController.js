@@ -9,7 +9,8 @@ var {
     createBranch,
     readFileContent,
     checkoutBranch,
-    getAllBranchList
+    getAllBranchList,
+    treeSummary
 } = require('./gitController');
 var {Formatter} = require('../lib');
 var parallel = require('async/parallel');
@@ -31,6 +32,10 @@ exports.historyTree = function(req , res , next){
         return ;
     });
 
+}
+
+exports.visionSummary = function(req , res , next){
+    treeSummary(res , req.query);
 }
 
 exports.visionStatus = function(req , res , next){

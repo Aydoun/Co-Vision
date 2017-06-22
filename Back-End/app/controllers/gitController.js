@@ -142,6 +142,60 @@ exports.treeWalk = function(res , params){
     });
 }
 
+//treeSummary
+
+exports.treeSummary = function(res , params){
+  var clientInput = params;
+
+  var checkRes = queryCheck(clientInput , ['repoName']);
+
+  if (checkRes !== true) {
+      throw new Error(checkRes + ' is Required');
+  }
+
+  var pathToRepo = path.resolve("C://" + clientInput.repoName);
+  var branchName = clientInput.branchName || 'master';
+
+  Git.Repository.open(pathToRepo)
+  .then(function(repository) {
+      return repository.getBranchCommit(branchName);
+  })
+  .then(function(firstCommit){
+      var history = firstCommit.history();
+
+      var contributors = {};
+
+      history.on("commit", function(commit) {
+          var author = commit.author();
+          var email = author.email();
+          var name = author.name();
+
+          if (contributors.hasOwnProperty(email)) {
+            //if contributor already counted in
+            contributors[email] = contributors[email] + 1
+          } else {
+            //save the first comer
+            contributors[email] = 1
+          }
+      });
+
+      history.on('end', function(commits) {
+        var result = {
+            totalContributions : commits.length,
+            contributorsList : contributors
+        }
+
+        res.status(200).send(Formatter(result));
+      });
+
+      history.start();
+  })
+  .catch(function(err){
+      console.log(err , "Catched Error");
+  });
+
+}
+
 exports.status = function(params){
     var clientInput = params;
     var pathToRepo = path.resolve("C://" + clientInput.repoName);
