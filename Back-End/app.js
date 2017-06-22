@@ -27,6 +27,10 @@ swagger.setApiInfo({
         contact: "aydoun@qq.com",
 });
 
+// app.get('/', function (req, res) {
+//         res.status(200).send({});
+// });
+
 app.get('/api-docs', function (req, res) {
         res.sendFile(__dirname + '/dist/index.html');
 });

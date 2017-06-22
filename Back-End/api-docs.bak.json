@@ -1,0 +1,155 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Co-Vision API Spec",
+    "description": "Rest Api Documentation and Test",
+    "termsOfService": "http://swagger.io/terms/"
+  },
+  "basePath": "/",
+  "tags" : [
+    {"name": "Vision",
+    "description": "Vision EndPoints"
+    },
+    {"name": "User",
+    "description": "User EndPoints"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/vision/": {
+       "post": {
+          "tags": ["Vision"],
+          "description": "Create New Vision",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+              {
+                "name": "visionObj",
+                "in": "body",
+                "description": "repoName , Description",
+                "required": true,
+                "schema": {
+                  "$ref": "#/definitions/create"
+                }
+              }
+          ],
+          "responses": {
+            "200": {
+              "description": "create response",
+              "schema": {
+                 "$ref": "#/definitions/response"
+              }
+            }
+          }
+        }
+    },
+    "/api/vision": {
+        "delete":{
+          "tags":["Vision"],
+          "description":"Delete Vision",
+          "operationId":"delete",
+          "produces": [
+            "application/json"
+          ],
+          "parameters":[
+              {
+                "name": "_id",
+                "in": "body",
+                "description": "ID to delete",
+                "required": true,
+                "type": "string"
+              }
+            ],
+          "responses": {
+            "200": {
+              "description": "delete response",
+              "schema":{
+                "$ref":"#/definitions/delete"
+              }
+            }
+          }
+        },
+      "get":{
+          "tags": [ "Vision"],
+          "description": "Returns the status of something",
+          "operationId": "findById",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+
+            ],
+        "responses": {
+            "200": {
+              "description": "response",
+              "schema": {
+                "$ref": "#/definitions/response1"
+              }
+            }
+          }
+        }
+      }
+  },
+  "definitions": {
+    "create": {
+      "properties": {
+        "VisionName": {
+          "required":true,
+          "type": "string",
+          "example": "Party of The Century"
+        },
+        "VisitorsCount": {
+          "required":true,
+          "type":"integer",
+          "format": "int64",
+          "example": 50000
+        }
+      }
+    },
+    "response1": {
+        "properties": {
+          "userId": {
+            "required":true,
+            "type": "string",
+            "example": "23423456543"
+          }
+      }
+    },
+    "response": {
+        "properties": {
+            "jobID": {
+              "required": true,
+              "type" : "string",
+              "example" : "12321432423"
+            }
+        }
+    },
+    "delete": {
+        "properties": {
+            "_id": {
+              "required": true,
+              "type" : "string",
+              "example" : "234344234234"
+            }
+        }
+    },
+    "400error" : {
+       "properties": {
+        "message": {
+          "type": "string",
+          "example" : "400 Bad Request"
+        }
+      }
+    }
+  }
+}

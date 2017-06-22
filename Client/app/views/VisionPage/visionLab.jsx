@@ -8,6 +8,14 @@ import { fileContent , preRead } from 'actions/visionAction';
 
 class VisionLab extends React.Component {
 
+  constructor(props){
+      super(props);
+
+      this.state = {
+          value : null
+      }
+  }
+
   componentDidMount(){
       const {fileName , visionId , sha} = this.props.location.query;
       var FoundVision = find(this.props.visionList , ['_id' , visionId]);
@@ -25,12 +33,14 @@ class VisionLab extends React.Component {
 
   render() {
     const {ContentString} = this.props;
-
-    if (!ContentString) return <Spin spinning={true} />
+    const {value} = this.state;
 
     return (
       <div>
-        <Input type="textarea" rows={8} defaultValue={ContentString} />
+        <span>{ContentString}</span>
+        <Input type="textarea" rows={8} value={value == null ? ContentString : value} onChange={(e) => this.setState({value : e.target.value})} >
+            {ContentString}
+        </Input>
       </div>
     )
   }
