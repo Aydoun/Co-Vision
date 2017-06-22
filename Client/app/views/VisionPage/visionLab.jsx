@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import find from 'lodash/find';
-import {Input , Spin} from 'antd';
+import {Input , Spin , message} from 'antd';
 
 import { fileContent , preRead } from 'actions/visionAction';
 
@@ -14,6 +14,15 @@ class VisionLab extends React.Component {
       this.state = {
           value : null
       }
+  }
+
+  componentWillReceiveProps(nextProps) {
+      // console.log(this.props.error , 'this');
+      // console.log(nextProps.error , 'next');
+      if (!nextProps.error.status && this.props.error.errorMessage != nextProps.error.errorMessage) {
+          message.error(nextProps.error.errorMessage)
+      }
+
   }
 
   componentDidMount(){
@@ -53,7 +62,8 @@ function mapDispatchToProps(dispatch){
 function mapStateToProps(state) {
   return {
       visionList : state.vision.visionList,
-      ContentString : state.vision.ContentString
+      ContentString : state.vision.ContentString,
+      error : state.error
   };
 }
 

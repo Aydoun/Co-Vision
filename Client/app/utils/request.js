@@ -19,11 +19,12 @@ function parseJSON(response) {
  * @return {object|undefined} Returns either the response, or throws an error
  */
 function checkStatus(response) {
-  if (response.status >= 200 && response.status < 300) {
+  var _data = response.data;
+  if (response.status >= 200 && response.status < 300 && _data.status) {
     return response;
   }
 
-  const error = new Error(response.statusText);
+  const error = new Error(_data.response.data);
   error.response = response;
   throw error;
 }
@@ -40,7 +41,4 @@ function checkStatus(response) {
  export default function request(options) {
    return axios(options)
    .then(checkStatus)
-   .catch(function (err) {
-     console.log(err);
-   });
  }

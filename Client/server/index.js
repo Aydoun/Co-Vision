@@ -32,7 +32,7 @@ app.listen(port, host, (err) => {
     return logger.error(err.message);
   } else {
       logger.appStarted(port, prettyHost);
-      //console.log('Zai Listenning PORT : ' , port);
+      console.log('Zai Listenning PORT : ' , port);
   }
 
   // Connect to ngrok in dev mode

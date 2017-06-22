@@ -1,4 +1,5 @@
 import { call, put, takeLatest , fork } from 'redux-saga/effects';
+import {reportError , cancelError} from 'actions/errorAction';
 import {
   VISION_SAVE_LOADING ,
   VISION_LIST_LOADING ,
@@ -142,10 +143,11 @@ function* listFileContent(returnedData) {
   }
 
   try {
-    const res = yield call(request, GetOptions);
+    var res = yield call(request, GetOptions);
     yield put(fileContent(res));
   } catch (err) {
-    console.log(err);
+    yield put(reportError(err))
+    yield put(cancelError())
   }
 }
 
