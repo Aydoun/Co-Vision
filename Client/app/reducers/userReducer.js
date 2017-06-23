@@ -5,7 +5,7 @@ import {
 } from 'constants/userConstants';
 
 const initialState = {
-
+  userGeneralInfo : {}
 };
 
 

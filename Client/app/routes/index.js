@@ -9,9 +9,18 @@ import HomeRoutes from './homeRoutes';
 import UserRoute from './userRoutes';
 import NotFound from 'views/NotFoundPage';
 
-function loginCheck(){
-    console.log('everything is cool');
-    return true;
+function loginCheck(nextState, replace){
+    var signInBoolean = !!cookie.get('signedIn');
+
+    if (!signInBoolean) {
+      replace({
+          pathname : '/login',
+          state : {}
+      })
+    } else {
+      return true;
+    }
+
     // const hasCertification = canEnter();
     // if(status) {
     //   if(hasCertification) {

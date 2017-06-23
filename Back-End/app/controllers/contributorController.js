@@ -1,7 +1,7 @@
 var contributorModel = require('../models/contributorModel');
 var visionModel = require('../models/visionModel');
 var notifs = require('../constants/notificationMessages');
-var {Formatter , queryCheck} = require('../lib');
+var {Formatter , queryCheck , picking} = require('../lib');
 
 exports.visionList = function(req, res, next) {
     if (!req.params.id) res.status(200).send(Formatter(data , true));
@@ -51,9 +51,11 @@ exports.contributorLogIn = function(req, res, next) {
         }
 
         if (data.length > 0 && data[0].password == clientInputs.password) {
-            res.status(200).send(Formatter(data));
+            var _data = data[0];
+            
+            res.status(200).send(Formatter(picking(_data , ['fullName' , 'email' , '_id'])));
         } else {
-            res.status(200).send(Formatter('Incorrect Email Or Password' , true));
+            res.status(200).send(Formatter({data : 'Incorrect Email Or Password'} , true));
         }
     });
 };

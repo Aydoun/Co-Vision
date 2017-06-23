@@ -2,19 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Link} from 'react-router';
-import {Icon , Card , Tag , Tabs , Button , Form , Input, Layout , Menu, Breadcrumb } from 'antd';
+import {Icon , Card , Tabs , Input, Layout , Alert } from 'antd';
 import SignInForm from './registerForms/signIn';
 import SignUpForm from './registerForms/signUp';
 import './index.css';
 
-const TabPane = Tabs.TabPane;
-const FormItem = Form.Item;
-const { Header, Content } = Layout;
+import { preLogin , preRegister } from 'actions/userAction';
 
-import { preLogin } from 'actions/userAction';
+const { Header, Content } = Layout;
+const TabPane = Tabs.TabPane;
 
 class loginPage extends React.Component {
-
   constructor(props){
       super(props);
       this.state = {
@@ -22,19 +20,9 @@ class loginPage extends React.Component {
       }
   }
 
-  handleSubmit(){
-      console.log('form Submitted');
-  }
-
-  login(values){
-      console.log(values , 'received values');
-      this.props.preLogin(values);
-  }
-
-
   render() {
-    const { getFieldDecorator } = this.props.form;
     const {currentTab} = this.state;
+    const {errorObj} = this.props;
 
     return (
       <Layout>
@@ -52,15 +40,23 @@ class loginPage extends React.Component {
             >
               <TabPane tab={<span><Icon type="user" />SignIn</span>} key="1">
                 <Card >
+                  {
+                    !errorObj.status ? <div><Alert message={errorObj.errorMessage} type="error" showIcon /><br/></div> : null
+                  }
                   <SignInForm
                     signUpSwitch={() => this.setState({currentTab : "2"})}
-                    login={this.login.bind(this)}
+                    login={(values) => this.props.preLogin(values)}
                   />
                 </Card>
               </TabPane>
               <TabPane tab={<span><Icon type="user-add" />SignUp</span>} key="2">
                 <Card>
-                  <SignUpForm />
+                  {
+                    !errorObj.status ? <div><Alert message={errorObj.errorMessage} type="error" showIcon /><br/></div> : null
+                  }
+                  <SignUpForm
+                      registerUser={(values) => this.props.preRegister(values)}
+                  />
                 </Card>
               </TabPane>
             </Tabs>
@@ -72,12 +68,14 @@ class loginPage extends React.Component {
 }
 
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({preLogin} , dispatch)
+  return bindActionCreators({preLogin , preRegister} , dispatch)
 }
 
 function mapStateToProps(state) {
+  console.log(state , 'login state');
   return {
+    errorObj : state.error
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(loginPage));
+export default connect(mapStateToProps, mapDispatchToProps)(loginPage);
