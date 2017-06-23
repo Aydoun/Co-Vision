@@ -15,11 +15,9 @@ class VisionPage extends React.Component {
   }
 
   onMenuSelectedItem(_id){
-      console.log('received Id : ' , _id);
   }
 
   onPageChange(page, pageSize){
-      console.log(page, pageSize);
   }
 
   render() {
@@ -28,6 +26,7 @@ class VisionPage extends React.Component {
 
     return (
       <div>
+          <span>Hey2</span>
           <Spin spinning={loading}>
             {
               visionList.map(function(elem , i){

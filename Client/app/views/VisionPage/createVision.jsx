@@ -10,30 +10,12 @@ import { prepareSaving } from 'actions/visionAction';
 class addVision extends React.Component {
 
   handleSubmit(){
-
     this.props.form.validateFields((err, fieldsValue) => {
       if (err) {
         return;
       }
       console.log('Received values of form: ', fieldsValue);
-
-
     });
-      // var visionName = document.getElementById('visionName').value;
-      // var description = document.getElementById('visonDesc').value;
-      //
-      // if (!(visionName && description)) {
-      //     console.log('Form Not Completely Filled');
-      //     return ;
-      // }
-      //
-      // var params = {
-      //     repoName : visionName,
-      //     title : visionName,
-      //     description : description
-      // }
-      //
-      // this.props.prepareSaving(params);
   }
 
   render() {

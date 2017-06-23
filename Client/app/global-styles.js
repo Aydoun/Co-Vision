@@ -1,6 +1,5 @@
 import { injectGlobal } from 'styled-components';
 
-/* eslint no-unused-expressions: 0 */
 injectGlobal`
   html,
   body {
@@ -21,7 +20,7 @@ injectGlobal`
 
   a {
     text-decoration: none;
-    color: #41addd;
+    color: #49a6d0;
     font-size:14px;
     opacity: 0.7;
   }

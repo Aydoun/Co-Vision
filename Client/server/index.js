@@ -2,11 +2,8 @@
 
 const express = require('express');
 const logger = require('./logger');
-
-//const argv = require('minimist')(process.argv.slice(2));
 const setup = require('./middlewares/frontendMiddleware');
 const isDev = process.env.NODE_ENV !== 'production';
-//const ngrok = (isDev && process.env.ENABLE_TUNNEL) || argv.tunnel ? require('ngrok') : false;
 const resolve = require('path').resolve;
 const app = express();
 
@@ -35,16 +32,4 @@ app.listen(port, host, (err) => {
       console.log('Zai Listenning PORT : ' , port);
   }
 
-  // Connect to ngrok in dev mode
-  // if (ngrok) {
-  //   ngrok.connect(port, (innerErr, url) => {
-  //     if (innerErr) {
-  //       return logger.error(innerErr);
-  //     }
-  //
-  //     logger.appStarted(port, prettyHost, url);
-  //   });
-  // } else {
-  //   logger.appStarted(port, prettyHost);
-  // }
 });

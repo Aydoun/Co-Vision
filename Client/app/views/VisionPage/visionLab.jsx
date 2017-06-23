@@ -2,17 +2,21 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import find from 'lodash/find';
-import {Input , Spin , message} from 'antd';
+import {Form , Button , Card , Input , Spin , message} from 'antd';
+
+const FormItem = Form.Item;
 
 import { fileContent , preRead } from 'actions/visionAction';
 
 class VisionLab extends React.Component {
 
-  constructor(props){
-      super(props);
-      this.state = {
-          value : null
-      }
+  handleSubmit(){
+      this.props.form.validateFields((err, fieldsValue) => {
+        if (err) {
+          return;
+        }
+        console.log('Received values of form: ', fieldsValue);
+      });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -38,14 +42,37 @@ class VisionLab extends React.Component {
 
   render() {
     const {ContentString} = this.props;
-    const {value} = this.state;
+    const { getFieldDecorator } = this.props.form;
+    const {fileName} = this.props.location.query;
+    const config = {
+      rules: [{ type: 'string', required: true, message: 'Required Field' }],
+    };
 
     return (
       <div>
-        <span>{ContentString}</span>
-        <Input type="textarea" rows={8} value={value == null ? ContentString : value} onChange={(e) => this.setState({value : e.target.value})} >
-            {ContentString}
-        </Input>
+        <Card >
+          <Form layout="vertical">
+            <FormItem
+              label={(fileName || '') + ' Content'}
+            >
+              {getFieldDecorator('description', Object.assign({} , config , {
+                  initialValue : ContentString
+              }))(
+                <Input type="textarea" rows={8} />
+              )}
+            </FormItem>
+            <FormItem
+              label="Contribution Comment"
+            >
+              {getFieldDecorator('message', config)(
+                <Input />
+              )}
+            </FormItem>
+            <FormItem >
+              <Button type="primary" icon="save" onClick={this.handleSubmit.bind(this)}>Conribute</Button>
+            </FormItem>
+          </Form>
+        </Card>
       </div>
     )
   }
@@ -63,4 +90,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(VisionLab);
+export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(VisionLab));
