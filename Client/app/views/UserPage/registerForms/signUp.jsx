@@ -8,6 +8,7 @@ class RegisterForm extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        this.props.registerUser(values);
       }
     });
   }
@@ -25,7 +26,7 @@ class RegisterForm extends React.Component {
             )}
           </FormItem>
           <FormItem>
-            {getFieldDecorator('userName', {
+            {getFieldDecorator('fullName', {
               rules: [{ required: true, message: 'Please input your FullName!' }],
             })(
               <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="FullName" />

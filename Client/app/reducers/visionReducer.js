@@ -22,10 +22,6 @@ const initialState = {
 
 function visionReducer(state = initialState, action) {
 
-  // if (action.type.indexOf('LOADING') >= 0) {
-  //     return Object.assign({} , state , {loading:true});
-  // }
-
   switch (action.type) {
     case DUPLICATE_VISION_ACTION:
       return Object.assign({} , state , {...action} , {loading:false});

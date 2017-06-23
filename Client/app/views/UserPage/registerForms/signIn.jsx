@@ -7,7 +7,7 @@ class NormalLoginForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        this.props.login(values);
       }
     });
   }
@@ -18,7 +18,7 @@ class NormalLoginForm extends React.Component {
       <div className="form-register-normal-login">
         <Form onSubmit={this.handleSubmit} className="login-form">
           <FormItem>
-            {getFieldDecorator('userName', {
+            {getFieldDecorator('email', {
               rules: [{ required: true, message: 'Please input your email!' }],
             })(
               <Input prefix={<Icon type="mail" style={{ fontSize: 13 }} />} placeholder="Email" />

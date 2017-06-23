@@ -55,15 +55,5 @@ exports.contributorLogIn = function(req, res, next) {
         } else {
             res.status(200).send(Formatter('Incorrect Email Or Password' , true));
         }
-
-        if (data.length == 0 || data.password != clientInputs.password) {
-            console.log(data);
-            res.status(200).send(Formatter('Incorrect Email Or Password' , true));
-            return ;
-        } else {
-            res.status(200).send(Formatter(data));
-        }
-
-
     });
 };

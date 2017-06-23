@@ -11,7 +11,7 @@ const TabPane = Tabs.TabPane;
 const FormItem = Form.Item;
 const { Header, Content } = Layout;
 
-//import { prepareListing } from 'actions/visionAction';
+import { preLogin } from 'actions/userAction';
 
 class loginPage extends React.Component {
 
@@ -24,6 +24,11 @@ class loginPage extends React.Component {
 
   handleSubmit(){
       console.log('form Submitted');
+  }
+
+  login(values){
+      console.log(values , 'received values');
+      this.props.preLogin(values);
   }
 
 
@@ -49,6 +54,7 @@ class loginPage extends React.Component {
                 <Card >
                   <SignInForm
                     signUpSwitch={() => this.setState({currentTab : "2"})}
+                    login={this.login.bind(this)}
                   />
                 </Card>
               </TabPane>
@@ -66,7 +72,7 @@ class loginPage extends React.Component {
 }
 
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({} , dispatch)
+  return bindActionCreators({preLogin} , dispatch)
 }
 
 function mapStateToProps(state) {
