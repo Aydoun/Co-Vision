@@ -3,7 +3,6 @@ import {
   USER_REGISTER_LOADING,
   DUPLICATE_USER_ACTION
 } from 'constants/userConstants';
-import cookie from 'js-cookie';
 
 export function preLogin(params) {
   return {
@@ -21,9 +20,6 @@ export function preRegister(params){
 
 export function authenticateUser(res) {
   var response = res.data.response;
-  cookie.set('signedIn' , 1);
-  cookie.set('currentUser' , response._id);
-
   return {
     type: DUPLICATE_USER_ACTION,
     userGeneralInfo : response,
@@ -32,8 +28,6 @@ export function authenticateUser(res) {
 
 export function registerUser(res) {
   var response = res.data.response;
-  cookie.set('signedIn' , 1);
-  cookie.set('currentUser' , response._id);
 
   return {
     type: DUPLICATE_USER_ACTION,

@@ -105,13 +105,13 @@ exports.createVision = function(req , res , next){
       internal : function(callback) {
         var backPromise = initRepository(req.body);
 
-        if (typeof backPromise == "string") {
-            callback(true , backPromise)
-        } else {
-            backPromise.then(function(commitId){
-                callback(null , commitId);
-            });
-        }
+        backPromise.then(function(commitsha) {
+            callback(true , commitsha)
+        });
+
+        backPromise.catch(function(err){
+            callback(true , err)
+        })
       },
       base : function(callback) {
         var newVision = new visionModel(req.body);
@@ -140,35 +140,4 @@ exports.contribute = function(req , res , next){
     backPromise.catch(function(err){
         res.status(200).send(Formatter(err , true));
     })
-
-    // if (typeof backPromise == "string") {
-    //     callback(true , backPromise)
-    // } else {
-    //     backPromise.then(function(commitId){
-    //         callback(null , commitId);
-    //     });
-    // }
-    //
-    //
-    // parallel({
-    //   internal : function(callback) {
-    //     var backPromise = commit(req.body);
-    //
-    //     if (typeof backPromise == "string") {
-    //         res.status(200).send(Formatter(backPromise , ));
-    //         callback(true , backPromise)
-    //     } else {
-    //         backPromise.then(function(commitId){
-    //             callback(null , commitId);
-    //         });
-    //     }
-    //   },
-    //   base : function(callback) {
-    //     //Empty Database Query
-    //     callback(null , {});
-    //   }
-    // },
-    // function(err, results) {
-    //     res.status(200).send(Formatter(results));
-    // });
 }

@@ -26,7 +26,6 @@ class VisionPage extends React.Component {
 
     return (
       <div>
-          <span>Hey2</span>
           <Spin spinning={loading}>
             {
               visionList.map(function(elem , i){

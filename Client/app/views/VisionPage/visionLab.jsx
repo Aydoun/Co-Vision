@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import find from 'lodash/find';
 import {Form , Button , Card , Input , Spin , message} from 'antd';
 import { fileContent , preRead , preContribution } from 'actions/visionAction';
+import {getAllCookies} from 'utils';
 
 const FormItem = Form.Item;
 
@@ -14,13 +15,16 @@ class VisionLab extends React.Component {
             return;
           }
           const {fileName , visionId} = this.props.location.query;
+          var allSavedData = getAllCookies();
           var FoundVision = find(this.props.visionList , ['_id' , visionId]);
 
           if (FoundVision) {
             var params = Object.assign({} , fieldsValue , {
                 fileName : fileName,
                 id :  visionId,
-                repoName : FoundVision.title
+                repoName : FoundVision.title,
+                author : allSavedData.fullName,
+                authorMail : allSavedData.email
             });
 
             console.log(params , 'params');

@@ -6,15 +6,25 @@ import {Form , Button , Input , Card} from 'antd';
 const FormItem = Form.Item;
 
 import { prepareSaving } from 'actions/visionAction';
+import {getAllCookies} from 'utils';
 
 class addVision extends React.Component {
 
   handleSubmit(){
     this.props.form.validateFields((err, fieldsValue) => {
-      if (err) {
-        return;
+      if (!err) {
+        var allSavedData = getAllCookies();
+
+        var params = Object.assign({} , {
+            repoName : fieldsValue.title,
+            author : allSavedData.fullName,
+            authorMail : allSavedData.email
+        } , fieldsValue);
+
+        console.log(params , 'params');
+
+        this.props.prepareSaving(params);
       }
-      console.log('Received values of form: ', fieldsValue);
     });
   }
 
@@ -30,7 +40,7 @@ class addVision extends React.Component {
           <FormItem
             label="Vision Name"
           >
-            {getFieldDecorator('visionName', config)(
+            {getFieldDecorator('title', config)(
               <Input placeholder="Cure For Cancer..." />
             )}
           </FormItem>

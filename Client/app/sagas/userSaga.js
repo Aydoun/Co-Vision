@@ -14,6 +14,9 @@ import {
 
 import request from 'utils/request';
 
+
+import {saveUserData} from 'utils';
+
 function* userLogin(returnedData) {
   const requestURL = config.apiBase + '/contributor/login';
 
@@ -27,6 +30,7 @@ function* userLogin(returnedData) {
     const res = yield call(request, PostOptions);
     yield put(authenticateUser(res));
     //Login Successfull
+    saveUserData(res.data.response);
     browserHistory.push("/");
   } catch (err) {
     yield put(reportError(err))
@@ -46,6 +50,7 @@ function* userRegister(returnedData) {
     const res = yield call(request, PostOptions);
     yield put(registerUser(res));
     //Regtistration Successfull
+    saveUserData(res.data.response);
     browserHistory.push("/");
   } catch (err) {
     yield put(reportError(err))

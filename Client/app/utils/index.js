@@ -1,3 +1,5 @@
+import cookie from 'js-cookie';
+
 export const globalPageSize = 5;
 
 export function getRandomString(){
@@ -10,4 +12,16 @@ export function GlobalPagination(list){
       showTotal:(total, range) => `${range[0]}-${range[1]} of ${total} items`,
       pageSize:5
     }
+}
+
+export function saveUserData(data){
+    cookie.set('signedIn' , 1);
+    cookie.set('_id' , data._id);
+    cookie.set('fullName' , data.fullName);
+    cookie.set('email' , data.email);
+}
+
+
+export function getAllCookies(data){
+    return cookie.get();
 }

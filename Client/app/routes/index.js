@@ -10,7 +10,7 @@ import UserRoute from './userRoutes';
 import NotFound from 'views/NotFoundPage';
 
 function loginCheck(nextState, replace){
-    var signInBoolean = !!cookie.get('signedIn');
+    var signInBoolean = !!cookie.get('signedIn') && !!cookie.get('_id');
 
     if (!signInBoolean) {
       replace({

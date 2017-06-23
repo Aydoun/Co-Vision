@@ -6,18 +6,11 @@ var fse = promisify(require("fs-extra"));
 
 exports.commit = function(inputs) {
       var clientInput = inputs;
-      // var checkRes = queryCheck(clientInput , ['fileContent' , 'fileName' , 'repoName' , 'author' , 'authorMail' , 'message']);
-      var checkRes = queryCheck(clientInput , ['fileContent' , 'repoName' , 'message' , 'fileName']);
+      var checkRes = queryCheck(clientInput , ['fileContent' , 'fileName' , 'repoName' , 'author' , 'authorMail' , 'message']);
 
       if (checkRes !== true) {
           throw new Error(checkRes + ' is Required');
       }
-
-      clientInput = Object.assign({} , {
-          author : 'Amino',
-          authorMail : 'aydoun@qq.com',
-      } , clientInput)
-
 
       var pathToRepo = path.resolve("C://" + clientInput.repoName);
 
@@ -75,19 +68,11 @@ exports.history = function(res , params) {
 
 exports.initRepository = function(inputs){
     var clientInput = inputs;
-    //var checkRes = queryCheck(clientInput , ['repoName' , 'description' , 'author' , 'authorMail']);
-    var checkRes = queryCheck(clientInput , ['repoName' , 'description']);
+    var checkRes = queryCheck(clientInput , ['repoName' , 'description' , 'author' , 'authorMail']);
 
     if (checkRes !== true) {
-        return checkRes + ' is Required';
+        throw new Error(checkRes + ' is Required');
     }
-
-    clientInput  = Object.assign({} , {
-        repoName : 'testRepo',
-        description : 'description',
-        author : 'Amino',
-        authorMail : 'aydoun@qq.com',
-    } , clientInput);
 
     var pathToRepo = path.resolve("C://" + clientInput.repoName);
 
