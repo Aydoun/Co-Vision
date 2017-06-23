@@ -10,7 +10,7 @@ exports.commit = function(inputs) {
       var checkRes = queryCheck(clientInput , ['fileContent' , 'repoName' , 'message' , 'fileName']);
 
       if (checkRes !== true) {
-          return checkRes + ' is Required';
+          throw new Error(checkRes + ' is Required');
       }
 
       clientInput = Object.assign({} , {
@@ -387,7 +387,6 @@ return fse.writeFile(path.join(repo.workdir(), fileName), fileContent)
             }
         })
         .then(function(parent){
-            console.log(inputs , 'inputs');
             var _parent = inputs.initalCommit ? [] : [parent];
             var now = Date.now() / 1000;
             var author = Git.Signature.create(inputs.author,
@@ -398,10 +397,6 @@ return fse.writeFile(path.join(repo.workdir(), fileName), fileContent)
             return repo.createCommit("HEAD", author, committer, inputs.message, oid, _parent);
         })
         .then(function(commitId){
-            console.log(commitId.tostrS());
             return commitId.tostrS();
-        })
-        .catch(function(err){
-            console.log(err);
         })
 }

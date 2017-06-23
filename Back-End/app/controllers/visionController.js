@@ -131,24 +131,44 @@ exports.createVision = function(req , res , next){
 }
 
 exports.contribute = function(req , res , next){
-    parallel({
-      internal : function(callback) {
-        var backPromise = commit(req.body);
+    var backPromise = commit(req.body);
 
-        if (typeof backPromise == "string") {
-            callback(true , backPromise)
-        } else {
-            backPromise.then(function(commitId){
-                callback(null , commitId);
-            });
-        }
-      },
-      base : function(callback) {
-        //Empty Database Query
-        callback(null , {});
-      }
-    },
-    function(err, results) {
-        res.status(200).send(Formatter(results));
+    backPromise.then(function(commitsha){
+          res.status(200).send(Formatter(commitsha));
     });
+
+    backPromise.catch(function(err){
+        res.status(200).send(Formatter(err , true));
+    })
+
+    // if (typeof backPromise == "string") {
+    //     callback(true , backPromise)
+    // } else {
+    //     backPromise.then(function(commitId){
+    //         callback(null , commitId);
+    //     });
+    // }
+    //
+    //
+    // parallel({
+    //   internal : function(callback) {
+    //     var backPromise = commit(req.body);
+    //
+    //     if (typeof backPromise == "string") {
+    //         res.status(200).send(Formatter(backPromise , ));
+    //         callback(true , backPromise)
+    //     } else {
+    //         backPromise.then(function(commitId){
+    //             callback(null , commitId);
+    //         });
+    //     }
+    //   },
+    //   base : function(callback) {
+    //     //Empty Database Query
+    //     callback(null , {});
+    //   }
+    // },
+    // function(err, results) {
+    //     res.status(200).send(Formatter(results));
+    // });
 }

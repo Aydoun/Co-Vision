@@ -3,25 +3,39 @@ import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import find from 'lodash/find';
 import {Form , Button , Card , Input , Spin , message} from 'antd';
+import { fileContent , preRead , preContribution } from 'actions/visionAction';
 
 const FormItem = Form.Item;
 
-import { fileContent , preRead } from 'actions/visionAction';
-
 class VisionLab extends React.Component {
-
   handleSubmit(){
       this.props.form.validateFields((err, fieldsValue) => {
-        if (err) {
-          return;
-        }
-        console.log('Received values of form: ', fieldsValue);
+          if (err) {
+            return;
+          }
+          const {fileName , visionId} = this.props.location.query;
+          var FoundVision = find(this.props.visionList , ['_id' , visionId]);
+
+          if (FoundVision) {
+            var params = Object.assign({} , fieldsValue , {
+                fileName : fileName,
+                id :  visionId,
+                repoName : FoundVision.title
+            });
+
+            console.log(params , 'params');
+            //return ;
+
+            this.props.preContribution(params);
+          } else {
+            message.error('vision Not Found');
+          }
       });
   }
 
   componentWillReceiveProps(nextProps) {
       if (!nextProps.error.status && this.props.error.errorMessage != nextProps.error.errorMessage) {
-          message.error(nextProps.error.errorMessage)
+          message.error(nextProps.error.errorMessage);
       }
   }
 
@@ -35,51 +49,50 @@ class VisionLab extends React.Component {
             commitSha : sha,
             fileName : fileName,
             repoName : FoundVision.title
-        })
+        });
       }
-
   }
 
   render() {
-    const {ContentString} = this.props;
-    const { getFieldDecorator } = this.props.form;
-    const {fileName} = this.props.location.query;
-    const config = {
-      rules: [{ type: 'string', required: true, message: 'Required Field' }],
-    };
+      const {ContentString} = this.props;
+      const { getFieldDecorator } = this.props.form;
+      const {fileName} = this.props.location.query;
+      const config = {
+        rules: [{ type: 'string', required: true, message: 'Required Field' }],
+      };
 
-    return (
-      <div>
-        <Card >
-          <Form layout="vertical">
-            <FormItem
-              label={(fileName || '') + ' Content'}
-            >
-              {getFieldDecorator('description', Object.assign({} , config , {
-                  initialValue : ContentString
-              }))(
-                <Input type="textarea" rows={8} />
-              )}
-            </FormItem>
-            <FormItem
-              label="Contribution Comment"
-            >
-              {getFieldDecorator('message', config)(
-                <Input />
-              )}
-            </FormItem>
-            <FormItem >
-              <Button type="primary" icon="save" onClick={this.handleSubmit.bind(this)}>Conribute</Button>
-            </FormItem>
-          </Form>
-        </Card>
-      </div>
-    )
-  }
+      return (
+        <div>
+          <Card >
+            <Form layout="vertical">
+              <FormItem
+                label={(fileName || '') + ' Content'}
+              >
+                {getFieldDecorator('fileContent', Object.assign({} , config , {
+                    initialValue : ContentString
+                }))(
+                  <Input type="textarea" rows={8} />
+                )}
+              </FormItem>
+              <FormItem
+                label="Contribution Comment"
+              >
+                {getFieldDecorator('message', config)(
+                  <Input />
+                )}
+              </FormItem>
+              <FormItem >
+                <Button type="primary" icon="save" onClick={this.handleSubmit.bind(this)}>Conribute</Button>
+              </FormItem>
+            </Form>
+          </Card>
+        </div>
+      );
+    }
 }
 
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({fileContent , preRead} , dispatch)
+  return bindActionCreators({fileContent , preRead , preContribution} , dispatch)
 }
 
 function mapStateToProps(state) {

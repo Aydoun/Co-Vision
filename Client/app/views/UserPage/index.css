@@ -1,0 +1,9 @@
+.form-register-normal-login .login-form {
+  max-width: 300px;
+}
+.form-register-normal-login .login-form-forgot {
+  float: right;
+}
+.form-register-normal-login .login-form-button {
+  width: 100%;
+}
