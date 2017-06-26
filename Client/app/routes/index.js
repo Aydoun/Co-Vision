@@ -12,6 +12,8 @@ import NotFound from 'views/NotFoundPage';
 function loginCheck(nextState, replace){
     var signInBoolean = !!cookie.get('signedIn') && !!cookie.get('_id');
 
+    console.log(signInBoolean);
+
     if (!signInBoolean) {
       replace({
           pathname : '/login',
@@ -20,25 +22,6 @@ function loginCheck(nextState, replace){
     } else {
       return true;
     }
-
-    // const hasCertification = canEnter();
-    // if(status) {
-    //   if(hasCertification) {
-    //     return true
-    //   }else {
-    //     replace({
-    //         pathname: '/certification',
-    //         state: { nextPathname: nextState.location.pathname }
-    //     })
-    //   }
-    //
-    // }else {
-    //   replace({
-    //       pathname: '/error',
-    //       state: { nextPathname: nextState.location.pathname }
-    //   })
-    // }
-
 }
 
 export default ()=> (

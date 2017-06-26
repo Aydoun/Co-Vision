@@ -1,17 +1,39 @@
 import React from 'react';
 import { Link } from 'react-router';
 import {Icon , Button , Menu, Dropdown} from 'antd';
+import cookie from 'js-cookie';
 import './index.css';
 
 class Header extends React.PureComponent {
+
+  onMenuSelectedItem(selectedObj){
+      switch(selectedObj.key){
+          case '0':
+            //User Profile
+            break;
+          case '1':
+            //Simple Logout
+            cookie.remove('signedIn');
+            window.location.reload();
+            break;
+          default:
+            break;
+      }
+  }
+
   render() {
     const menu = (
-      <Menu>
-        <Menu.Item>
-          <a ref="#">Profile</a>
+      <Menu onSelect={this.onMenuSelectedItem}>
+        <Menu.Item key="0">
+          <div className="global-padding">
+            <a ref="#">Profile</a>
+          </div>
+
         </Menu.Item>
-        <Menu.Item>
-          <a href="#">Logout</a>
+        <Menu.Item key="1">
+          <div className="global-padding">
+            <a href="#">Logout</a>
+          </div>
         </Menu.Item>
       </Menu>
     );

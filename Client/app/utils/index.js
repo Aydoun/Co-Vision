@@ -28,7 +28,7 @@ export function getAllCookies(data){
 
 export function formatDate(date){
     var dateObj = new Date(date);
-    
+
     var y = dateObj.getFullYear(),
      m = dateObj.getMonth() + 1, // month is 0-indexed
      d = dateObj.getDate();

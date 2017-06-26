@@ -36,7 +36,7 @@ class VisionHistory extends React.Component {
                   historyList.map(function(elem , i){
                       return (
                           <Timeline.Item key={i}>
-                              <p>{formatDate(elem.Date)}</p>
+                              <p>{new Date(elem.Date).toDateString()}</p>
                               <Card title={elem.comment} >
                                   <Tag>{elem.Author}</Tag>
                               </Card>
