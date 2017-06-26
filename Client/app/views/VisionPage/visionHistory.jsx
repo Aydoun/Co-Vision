@@ -5,7 +5,7 @@ import find from 'lodash/find';
 import {Timeline , Icon , Card , Tag , Spin , Pagination} from 'antd';
 
 import { preHistory } from 'actions/visionAction';
-import {GlobalPagination} from 'utils';
+import {GlobalPagination , formatDate} from 'utils';
 
 class VisionHistory extends React.Component {
   componentDidMount() {
@@ -36,7 +36,7 @@ class VisionHistory extends React.Component {
                   historyList.map(function(elem , i){
                       return (
                           <Timeline.Item key={i}>
-                              <p>{elem.Date}</p>
+                              <p>{formatDate(elem.Date)}</p>
                               <Card title={elem.comment} >
                                   <Tag>{elem.Author}</Tag>
                               </Card>

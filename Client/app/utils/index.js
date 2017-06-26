@@ -25,3 +25,15 @@ export function saveUserData(data){
 export function getAllCookies(data){
     return cookie.get();
 }
+
+export function formatDate(date){
+    var dateObj = new Date(date);
+    
+    var y = dateObj.getFullYear(),
+     m = dateObj.getMonth() + 1, // month is 0-indexed
+     d = dateObj.getDate();
+
+    return y
+     + "-" + (m < 10 ? "0" + m : m)
+     + "-" + (d < 10 ? "0" + d : d);
+}

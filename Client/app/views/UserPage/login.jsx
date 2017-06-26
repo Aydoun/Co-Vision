@@ -30,8 +30,9 @@ class loginPage extends React.Component {
           <div className="logo" />
           <h3 style={{color:'white'}}>Welcome To Co-Vision , Togetherness!</h3>
         </Header>
-        <Content style={{ padding: '0 50px', marginTop: 64 }}>
-          <div style={{ background: '#fff', padding: 24 }}>
+        <Content style={{ marginTop: 32 }}>
+          <div className="login-wrapper">
+            <h3>Welcome To Co-Vision</h3>
             <Tabs
               onTabClick={(key) => this.setState({currentTab : key})}
               activeKey={currentTab}
@@ -49,7 +50,7 @@ class loginPage extends React.Component {
                   />
                 </Card>
               </TabPane>
-              <TabPane tab={<span><Icon type="user-add" />SignUp</span>} key="2">
+              <TabPane tab={<span><Icon type="user-add" />Register</span>} key="2">
                 <Card>
                   {
                     !errorObj.status ? <div><Alert message={errorObj.errorMessage} type="error" showIcon /><br/></div> : null

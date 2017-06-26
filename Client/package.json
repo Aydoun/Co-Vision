@@ -214,6 +214,7 @@
     "history" : "*",
     "css-loader": "0.26.1",
     "axios": "^0.15.3",
+    "moment": "^2.18.1",
     "enzyme": "2.6.0",
     "eslint": "3.11.1",
     "eslint-config-airbnb": "13.0.0",
