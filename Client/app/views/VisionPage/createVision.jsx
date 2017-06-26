@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {browserHistory} from 'react-router';
 import {Form , Button , Input , Card} from 'antd';
 
 const FormItem = Form.Item;
@@ -18,10 +19,9 @@ class addVision extends React.Component {
         var params = Object.assign({} , {
             repoName : fieldsValue.title,
             author : allSavedData.fullName,
-            authorMail : allSavedData.email
+            authorMail : allSavedData.email,
+            creator : allSavedData._id
         } , fieldsValue);
-
-        console.log(params , 'params');
 
         this.props.prepareSaving(params);
       }
@@ -52,7 +52,8 @@ class addVision extends React.Component {
             )}
           </FormItem>
           <FormItem >
-            <Button type="primary" icon="save" onClick={this.handleSubmit.bind(this)}>Create</Button>
+            <Button type="primary" icon="save" onClick={this.handleSubmit.bind(this)}>Create</Button>&nbsp;&nbsp;&nbsp;
+            <Button icon="close" onClick={() => browserHistory.goBack()}>Cancel</Button>
           </FormItem>
         </Form>
       </Card>
