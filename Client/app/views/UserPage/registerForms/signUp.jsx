@@ -22,21 +22,21 @@ class RegisterForm extends React.Component {
             {getFieldDecorator('email', {
               rules: [{ required: true, message: 'Please input your email!' }],
             })(
-              <Input prefix={<Icon type="mail" style={{ fontSize: 13 }} />} placeholder="Email" />
+              <Input placeholder="Email" />
             )}
           </FormItem>
           <FormItem>
             {getFieldDecorator('fullName', {
               rules: [{ required: true, message: 'Please input your FullName!' }],
             })(
-              <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="FullName" />
+              <Input placeholder="FullName" />
             )}
           </FormItem>
           <FormItem>
             {getFieldDecorator('password', {
               rules: [{ required: true, message: 'Please input your Password!' }],
             })(
-              <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="Password" />
+              <Input type="password" placeholder="Password" />
             )}
           </FormItem>
           <FormItem>

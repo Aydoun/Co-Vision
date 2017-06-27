@@ -35,6 +35,5 @@
         "no-undef" : "off",
         "no-mixed-spaces-and-tabs" : "off",
         "no-irregular-whitespace" : "off"
-
     }
 }
