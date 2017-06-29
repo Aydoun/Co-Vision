@@ -1,11 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {BackTop} from 'antd';
+import {BackTop, Layout, Icon} from 'antd';
+
+const { Content, Sider } = Layout;
 
 import Header from 'components/Header';
 import Footer from 'components/Footer';
-import SideBar from 'components/SideBar';
+import SideBarContent from 'components/SideBar';
 
 import './index.css';
 
@@ -16,22 +18,21 @@ class App extends React.Component {
 
     render(){
         return (
-          <div >
-            <BackTop />
-            <Header />
-            <div className="app-general__wrapper">
-              <div className="side-bar__wrapper">
-                  <SideBar />
-              </div>
-              <div className="">
-                <div className="container main-content__wrapper">
-                    {React.Children.toArray(this.props.children)}
-                </div>
-              </div>
-            </div>
-            <div style={{clear:'both'}}></div>
-            <Footer />
-          </div>
+        <Layout>
+          <BackTop />
+          <Header />
+          <Layout >
+            <Sider width={200} style={{ background: '#fff' }}>
+                <SideBarContent />
+            </Sider>
+            <Layout style={{ padding: '0 24px 24px' }}>
+              <Content style={{position : 'relative', background:'#fff', padding : 24, margin : 0, height : '100%'}}>
+                <Icon type="plus-circle-o" className="dynamic-menu__styles" />
+                {this.props.children}
+              </Content>
+            </Layout>
+          </Layout>
+      </Layout>
         )
     }
 }

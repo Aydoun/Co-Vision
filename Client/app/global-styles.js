@@ -10,9 +10,6 @@ injectGlobal`
   body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
-  a{
-    text-decoration:none;
-  }
 
   body.fontLoaded {
     font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -20,13 +17,7 @@ injectGlobal`
 
   a {
     text-decoration: none;
-    color: #49a6d0;
     font-size:14px;
-    opacity: 0.7;
-  }
-
-  a:hover{
-      opacity: 1;
   }
 
   #app {

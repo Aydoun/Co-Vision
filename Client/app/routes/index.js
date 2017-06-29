@@ -11,17 +11,17 @@ import NotFound from 'views/NotFoundPage';
 
 function loginCheck(nextState, replace){
     var signInBoolean = !!cookie.get('signedIn') && !!cookie.get('_id');
-
-    console.log(signInBoolean);
-
-    if (!signInBoolean) {
-      replace({
-          pathname : '/login',
-          state : {}
-      })
-    } else {
-      return true;
-    }
+    return true;
+    // console.log(signInBoolean);
+    //
+    // if (!signInBoolean) {
+    //   replace({
+    //       pathname : '/login',
+    //       state : {}
+    //   })
+    // } else {
+    //   return true;
+    // }
 }
 
 export default ()=> (
