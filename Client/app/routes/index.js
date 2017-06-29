@@ -4,6 +4,7 @@ import cookie from 'js-cookie';
 
 import App from 'views/App';
 import SignIn from 'views/UserPage/login';
+import Register from 'views/UserPage/register';
 import VisionRoutes from './visionRoutes';
 import HomeRoutes from './homeRoutes';
 import UserRoute from './userRoutes';
@@ -35,6 +36,7 @@ export default ()=> (
         </Route>
       </Route>
       <Route path="/login" component={SignIn} />
+      <Route path="/register" component={Register} />
       <Route path="*" component={NotFound} />
 
   </Route>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import { Form, Icon, Input, Button } from 'antd';
 const FormItem = Form.Item;
 
@@ -43,6 +44,7 @@ class RegisterForm extends React.Component {
             <Button type="primary" htmlType="submit" className="login-form-button">
               SignUp
             </Button>
+            Already Have an Account ? <Link to="/login">SignIn!</Link>
           </FormItem>
         </Form>
       </div>

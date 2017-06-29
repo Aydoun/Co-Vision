@@ -35,9 +35,8 @@ class loginPage extends React.Component {
                 {
                   !errorObj.status ? <div><Alert message={errorObj.errorMessage} type="error" showIcon /><br/></div> : null
                 }
-                <SignInForm
-                  signUpSwitch={() => this.setState({currentTab : "2"})}
-                  login={(values) => this.props.preLogin(values)}
+                <SignUpForm
+                    registerUser={(values) => this.props.preRegister(values)}
                 />
               </Card>
           </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 const FormItem = Form.Item;
 
@@ -32,16 +33,10 @@ class NormalLoginForm extends React.Component {
             )}
           </FormItem>
           <FormItem>
-            {getFieldDecorator('remember', {
-              valuePropName: 'checked',
-              initialValue: true,
-            })(
-              <Checkbox>Remember me</Checkbox>
-            )}
             <Button type="primary" htmlType="submit" className="login-form-button">
               Log in
             </Button>
-            Or <a onClick={this.props.signUpSwitch}>register now!</a>
+            Or <Link to="/register">register now!</Link>
           </FormItem>
         </Form>
       </div>
