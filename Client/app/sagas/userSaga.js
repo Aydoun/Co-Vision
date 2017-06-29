@@ -15,7 +15,7 @@ import {
 import request from 'utils/request';
 
 
-import {saveUserData} from 'utils';
+import { saveUserData } from 'utils';
 
 function* userLogin(returnedData) {
   const requestURL = config.apiBase + '/contributor/login';

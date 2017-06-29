@@ -11,18 +11,16 @@ import UserRoute from './userRoutes';
 import NotFound from 'views/NotFoundPage';
 
 function loginCheck(nextState, replace){
-    var signInBoolean = !!cookie.get('signedIn') && !!cookie.get('_id');
-    return true;
-    // console.log(signInBoolean);
-    //
-    // if (!signInBoolean) {
-    //   replace({
-    //       pathname : '/login',
-    //       state : {}
-    //   })
-    // } else {
-    //   return true;
-    // }
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      replace({
+          pathname : '/login',
+          state : {}
+      })
+    } else {
+      return true;
+    }
 }
 
 export default ()=> (

@@ -9,7 +9,8 @@ class DynamicMenu extends React.PureComponent {
     super(props);
     this.state = {
       content : null,
-      visible : false
+      visible : false,
+      iconType : 'plus-circle-o'
     }
   }
 
@@ -29,7 +30,7 @@ class DynamicMenu extends React.PureComponent {
 
     this.setState({
       content : (
-        <div className="dynamic-menu__content" onClick={() => this.setState({visible : false})}>
+        <div className="dynamic-menu__content" onClick={() => this.setState({visible : false , iconType : 'plus-circle-o'})}>
           <Icon type="close-circle-o" className="dynamic-menu__close right"/>
           {newContent}
         </div>
@@ -37,19 +38,27 @@ class DynamicMenu extends React.PureComponent {
     });
   }
 
+  handleMenuVisibility(visible) {
+      const {iconType} = this.state;
+      this.setState({
+        visible,
+        iconType : visible ? 'close-circle-o' : 'plus-circle-o'
+      })
+  }
+
   render() {
-    const { content, visible } = this.state;
+    const { content, visible, iconType } = this.state;
     return (
       <Popover
         className="dynamic-menu__wrapper"
         placement="rightTop"
         visible={visible}
-        onVisibleChange={(visible) => this.setState({visible})}
+        onVisibleChange={this.handleMenuVisibility.bind(this)}
         title={null}
         content={content}
         trigger="click"
       >
-        <Icon type="plus-circle-o" className="dynamic-menu__styles" />
+        <Icon type={iconType} className="dynamic-menu__styles" />
       </Popover>
     );
   }

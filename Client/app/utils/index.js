@@ -15,10 +15,7 @@ export function GlobalPagination(list){
 }
 
 export function saveUserData(data){
-    cookie.set('signedIn' , 1);
-    cookie.set('_id' , data._id);
-    cookie.set('fullName' , data.fullName);
-    cookie.set('email' , data.email);
+    localStorage.setItem('token' , data);
 }
 
 
