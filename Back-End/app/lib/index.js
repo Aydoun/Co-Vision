@@ -1,4 +1,6 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
+const jwt = require('jwt-simple');
+const moment = require('moment');
 var _ = require('lodash');
 
 exports.Formatter = function(msg , err = false){
@@ -31,6 +33,15 @@ exports.picking = function(data , pickParams){
 exports.convertToObjectId = function(strId){
     return mongoose.Types.ObjectId(strId);
 }
+
+exports.generateToken = function (userId, tokenSecret) {
+    const expires = moment().add(1, 'days').valueOf();
+
+    return jwt.encode({
+      iss: userId,
+      exp: expires
+    }, tokenSecret);
+};
 
 exports.queryCheck = function(clientInput , requiredParams){
     var _returned = true;
