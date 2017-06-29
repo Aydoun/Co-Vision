@@ -3,7 +3,6 @@ var contributions = express.Router();
 var contributionModel = require('../models/contributionModel');
 var base = require('../controllers/baseCrudController')(contributionModel);
 
-//General Crud Routing
 contributions.get('/', base.get);
 contributions.get('/findOne', base.getOne);
 contributions.get('/count', base.count);

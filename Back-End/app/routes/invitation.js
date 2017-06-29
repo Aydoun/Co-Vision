@@ -4,7 +4,6 @@ var invitationModel = require('../models/invitationModel');
 var base = require('../controllers/baseCrudController')(invitationModel);
 var {waitingInvitations} = require('../controllers/invitationController');
 
-
 //General Crud Routing
 invitations.get('/', base.get);
 invitations.get('/findOne', base.getOne);
