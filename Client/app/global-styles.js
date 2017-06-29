@@ -20,10 +20,10 @@ injectGlobal`
     font-size:14px;
   }
 
-  #app {
-    background-color: #ececec;
-    min-height: 100%;
-    min-width: 100%;
+  ul , li {
+    list-style: none;
+    margin: 0;
+    padding:0;
   }
 
   p,
@@ -31,6 +31,13 @@ injectGlobal`
     font-family: Georgia, Times, 'Times New Roman', serif;
     line-height: 1.5em;
   }
+
+  #app {
+    background-color: #ececec;
+    min-height: 100%;
+    min-width: 100%;
+  }
+
   .left {
       float: left;
   }
@@ -50,9 +57,7 @@ injectGlobal`
     padding:4px;
   }
 
-  ul , li {
-    list-style: none;
-    margin: 0;
-    padding:0;
+  .ant-popover-inner-content{
+    background:#f9f9f9;
   }
 `;

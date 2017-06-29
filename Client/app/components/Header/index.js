@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import {Icon , Button , Menu, Dropdown} from 'antd';
+import {Icon , Button , Menu, Dropdown,Avatar} from 'antd';
 import cookie from 'js-cookie';
 import './index.css';
 
@@ -45,10 +45,8 @@ class Header extends React.PureComponent {
                 <img src="http://tse2.mm.bing.net/th?id=OIP.73gq0A_pbB-ZNayGmF-68QEsCN&pid=15.1" />
             </Link>
             <div className="right">
-              <Link to="/vision/create"><Button type="primary" icon="plus" >New Vision</Button></Link>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <Dropdown overlay={menu} placement="bottomCenter">
-                <Icon type="user" />
+                <Avatar icon="user"/>
               </Dropdown>
             </div>
         </div>

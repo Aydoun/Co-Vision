@@ -1,0 +1,10 @@
+.module-header {
+  margin-bottom: 12px;
+  padding: 19px 0px;
+}
+
+.module-header h3 {
+  font-size: large;
+  color: #108ee9;
+  border-bottom: 1px solid #ccc;
+}

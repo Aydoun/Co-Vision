@@ -5,6 +5,7 @@ import {Link} from 'react-router';
 import {Card , Tag , Button , Pagination , Spin} from 'antd';
 import {getVisionCardExtra} from './utils';
 import {GlobalPagination} from 'utils';
+import './index.css';
 
 import { prepareListing } from 'actions/visionAction';
 
@@ -26,6 +27,10 @@ class VisionPage extends React.Component {
 
     return (
       <div>
+          <div className="module-header">
+            <h3>My Visions</h3>
+          </div>
+
           <Spin spinning={loading}>
             {
               visionList.map(function(elem , i){
