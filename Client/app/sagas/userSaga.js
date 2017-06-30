@@ -18,7 +18,7 @@ import request from 'utils/request';
 import { saveUserData } from 'utils';
 
 function* userLogin(returnedData) {
-  const requestURL = config.apiBase + '/contributor/login';
+  const requestURL = config.apiBase + '/user/login';
 
   const PostOptions = {
     method: 'POST',
@@ -38,7 +38,7 @@ function* userLogin(returnedData) {
 }
 
 function* userRegister(returnedData) {
-  const requestURL = config.apiBase + '/contributor';
+  const requestURL = config.apiBase + '/user/register';
 
   const PostOptions = {
     method: 'POST',
@@ -49,7 +49,8 @@ function* userRegister(returnedData) {
   try {
     const res = yield call(request, PostOptions);
     yield put(registerUser(res));
-    //Regtistration Successfull
+
+    //  Regtistration Successfull
     saveUserData(res.data.response);
     browserHistory.push("/");
   } catch (err) {

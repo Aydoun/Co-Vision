@@ -14,20 +14,15 @@ export function GlobalPagination(list){
     }
 }
 
-export function saveUserData(data){
-    localStorage.setItem('token' , data);
-}
-
-
-export function getAllCookies(data){
-    return cookie.get();
+export function saveUserData(serverResponse){
+    localStorage.setItem('token' , serverResponse.token);
 }
 
 export function formatDate(date){
     var dateObj = new Date(date);
 
     var y = dateObj.getFullYear(),
-     m = dateObj.getMonth() + 1, // month is 0-indexed
+     m = dateObj.getMonth() + 1,
      d = dateObj.getDate();
 
     return y

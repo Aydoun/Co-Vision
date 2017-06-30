@@ -13,7 +13,7 @@ class Header extends React.PureComponent {
             break;
           case '1':
             //Simple Logout
-            cookie.remove('signedIn');
+            localStorage.clear();
             window.location.reload();
             break;
           default:

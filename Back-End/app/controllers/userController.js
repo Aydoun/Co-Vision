@@ -42,15 +42,15 @@ exports.LogIn = function(req, res, next){
           throw err;
         }
         if (!user) {
-          res.status(200).send(Formatter('Authentication failed. User not found.', true));
+          res.status(200).send(Formatter({data : 'Authentication failed. User not found.'}, true));
         } else {
           user.comparePassword(req.body.password, (err2, isMatch) => {
             if (err2) {
                 console.log(err2);
-                res.status(200).send(Formatter('Authentication failed' , true));
+                res.status(200).send(Formatter({data : 'Authentication failed'} , true));
             }
             else if (!isMatch) {
-                res.status(200).send(Formatter('Authentication failed, Wrong password', true));
+                res.status(200).send(Formatter({ data : 'Authentication failed, Wrong password'}, true));
             } else {
                 res.status(200).send(Formatter({ token: generateToken(user.id, config.secret) }));
             }
@@ -72,11 +72,11 @@ exports.Register = function(req, res, next){
       } else {
         const user = new UserModel({ email, password, fullName });
 
-        user.save((err2) => {
+        user.save((err2 , userData) => {
           if (err2) {
             res.status(200).send(Formatter(err2, true));
           } else {
-            res.status(200).send(Formatter({ email : email }));
+            res.status(200).send(Formatter({ email : email, token: generateToken(userData.id, config.secret) }));
           }
         });
       }

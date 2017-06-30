@@ -10,7 +10,6 @@ users.get('/findOne', base.getOne);
 users.get('/count', base.count);
 users.get('/:id', base.getById);
 users.get('/:id/exists', base.exists);
-users.post('/', base.create);
 users.put('/:id', base.update);
 users.delete('/:id', base.remove);
 

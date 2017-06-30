@@ -32,9 +32,7 @@ class loginPage extends React.Component {
         <Content style={{ marginTop: 32 }}>
           <div className="login-wrapper">
               <Card title="Welcome To Co-Vision">
-                {
-                  !errorObj.status ? <div><Alert message={errorObj.errorMessage} type="error" showIcon /><br/></div> : null
-                }
+                { !errorObj.status ? <div><Alert message={errorObj.errorMessage} type="error" showIcon /><br/></div> : null }
                 <SignUpForm
                     registerUser={(values) => this.props.preRegister(values)}
                 />
