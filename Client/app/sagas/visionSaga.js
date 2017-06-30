@@ -62,12 +62,12 @@ function* createContribution(returnedData) {
 }
 
 function* listVision(returnedData) {
-  const requestURL = config.apiBase + '/vision';
+  const requestURL = `${config.apiBase}/user/${returnedData.playload._id}/vision`;
 
   const GetOptions = {
     method: 'GET',
     url: requestURL,
-    params: returnedData.playload
+    params: {}
   }
 
   try {

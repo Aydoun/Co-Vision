@@ -14,13 +14,11 @@ class addVision extends React.Component {
   handleSubmit(){
     this.props.form.validateFields((err, fieldsValue) => {
       if (!err) {
-        var allSavedData = getAllCookies();
-
         var params = Object.assign({} , {
             repoName : fieldsValue.title,
-            author : allSavedData.fullName,
-            authorMail : allSavedData.email,
-            creator : allSavedData._id
+            author : localStorage.fullName || 'Amino',
+            authorMail : localStorage.userEmail,
+            creator : localStorage.userId
         } , fieldsValue);
 
         this.props.prepareSaving(params);

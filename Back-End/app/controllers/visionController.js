@@ -41,7 +41,6 @@ exports.visionStatus = function(req , res , next){
     var statusPromise = status(req.query);
 
     statusPromise.then(function(statuses){
-        console.log(statuses , 'received ');
         res.status(200).send(Formatter(statuses));
     })
 }
@@ -119,7 +118,6 @@ exports.createVision = function(req , res , next){
       		if (err) {
               callback(true , err);
           } else {
-              console.log('registering add Results');
               req.addResults = data;
               callback(null , data);
           }

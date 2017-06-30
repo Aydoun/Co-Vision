@@ -11,7 +11,7 @@ const hotMiddleWare = require('webpack-hot-middleware');
 const app = express();
 const isProduction = process.env.NODE_ENV === 'production';
 const isDeveloping = !isProduction;
-const port = isProduction ? (process.env.PORT || 8300) : 3001;
+const port = isProduction ? (process.env.PORT || 8300) : 3003;
 
 app.use(helmet());
 app.use(bodyParser.json({ type: 'application/json' }));

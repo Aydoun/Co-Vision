@@ -3,7 +3,8 @@ var UserModel = require('../models/userModel');
 var notifs = require('../constants/notificationMessages');
 var config = require('../config');
 var series  = require('async/series');
-var {Formatter , queryCheck , picking , generateToken} = require('../lib');
+var {Formatter, queryCheck, picking, generateToken, passwordHash} = require('../lib');
+var {passwordHash} = require('../lib/crypto');
 
 exports.visionList = function(req, res, next) {
     if (!req.params.id) res.status(200).send(Formatter('All Fields Required' , true));
@@ -14,19 +15,13 @@ exports.visionList = function(req, res, next) {
       in(data.visions.filter(item => item.status == 'Active').map((item)=>item.visionId)).
       exec(function(err , data){
           if (err) return res.status(200).send(Formatter(err , true));
-
           res.status(200).send(Formatter(data));
       });
     });
 
 };
 
-exports.createVision = function(req, res, next){
-
-}
-
 exports.addVisionToCreator = function(req, res, next) {
-    console.log('fucking Callback' , req.addResults);
     var addResults = req.addResults;
     if (!addResults) return res.status(200).send(Formatter('All Fields Are Required' , true));
 
@@ -53,13 +48,17 @@ exports.LogIn = function(req, res, next){
         } else {
           user.comparePassword(req.body.password, (err2, isMatch) => {
             if (err2) {
-                console.log(err2);
                 res.status(200).send(Formatter({data : 'Authentication failed'} , true));
             }
             else if (!isMatch) {
                 res.status(200).send(Formatter({ data : 'Authentication failed, Wrong password'}, true));
             } else {
-                res.status(200).send(Formatter({ _id : user._id, token: generateToken(user._id, config.secret) }));
+                res.status(200).send(Formatter({
+                  _id : user._id,
+                  email : user.email,
+                  fullName : user.fullName,
+                  token: generateToken(user._id, config.secret)
+                }));
             }
           });
         }
@@ -71,21 +70,33 @@ exports.Register = function(req, res, next){
 
     if (!email || !password || !fullName) {
       res.status(200).send(Formatter('all fields are required', true));
-    }
-    UserModel.findOne({ email }, (err, existingUser) => {
-      if (err) { return next(err); }
-      if (existingUser) {
-        res.status(422).send(Formatter('Email is in use', true));
-      } else {
-        const user = new UserModel({ email, password, fullName });
+    } else {
+      UserModel.findOne({ email }, (err, existingUser) => {
+        if (err) { return next(err); }
+        if (existingUser) {
+          res.status(422).send(Formatter('Email is in use', true));
+        } else {
+          passwordHash(password , (hash) => {
+            if (!hash) {
+              res.status(200).send(Formatter('error While Generating Hash', true));
+            } else {
+              const newUser = new UserModel({ email, password : hash, fullName });
 
-        user.save((err2 , userData) => {
-          if (err2) {
-            res.status(200).send(Formatter(err2, true));
-          } else {
-            res.status(200).send(Formatter({ email : email, _id : userData._id, token: generateToken(userData._id, config.secret) }));
-          }
-        });
-      }
-    });
+              newUser.save((err2 , userData) => {
+                if (err2) {
+                  res.status(200).send(Formatter(err2, true));
+                } else {
+                  res.status(200).send(Formatter({
+                    email : email,
+                    _id : userData._id,
+                    fullName : userData.fullName,
+                    token: generateToken(userData._id, config.secret)
+                  }));
+                }
+              });
+            }
+          });
+        }
+      });
+    }
 }

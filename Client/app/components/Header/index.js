@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import {Icon , Button , Menu, Dropdown,Avatar} from 'antd';
 import cookie from 'js-cookie';
 import './index.css';
@@ -14,7 +14,7 @@ class Header extends React.PureComponent {
           case '1':
             //Simple Logout
             localStorage.clear();
-            window.location.reload();
+            window.location.href = '/login';
             break;
           default:
             break;

@@ -83,7 +83,7 @@ export function showVisionList(res) {
 
   return {
     type: DUPLICATE_VISION_ACTION,
-    visionList : response.result.docs,
+    visionList : response,
   };
 }
 

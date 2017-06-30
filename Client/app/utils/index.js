@@ -17,6 +17,8 @@ export function GlobalPagination(list){
 export function saveUserData(serverResponse){
     localStorage.setItem('token' , serverResponse.token);
     localStorage.setItem('userId' , serverResponse._id);
+    localStorage.setItem('userEmail' , serverResponse.email);
+    localStorage.setItem('userfullName' , serverResponse.fullName);
 }
 
 export function formatDate(date){

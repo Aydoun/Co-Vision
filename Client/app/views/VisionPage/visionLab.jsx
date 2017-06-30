@@ -15,7 +15,6 @@ class VisionLab extends React.Component {
             return;
           }
           const {fileName , visionId} = this.props.location.query;
-          var allSavedData = getAllCookies();
           var FoundVision = find(this.props.visionList , ['_id' , visionId]);
 
           if (FoundVision) {
@@ -23,12 +22,11 @@ class VisionLab extends React.Component {
                 fileName : fileName,
                 id :  visionId,
                 repoName : FoundVision.title,
-                author : allSavedData.fullName,
-                authorMail : allSavedData.email
+                author : localStorage.userfullName,
+                authorMail : localStorage.userEmail
             });
 
             console.log(params , 'params');
-            //return ;
 
             this.props.preContribution(params);
           } else {
