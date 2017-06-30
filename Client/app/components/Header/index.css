@@ -15,3 +15,14 @@
     height: 25px;
     width: 52px;
 }
+
+span.header-username__display {
+    color: #108eec;
+    margin-left: 8px;
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+span.header-username__display:hover{
+  opacity: 1;
+}

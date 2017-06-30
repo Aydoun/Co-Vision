@@ -5,6 +5,9 @@ var config = require('../config');
 var series  = require('async/series');
 var {Formatter, queryCheck, picking, generateToken, passwordHash} = require('../lib');
 var {passwordHash} = require('../lib/crypto');
+var {
+    returnTreeSummary
+} = require('./gitController');
 
 exports.visionList = function(req, res, next) {
     if (!req.params.id) res.status(200).send(Formatter('All Fields Required' , true));
@@ -18,7 +21,32 @@ exports.visionList = function(req, res, next) {
           res.status(200).send(Formatter(data));
       });
     });
+};
 
+exports.visionListSummary = function(req, res, next) {
+    const { id } = req.params;
+    var seriesobj = {};
+    UserModel.findById(id , function(err , user){
+      if (user) {
+        user.visions.map(function(vision , index){
+            var visionId = vision._id;
+            seriesobj[visionId] = function(callback) {
+                returnTreeSummary({repoName : vision.visionName} , function(result){
+                    callback(null , result);
+                });
+            }
+        });
+        series(
+          seriesobj ,
+          function(err, results) {
+            //  Final Callback
+            res.status(200).send(Formatter(results));
+          }
+        );
+      } else {
+        res.status(200).send(Formatter(user , true));
+      }
+    });
 };
 
 exports.addVisionToCreator = function(req, res, next) {

@@ -2,7 +2,7 @@ var express = require('express');
 var users = express.Router();
 var userModel = require('../models/userModel');
 var base = require('../controllers/baseCrudController')(userModel);
-var { visionList , addVisionToCreator , LogIn, Register } = require('../controllers/userController');
+var { visionList , addVisionToCreator , LogIn, Register, visionListSummary } = require('../controllers/userController');
 
 //General Crud Routing
 users.get('/', base.get);
@@ -14,6 +14,7 @@ users.put('/:id', base.update);
 users.delete('/:id', base.remove);
 
 users.get('/:id/vision', visionList);
+users.get('/:id/visionListSummary', visionListSummary);
 users.post('/:id/vision', addVisionToCreator);
 users.post('/login', LogIn);
 users.post('/register', Register);

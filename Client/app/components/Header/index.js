@@ -46,7 +46,10 @@ class Header extends React.PureComponent {
             </Link>
             <div className="right">
               <Dropdown overlay={menu} placement="bottomCenter">
-                <Avatar icon="user"/>
+                <div>
+                  <Avatar icon="user"/>
+                  <span className="header-username__display">{localStorage.userfullName}</span>
+                </div>              
               </Dropdown>
             </div>
         </div>
