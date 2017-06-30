@@ -26,7 +26,7 @@ const ContributorSchema = new Schema({
   lastLogin : {type : Date , default: Date.now },
   status : {type : String , enum: ['Active', 'Inactive', 'Banned'] , default : 'Active'},
   password : {type : String , required: true},
-} , {timestamps: true}).plugin(require('mongoose-paginate'));
+}, {timestamps: true}).plugin(require('mongoose-paginate'));
 
 ContributorSchema.pre('save', (next) => {
   var user = this;

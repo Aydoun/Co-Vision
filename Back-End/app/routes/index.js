@@ -1,9 +1,9 @@
 var express = require('express');
 var AllRoutes = express.Router();
 
-var {LogIn, Register } = require('../controllers/contributorController');
+var {LogIn, Register } = require('../controllers/userController');
 var config = require('../config');
-var contributors = require('./contributor');
+var users = require('./user');
 var contributions = require('./contribution');
 var visions = require('./vision');
 var invitations = require('./invitation');
@@ -45,7 +45,7 @@ AllRoutes.post('/register', Register);
 // });
 
 
-AllRoutes.use('/contributor' , contributors);
+AllRoutes.use('/user' , users);
 AllRoutes.use('/contribution' , contributions);
 AllRoutes.use('/issue' , issues);
 AllRoutes.use('/invitation' , invitations);

@@ -1,5 +1,4 @@
 var visionModel = require('../models/visionModel');
-var contributorModel = require('../models/contributorModel');
 var {
     commit,
     initRepository,
