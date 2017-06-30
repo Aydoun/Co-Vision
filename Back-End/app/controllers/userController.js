@@ -2,15 +2,16 @@ var visionModel = require('../models/visionModel');
 var UserModel = require('../models/userModel');
 var notifs = require('../constants/notificationMessages');
 var config = require('../config');
+var series  = require('async/series');
 var {Formatter , queryCheck , picking , generateToken} = require('../lib');
 
 exports.visionList = function(req, res, next) {
-    if (!req.params.id) res.status(200).send(Formatter(data , true));
+    if (!req.params.id) res.status(200).send(Formatter('All Fields Required' , true));
 
-    var contributor = UserModel.findById(req.params.id , function(err , data){
+    UserModel.findById(req.params.id , function(err , data){
       visionModel.find({}).
       where('_id').
-      in(data.visions.map((item)=>item.visionId)).
+      in(data.visions.filter(item => item.status == 'Active').map((item)=>item.visionId)).
       exec(function(err , data){
           if (err) return res.status(200).send(Formatter(err , true));
 
@@ -20,16 +21,22 @@ exports.visionList = function(req, res, next) {
 
 };
 
-exports.addVisionToUser = function(req, res, next) {
-    var visionId = req.body.visionId;
-    if (!visionId) return res.status(200).send(Formatter(notifs.missing_required_parameters + ' , visionId' , true));
+exports.createVision = function(req, res, next){
 
-    UserModel.findById(req.params.id , function(err , data){
+}
+
+exports.addVisionToCreator = function(req, res, next) {
+    console.log('fucking Callback' , req.addResults);
+    var addResults = req.addResults;
+    if (!addResults) return res.status(200).send(Formatter('All Fields Are Required' , true));
+
+    UserModel.findById(addResults.creator , function(err , data){
         data.visions.push({
-            visionId : visionId
+            visionId : addResults._id,
+            visionName : addResults.title
         });
         data.save(function(err , data){
-            res.status(200).send(Formatter(data));
+            res.status(200).send(Formatter(addResults));
         });
     });
 };
@@ -52,7 +59,7 @@ exports.LogIn = function(req, res, next){
             else if (!isMatch) {
                 res.status(200).send(Formatter({ data : 'Authentication failed, Wrong password'}, true));
             } else {
-                res.status(200).send(Formatter({ token: generateToken(user.id, config.secret) }));
+                res.status(200).send(Formatter({ _id : user._id, token: generateToken(user._id, config.secret) }));
             }
           });
         }
@@ -76,7 +83,7 @@ exports.Register = function(req, res, next){
           if (err2) {
             res.status(200).send(Formatter(err2, true));
           } else {
-            res.status(200).send(Formatter({ email : email, token: generateToken(userData.id, config.secret) }));
+            res.status(200).send(Formatter({ email : email, _id : userData._id, token: generateToken(userData._id, config.secret) }));
           }
         });
       }

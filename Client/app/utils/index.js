@@ -16,6 +16,7 @@ export function GlobalPagination(list){
 
 export function saveUserData(serverResponse){
     localStorage.setItem('token' , serverResponse.token);
+    localStorage.setItem('userId' , serverResponse._id);
 }
 
 export function formatDate(date){

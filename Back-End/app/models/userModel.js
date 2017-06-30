@@ -5,8 +5,9 @@ const Schema = mongoose.Schema;
 
 var Visions = new Schema({
 	visionId : Schema.Types.ObjectId,
+	visionName : {type : String, required: true},
 	role : {type : String , enum: ['Owner', 'Admin', 'Common'] , default : 'Common'},
-	status : {type : String , enul:['Active' , 'Inactive'] , default : 'Active'}
+	status : {type : String , enum:['Active' , 'Inactive' , 'Reported'] , default : 'Active'}
 } , {timestamps: true});
 
 const userSchema = new Schema({

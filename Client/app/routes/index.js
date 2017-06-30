@@ -12,7 +12,6 @@ import NotFound from 'views/NotFoundPage';
 
 function loginCheck(nextState, replace){
     const token = localStorage.getItem('token');
-
     if (!token) {
       replace({
           pathname : '/login',

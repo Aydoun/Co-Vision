@@ -13,7 +13,7 @@ var {
 } = require('./gitController');
 var {Formatter} = require('../lib');
 var parallel = require('async/parallel');
-
+var series = require('async/series');
 
 exports.historyList = function (req, res, next) {
     history(res , req.query);
@@ -100,16 +100,16 @@ exports.checkoutBranch = function(req , res , next){
 }
 
 exports.createVision = function(req , res , next){
-    parallel({
+    series ({
       internal : function(callback) {
         var backPromise = initRepository(req.body);
 
         backPromise.then(function(commitsha) {
-            callback(true , commitsha)
+            callback(null , commitsha);
         });
 
         backPromise.catch(function(err){
-            callback(true , err)
+            callback(true , err);
         })
       },
       base : function(callback) {
@@ -119,13 +119,19 @@ exports.createVision = function(req , res , next){
       		if (err) {
               callback(true , err);
           } else {
+              console.log('registering add Results');
+              req.addResults = data;
               callback(null , data);
           }
       	});
       }
     },
     function(err, results) {
-        res.status(200).send(Formatter(results));
+        if (err) {
+          res.status(200).send(Formatter(results , true));
+        } else {
+          next();
+        }
     });
 }
 
