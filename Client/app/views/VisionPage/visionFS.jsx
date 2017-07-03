@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
+import { Link } from 'react-router';
 import find from 'lodash/find';
-import {Icon , Table , Select, Card, Row, Col} from 'antd';
+import {Icon , Table , Select, Card, Row, Col, Modal} from 'antd';
 import Columns from './table-columns/fileSystem';
 import { preContent , preBranch, preStat } from 'actions/visionAction';
 import { formatDate } from 'utils';
@@ -14,7 +15,8 @@ class VisionFS extends React.Component {
   constructor(props){
       super(props);
       this.state = {
-          VisionObject : {}
+          VisionObject : {},
+          visible : false
       }
   }
 
@@ -27,6 +29,7 @@ class VisionFS extends React.Component {
            id : _id,
            repoName : FoundVision.title
         }
+        this.setState({VisionObject : FoundVision});
         this.props.preContent(params);
         this.props.preBranch(params);
         this.props.preStat(params);
@@ -43,18 +46,9 @@ class VisionFS extends React.Component {
       });
   }
 
-  componentWillMount(nextProps) {
-      var _id = this.props.routeParams.id;
-      var Found = find(this.props.visionList , ['_id' , _id]);
-
-      if (Found) {
-          this.setState({VisionObject : Found});
-      }
-  }
-
   render() {
     const {visionFS , branchList, contributionStats} = this.props;
-    const { VisionObject } = this.state;
+    const { VisionObject, visible } = this.state;
 
     return (
       <div>
@@ -62,8 +56,16 @@ class VisionFS extends React.Component {
           <Row gutter={12}>
             <Col span={6}>{VisionObject.title || ''}</Col>
             <Col span={6}>{formatDate(VisionObject.updatedAt || '')}</Col>
-            <Col span={6}>{contributionStats.totalContributions || ''}</Col>
-            <Col span={6}>{contributionStats.totalContributors || ''}</Col>
+            <Col span={6}>
+              <Link to={`/vision/${VisionObject._id}/history`}>
+                {contributionStats.totalContributions || ''}
+              </Link>
+            </Col>
+            <Col span={6}>
+              <Link onClick={() => this.setState({visible : true})}>
+                {contributionStats.totalContributors || ''}
+              </Link>
+            </Col>
           </Row>
         </Card>
         <br/>
@@ -83,6 +85,21 @@ class VisionFS extends React.Component {
           pagination={false}
           loading={false}
         />
+      <Modal
+        visible={visible}
+        title="Vision Contributors"
+        onCancel={() => this.setState({visible : false})}
+      >
+        {
+          Object.keys(contributionStats.contributorsList).map(function(key , index){
+            return (
+              <p key={index}>
+                  <span>{key}</span>
+              </p>
+            )
+          })
+        }
+      </Modal>
       </div>
     );
   }
