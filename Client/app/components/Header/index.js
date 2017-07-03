@@ -44,12 +44,12 @@ class Header extends React.PureComponent {
             <Link to="/" className="app-header-logo">
                 <img src="http://tse2.mm.bing.net/th?id=OIP.73gq0A_pbB-ZNayGmF-68QEsCN&pid=15.1" />
             </Link>
-            <div className="right">
+            <div style={{marginTop:'4px'}} className="right">
               <Dropdown overlay={menu} placement="bottomCenter">
                 <div>
                   <Avatar icon="user"/>
                   <span className="header-username__display">{localStorage.userfullName}</span>
-                </div>              
+                </div>
               </Dropdown>
             </div>
         </div>

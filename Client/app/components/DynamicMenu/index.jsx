@@ -14,8 +14,8 @@ class DynamicMenu extends React.PureComponent {
     }
   }
 
-  componentWillMount(){
-    const newContent = this.props.content.map((item , index) => {
+  componentWillReceiveProps(nextProps){
+    const newContent = nextProps.content.map((item , index) => {
         switch(item.type) {
             case 'link':
               return <Link key={index} to={item.href}><Button>{item.text}</Button></Link>

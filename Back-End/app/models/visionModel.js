@@ -7,6 +7,7 @@ var Vision = new Schema({
   creator : {type : Schema.Types.ObjectId , required : true },
   privacy : {type:Array},
   avatar : {type : String},
+	type : {type : String, enum : ['public' , 'private'] , default : 'public'},
   status : {type : String , enum: ['Active', 'Inactive'] , default : 'Active'},
 }, {timestamps: true}).plugin(require('mongoose-paginate'));
 
