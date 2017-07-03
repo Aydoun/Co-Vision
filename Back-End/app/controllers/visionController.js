@@ -34,7 +34,7 @@ exports.historyTree = function(req , res , next){
 }
 
 exports.visionSummary = function(req , res , next){
-    treeSummary(res , req.query);
+    treeSummary(req.query , (result) => res.status(200).send(Formatter(result)));
 }
 
 exports.visionStatus = function(req , res , next){

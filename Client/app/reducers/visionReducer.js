@@ -8,6 +8,7 @@ const initialState = {
   ContentString : '',
   visionFS : [],
   branchList : [],
+  contributionStats : {},
   historyList : [{
       comment : 'Apprently This Vision lacks history!'
   }],

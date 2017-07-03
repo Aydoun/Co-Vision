@@ -4,6 +4,7 @@ import {
   DUPLICATE_VISION_ACTION,
   VISION_HISTORY_LOADING,
   VISION_FS_LOADING,
+  VISION_STAT_LOADING,
   BRANCH_LIST_LOADING,
   FILE_READ_LOADING,
   VISION_LIST_LOADING
@@ -56,6 +57,13 @@ export function preBranch(params) {
 export function preRead(params) {
   return {
     type: FILE_READ_LOADING,
+    playload : params
+  };
+}
+
+export function preStat(params) {
+  return {
+    type: VISION_STAT_LOADING,
     playload : params
   };
 }
@@ -119,5 +127,14 @@ export function fileContent(res) {
   return {
     type: DUPLICATE_VISION_ACTION,
     ContentString : response,
+  };
+}
+
+export function getVisionStats(res) {
+  var response = res.data.response;
+
+  return {
+    type: DUPLICATE_VISION_ACTION,
+    contributionStats : response,
   };
 }

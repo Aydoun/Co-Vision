@@ -38,7 +38,7 @@ class VisionPage extends React.Component {
               visionList.map(function(elem , i){
                   return (
                     <div key={i} className="list-items__margin">
-                        <Card  title={<Link to={`/vision/${elem._id}/content`}>{elem.title}</Link>} extra={getVisionCardExtra.bind(_this)(elem._id)}>
+                        <Card  title={<Link to={`/vision/${elem._id}/content`}>{elem.title}</Link>} >
                           <p className="bottomMargin">{elem.description}</p>
                           <div>
                             <Tag color="#2db7f5">

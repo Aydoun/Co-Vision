@@ -129,7 +129,7 @@ exports.treeWalk = function(res , params){
 
 //treeSummary
 
-exports.treeSummary = function(res , params){
+exports.treeSummary = function(params , next){
   var clientInput = params;
 
   var checkRes = queryCheck(clientInput , ['repoName']);
@@ -167,10 +167,10 @@ exports.treeSummary = function(res , params){
       history.on('end', function(commits) {
         var result = {
             totalContributions : commits.length,
+            totalContributors : Object.keys(contributors).length,
             contributorsList : contributors
         }
-
-        res.status(200).send(Formatter(result));
+        next(result);
       });
 
       history.start();
