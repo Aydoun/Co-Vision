@@ -1,14 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {Icon , Button , Card} from 'antd';
+import { Button } from 'semantic-ui-react';
 
-export class HomePage extends React.PureComponent { 
+export class HomePage extends React.PureComponent {
 
   render() {
     return (
       <div>
-        <p>Welcome Home!</p>
+        <Button primary>Primary</Button>
+        <Button secondary>Secondary</Button>
       </div>
     );
   }
