@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { Link, browserHistory } from 'react-router';
 import {Icon , Button , Menu, Dropdown,Avatar} from 'antd';
-import cookie from 'js-cookie';
 import './index.css';
 
-class Header extends React.PureComponent {
+class Header extends PureComponent {
 
   onMenuSelectedItem(selectedObj){
       switch(selectedObj.key){
@@ -26,7 +25,7 @@ class Header extends React.PureComponent {
       <Menu onSelect={this.onMenuSelectedItem}>
         <Menu.Item key="0">
           <div className="global-padding">
-            <a ref="#">Profile</a>
+            <Link to="/user/profile">Profile</Link>
           </div>
 
         </Menu.Item>

@@ -7,11 +7,14 @@ import SignIn from 'views/UserPage/login';
 import Register from 'views/UserPage/register';
 import VisionRoutes from './visionRoutes';
 import HomeRoutes from './homeRoutes';
+import DiscoverRoutes from './discoverRoutes';
+import InvitationRoutes from './invitationRoutes';
 import UserRoute from './userRoutes';
 import NotFound from 'views/NotFoundPage';
 
 function loginCheck(nextState, replace){
     const token = localStorage.getItem('token');
+    return true;
     if (!token) {
       replace({
           pathname : '/login',
@@ -30,6 +33,8 @@ export default ()=> (
             {VisionRoutes}
             {HomeRoutes}
             {UserRoute}
+            {DiscoverRoutes}
+            {InvitationRoutes}
         </Route>
       </Route>
       <Route path="/login" component={SignIn} />

@@ -1,10 +1,10 @@
 import React from 'react';
 import {Route } from 'react-router';
-import UserProfile from 'views/UserPage';
+import discover from 'views/DiscoverPage';
 
 export default (
   <Route>
-      <Route path="/user/profile" component={UserProfile}>
+      <Route path="/discover" component={discover}>
       </Route>
   </Route>
 )
