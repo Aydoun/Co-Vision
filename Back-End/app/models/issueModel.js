@@ -13,4 +13,4 @@ module.exports = mongoose.model('cov-issue', new Schema({
 	visionId : {type : Schema.Types.ObjectId , required: true },
   comments : [Comments],
   status : {type : String , enum: ['Active', 'Closed'] , default : 'Active'},
-} , {timestamps: true}).plugin(require('mongoose-paginate')));
+} , {timestamps: true}));

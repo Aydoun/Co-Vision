@@ -38,7 +38,7 @@ const userSchema = new Schema({
     used: Boolean,
     expires: Date,
   },
-} , {timestamps: true}).plugin(require('mongoose-paginate'));
+} , {timestamps: true});
 
 userSchema.methods.comparePassword = function (candidatePassword, callback) {
   bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
