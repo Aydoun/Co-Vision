@@ -13,9 +13,9 @@ class VisionPage extends Component {
   }
 
   componentDidMount(){
-      // this.props.prepareListing({
-      //   _id : localStorage.userId
-      // });
+      this.props.prepareListing({
+        _id : localStorage.userId
+      });
   }
 
   render() {

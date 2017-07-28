@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const jwt = require('jwt-simple');
+const path = require('path');
 const moment = require('moment');
 var _ = require('lodash');
 
@@ -53,4 +54,8 @@ exports.queryCheck = function(clientInput , requiredParams){
     });
 
     return _returned;
+}
+
+exports.getPath = function(fileName) {
+  return path.resolve("D://" + fileName);
 }

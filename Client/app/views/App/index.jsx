@@ -5,9 +5,9 @@ import {BackTop, Layout, Icon, Popover, Button} from 'antd';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import SideBarContent from 'components/SideBar';
-import DynamicMenu from 'components/DynamicMenu';
-import InitialMenu from './menuItems';
-import { changeMenuItems } from 'actions/appAction';
+//import DynamicMenu from 'components/DynamicMenu';
+//import InitialMenu from './menuItems';
+//import { changeMenuItems } from 'actions/appAction';
 import './index.css';
 
 const { Content, Sider } = Layout;
@@ -15,14 +15,6 @@ const { Content, Sider } = Layout;
 class App extends React.Component {
     constructor(props){
        super(props);
-    }
-
-    testify(){
-        console.log('testify!');
-    }
-
-    componentWillMount() {
-        this.props.changeMenuItems(InitialMenu.bind(this)());
     }
 
     render(){
@@ -39,7 +31,6 @@ class App extends React.Component {
             </Sider>
             <Layout style={{ padding: '0px 8px 0px 70px' }}>
               <Content style={{position : 'relative', background:'#fff', padding : 24, margin : 0, height : '100%'}}>
-                  <DynamicMenu content={menuContent} />
                   {this.props.children}
               </Content>
             </Layout>
@@ -54,7 +45,7 @@ App.propTypes = {
 };
 
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({changeMenuItems} , dispatch)
+  return bindActionCreators({} , dispatch)
 }
 
 function mapStateToProps(state) {

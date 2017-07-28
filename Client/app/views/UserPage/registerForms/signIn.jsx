@@ -3,6 +3,8 @@ import { Link } from 'react-router';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 const FormItem = Form.Item;
 
+
+
 class NormalLoginForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();

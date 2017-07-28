@@ -1,48 +1,64 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {Link} from 'react-router';
-import {Icon , Card , Input, Layout , Alert } from 'antd';
-import SignInForm from './registerForms/signIn';
-import SignUpForm from './registerForms/signUp';
-import './index.css';
 
+import { Button, Form, Grid, Header, Image, Input, Message, Segment } from 'semantic-ui-react';
 import { preLogin , preRegister } from 'actions/userAction';
 
-const { Header, Content } = Layout;
+class LoginForm extends Component {
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
 
-class loginPage extends React.Component {
-  constructor(props){
-      super(props);
-      this.state = {
-          currentTab : '1'
+        this.props.preLogin(values);
       }
+    });
+  }
+
+  componentWillMount() {
+    document.body.classList.add('login')
+  }
+
+  componentWillUnmount() {
+    document.body.classList.remove('login')
   }
 
   render() {
-    const {currentTab} = this.state;
-    const {errorObj} = this.props;
-
     return (
-      <Layout>
-        <Header style={{ width: '100%' }}>
-          <div className="logo" />
-          <h3 style={{color:'white'}}>Welcome To Co-Vision , Togetherness!</h3>
-        </Header>
-        <Content style={{ marginTop: 32 }}>
-          <div className="login-wrapper">
-              <Card title="Welcome To Co-Vision">
-                {
-                  !errorObj.status ? <div><Alert message={errorObj.errorMessage} type="error" showIcon /><br/></div> : null
-                }
-                <SignInForm
-                  signUpSwitch={() => this.setState({currentTab : "2"})}
-                  login={(values) => this.props.preLogin(values)}
-                />
-              </Card>
-          </div>
-        </Content>
-      </Layout>
+      <Grid
+        textAlign='center'
+        style={{ height: '100%' }}
+        verticalAlign='middle'
+      >
+        <Grid.Column style={{ maxWidth: 450 }}>
+          <Header as='h2' color='teal' textAlign='center'>
+            <Image src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyqeUqOsSwko7RqfWmg2O73ryxYzuUxwkyHDzrQbaqZ-Q9zBoM' />
+            {' '}SignIn
+          </Header>
+          <Form size='large'>
+            <Segment stacked>
+              <Form.Input
+                fluid
+                icon='user'
+                iconPosition='left'
+                placeholder='E-mail address'
+              />
+              <Form.Input
+                fluid
+                icon='lock'
+                iconPosition='left'
+                placeholder='Password'
+                type='password'
+              />
+              <Button color='teal' fluid size='large' onClick={this.handleSubmit.bind(this)}>Login</Button>
+            </Segment>
+          </Form>
+          <Message>
+            New to us? <a href='#'>Sign Up</a>
+          </Message>
+        </Grid.Column>
+      </Grid>
     )
   }
 }
@@ -58,4 +74,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(loginPage);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

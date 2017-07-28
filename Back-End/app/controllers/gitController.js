@@ -1,6 +1,6 @@
 var Git = require('../../nodegit');
 var path = require('path');
-var {queryCheck , Formatter} = require('../lib');
+var {queryCheck , Formatter, getPath} = require('../lib');
 var promisify = require("promisify-node");
 var fse = promisify(require("fs-extra"));
 
@@ -12,7 +12,7 @@ exports.commit = function(inputs) {
           throw new Error(checkRes + ' is Required');
       }
 
-      var pathToRepo = path.resolve("C://" + clientInput.repoName);
+      var pathToRepo = getPath(clientInput.repoName);
 
       return Git.Repository.open(pathToRepo)
       .then(function(repository){
@@ -32,7 +32,7 @@ exports.history = function(res , params) {
         res.status(200).send(Formatter(checkRes + ' is Required' , true))
     }
 
-    var pathToRepo = path.resolve("C://" + clientInput.repoName);
+    var pathToRepo = getPath(clientInput.repoName);
     var branchName = clientInput.branchName || 'master';
 
     Git.Repository.open(pathToRepo)
@@ -74,7 +74,7 @@ exports.initRepository = function(inputs){
         throw new Error(checkRes + ' is Required');
     }
 
-    var pathToRepo = path.resolve("C://" + clientInput.repoName);
+    var pathToRepo = getPath(clientInput.repoName);
 
     return Git.Repository.init(pathToRepo, 0).then(function (repo) {
         var inputs = Object.assign({} , clientInput , {
@@ -99,7 +99,7 @@ exports.treeWalk = function(res , params){
     }
 
     var branchName = clientInput.branchName || 'master';
-    var pathToRepo = path.resolve("C://" + clientInput.repoName);
+    var pathToRepo = getPath(clientInput.repoName);
 
     return Git.Repository.open(pathToRepo)
     .then(function(repo) {
@@ -138,7 +138,7 @@ exports.treeSummary = function(params , next){
       throw new Error(checkRes + ' is Required');
   }
 
-  var pathToRepo = path.resolve("C://" + clientInput.repoName);
+  var pathToRepo = getPath(clientInput.repoName);
   var branchName = clientInput.branchName || 'master';
 
   Git.Repository.open(pathToRepo)
@@ -183,7 +183,7 @@ exports.treeSummary = function(params , next){
 exports.returnTreeSummary = function(params , next){
   var clientInput = params;
 
-  var pathToRepo = path.resolve("C://" + clientInput.repoName);
+  var pathToRepo = getPath(clientInput.repoName);
   var branchName = clientInput.branchName || 'master';
 
   Git.Repository.open(pathToRepo)
@@ -228,7 +228,7 @@ exports.returnTreeSummary = function(params , next){
 
 exports.status = function(params){
     var clientInput = params;
-    var pathToRepo = path.resolve("C://" + clientInput.repoName);
+    var pathToRepo = getPath(clientInput.repoName);
 
     return Git.Repository.open(pathToRepo)
     .then(function(repo) {
@@ -263,7 +263,7 @@ exports.getAllBranchList = function(params){
         throw new Error(checkRes + ' is Required');
     }
 
-    var pathToRepo = path.resolve("C://" + clientInput.repoName);
+    var pathToRepo = getPath(clientInput.repoName);
 
     return Git.Repository.open(pathToRepo)
     .then(function(repo) {
@@ -290,7 +290,7 @@ exports.createBranch = function(params){
         throw new Error(checkRes + ' is Required');
     }
 
-    var pathToRepo = path.resolve("C://" + clientInput.repoName);
+    var pathToRepo = getPath(clientInput.repoName);
 
     return Git.Repository.open(pathToRepo)
     .then(function(repo) {
@@ -313,7 +313,7 @@ exports.checkoutBranch = function(params){
         throw new Error(checkRes + ' is Required');
     }
 
-    var pathToRepo = path.resolve("C://" + clientInput.repoName);
+    var pathToRepo = getPath(clientInput.repoName);
 
     return Git.Repository.open(pathToRepo)
     .then(function(repo) {
@@ -332,7 +332,7 @@ exports.readFileContent = function(params){
         throw new Error(checkRes + ' is Required');
     }
 
-    var pathToRepo = path.resolve("C://" + clientInput.repoName);
+    var pathToRepo = getPath(clientInput.repoName);
 
     return Git.Repository.open(pathToRepo)
       .then(function(repo) {
@@ -360,7 +360,7 @@ exports.gitTest = function(params){
         throw new Error(checkRes + ' is Required');
     }
 
-    var pathToRepo = path.resolve("C://" + clientInput.repoName);
+    var pathToRepo = getPath(clientInput.repoName);
 
     return Git.Repository.open(pathToRepo)
     .then(function(repo) {
