@@ -11,9 +11,9 @@ var {
     getAllBranchList,
     treeSummary
 } = require('./gitController');
-var {Formatter} = require('../lib');
-var parallel = require('async/parallel');
-var series = require('async/series');
+const { Formatter } = require('../lib');
+const parallel = require('async/parallel');
+const series = require('async/series');
 
 exports.historyList = function (req, res, next) {
     history(res , req.query);

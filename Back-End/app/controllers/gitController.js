@@ -80,7 +80,7 @@ exports.initRepository = function(inputs){
         var inputs = Object.assign({} , clientInput , {
             fileName : "Readme.md",
             fileContent : clientInput.description,
-            message : clientInput.repoName + ' Vision is Born!',
+            message : `${clientInput.repoName} Vision id Born!`,
             initalCommit : true
         });
 
