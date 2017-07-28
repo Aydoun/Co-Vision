@@ -1,8 +1,8 @@
-var express = require('express');
-var invitations = express.Router();
-var invitationModel = require('../models/invitationModel');
-var base = require('../controllers/baseCrudController')(invitationModel);
-var {waitingInvitations} = require('../controllers/invitationController');
+const express = require('express');
+const invitations = express.Router();
+const invitationModel = require('../models/invitationModel');
+const base = require('../controllers/baseCrudController')(invitationModel);
+const { waitingInvitations } = require('../controllers/invitationController');
 
 //General Crud Routing
 invitations.get('/', base.get);

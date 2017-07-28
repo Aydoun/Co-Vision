@@ -27,17 +27,7 @@ const userSchema = new Schema({
 	}},
   lastLogin : {type : Date , default: Date.now },
   status : {type : String , enum: ['Active', 'Inactive', 'Banned'] , default : 'Active'},
-  role: { type: Number, default: 0 },
-  auth: {
-    token: String,
-    used: Boolean,
-    expires: Date,
-  },
-  resetPassword: {
-    token: String,
-    used: Boolean,
-    expires: Date,
-  },
+  role: { type: Number, default: 0 }
 } , {timestamps: true});
 
 userSchema.methods.comparePassword = function (candidatePassword, callback) {
