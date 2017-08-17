@@ -1,5 +1,4 @@
-var express = require('express');
-var AllRoutes = express.Router();
+var AllRoutes = require('express').Router();
 
 var {LogIn, Register } = require('../controllers/userController');
 var config = require('../config');
@@ -7,7 +6,7 @@ var users = require('./user');
 var contributions = require('./contribution');
 var visions = require('./vision');
 var invitations = require('./invitation');
-var issues = require('./issue');
+var channels = require('./channel');
 var feedbacks = require('./feedback');
 var tests = require('./test');
 
@@ -47,7 +46,7 @@ AllRoutes.post('/register', Register);
 
 AllRoutes.use('/user' , users);
 AllRoutes.use('/contribution' , contributions);
-AllRoutes.use('/issue' , issues);
+AllRoutes.use('/channel' , channels);
 AllRoutes.use('/invitation' , invitations);
 AllRoutes.use('/feedback' , feedbacks);
 AllRoutes.use('/vision' , visions);

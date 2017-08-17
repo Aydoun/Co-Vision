@@ -354,42 +354,35 @@ exports.readFileContent = function(params){
 exports.gitTest = function(params){
     var clientInput = params;
     var _entry;
-    var checkRes = queryCheck(clientInput , ['repoName']);
-
-    if (checkRes !== true) {
-        throw new Error(checkRes + ' is Required');
-    }
-
-    var pathToRepo = getPath(clientInput.repoName);
-
-    return Git.Repository.open(pathToRepo)
-    .then(function(repo) {
-      return repo.getReferences(3).then(function(arrayReference) {
-        // Use reference
-        var refs = [];
-        return arrayReference
-        .filter(function(elem){return elem.isBranch()})
-        .map(function(reference){
-            var _name = reference.toString().split('/');
-            return {
-                name : _name[_name.length - 1],
-            }
-        })
-      });
-    });
+    console.log('Hey');
 }
 
 /*
   Helper Functions
 
 */
+
+function testify(){
+    return path.resolve('D://git/Visions/Cancer');
+}
+
+function addFile(pathToFile, fileName, fileContent){
+    if (typeof fileContent !== 'undefined') {
+      //File
+      return fse.writeFile(path.resolve(pathToFile));
+    } else {
+      //Folder
+      return fse.ensureDir(path.resolve(pathToFile));
+    }
+}
+
+
 function registerCommit(inputs , repo) {
         var fileName = inputs.fileName;
         var fileContent = inputs.fileContent;
         var index;
         var oid;
-
-return fse.writeFile(path.join(repo.workdir(), fileName), fileContent)
+ return addFile(path.join(repo.workdir(), fileName), fileContent)
         .then(function() {
             return repo.refreshIndex();
         })
@@ -428,5 +421,5 @@ return fse.writeFile(path.join(repo.workdir(), fileName), fileContent)
         })
         .then(function(commitId){
             return commitId.tostrS();
-        })
+        });
 }

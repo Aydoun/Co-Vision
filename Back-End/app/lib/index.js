@@ -57,5 +57,5 @@ exports.queryCheck = function(clientInput , requiredParams){
 }
 
 exports.getPath = function(fileName) {
-  return path.resolve("D://" + fileName);
+  return path.resolve("D://Visions/" + fileName);
 }
