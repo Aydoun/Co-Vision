@@ -84,6 +84,8 @@ exports.initRepository = function(inputs){
             initalCommit : true
         });
 
+        console.log(inputs);
+
         return registerCommit(inputs , repo);
     });
 }
@@ -382,7 +384,7 @@ function registerCommit(inputs , repo) {
         var fileContent = inputs.fileContent;
         var index;
         var oid;
- return addFile(path.join(repo.workdir(), fileName), fileContent)
+ return addFile(path.join(repo.workdir(), fileName),fileName, fileContent)
         .then(function() {
             return repo.refreshIndex();
         })
@@ -404,11 +406,11 @@ function registerCommit(inputs , repo) {
                 return Git.Reference.nameToId(repo, "HEAD");
             }
         })
-        .then(function(head){
-            if (!inputs.initalCommit) {
-                return repo.getCommit(head);
-            }
-        })
+        // .then(function(head){
+        //     if (!inputs.initalCommit) {
+        //         return repo.getCommit(head);
+        //     }
+        // })
         .then(function(parent){
             var _parent = inputs.initalCommit ? [] : [parent];
             var now = Date.now() / 1000;

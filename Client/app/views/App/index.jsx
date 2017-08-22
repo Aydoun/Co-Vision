@@ -34,7 +34,7 @@ class App extends Component {
                     <Link to="/vision">Vision</Link>
                   </Grid.Column>
                   <Grid.Column textAlign='center'>
-                    <Link>Vision</Link>
+                    <Link to="/vision/create">create Vision</Link>
                   </Grid.Column>
                   <Grid.Column textAlign='center'>
                     <Link>Vision</Link>
