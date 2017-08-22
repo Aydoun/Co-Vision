@@ -1,29 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
-
+import { Link } from 'react-router';
 import { Button, Form, Grid, Header, Image, Input, Message, Segment } from 'semantic-ui-react';
 import { preLogin , preRegister } from 'actions/userAction';
+import LoginForm from './registerForms/signIn';
 
-class LoginForm extends Component {
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-
-        this.props.preLogin(values);
-      }
-    });
+class LoginContainer extends Component {
+  handleSubmit(values){
+      this.props.preLogin(values);
   }
-
-  componentWillMount() {
-    document.body.classList.add('login')
-  }
-
-  componentWillUnmount() {
-    document.body.classList.remove('login')
-  }
-
   render() {
     return (
       <Grid
@@ -36,26 +22,9 @@ class LoginForm extends Component {
             <Image src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyqeUqOsSwko7RqfWmg2O73ryxYzuUxwkyHDzrQbaqZ-Q9zBoM' />
             {' '}SignIn
           </Header>
-          <Form size='large'>
-            <Segment stacked>
-              <Form.Input
-                fluid
-                icon='user'
-                iconPosition='left'
-                placeholder='E-mail address'
-              />
-              <Form.Input
-                fluid
-                icon='lock'
-                iconPosition='left'
-                placeholder='Password'
-                type='password'
-              />
-              <Button color='teal' fluid size='large' onClick={this.handleSubmit.bind(this)}>Login</Button>
-            </Segment>
-          </Form>
+          <LoginForm handleSubmit={this.handleSubmit.bind(this)}/>
           <Message>
-            New to us? <a href='#'>Sign Up</a>
+            New to us? <Link to="/register">Sign Up</Link>
           </Message>
         </Grid.Column>
       </Grid>
@@ -68,10 +37,10 @@ function mapDispatchToProps(dispatch){
 }
 
 function mapStateToProps(state) {
-  console.log(state , 'login state');
+  //console.log(state , 'login state');
   return {
     errorObj : state.error
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer);

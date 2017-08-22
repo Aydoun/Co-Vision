@@ -1,18 +1,16 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {BackTop, Layout, Icon, Popover, Button} from 'antd';
-import Header from 'components/Header';
+import { Link } from 'react-router';
+import { Header, Button, Popup, Grid } from 'semantic-ui-react'
+import AppHeader from 'components/Header';
 import Footer from 'components/Footer';
 import SideBarContent from 'components/SideBar';
-//import DynamicMenu from 'components/DynamicMenu';
-//import InitialMenu from './menuItems';
-//import { changeMenuItems } from 'actions/appAction';
+
 import './index.css';
 
-const { Content, Sider } = Layout;
 
-class App extends React.Component {
+class App extends Component {
     constructor(props){
        super(props);
     }
@@ -22,20 +20,31 @@ class App extends React.Component {
       const text = <span>Title</span>;
 
       return (
-        <Layout>
-          <BackTop />
-          <Header />
-          <Layout >
-            <Sider width={200} style={{ background: '#fff' }}>
-                <SideBarContent />
-            </Sider>
-            <Layout style={{ padding: '0px 8px 0px 70px' }}>
-              <Content style={{position : 'relative', background:'#fff', padding : 24, margin : 0, height : '100%'}}>
-                  {this.props.children}
-              </Content>
-            </Layout>
-          </Layout>
-        </Layout>
+        <div>
+          <AppHeader />
+          <div className="app-general__wrapper" style={{ padding: '0px 8px 0px 70px' }}>
+            <div className="dynamic-menu right">
+              <Popup
+                trigger={<Button icon="bars"></Button>}
+                flowing
+                hoverable
+              >
+                <Grid centered divided columns={3}>
+                  <Grid.Column textAlign='center'>
+                    <Link to="/vision">Vision</Link>
+                  </Grid.Column>
+                  <Grid.Column textAlign='center'>
+                    <Link>Vision</Link>
+                  </Grid.Column>
+                  <Grid.Column textAlign='center'>
+                    <Link>Vision</Link>
+                  </Grid.Column>
+                </Grid>
+              </Popup>
+            </div>
+            {this.props.children}
+          </div>
+        </div>
     );
     }
 }

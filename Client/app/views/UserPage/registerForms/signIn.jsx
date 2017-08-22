@@ -1,16 +1,15 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Button, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
+import { Form, Input } from 'antd';
 const FormItem = Form.Item;
 
-
-
-class NormalLoginForm extends React.Component {
+class LoginForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.login(values);
+        this.props.handleSubmit(values)
       }
     });
   }
@@ -35,16 +34,14 @@ class NormalLoginForm extends React.Component {
             )}
           </FormItem>
           <FormItem>
-            <Button type="primary" htmlType="submit" className="login-form-button">
-              Log in
+            <Button primary >
+              Login
             </Button>
-            Or <Link to="/register">register now!</Link>
           </FormItem>
         </Form>
       </div>
-
     );
   }
 }
 
-export default Form.create()(NormalLoginForm);
+export default Form.create()(LoginForm);

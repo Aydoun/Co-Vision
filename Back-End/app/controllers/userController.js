@@ -13,13 +13,18 @@ exports.visionList = function(req, res, next) {
     if (!req.params.id) res.status(200).send(Formatter('All Fields Required' , true));
 
     UserModel.findById(req.params.id , function(err , data){
-      visionModel.find({}).
-      where('_id').
-      in(data.visions.filter(item => item.status == 'Active').map((item)=>item.visionId)).
-      exec(function(err , data){
-          if (err) return res.status(200).send(Formatter(err , true));
-          res.status(200).send(Formatter(data));
-      });
+      if (data) {
+        visionModel.find({}).
+        where('_id').
+        in(data.visions.filter(item => item.status == 'Active').map((item)=>item.visionId)).
+        exec(function(err , data){
+            if (err) return res.status(200).send(Formatter(err , true));
+            res.status(200).send(Formatter(data));
+        });
+      } else {
+        res.status(200).send(Formatter({}));
+      }
+
     });
 };
 

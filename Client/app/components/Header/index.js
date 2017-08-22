@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Link, browserHistory } from 'react-router';
-import {Icon , Button , Menu, Dropdown,Avatar} from 'antd';
+import { Input } from 'semantic-ui-react';
+import {Icon , Menu, Dropdown,Avatar} from 'antd';
 import './index.css';
 
 class Header extends PureComponent {
@@ -40,10 +41,8 @@ class Header extends PureComponent {
     return (
       <div className="header-wrapper">
         <div className="header-content">
-            <Link to="/" className="app-header-logo">
-                <img src="http://tse2.mm.bing.net/th?id=OIP.73gq0A_pbB-ZNayGmF-68QEsCN&pid=15.1" />
-            </Link>
-            <div style={{marginTop:'4px'}} className="right">
+            <Input icon='search' placeholder='Search...' />
+            <div className="right">
               <Dropdown overlay={menu} placement="bottomCenter">
                 <div>
                   <Avatar icon="user"/>

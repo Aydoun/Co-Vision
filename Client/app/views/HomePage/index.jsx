@@ -8,8 +8,7 @@ export class HomePage extends React.PureComponent {
   render() {
     return (
       <div>
-        <Button primary>Primary</Button>
-        <Button secondary>Secondary</Button>
+        <h2>Home!</h2>
       </div>
     );
   }

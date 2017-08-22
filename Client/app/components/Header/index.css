@@ -1,8 +1,12 @@
 .header-wrapper {
   background: black;
-  height: 48px;
+  height: 58px;
   padding: 0px 22px;
   border-bottom: 1px solid #c0c0c0;
+}
+
+.header-content {
+  margin-top: 8px;
 }
 
 .header-content a {
@@ -11,9 +15,8 @@
     color: black;
 }
 
-.header-content a.app-header-logo img {
-    height: 25px;
-    width: 52px;
+.dynamic-menu {
+    
 }
 
 span.header-username__display {
