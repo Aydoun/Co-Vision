@@ -384,7 +384,7 @@ function registerCommit(inputs , repo) {
         var fileContent = inputs.fileContent;
         var index;
         var oid;
- return addFile(path.join(repo.workdir(), fileName),fileName, fileContent)
+ return fse.writeFile(path.join(repo.workdir(), fileName), fileContent)
         .then(function() {
             return repo.refreshIndex();
         })
