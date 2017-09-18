@@ -28,7 +28,7 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         include: __dirname,
-        loader: 'babel-loader',
+        loader: 'babel-loader?cacheDirectory',
         options: {
              presets: ['es2015', 'react', 'stage-0','react-hmre'],
         }
