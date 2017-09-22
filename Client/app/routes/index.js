@@ -1,6 +1,5 @@
 import React from 'react';
 import {Router, Route , IndexRedirect } from 'react-router';
-import cookie from 'js-cookie';
 
 import App from 'views/App';
 import SignIn from 'views/UserPage/login';
@@ -14,7 +13,7 @@ import NotFound from 'views/NotFoundPage';
 
 function loginCheck(nextState, replace){
     const token = localStorage.getItem('token');
-    
+
     if (!token) {
       replace({
           pathname : '/login',

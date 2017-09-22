@@ -9,6 +9,7 @@ injectGlobal`
 
   body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background:#ccc;
   }
 
   body.fontLoaded {
@@ -30,12 +31,6 @@ injectGlobal`
   label {
     font-family: Georgia, Times, 'Times New Roman', serif;
     line-height: 1.5em;
-  }
-
-  #app {
-    background-color: #ececec;
-    min-height: 100%;
-    min-width: 100%;
   }
 
   .left {

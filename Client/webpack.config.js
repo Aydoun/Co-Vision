@@ -1,45 +1,35 @@
 const path = require('path');
-const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const buildPath = path.resolve('build');
 
 module.exports = {
-  devtool: 'eval-source-map',
-  entry: [
-    'webpack-hot-middleware/client',
-    './app/index',
-  ],
+  entry: './app/index',
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
     publicPath: '/dist',
   },
-  cache: true,
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    //new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.DefinePlugin({ 'process.env.NODE_ENV': JSON.stringify('development') })
-  ],
-  resolve: {
-    extensions: ['.js', '.jsx'],
-    modules : [path.resolve(__dirname, 'app'), 'node_modules']
-  },
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        include: __dirname,
-        loader: 'babel-loader?cacheDirectory',
-        options: {
-             presets: ['es2015', 'react', 'stage-0','react-hmre'],
+        test: /\.(js|jsx)$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [require.resolve('babel-preset-react-app')]
+          }
         }
       },
       {
-        test: /\.less$/,
-        use:[
-          {loader:'style-loader'},
-          {loader:'css-loader'},
-          {loader:'less-loader',options: {sourceMap:true}}
-        ]
+        test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
+        use: {
+          loader: 'url-loader',
+          options: {
+            limit: 100000
+          }
+        }
       },
       {
         test: /\.css$/,
@@ -48,14 +38,12 @@ module.exports = {
           {loader:'css-loader'}
         ]
       },
-      {
-        test: /\.((woff2?|ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9]))|(woff2?|ttf|eot|svg|jpe?g|png|gif|ico)$/,
-        loader: 'url-loader',
-        options: {
-          limit: 10240,
-          name:'fonts/[hash:8].[name].[ext]'
-        }
-      }
     ]
-  }
+  },
+  resolve: {
+    extensions: ['.js', '.jsx'],
+    modules : [path.resolve(__dirname, 'app'), 'node_modules']
+  },
+  plugins: [
+  ]
 };

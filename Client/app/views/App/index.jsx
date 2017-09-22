@@ -23,25 +23,6 @@ class App extends Component {
         <div>
           <AppHeader />
           <div className="app-general__wrapper" style={{ padding: '0px 8px 0px 70px' }}>
-            <div className="dynamic-menu right">
-              <Popup
-                trigger={<Button icon="bars"></Button>}
-                flowing
-                hoverable
-              >
-                <Grid centered divided columns={3}>
-                  <Grid.Column textAlign='center'>
-                    <Link to="/vision">Vision</Link>
-                  </Grid.Column>
-                  <Grid.Column textAlign='center'>
-                    <Link to="/vision/create">create Vision</Link>
-                  </Grid.Column>
-                  <Grid.Column textAlign='center'>
-                    <Link>Vision</Link>
-                  </Grid.Column>
-                </Grid>
-              </Popup>
-            </div>
             {this.props.children}
           </div>
         </div>
