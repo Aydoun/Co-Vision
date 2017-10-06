@@ -30,7 +30,6 @@ exports.historyTree = function(req , res , next){
         res.status(200).send(Formatter({data : err.message} , true));
         return ;
     });
-
 }
 
 exports.visionSummary = function(req , res , next){
@@ -87,7 +86,6 @@ exports.createBranch = function(req , res , next){
 
 exports.checkoutBranch = function(req , res , next){
     var checkoutPromise = checkoutBranch(req.body);
-
     checkoutPromise.then(function(message){
         res.status(200).send(Formatter({data : message}));
     });

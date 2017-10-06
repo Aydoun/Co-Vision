@@ -1,14 +1,26 @@
-var visionModel = require('../models/visionModel');
-var UserModel = require('../models/userModel');
-var notifs = require('../constants/notificationMessages');
-var config = require('../config');
-var series  = require('async/series');
-var {Formatter, queryCheck, picking, generateToken, passwordHash} = require('../lib');
-var {passwordHash} = require('../lib/crypto');
+/**
+ * Co-Vision
+ * @file User Controller
+ * @author Mohamed Amine Aydoun <aydoun@qq.com>
+ * @version 0.1
+ */
+const visionModel = require('../models/visionModel');
+const UserModel = require('../models/userModel');
+const notifs = require('../constants/notificationMessages');
+const config = require('../config');
+const series  = require('async/series');
+const { Formatter, queryCheck, picking, generateToken, passwordHash } = require('../lib');
+var { passwordHash } = require('../lib/crypto');
 var {
     returnTreeSummary
 } = require('./gitController');
 
+
+/**
+* List Visions For a User
+* @param {Number} id - User id
+* @return {Object} returns The Vision linked to the user
+*/
 exports.visionList = function(req, res, next) {
     if (!req.params.id) res.status(200).send(Formatter('All Fields Required' , true));
 
@@ -28,6 +40,11 @@ exports.visionList = function(req, res, next) {
     });
 };
 
+/**
+* List Visions Summary For a User
+* @param {Number} id - User id
+* @return {Object} returns The Vision Summary
+*/
 exports.visionListSummary = function(req, res, next) {
     const { id } = req.params;
     var seriesobj = {};
@@ -54,6 +71,11 @@ exports.visionListSummary = function(req, res, next) {
     });
 };
 
+/**
+* List Visions Summary For a User
+* @param {Number} id - User id
+* @return {Object} returns The Vision Summary
+*/
 exports.addVisionToCreator = function(req, res, next) {
     var addResults = req.addResults;
     if (!addResults) return res.status(200).send(Formatter('All Fields Are Required' , true));
@@ -68,6 +90,13 @@ exports.addVisionToCreator = function(req, res, next) {
         });
     });
 };
+
+/**
+* List Visions Summary For a User
+* @param {String} email - User email
+* @param {String} password - User password
+* @return {Object} returns User Login Data
+*/
 
 exports.LogIn = function(req, res, next){
     UserModel.findOne({
@@ -98,6 +127,14 @@ exports.LogIn = function(req, res, next){
     });
 }
 
+
+/**
+* List Visions Summary For a User
+* @param {String} email - User email
+* @param {String} password - User password
+* @param {String} fullName - User name
+* @return {Object} returns User Register Data
+*/
 exports.Register = function(req, res, next){
     const { email, password, fullName } = req.body;
 
