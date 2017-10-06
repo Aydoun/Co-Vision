@@ -173,9 +173,8 @@ exports.getAllBranchList = function(params){
         return arrayReference
         //.filter(function(elem){return elem.isBranch()})
         .map(function(reference){
-            var _name = reference.toString().split('/');
             return {
-                name : _name[_name.length - 1],
+                name : reference.toString().replace('refs/heads/', ''),
             }
         })
       });
@@ -220,6 +219,25 @@ exports.checkoutBranch = function(params){
     .then(function(repo) {
         repo.checkoutBranch(clientInput.branchName, {}).then(function() {
           return 'switched to ' + clientInput.branchName;
+        });
+    });
+}
+
+exports.deleteBranch = (params) => {
+    var clientInput = params;
+
+    var checkRes = queryCheck(clientInput , ['title' , 'branchName']);
+
+    if (checkRes !== true) {
+        throw new Error(checkRes + ' is Required');
+    }
+
+    var pathToRepo = defaultGitPath(clientInput.title);
+
+    return Git.Repository.open(pathToRepo)
+    .then(function(repo) {
+        return repo.getBranch(clientInput.branchName).then(function(reference) {
+            return Git.Branch.delete(reference);
         });
     });
 }

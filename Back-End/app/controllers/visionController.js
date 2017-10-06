@@ -8,7 +8,8 @@ var {
     createBranch,
     readFileContent,
     checkoutBranch,
-    getAllBranchList
+    getAllBranchList,
+    deleteBranch,
 } = require('./gitController');
 var {Formatter} = require('../lib');
 var parallel = require('async/parallel');
@@ -88,6 +89,19 @@ exports.checkoutBranch = function(req , res , next){
     });
 
     checkoutPromise.catch(function(err){
+        res.status(200).send(Formatter({data : err.message} , true));
+        return ;
+    });
+}
+
+exports.deleteBranch = function(req , res , next){
+    var responsePromise = deleteBranch(req.body);
+
+    responsePromise.then(function(message){
+        res.status(200).send(Formatter({data : 'lala'}));
+    });
+
+    responsePromise.catch(function(err){
         res.status(200).send(Formatter({data : err.message} , true));
         return ;
     });
