@@ -1,4 +1,4 @@
-var contributorModel = require('../models/contributorModel');
+var contributorModel = require('../models/userModel');
 var visionModel = require('../models/visionModel');
 var notifs = require('../constants/notificationMessages');
 var {Formatter} = require('../lib');

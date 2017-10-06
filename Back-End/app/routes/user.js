@@ -1,8 +1,8 @@
 var express = require('express');
 var contributors = express.Router();
-var contributorModel = require('../models/contributorModel');
+var contributorModel = require('../models/userModel');
 var base = require('../controllers/baseCrudController')(contributorModel);
-var {visionList , addVisionToContributor } = require('../controllers/contributorController');
+var {visionList , addVisionToContributor } = require('../controllers/userController');
 
 //General Crud Routing
 contributors.get('/', base.get);

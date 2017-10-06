@@ -8,18 +8,6 @@ exports.Formatter = function(msg , err = false){
     }
 }
 
-exports.ListFilter = function(query , filterParams = ['page' , 'pageSize']){
-    var filtered = {};
-    _.each(query , function(item , key){
-        if (filterParams.indexOf(key) < 0) {
-            //Non Existant Key - Valid Filter Parameter
-            filtered.key = item;
-        }
-    });
-
-    return filtered;
-}
-
 exports.nowDate = function(){
     return  Math.round(new Date().getTime()/1000);
 }

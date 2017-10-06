@@ -1,4 +1,4 @@
-var {Formatter , ListFilter} = require('../lib');
+var { Formatter } = require('../lib');
 var magicNumbers = require('../constants/magicNumbers');
 
 module.exports = function (model){
@@ -11,7 +11,7 @@ module.exports = function (model){
     }
     var query = Object.assign({} , defaults , reqQuery);
 
-    model.paginate(ListFilter(reqQuery), { page: query.page, limit: parseInt(query.pageSize) }, function(err, result) {
+    model.find(reqQuery, function(err, result) {
         if (err) return res.status(200).send(Formatter(err , true));
         res.status(200).send(Formatter({result}));
     });

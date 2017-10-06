@@ -8,6 +8,6 @@ var Vision = new Schema({
   privacy : {type:Array},
   avatar : {type : String},
   status : {type : String , enum: ['Active', 'Inactive'] , default : 'Active'},
-}, {timestamps: true}).plugin(require('mongoose-paginate'));
+}, {timestamps: true});
 
 module.exports = mongoose.model('cov-vision', Vision);

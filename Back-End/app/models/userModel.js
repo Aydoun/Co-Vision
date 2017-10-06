@@ -7,7 +7,7 @@ var Visions = new Schema({
 	status : {type : String , enul:['Active' , 'Inactive'] , default : 'Active'}
 } , {timestamps: true});
 
-module.exports = mongoose.model('cov-contributor', new Schema({
+module.exports = mongoose.model('cov-user', new Schema({
 	fullName: {type: String , required: true , unique : true},
   nickName: {type: String},
   addresses : {type : Array},
@@ -25,4 +25,4 @@ module.exports = mongoose.model('cov-contributor', new Schema({
   status : {type : String , enum: ['Active', 'Inactive', 'Banned'] , default : 'Active'},
   password : {type : String , required: true},
   salt : {type : String}
-} , {timestamps: true}).plugin(require('mongoose-paginate')));
+} , {timestamps: true}));
