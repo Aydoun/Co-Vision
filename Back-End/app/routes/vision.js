@@ -25,7 +25,7 @@ visions.post('/', createVision);
 visions.put('/:id', base.update);
 visions.delete('/:id', base.remove);
 
-visions.get('/:id/history', historyList);
+visions.get('/:id/log', historyList);
 visions.get('/:id/tree', historyTree);
 visions.get('/:id/status', visionStatus);
 visions.get('/:id/file', readFile);

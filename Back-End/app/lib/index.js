@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var path = require('path');
 var _ = require('lodash');
 
 exports.Formatter = function(msg , err = false){
@@ -30,4 +31,8 @@ exports.queryCheck = function(clientInput , requiredParams){
     });
 
     return _returned;
+}
+
+exports.defaultGitPath = (title) => {
+    return path.resolve(`D://git/Visions/${title}`);
 }

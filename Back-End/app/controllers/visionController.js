@@ -29,7 +29,6 @@ exports.historyTree = function(req , res , next){
         res.status(200).send(Formatter({data : err.message} , true));
         return ;
     });
-
 }
 
 exports.visionStatus = function(req , res , next){
@@ -38,7 +37,7 @@ exports.visionStatus = function(req , res , next){
     statusPromise.then(function(statuses){
         console.log(statuses , 'received ');
         res.status(200).send(Formatter(statuses));
-    })
+    });
 }
 
 exports.readFile = function(req , res , next){
@@ -96,7 +95,7 @@ exports.checkoutBranch = function(req , res , next){
 
 exports.createVision = function(req , res , next){
     parallel({
-      internal : function(callback) {
+      internal: function(callback) {
         var backPromise = initRepository(req.body);
 
         if (typeof backPromise == "string") {
@@ -107,7 +106,7 @@ exports.createVision = function(req , res , next){
             });
         }
       },
-      base : function(callback) {
+      base: function(callback) {
         var newVision = new visionModel(req.body);
 
       	newVision.save(function (err, data) {
