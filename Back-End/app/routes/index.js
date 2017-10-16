@@ -10,8 +10,8 @@ var channels = require('./channel');
 var feedbacks = require('./feedback');
 var tests = require('./test');
 
-AllRoutes.post('/login', LogIn);
-AllRoutes.post('/register', Register);
+// AllRoutes.post('/login', LogIn);
+// AllRoutes.post('/register', Register);
 
 // AllRoutes.use((req , res , next) => {
 //     const token = req.body.token || req.query.token || req.headers['x-access-token'];

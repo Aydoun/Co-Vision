@@ -16,7 +16,7 @@ var {
 } = require('../controllers/visionController');
 
 var {
-  addVisionToCreator,
+  addVisionToContributor,
 } = require('../controllers/userController');
 
 
@@ -26,7 +26,7 @@ visions.get('/findOne', base.getOne);
 visions.get('/count', base.count);
 visions.get('/:id', base.getById);
 visions.get('/:id/exists', base.exists);
-visions.post('/', createVision, addVisionToCreator);
+visions.post('/', createVision, addVisionToContributor);
 visions.put('/:id', base.update);
 visions.delete('/:id', base.remove);
 
