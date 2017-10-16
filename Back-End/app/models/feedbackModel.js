@@ -1,7 +1,14 @@
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+var mongooseSchema = mongoose.Schema;
 
-module.exports = mongoose.model('cov-feedback', new Schema({
+var Schema = new mongooseSchema({
   message : {type: String , required : true},
-  creator : {type : Schema.Types.ObjectId , required: true },
-}, {timestamps: true}));
+  creator : {type : mongooseSchema.Types.ObjectId , required: true },
+}, {timestamps: true});
+
+Schema.static('findByAuthor', function (author) {
+  return this.find({ author: author })
+    .exec();
+});
+
+module.exports = mongoose.model('cov-feedback', Schema);

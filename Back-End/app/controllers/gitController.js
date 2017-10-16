@@ -1,18 +1,19 @@
 var Git = require('../../nodegit');
 var path = require('path');
-var {queryCheck , Formatter, getPath} = require('../lib');
+var {queryCheck , Formatter, defaultGitPath} = require('../lib');
 var promisify = require("promisify-node");
 var fse = promisify(require("fs-extra"));
 
 exports.commit = function(inputs) {
       var clientInput = inputs;
-      var checkRes = queryCheck(clientInput , ['fileContent' , 'fileName' , 'repoName' , 'author' , 'authorMail' , 'message']);
+      var checkRes = queryCheck(clientInput , ['fileContent' , 'fileName' , 'title' , 'author' , 'authorMail' , 'message']);
+      //var checkRes = queryCheck(clientInput , ['fileContent' , 'title' , 'message' , 'fileName']);
 
       if (checkRes !== true) {
           throw new Error(checkRes + ' is Required');
       }
 
-      var pathToRepo = getPath(clientInput.repoName);
+      var pathToRepo = defaultGitPath(clientInput.title);
 
       return Git.Repository.open(pathToRepo)
       .then(function(repository){
@@ -26,13 +27,13 @@ exports.commit = function(inputs) {
 exports.history = function(res , params) {
     var clientInput = params;
 
-    var checkRes = queryCheck(clientInput , ['repoName']);
+    var checkRes = queryCheck(clientInput , ['title']);
 
     if (checkRes !== true) {
         res.status(200).send(Formatter(checkRes + ' is Required' , true))
     }
 
-    var pathToRepo = getPath(clientInput.repoName);
+    var pathToRepo = defaultGitPath(clientInput.title);
     var branchName = clientInput.branchName || 'master';
 
     Git.Repository.open(pathToRepo)
@@ -43,7 +44,6 @@ exports.history = function(res , params) {
         var history = firstCommit.history(Git.Revwalk.SORT.Time);
 
         history.on("commit", function(commit) {
-
         });
 
         history.on('end', function(commits) {
@@ -68,19 +68,19 @@ exports.history = function(res , params) {
 
 exports.initRepository = function(inputs){
     var clientInput = inputs;
-    var checkRes = queryCheck(clientInput , ['repoName' , 'description' , 'author' , 'authorMail']);
+    var checkRes = queryCheck(clientInput , ['title' , 'description' , 'author' , 'authorMail']);
 
     if (checkRes !== true) {
         throw new Error(checkRes + ' is Required');
     }
 
-    var pathToRepo = getPath(clientInput.repoName);
+    var pathToRepo = defaultGitPath(clientInput.title);
 
     return Git.Repository.init(pathToRepo, 0).then(function (repo) {
         var inputs = Object.assign({} , clientInput , {
             fileName : "Readme.md",
             fileContent : clientInput.description,
-            message : `${clientInput.repoName} Vision id Born!`,
+            message : clientInput.title + ' Vision is Born!',
             initalCommit : true
         });
 
@@ -94,14 +94,14 @@ exports.treeWalk = function(res , params){
     var clientInput = params;
     var sha;
 
-    var checkRes = queryCheck(clientInput , ['repoName']);
+    var checkRes = queryCheck(clientInput , ['title']);
 
     if (checkRes !== true) {
         throw new Error(checkRes + ' is Required');
     }
 
     var branchName = clientInput.branchName || 'master';
-    var pathToRepo = getPath(clientInput.repoName);
+    var pathToRepo = defaultGitPath(clientInput.title);
 
     return Git.Repository.open(pathToRepo)
     .then(function(repo) {
@@ -230,7 +230,7 @@ exports.returnTreeSummary = function(params , next){
 
 exports.status = function(params){
     var clientInput = params;
-    var pathToRepo = getPath(clientInput.repoName);
+    var pathToRepo = defaultGitPath(clientInput.title);
 
     return Git.Repository.open(pathToRepo)
     .then(function(repo) {
@@ -259,13 +259,13 @@ exports.status = function(params){
 exports.getAllBranchList = function(params){
     var clientInput = params;
     var _entry;
-    var checkRes = queryCheck(clientInput , ['repoName']);
+    var checkRes = queryCheck(clientInput , ['title']);
 
     if (checkRes !== true) {
         throw new Error(checkRes + ' is Required');
     }
 
-    var pathToRepo = getPath(clientInput.repoName);
+    var pathToRepo = defaultGitPath(clientInput.title);
 
     return Git.Repository.open(pathToRepo)
     .then(function(repo) {
@@ -274,9 +274,8 @@ exports.getAllBranchList = function(params){
         return arrayReference
         //.filter(function(elem){return elem.isBranch()})
         .map(function(reference){
-            var _name = reference.toString().split('/');
             return {
-                name : _name[_name.length - 1],
+                name : reference.toString().replace('refs/heads/', ''),
             }
         })
       });
@@ -286,13 +285,13 @@ exports.getAllBranchList = function(params){
 exports.createBranch = function(params){
     var clientInput = params;
 
-    var checkRes = queryCheck(clientInput , ['repoName' , 'branchName']);
+    var checkRes = queryCheck(clientInput , ['title' , 'branchName']);
 
     if (checkRes !== true) {
         throw new Error(checkRes + ' is Required');
     }
 
-    var pathToRepo = getPath(clientInput.repoName);
+    var pathToRepo = defaultGitPath(clientInput.title);
 
     return Git.Repository.open(pathToRepo)
     .then(function(repo) {
@@ -309,13 +308,13 @@ exports.createBranch = function(params){
 exports.checkoutBranch = function(params){
     var clientInput = params;
 
-    var checkRes = queryCheck(clientInput , ['repoName' , 'branchName']);
+    var checkRes = queryCheck(clientInput , ['title' , 'branchName']);
 
     if (checkRes !== true) {
         throw new Error(checkRes + ' is Required');
     }
 
-    var pathToRepo = getPath(clientInput.repoName);
+    var pathToRepo = defaultGitPath(clientInput.title);
 
     return Git.Repository.open(pathToRepo)
     .then(function(repo) {
@@ -325,16 +324,35 @@ exports.checkoutBranch = function(params){
     });
 }
 
-exports.readFileContent = function(params){
+exports.deleteBranch = (params) => {
     var clientInput = params;
-    var _entry;
-    var checkRes = queryCheck(clientInput , ['repoName' , 'fileName' , 'commitSha']);
+
+    var checkRes = queryCheck(clientInput , ['title' , 'branchName']);
 
     if (checkRes !== true) {
         throw new Error(checkRes + ' is Required');
     }
 
-    var pathToRepo = getPath(clientInput.repoName);
+    var pathToRepo = defaultGitPath(clientInput.title);
+
+    return Git.Repository.open(pathToRepo)
+    .then(function(repo) {
+        return repo.getBranch(clientInput.branchName).then(function(reference) {
+            return Git.Branch.delete(reference);
+        });
+    });
+}
+
+exports.readFileContent = function(params){
+    var clientInput = params;
+    var _entry;
+    var checkRes = queryCheck(clientInput , ['title' , 'fileName' , 'commitSha']);
+
+    if (checkRes !== true) {
+        throw new Error(checkRes + ' is Required');
+    }
+
+    var pathToRepo = defaultGitPath(clientInput.title);
 
     return Git.Repository.open(pathToRepo)
       .then(function(repo) {
@@ -356,7 +374,29 @@ exports.readFileContent = function(params){
 exports.gitTest = function(params){
     var clientInput = params;
     var _entry;
-    console.log('Hey');
+    var checkRes = queryCheck(clientInput , ['title']);
+
+    if (checkRes !== true) {
+        throw new Error(checkRes + ' is Required');
+    }
+
+    var pathToRepo = defaultGitPath(clientInput.title);
+
+    return Git.Repository.open(pathToRepo)
+    .then(function(repo) {
+      return repo.getReferences(3).then(function(arrayReference) {
+        // Use reference
+        var refs = [];
+        return arrayReference
+        .filter(function(elem){return elem.isBranch()})
+        .map(function(reference){
+            var _name = reference.toString().split('/');
+            return {
+                name : _name[_name.length - 1],
+            }
+        })
+      });
+    });
 }
 
 /*

@@ -9,7 +9,7 @@ var {
     readFileContent,
     checkoutBranch,
     getAllBranchList,
-    treeSummary
+    deleteBranch,
 } = require('./gitController');
 const { Formatter } = require('../lib');
 const parallel = require('async/parallel');
@@ -32,16 +32,12 @@ exports.historyTree = function(req , res , next){
     });
 }
 
-exports.visionSummary = function(req , res , next){
-    treeSummary(req.query , (result) => res.status(200).send(Formatter(result)));
-}
-
 exports.visionStatus = function(req , res , next){
     var statusPromise = status(req.query);
 
     statusPromise.then(function(statuses){
         res.status(200).send(Formatter(statuses));
-    })
+    });
 }
 
 exports.readFile = function(req , res , next){
@@ -96,9 +92,22 @@ exports.checkoutBranch = function(req , res , next){
     });
 }
 
+exports.deleteBranch = function(req , res , next){
+    var responsePromise = deleteBranch(req.body);
+
+    responsePromise.then(function(message){
+        res.status(200).send(Formatter({data : 'lala'}));
+    });
+
+    responsePromise.catch(function(err){
+        res.status(200).send(Formatter({data : err.message} , true));
+        return ;
+    });
+}
+
 exports.createVision = function(req , res , next){
-    series ({
-      internal : function(callback) {
+    parallel({
+      internal: function(callback) {
         var backPromise = initRepository(req.body);
 
         backPromise.then(function(commitsha) {
@@ -109,7 +118,7 @@ exports.createVision = function(req , res , next){
             callback(true , err);
         })
       },
-      base : function(callback) {
+      base: function(callback) {
         var newVision = new visionModel(req.body);
 
       	newVision.save(function (err, data) {

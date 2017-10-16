@@ -1,7 +1,5 @@
-const mongoose = require('mongoose');
-const jwt = require('jwt-simple');
-const path = require('path');
-const moment = require('moment');
+var mongoose = require('mongoose');
+var path = require('path');
 var _ = require('lodash');
 
 exports.Formatter = function(msg , err = false){
@@ -44,6 +42,6 @@ exports.queryCheck = function(clientInput , requiredParams){
     return _returned;
 }
 
-exports.getPath = function(fileName) {
-  return path.resolve("D://git/Visions/" + fileName);
+exports.defaultGitPath = (title) => {
+    return path.resolve(`D://git/Visions/${title}`);
 }
