@@ -2,10 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Link} from 'react-router';
-import {Icon , Card , Input, Layout , Alert } from 'antd';
-import SignInForm from './registerForms/signIn';
-import SignUpForm from './registerForms/signUp';
-import './index.css';
 
 import { preLogin , preRegister } from 'actions/userAction';
 
@@ -25,20 +21,7 @@ class loginPage extends React.Component {
 
     return (
       <Layout>
-        <Header style={{ width: '100%' }}>
-          <div className="logo" />
-          <h3 style={{color:'white'}}>Welcome To Co-Vision , Togetherness!</h3>
-        </Header>
-        <Content style={{ marginTop: 32 }}>
-          <div className="login-wrapper">
-              <Card title="Welcome To Co-Vision">
-                { !errorObj.status ? <div><Alert message={errorObj.errorMessage} type="error" showIcon /><br/></div> : null }
-                <SignUpForm
-                    registerUser={(values) => this.props.preRegister(values)}
-                />
-              </Card>
-          </div>
-        </Content>
+        <p>Register</p>
       </Layout>
     )
   }

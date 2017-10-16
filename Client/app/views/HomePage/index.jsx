@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
-import { Button } from 'semantic-ui-react';
 
 export class HomePage extends React.PureComponent {
 

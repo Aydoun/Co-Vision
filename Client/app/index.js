@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {Router, Route , applyRouterMiddleware} from 'react-router';
-import { useScroll } from 'react-router-scroll';
 import 'antd/dist/antd.min.css';
 import store , {history} from './store';
 import allRoutes from './routes';
@@ -14,7 +13,7 @@ window.config = config;
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router render={applyRouterMiddleware(useScroll())} history={history}>
+    <Router history={history}>
       {allRoutes()}
     </Router>
   </Provider>,

@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { Link } from 'react-router';
-import { Header, Button, Popup, Grid } from 'semantic-ui-react'
 import AppHeader from 'components/Header';
 import Footer from 'components/Footer';
 import SideBarContent from 'components/SideBar';
