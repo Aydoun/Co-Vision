@@ -1,38 +1,31 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {BackTop} from 'antd';
-
-import Header from 'components/Header';
+import { Link } from 'react-router';
+import AppHeader from 'components/Header';
 import Footer from 'components/Footer';
-import SideBar from 'components/SideBar';
+import SideBarContent from 'components/SideBar';
 
 import './index.css';
 
-class App extends React.Component {
+
+class App extends Component {
     constructor(props){
        super(props);
     }
 
     render(){
-        return (
-          <div >
-            <BackTop />
-            <Header />
-            <div className="app-general__wrapper">
-              <div className="side-bar__wrapper">
-                  <SideBar />
-              </div>
-              <div className="">
-                <div className="container main-content__wrapper">
-                    {React.Children.toArray(this.props.children)}
-                </div>
-              </div>
-            </div>
-            <div style={{clear:'both'}}></div>
-            <Footer />
+      const { menuContent } = this.props;
+      const text = <span>Title</span>;
+
+      return (
+        <div>
+          <AppHeader />
+          <div className="app-general__wrapper" style={{ padding: '0px 8px 0px 70px' }}>
+            {this.props.children}
           </div>
-        )
+        </div>
+    );
     }
 }
 
@@ -47,6 +40,7 @@ function mapDispatchToProps(dispatch){
 function mapStateToProps(state) {
   console.log(state , 'App State');
   return {
+    menuContent : state.app.menuContent
   };
 }
 

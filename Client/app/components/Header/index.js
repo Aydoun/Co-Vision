@@ -1,22 +1,12 @@
-import React from 'react';
-import { Link } from 'react-router';
-import {Button} from 'antd';
+import React, { PureComponent } from 'react';
+import { Link, browserHistory } from 'react-router';
 import './index.css';
 
-class Header extends React.Component {
-  render() {
+export default class Header extends PureComponent {
 
+  render() {
     return (
-      <div className="header-wrapper">
-        <div className="header-content">
-            <Link to="/" className="app-header-logo">
-                <img src="http://tse2.mm.bing.net/th?id=OIP.73gq0A_pbB-ZNayGmF-68QEsCN&pid=15.1" />
-            </Link>
-            <Link className="right" to="/vision/create"><Button icon="plus" >New Vision</Button></Link>
-        </div>
-      </div>
+      <div></div>
     );
   }
 }
-
-export default Header;

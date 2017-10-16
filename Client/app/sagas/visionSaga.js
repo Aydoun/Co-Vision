@@ -6,10 +6,12 @@ import {
   SAVE_CONTRIBUTION_LOADING ,
   DUPLICATE_VISION_ACTION,
   VISION_HISTORY_LOADING,
+  VISION_STAT_LOADING,
   BRANCH_LIST_LOADING,
   FILE_READ_LOADING,
-  VISION_FS_LOADING
+  VISION_FS_LOADING,
 } from 'constants/visionConstants';
+
 
 import {
         visionSaved,
@@ -18,7 +20,8 @@ import {
         showHistoryList,
         showContentList,
         showBranchList,
-        fileContent
+        fileContent,
+        getVisionStats,
 } from 'actions/visionAction';
 
 import request from 'utils/request';
@@ -61,12 +64,12 @@ function* createContribution(returnedData) {
 }
 
 function* listVision(returnedData) {
-  const requestURL = config.apiBase + '/vision';
+  const requestURL = `${config.apiBase}/user/${returnedData.playload._id}/vision`;
 
   const GetOptions = {
     method: 'GET',
     url: requestURL,
-    params: returnedData.playload
+    params: {}
   }
 
   try {
@@ -151,6 +154,26 @@ function* listFileContent(returnedData) {
   }
 }
 
+//liststats
+
+function* liststats(returnedData) {
+  const requestURL = `${config.apiBase}/vision/${returnedData.playload.id}/summary`;
+
+  const GetOptions = {
+    method: 'GET',
+    url: requestURL,
+    params: returnedData.playload
+  }
+
+  try {
+    var res = yield call(request, GetOptions);
+    yield put(getVisionStats(res));
+  } catch (err) {
+    yield put(reportError(err))
+    yield put(cancelError())
+  }
+}
+
 function* _saveVisionSaga() {
     yield takeLatest(VISION_SAVE_LOADING, createVision);
 }
@@ -179,6 +202,10 @@ function* _visionContent() {
     yield takeLatest(VISION_FS_LOADING, listContent);
 }
 
+function* _visionStat() {
+    yield takeLatest(VISION_STAT_LOADING, liststats);
+}
+
 export default [
   fork(_saveVisionSaga),
   fork(_listVisionSaga),
@@ -186,5 +213,6 @@ export default [
   fork(_visionContent),
   fork(_branchList),
   fork(_readFile),
-  fork(_saveContribution)
+  fork(_saveContribution),
+  fork(_visionStat),
 ]

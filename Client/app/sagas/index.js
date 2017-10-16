@@ -1,6 +1,5 @@
-import { fork } from 'redux-saga/effects';
-
 import vision from './visionSaga';
+import user from './userSaga';
 
 /**
  * rootSaga
@@ -8,6 +7,7 @@ import vision from './visionSaga';
 
 export default function* root() {
     yield [
-        vision
+        vision,
+        user
     ]
 }

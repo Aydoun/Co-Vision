@@ -1,0 +1,2 @@
+
+export const APP_MENU_CHANGE = 'APP_MENU_CHANGE';

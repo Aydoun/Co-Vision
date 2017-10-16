@@ -8,11 +8,12 @@ var {
     createBranch,
     readFileContent,
     checkoutBranch,
-    getAllBranchList
+    getAllBranchList,
+    treeSummary
 } = require('./gitController');
-var {Formatter} = require('../lib');
-var parallel = require('async/parallel');
-
+const { Formatter } = require('../lib');
+const parallel = require('async/parallel');
+const series = require('async/series');
 
 exports.historyList = function (req, res, next) {
     history(res , req.query);
@@ -29,14 +30,16 @@ exports.historyTree = function(req , res , next){
         res.status(200).send(Formatter({data : err.message} , true));
         return ;
     });
+}
 
+exports.visionSummary = function(req , res , next){
+    treeSummary(req.query , (result) => res.status(200).send(Formatter(result)));
 }
 
 exports.visionStatus = function(req , res , next){
     var statusPromise = status(req.query);
 
     statusPromise.then(function(statuses){
-        console.log(statuses , 'received ');
         res.status(200).send(Formatter(statuses));
     })
 }
@@ -83,7 +86,6 @@ exports.createBranch = function(req , res , next){
 
 exports.checkoutBranch = function(req , res , next){
     var checkoutPromise = checkoutBranch(req.body);
-
     checkoutPromise.then(function(message){
         res.status(200).send(Formatter({data : message}));
     });
@@ -95,17 +97,17 @@ exports.checkoutBranch = function(req , res , next){
 }
 
 exports.createVision = function(req , res , next){
-    parallel({
+    series ({
       internal : function(callback) {
         var backPromise = initRepository(req.body);
 
-        if (typeof backPromise == "string") {
-            callback(true , backPromise)
-        } else {
-            backPromise.then(function(commitId){
-                callback(null , commitId);
-            });
-        }
+        backPromise.then(function(commitsha) {
+            callback(null , commitsha);
+        });
+
+        backPromise.catch(function(err){
+            callback(true , err);
+        })
       },
       base : function(callback) {
         var newVision = new visionModel(req.body);
@@ -114,35 +116,29 @@ exports.createVision = function(req , res , next){
       		if (err) {
               callback(true , err);
           } else {
+              req.addResults = data;
               callback(null , data);
           }
       	});
       }
     },
     function(err, results) {
-        res.status(200).send(Formatter(results));
+        if (err) {
+          res.status(200).send(Formatter(results , true));
+        } else {
+          next();
+        }
     });
 }
 
 exports.contribute = function(req , res , next){
-    parallel({
-      internal : function(callback) {
-        var backPromise = commit(req.body);
+    var backPromise = commit(req.body);
 
-        if (typeof backPromise == "string") {
-            callback(true , backPromise)
-        } else {
-            backPromise.then(function(commitId){
-                callback(null , commitId);
-            });
-        }
-      },
-      base : function(callback) {
-        //Empty Database Query
-        callback(null , {});
-      }
-    },
-    function(err, results) {
-        res.status(200).send(Formatter(results));
+    backPromise.then(function(commitsha){
+          res.status(200).send(Formatter(commitsha));
     });
+
+    backPromise.catch(function(err){
+        res.status(200).send(Formatter(err , true));
+    })
 }

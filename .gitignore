@@ -1,8 +1,11 @@
 .idea/
 *.log
-node_modules/
-swagger-ui/
-nodegit/
-dist/
-out/
-
+Client/node_modules/
+Back-End/node_modules/
+Back-End/swagger-ui
+Back-End/Public
+Back-End/nodegit
+Back-End/out
+Back-End/dist
+Client/public/js/
+Client/public/css/

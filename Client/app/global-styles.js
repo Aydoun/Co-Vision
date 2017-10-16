@@ -1,6 +1,5 @@
 import { injectGlobal } from 'styled-components';
 
-/* eslint no-unused-expressions: 0 */
 injectGlobal`
   html,
   body {
@@ -10,9 +9,7 @@ injectGlobal`
 
   body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  }
-  a{
-    text-decoration:none;
+    background:#ccc;
   }
 
   body.fontLoaded {
@@ -21,19 +18,13 @@ injectGlobal`
 
   a {
     text-decoration: none;
-    color: #41addd;
     font-size:14px;
-    opacity: 0.7;
   }
 
-  a:hover{
-      opacity: 1;
-  }
-
-  #app {
-    background-color: #fafafa;
-    min-height: 100%;
-    min-width: 100%;
+  ul , li {
+    list-style: none;
+    margin: 0;
+    padding:0;
   }
 
   p,
@@ -41,6 +32,7 @@ injectGlobal`
     font-family: Georgia, Times, 'Times New Roman', serif;
     line-height: 1.5em;
   }
+
   .left {
       float: left;
   }
@@ -60,9 +52,7 @@ injectGlobal`
     padding:4px;
   }
 
-  ul , li {
-    list-style: none;
-    margin: 0;
-    padding:0;
+  .ant-popover-inner-content{
+    background:#f9f9f9;
   }
 `;

@@ -1,25 +1,18 @@
 var Git = require('../../nodegit');
 var path = require('path');
-var {queryCheck , Formatter} = require('../lib');
+var {queryCheck , Formatter, getPath} = require('../lib');
 var promisify = require("promisify-node");
 var fse = promisify(require("fs-extra"));
 
 exports.commit = function(inputs) {
       var clientInput = inputs;
-      // var checkRes = queryCheck(clientInput , ['fileContent' , 'fileName' , 'repoName' , 'author' , 'authorMail' , 'message']);
-      var checkRes = queryCheck(clientInput , ['fileContent' , 'repoName' , 'message' , 'fileName']);
+      var checkRes = queryCheck(clientInput , ['fileContent' , 'fileName' , 'repoName' , 'author' , 'authorMail' , 'message']);
 
       if (checkRes !== true) {
-          return checkRes + ' is Required';
+          throw new Error(checkRes + ' is Required');
       }
 
-      clientInput = Object.assign({} , {
-          author : 'Amino',
-          authorMail : 'aydoun@qq.com',
-      } , clientInput)
-
-
-      var pathToRepo = path.resolve("C://" + clientInput.repoName);
+      var pathToRepo = getPath(clientInput.repoName);
 
       return Git.Repository.open(pathToRepo)
       .then(function(repository){
@@ -39,7 +32,7 @@ exports.history = function(res , params) {
         res.status(200).send(Formatter(checkRes + ' is Required' , true))
     }
 
-    var pathToRepo = path.resolve("C://" + clientInput.repoName);
+    var pathToRepo = getPath(clientInput.repoName);
     var branchName = clientInput.branchName || 'master';
 
     Git.Repository.open(pathToRepo)
@@ -75,29 +68,23 @@ exports.history = function(res , params) {
 
 exports.initRepository = function(inputs){
     var clientInput = inputs;
-    //var checkRes = queryCheck(clientInput , ['repoName' , 'description' , 'author' , 'authorMail']);
-    var checkRes = queryCheck(clientInput , ['repoName' , 'description']);
+    var checkRes = queryCheck(clientInput , ['repoName' , 'description' , 'author' , 'authorMail']);
 
     if (checkRes !== true) {
-        return checkRes + ' is Required';
+        throw new Error(checkRes + ' is Required');
     }
 
-    clientInput  = Object.assign({} , {
-        repoName : 'testRepo',
-        description : 'description',
-        author : 'Amino',
-        authorMail : 'aydoun@qq.com',
-    } , clientInput);
-
-    var pathToRepo = path.resolve("C://" + clientInput.repoName);
+    var pathToRepo = getPath(clientInput.repoName);
 
     return Git.Repository.init(pathToRepo, 0).then(function (repo) {
         var inputs = Object.assign({} , clientInput , {
             fileName : "Readme.md",
             fileContent : clientInput.description,
-            message : clientInput.repoName + ' Vision is Born!',
+            message : `${clientInput.repoName} Vision id Born!`,
             initalCommit : true
         });
+
+        console.log(inputs);
 
         return registerCommit(inputs , repo);
     });
@@ -114,7 +101,7 @@ exports.treeWalk = function(res , params){
     }
 
     var branchName = clientInput.branchName || 'master';
-    var pathToRepo = path.resolve("C://" + clientInput.repoName);
+    var pathToRepo = getPath(clientInput.repoName);
 
     return Git.Repository.open(pathToRepo)
     .then(function(repo) {
@@ -142,9 +129,108 @@ exports.treeWalk = function(res , params){
     });
 }
 
+//treeSummary
+
+exports.treeSummary = function(params , next){
+  var clientInput = params;
+
+  var checkRes = queryCheck(clientInput , ['repoName']);
+
+  if (checkRes !== true) {
+      throw new Error(checkRes + ' is Required');
+  }
+
+  var pathToRepo = getPath(clientInput.repoName);
+  var branchName = clientInput.branchName || 'master';
+
+  Git.Repository.open(pathToRepo)
+  .then(function(repository) {
+      return repository.getBranchCommit(branchName);
+  })
+  .then(function(firstCommit){
+      var history = firstCommit.history();
+
+      var contributors = {};
+
+      history.on("commit", function(commit) {
+          var author = commit.author();
+          var email = author.email();
+          var name = author.name();
+
+          if (contributors.hasOwnProperty(email)) {
+            //if contributor already counted in
+            contributors[email] = contributors[email] + 1
+          } else {
+            //save the first comer
+            contributors[email] = 1
+          }
+      });
+
+      history.on('end', function(commits) {
+        var result = {
+            totalContributions : commits.length,
+            totalContributors : Object.keys(contributors).length,
+            contributorsList : contributors
+        }
+        next(result);
+      });
+
+      history.start();
+  })
+  .catch(function(err){
+      console.log(err , "Catched Error");
+  });
+}
+
+exports.returnTreeSummary = function(params , next){
+  var clientInput = params;
+
+  var pathToRepo = getPath(clientInput.repoName);
+  var branchName = clientInput.branchName || 'master';
+
+  Git.Repository.open(pathToRepo)
+  .then(function(repository) {
+      return repository.getBranchCommit(branchName);
+  })
+  .then(function(firstCommit){
+      var history = firstCommit.history();
+
+      var contributors = {};
+
+      history.on("commit", function(commit) {
+          var author = commit.author();
+          var email = author.email();
+          var name = author.name();
+
+          if (contributors.hasOwnProperty(email)) {
+            //if contributor already counted in
+            contributors[email] = contributors[email] + 1
+          } else {
+            //save the first comer
+            contributors[email] = 1
+          }
+      });
+
+      history.on('end', function(commits) {
+        var result = {
+            totalContributions : commits.length,
+            totalContributors : Object.keys(contributors).length,
+            contributorsList : contributors
+        }
+
+        next(result);
+      });
+
+      history.start();
+  })
+  .catch(function(err){
+      console.log(err , "Catched Error");
+  });
+}
+
 exports.status = function(params){
     var clientInput = params;
-    var pathToRepo = path.resolve("C://" + clientInput.repoName);
+    var pathToRepo = getPath(clientInput.repoName);
 
     return Git.Repository.open(pathToRepo)
     .then(function(repo) {
@@ -179,7 +265,7 @@ exports.getAllBranchList = function(params){
         throw new Error(checkRes + ' is Required');
     }
 
-    var pathToRepo = path.resolve("C://" + clientInput.repoName);
+    var pathToRepo = getPath(clientInput.repoName);
 
     return Git.Repository.open(pathToRepo)
     .then(function(repo) {
@@ -206,7 +292,7 @@ exports.createBranch = function(params){
         throw new Error(checkRes + ' is Required');
     }
 
-    var pathToRepo = path.resolve("C://" + clientInput.repoName);
+    var pathToRepo = getPath(clientInput.repoName);
 
     return Git.Repository.open(pathToRepo)
     .then(function(repo) {
@@ -229,7 +315,7 @@ exports.checkoutBranch = function(params){
         throw new Error(checkRes + ' is Required');
     }
 
-    var pathToRepo = path.resolve("C://" + clientInput.repoName);
+    var pathToRepo = getPath(clientInput.repoName);
 
     return Git.Repository.open(pathToRepo)
     .then(function(repo) {
@@ -248,7 +334,7 @@ exports.readFileContent = function(params){
         throw new Error(checkRes + ' is Required');
     }
 
-    var pathToRepo = path.resolve("C://" + clientInput.repoName);
+    var pathToRepo = getPath(clientInput.repoName);
 
     return Git.Repository.open(pathToRepo)
       .then(function(repo) {
@@ -270,42 +356,35 @@ exports.readFileContent = function(params){
 exports.gitTest = function(params){
     var clientInput = params;
     var _entry;
-    var checkRes = queryCheck(clientInput , ['repoName']);
-
-    if (checkRes !== true) {
-        throw new Error(checkRes + ' is Required');
-    }
-
-    var pathToRepo = path.resolve("C://" + clientInput.repoName);
-
-    return Git.Repository.open(pathToRepo)
-    .then(function(repo) {
-      return repo.getReferences(3).then(function(arrayReference) {
-        // Use reference
-        var refs = [];
-        return arrayReference
-        .filter(function(elem){return elem.isBranch()})
-        .map(function(reference){
-            var _name = reference.toString().split('/');
-            return {
-                name : _name[_name.length - 1],
-            }
-        })
-      });
-    });
+    console.log('Hey');
 }
 
 /*
   Helper Functions
 
 */
+
+function testify(){
+    return path.resolve('D://git/Visions/Cancer');
+}
+
+function addFile(pathToFile, fileName, fileContent){
+    if (typeof fileContent !== 'undefined') {
+      //File
+      return fse.writeFile(path.resolve(pathToFile));
+    } else {
+      //Folder
+      return fse.ensureDir(path.resolve(pathToFile));
+    }
+}
+
+
 function registerCommit(inputs , repo) {
         var fileName = inputs.fileName;
         var fileContent = inputs.fileContent;
         var index;
         var oid;
-
-return fse.writeFile(path.join(repo.workdir(), fileName), fileContent)
+ return fse.writeFile(path.join(repo.workdir(), fileName), fileContent)
         .then(function() {
             return repo.refreshIndex();
         })
@@ -327,13 +406,12 @@ return fse.writeFile(path.join(repo.workdir(), fileName), fileContent)
                 return Git.Reference.nameToId(repo, "HEAD");
             }
         })
-        .then(function(head){
-            if (!inputs.initalCommit) {
-                return repo.getCommit(head);
-            }
-        })
+        // .then(function(head){
+        //     if (!inputs.initalCommit) {
+        //         return repo.getCommit(head);
+        //     }
+        // })
         .then(function(parent){
-            console.log(inputs , 'inputs');
             var _parent = inputs.initalCommit ? [] : [parent];
             var now = Date.now() / 1000;
             var author = Git.Signature.create(inputs.author,
@@ -344,10 +422,6 @@ return fse.writeFile(path.join(repo.workdir(), fileName), fileContent)
             return repo.createCommit("HEAD", author, committer, inputs.message, oid, _parent);
         })
         .then(function(commitId){
-            console.log(commitId.tostrS());
             return commitId.tostrS();
-        })
-        .catch(function(err){
-            console.log(err);
-        })
+        });
 }

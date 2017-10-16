@@ -1,39 +1,29 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {browserHistory} from 'react-router';
 import {Form , Button , Input , Card} from 'antd';
 
 const FormItem = Form.Item;
 
 import { prepareSaving } from 'actions/visionAction';
+import {getAllCookies} from 'utils';
 
 class addVision extends React.Component {
 
   handleSubmit(){
-
     this.props.form.validateFields((err, fieldsValue) => {
-      if (err) {
-        return;
+      if (!err) {
+        var params = Object.assign({} , {
+            repoName : fieldsValue.title,
+            author : localStorage.fullName || 'Amino',
+            authorMail : localStorage.userEmail,
+            creator : localStorage.userId
+        } , fieldsValue);
+
+        this.props.prepareSaving(params);
       }
-      console.log('Received values of form: ', fieldsValue);
-
-
     });
-      // var visionName = document.getElementById('visionName').value;
-      // var description = document.getElementById('visonDesc').value;
-      //
-      // if (!(visionName && description)) {
-      //     console.log('Form Not Completely Filled');
-      //     return ;
-      // }
-      //
-      // var params = {
-      //     repoName : visionName,
-      //     title : visionName,
-      //     description : description
-      // }
-      //
-      // this.props.prepareSaving(params);
   }
 
   render() {
@@ -48,7 +38,7 @@ class addVision extends React.Component {
           <FormItem
             label="Vision Name"
           >
-            {getFieldDecorator('visionName', config)(
+            {getFieldDecorator('title', config)(
               <Input placeholder="Cure For Cancer..." />
             )}
           </FormItem>
@@ -60,7 +50,8 @@ class addVision extends React.Component {
             )}
           </FormItem>
           <FormItem >
-            <Button type="primary" icon="save" onClick={this.handleSubmit.bind(this)}>Create</Button>
+            <Button type="primary" icon="save" onClick={this.handleSubmit.bind(this)}>Create</Button>&nbsp;&nbsp;&nbsp;
+            <Button icon="close" onClick={() => browserHistory.goBack()}>Cancel</Button>
           </FormItem>
         </Form>
       </Card>

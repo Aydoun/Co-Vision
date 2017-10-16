@@ -2,27 +2,43 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import find from 'lodash/find';
-import {Input , Spin , message} from 'antd';
+import {Form , Button , Card , Input , Spin , message} from 'antd';
+import { fileContent , preRead , preContribution } from 'actions/visionAction';
+import {getAllCookies} from 'utils';
 
-import { fileContent , preRead } from 'actions/visionAction';
+const FormItem = Form.Item;
 
 class VisionLab extends React.Component {
+  handleSubmit(){
+      this.props.form.validateFields((err, fieldsValue) => {
+          if (err) {
+            return;
+          }
+          const {fileName , visionId} = this.props.location.query;
+          var FoundVision = find(this.props.visionList , ['_id' , visionId]);
 
-  constructor(props){
-      super(props);
+          if (FoundVision) {
+            var params = Object.assign({} , fieldsValue , {
+                fileName : fileName,
+                id :  visionId,
+                repoName : FoundVision.title,
+                author : localStorage.userfullName,
+                authorMail : localStorage.userEmail
+            });
 
-      this.state = {
-          value : null
-      }
+            console.log(params , 'params');
+
+            this.props.preContribution(params);
+          } else {
+            message.error('vision Not Found');
+          }
+      });
   }
 
   componentWillReceiveProps(nextProps) {
-      // console.log(this.props.error , 'this');
-      // console.log(nextProps.error , 'next');
       if (!nextProps.error.status && this.props.error.errorMessage != nextProps.error.errorMessage) {
-          message.error(nextProps.error.errorMessage)
+          message.error(nextProps.error.errorMessage);
       }
-
   }
 
   componentDidMount(){
@@ -35,28 +51,50 @@ class VisionLab extends React.Component {
             commitSha : sha,
             fileName : fileName,
             repoName : FoundVision.title
-        })
+        });
       }
-
   }
 
   render() {
-    const {ContentString} = this.props;
-    const {value} = this.state;
+      const {ContentString} = this.props;
+      const { getFieldDecorator } = this.props.form;
+      const {fileName} = this.props.location.query;
+      const config = {
+        rules: [{ type: 'string', required: true, message: 'Required Field' }],
+      };
 
-    return (
-      <div>
-        <span>{ContentString}</span>
-        <Input type="textarea" rows={8} value={value == null ? ContentString : value} onChange={(e) => this.setState({value : e.target.value})} >
-            {ContentString}
-        </Input>
-      </div>
-    )
-  }
+      return (
+        <div>
+          <Card >
+            <Form layout="vertical">
+              <FormItem
+                label={(fileName || '') + ' Content'}
+              >
+                {getFieldDecorator('fileContent', Object.assign({} , config , {
+                    initialValue : ContentString
+                }))(
+                  <Input type="textarea" rows={8} />
+                )}
+              </FormItem>
+              <FormItem
+                label="Contribution Comment"
+              >
+                {getFieldDecorator('message', config)(
+                  <Input />
+                )}
+              </FormItem>
+              <FormItem >
+                <Button type="primary" icon="save" onClick={this.handleSubmit.bind(this)}>Conribute</Button>
+              </FormItem>
+            </Form>
+          </Card>
+        </div>
+      );
+    }
 }
 
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({fileContent , preRead} , dispatch)
+  return bindActionCreators({fileContent , preRead , preContribution} , dispatch)
 }
 
 function mapStateToProps(state) {
@@ -67,4 +105,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(VisionLab);
+export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(VisionLab));
