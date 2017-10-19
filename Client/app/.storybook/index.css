@@ -5,6 +5,31 @@ hr {
     width: 65%;
 }
 
+.global-right-margin {
+    margin-right:8px;
+}
+
+.global-left-margin {
+    margin-left:8px;
+}
+
+div.vision-desc {
+    font-size: 16px;
+    font-family: monospace;
+    margin-bottom: 8px;
+}
+
 h4.filter-label {
     margin-bottom: 8px;
+}
+
+.relative-content {
+    position: relative;
+}
+
+div.card-sub-info{
+    position: absolute;
+    bottom: 4px;
+    right: 32px;
+    padding: 2px;
 }

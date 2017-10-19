@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import { Link, browserHistory } from 'react-router';
+import React, { PureComponent } from 'react';
 import { Card, Input, Radio, Slider,Row, Col, Icon } from 'antd';
 
 const RadioGroup = Radio.Group;
@@ -14,12 +13,11 @@ const CardTitle = (
   </div>
 );
 
-export default class Filter extends Component {
+export default class Filter extends PureComponent {
   render() {
     return (
-      <div style={{margin:10}}>
-        <Row>
-          <Col span={8} xs={8}>
+      <Row>
+          <Col >
             <Card
             title={CardTitle}
             noHovering
@@ -38,7 +36,7 @@ export default class Filter extends Component {
               </Row>
               <hr/>
               <Row>
-                <Col  size="small">
+                <Col span={24} size="small">
                   <h4 className="filter-label">Active Contributors:</h4>
                   <RadioGroup defaultValue="a">
                     <RadioButton value="a">10+</RadioButton>
@@ -50,8 +48,7 @@ export default class Filter extends Component {
               </Row>
             </Card>
           </Col>
-        </Row>
-      </div> 
+        </Row> 
     );
   }
 }
