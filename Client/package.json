@@ -17,6 +17,7 @@
     "lint": "npm run lint:js",
     "lint:eslint": "eslint --ignore-path .gitignore",
     "lint:js": "npm run lint:eslint -- . ",
+    "storybook": "start-storybook -p 9001 -c app/.storybook",
     "lint:staged": "lint-staged"
   },
   "lint-staged": {

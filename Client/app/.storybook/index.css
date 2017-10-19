@@ -1,0 +1,10 @@
+hr {
+    border: 0;
+    border-bottom: 1px solid #ffbf00;
+    margin: 20px 0px;
+    width: 65%;
+}
+
+h4.filter-label {
+    margin-bottom: 8px;
+}
