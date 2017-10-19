@@ -17,6 +17,7 @@
     "lint": "npm run lint:js",
     "lint:eslint": "eslint --ignore-path .gitignore",
     "lint:js": "npm run lint:eslint -- . ",
+    "storybook": "start-storybook -p 9001 -c app/.storybook",
     "lint:staged": "lint-staged"
   },
   "lint-staged": {
@@ -92,6 +93,7 @@
     "webpack-hot-middleware": "2.15.0"
   },
   "devDependencies": {
+    "@storybook/react": "^3.2.12",
     "axios": "^0.15.3",
     "babel-cli": "6.18.0",
     "babel-core": "6.21.0",

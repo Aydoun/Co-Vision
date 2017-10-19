@@ -1,7 +1,6 @@
 import React , {PropTypes} from 'react';
 import { Link } from 'react-router';
 import {Icon , Button , Popover} from 'antd';
-import cookie from 'js-cookie';
 import './index.css';
 
 class DynamicMenu extends React.PureComponent {
@@ -15,7 +14,9 @@ class DynamicMenu extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps){
-    const newContent = nextProps.content.map((item , index) => {
+    const contentProps = Array.isArray(nextProps.content) ? nextProps.content : [];
+    const newContent = contentProps.map((item , index) => {
+        console.log(item, 'item')
         switch(item.type) {
             case 'link':
               return <Link key={index} to={item.href}><Button>{item.text}</Button></Link>
@@ -24,7 +25,9 @@ class DynamicMenu extends React.PureComponent {
               return <Button key={index} onClick={item.onClick}>{item.text}</Button>
               break;
             default:
-              return null;
+              return (
+                <p>{item.text}</p>
+              );
         }
     });
 
