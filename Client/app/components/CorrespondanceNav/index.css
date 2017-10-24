@@ -1,0 +1,29 @@
+.msg-nav-wrapper {
+    position: relative;
+    display: table;
+    padding-left: 12px;
+}
+
+.msg-facepile-grid {
+    width: 58px;
+    height: 58px;
+    position: relative;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.msg-conversation-card__content {
+    width: 100%;
+    height: 92px;
+    padding: 12px 8px;
+    display: table-cell;
+    vertical-align: top;
+}
+
+.msg-facepile-grid > img {
+    border: 50%;
+    height: 56px;
+    width: 56px;
+    border: 1px solid transparent;
+    border-radius: 49.9%;
+}

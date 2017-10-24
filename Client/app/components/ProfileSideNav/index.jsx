@@ -33,7 +33,7 @@ export default class extends Component {
                         {
                             contact.map((ct, index) => {
                                 return (
-                                    <p>
+                                    <p key={ct.type}>
                                         <Icon type={ct.type} />
                                         <span className="global-left-margin">{ct.value}</span>
                                     </p>

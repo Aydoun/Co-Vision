@@ -1,11 +1,21 @@
 .header-wrapper {
-  background: #222;
+  background: rgba(0,0,0,.65);
   height: 48px;
   padding: 9px 22px;
+  position:relative;
 }
 
-.header-content {
-  margin-top: 8px;
+.header-right-menu {
+  position: absolute;
+  max-width: 30%;
+  top: 20%;
+  right: 10px;
+}
+
+.header-right-content {
+  width:1128px;
+  margin:auto;
+  display:block;
 }
 
 .profile-link {
@@ -14,21 +24,4 @@
   margin-left:1px solid #ccc;
   padding-left:8px;
   color: #ffcf40
-}
-
-.header-content a {
-    text-decoration: none;
-    margin-left: 10px;
-    color: black;
-}
-
-span.header-username__display {
-    color: #108eec;
-    margin-left: 8px;
-    opacity: 0.7;
-    cursor: pointer;
-}
-
-span.header-username__display:hover{
-  opacity: 1;
 }

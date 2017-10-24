@@ -1,6 +1,5 @@
-.app-general__wrapper {
-   height:100%;
-   margin-top:72px;
-   background: white;
-   padding: 20px 8px 0px 70px;
+.app-top__wrapper {
+   width: 1128px;
+   margin: 32px auto;
+   position: relative;
 }

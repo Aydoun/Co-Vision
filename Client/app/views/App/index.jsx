@@ -20,7 +20,7 @@ class App extends Component {
       return (
         <div>
           <AppHeader />
-          <div className="app-general__wrapper" style={{ padding: '0px 8px 0px 70px' }}>
+          <div className="app-top__wrapper">
             {this.props.children}
           </div>
         </div>
