@@ -1,7 +1,5 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-
-const buildPath = path.resolve('build');
+const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
 module.exports = {
   entry: './app/index',
@@ -10,6 +8,7 @@ module.exports = {
     filename: 'bundle.js',
     publicPath: '/dist',
   },
+  watch: true,
   module: {
     rules: [
       {
@@ -48,5 +47,12 @@ module.exports = {
     modules : [path.resolve(__dirname, 'app'), 'node_modules']
   },
   plugins: [
+    new BrowserSyncPlugin({
+      // browse to http://localhost:3000/ during development, 
+      // ./public directory is being served 
+      host: 'localhost',
+      port: 3000,
+      proxy: 'http://localhost:3003/'
+    })
   ]
 };

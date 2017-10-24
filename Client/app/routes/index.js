@@ -13,6 +13,7 @@ import NotFound from 'views/NotFoundPage';
 
 function loginCheck(nextState, replace){
     const token = localStorage.getItem('token');
+    return true;
 
     if (!token) {
       replace({

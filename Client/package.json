@@ -111,6 +111,8 @@
     "babel-preset-react-app": "^3.0.2",
     "babel-preset-react-hmre": "1.1.1",
     "babel-preset-stage-0": "6.16.0",
+    "browser-sync": "^2.18.13",
+    "browser-sync-webpack-plugin": "^1.2.0",
     "cheerio": "0.22.0",
     "circular-dependency-plugin": "2.0.0",
     "coveralls": "2.11.15",
