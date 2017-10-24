@@ -22,13 +22,7 @@ export default class VisionCard extends Component {
                 <Icon type="eye-o" />
                 <span className="global-left-margin">View</span>
             </Link>
-        </Menu.Item>
-        <Menu.Item>
-            <Popconfirm placement="bottom" title="Reconfirm Your Choice" okText="Confirm" cancelText="Cancel">
-                <Icon type="logout" />
-                <span className="global-left-margin">Unregister</span>
-            </Popconfirm>
-        </Menu.Item>
+        </Menu.Item>   
         <Menu.Item>
             <Link to="/" >
                 <Icon type="coffee" />
@@ -40,6 +34,12 @@ export default class VisionCard extends Component {
                 <Icon type="team" />
                 <span className="global-left-margin">TimeLine</span>
             </Link>
+        </Menu.Item>
+        <Menu.Item>
+            <Popconfirm placement="bottom" title="Reconfirm Your Choice" okText="Confirm" cancelText="Cancel">
+                <Icon type="logout" />
+                <span className="global-left-margin">Unregister</span>
+            </Popconfirm>
         </Menu.Item>
     </Menu>
     );

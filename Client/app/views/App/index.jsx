@@ -8,7 +8,6 @@ import SideBarContent from 'components/SideBar';
 
 import './index.css';
 
-
 class App extends Component {
     constructor(props){
        super(props);
@@ -25,7 +24,7 @@ class App extends Component {
             {this.props.children}
           </div>
         </div>
-    );
+      );
     }
 }
 
