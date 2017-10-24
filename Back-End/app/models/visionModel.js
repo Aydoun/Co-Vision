@@ -2,8 +2,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Vision = new Schema({
-	title : {type: String, required: true},
-  description : {type: String, required : true},
+	title : {type: String},
+  description : {type: String},
   creator : {type : Schema.Types.ObjectId, required: true},
   privacy : {type:Array, default : []},
   avatar : {type : String},

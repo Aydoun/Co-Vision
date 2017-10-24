@@ -7,10 +7,9 @@ var fse = promisify(require("fs-extra"));
 exports.commit = function(inputs) {
       var clientInput = inputs;
       var checkRes = queryCheck(clientInput , ['fileContent' , 'fileName' , 'title' , 'author' , 'authorMail' , 'message']);
-      //var checkRes = queryCheck(clientInput , ['fileContent' , 'title' , 'message' , 'fileName']);
 
       if (checkRes !== true) {
-          throw new Error(checkRes + ' is Required');
+          throw new Error('Missing Required Paramenters');
       }
 
       var pathToRepo = defaultGitPath(clientInput.title);
@@ -30,7 +29,7 @@ exports.history = function(res , params) {
     var checkRes = queryCheck(clientInput , ['title']);
 
     if (checkRes !== true) {
-        res.status(200).send(Formatter(checkRes + ' is Required' , true))
+        res.status(200).send(Formatter('Missing Required Paramenters' , true))
     }
 
     var pathToRepo = defaultGitPath(clientInput.title);
@@ -67,26 +66,18 @@ exports.history = function(res , params) {
 };
 
 exports.initRepository = function(inputs){
-    var clientInput = inputs;
-    var checkRes = queryCheck(clientInput , ['title' , 'description' , 'author' , 'authorMail']);
+    const pathToRepo = defaultGitPath(inputs.repoName);
 
-    if (checkRes !== true) {
-        throw new Error(checkRes + ' is Required');
-    }
-
-    var pathToRepo = defaultGitPath(clientInput.title);
-
-    return Git.Repository.init(pathToRepo, 0).then(function (repo) {
-        var inputs = Object.assign({} , clientInput , {
+    return Git.Repository.init(pathToRepo, 0)
+    .then(function (repo) {
+        const extraInputs = Object.assign({} , inputs , {
             fileName : "Readme.md",
-            fileContent : clientInput.description,
-            message : clientInput.title + ' Vision is Born!',
+            fileContent : inputs.description || '',
+            message : `${inputs.title || '<No-Title>'} Vision is Born!`,
             initalCommit : true
         });
 
-        console.log(inputs);
-
-        return registerCommit(inputs , repo);
+        return registerCommit(extraInputs , repo);
     });
 }
 
@@ -97,7 +88,7 @@ exports.treeWalk = function(res , params){
     var checkRes = queryCheck(clientInput , ['title']);
 
     if (checkRes !== true) {
-        throw new Error(checkRes + ' is Required');
+        throw new Error('Missing Required Paramenters');
     }
 
     var branchName = clientInput.branchName || 'master';
@@ -137,7 +128,7 @@ exports.treeSummary = function(params , next){
   var checkRes = queryCheck(clientInput , ['repoName']);
 
   if (checkRes !== true) {
-      throw new Error(checkRes + ' is Required');
+      throw new Error('Missing Required Paramenters');
   }
 
   var pathToRepo = getPath(clientInput.repoName);
@@ -262,7 +253,7 @@ exports.getAllBranchList = function(params){
     var checkRes = queryCheck(clientInput , ['title']);
 
     if (checkRes !== true) {
-        throw new Error(checkRes + ' is Required');
+        throw new Error('Missing Required Paramenters');
     }
 
     var pathToRepo = defaultGitPath(clientInput.title);
@@ -288,7 +279,7 @@ exports.createBranch = function(params){
     var checkRes = queryCheck(clientInput , ['title' , 'branchName']);
 
     if (checkRes !== true) {
-        throw new Error(checkRes + ' is Required');
+        throw new Error('Missing Required Paramenters');
     }
 
     var pathToRepo = defaultGitPath(clientInput.title);
@@ -311,7 +302,7 @@ exports.checkoutBranch = function(params){
     var checkRes = queryCheck(clientInput , ['title' , 'branchName']);
 
     if (checkRes !== true) {
-        throw new Error(checkRes + ' is Required');
+        throw new Error('Missing Required Paramenters');
     }
 
     var pathToRepo = defaultGitPath(clientInput.title);
@@ -330,7 +321,7 @@ exports.deleteBranch = (params) => {
     var checkRes = queryCheck(clientInput , ['title' , 'branchName']);
 
     if (checkRes !== true) {
-        throw new Error(checkRes + ' is Required');
+        throw new Error('Missing Required Paramenters');
     }
 
     var pathToRepo = defaultGitPath(clientInput.title);
@@ -349,7 +340,7 @@ exports.readFileContent = function(params){
     var checkRes = queryCheck(clientInput , ['title' , 'fileName' , 'commitSha']);
 
     if (checkRes !== true) {
-        throw new Error(checkRes + ' is Required');
+        throw new Error('Missing Required Paramenters');
     }
 
     var pathToRepo = defaultGitPath(clientInput.title);
@@ -377,7 +368,7 @@ exports.gitTest = function(params){
     var checkRes = queryCheck(clientInput , ['title']);
 
     if (checkRes !== true) {
-        throw new Error(checkRes + ' is Required');
+        throw new Error('Missing Required Paramenters');
     }
 
     var pathToRepo = defaultGitPath(clientInput.title);

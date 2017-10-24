@@ -11,10 +11,8 @@ var {
     getAllBranchList,
     deleteBranch,
 } = require('./gitController');
-const { Formatter } = require('../lib');
+const { Formatter, queryCheck } = require('../lib');
 const parallel = require('async/parallel');
-const series = require('async/series');
-
 exports.historyList = function (req, res, next) {
     history(res , req.query);
 };
@@ -106,37 +104,32 @@ exports.deleteBranch = function(req , res , next){
 }
 
 exports.createVision = function(req , res , next){
-    parallel({
-      internal: function(callback) {
-        var backPromise = initRepository(req.body);
+    const body = req.body;
+    const checkRes = queryCheck(body , ['creator', 'author' , 'authorMail']);
 
-        backPromise.then(function(commitsha) {
-            callback(null , commitsha);
-        });
+    if (!checkRes) {
+        res.status(200).send(Formatter({data : 'Missing Required Parameters'} , true));
+        return ;
+    }
 
-        backPromise.catch(function(err){
-            callback(true , err);
-        })
-      },
-      base: function(callback) {
-        var newVision = new visionModel(req.body);
-
-      	newVision.save(function (err, data) {
-      		if (err) {
-              callback(true , err);
-          } else {
-              req.addResults = data;
-              callback(null , data);
-          }
-      	});
-      }
-    },
-    function(err, results) {
-        if (err) {
-          res.status(200).send(Formatter(results , true));
-        } else {
-          next();
-        }
+    const newVision = new visionModel(body);
+    newVision.save(function (err, data) {
+      	  if (err) {
+            res.status(200).send(Formatter({data : err.message} , true));
+            return ;
+          } 
+          body.repoName = data._id;
+          initRepository(body)
+          .then((commitSha) => {
+            const response = {
+              repository: commitSha,
+              db: data
+            };
+            res.status(200).send(Formatter({data : response}));
+          })
+          .catch((err) => {
+            res.status(200).send(Formatter({data : err} , true));
+          });
     });
 }
 

@@ -31,17 +31,11 @@ exports.generateToken = function (userId, tokenSecret) {
 };
 
 exports.queryCheck = function(clientInput , requiredParams){
-    var _returned = true;
-    _.each(requiredParams , function(item , key){
-          if (!clientInput[item]) {
-              _returned = item;
-              return ;
-          }
-    });
-
-    return _returned;
+    console.log(clientInput, 'cleint Input');
+    console.log(_.every(requiredParams, item => typeof clientInput[item] !== 'undefined'), 'condition');
+    return _.every(requiredParams, item => typeof clientInput[item] !== 'undefined');
 }
 
-exports.defaultGitPath = (title) => {
-    return path.resolve(`D://git/Visions/${title}`);
+exports.defaultGitPath = (repoName) => {
+    return path.resolve(`D://git/Visions/${repoName}`);
 }
