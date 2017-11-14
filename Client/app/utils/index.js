@@ -1,5 +1,3 @@
-import cookie from 'js-cookie';
-
 export const globalPageSize = 5;
 
 export function getRandomString(){

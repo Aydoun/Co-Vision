@@ -1,18 +1,16 @@
 var express = require('express');
-var contributors = express.Router();
+var users = express.Router();
 var contributorModel = require('../models/userModel');
 var base = require('../controllers/baseCrudController')(contributorModel);
-var {visionList , addVisionToContributor } = require('../controllers/userController');
+var { visionList , addVisionToContributor , LogIn, Register } = require('../controllers/userController');
 
 //General Crud Routing
-contributors.get('/findOne', base.getOne);
-contributors.get('/count', base.count);
-contributors.get('/:id', base.getById);
-contributors.get('/:id/exists', base.exists);
-contributors.post('/', base.create);
-contributors.put('/:id', base.update);
+users.get('/findOne', base.getOne);
+users.get('/count', base.count);
+users.get('/:id', base.getById);
+users.get('/:id/exists', base.exists);
+users.put('/:id', base.update);
+users.get('/:id/vision', visionList);
+users.post('/:id/vision', addVisionToContributor);
 
-contributors.get('/:id/vision', visionList);
-contributors.post('/:id/vision', addVisionToContributor);
-
-module.exports = contributors;
+module.exports = users;

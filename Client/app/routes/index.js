@@ -40,6 +40,5 @@ export default ()=> (
       <Route path="/login" component={SignIn} />
       <Route path="/register" component={Register} />
       <Route path="*" component={NotFound} />
-
   </Route>
 )

@@ -1,5 +1,8 @@
-var mongoose = require('mongoose');
-var path = require('path');
+const ObjectId = require('mongoose').Types.ObjectId;
+const path = require('path');
+const uuidv1 = require('uuid/v1');
+const jwt = require('jwt-simple');
+const moment = require('moment');
 var _ = require('lodash');
 
 exports.Formatter = function(msg , err = false){
@@ -17,9 +20,9 @@ exports.picking = function(data , pickParams){
     return _.pick(data, pickParams);
 }
 
-exports.convertToObjectId = function(strId){
-    return mongoose.Types.ObjectId(strId);
-}
+exports.convertToObjectId = strId => ObjectId(strId);
+
+exports.isValidObjectId = (id) =>  ObjectId.isValid(id);
 
 exports.generateToken = function (userId, tokenSecret) {
     const expires = moment().add(1, 'days').valueOf();
@@ -31,17 +34,13 @@ exports.generateToken = function (userId, tokenSecret) {
 };
 
 exports.queryCheck = function(clientInput , requiredParams){
-    var _returned = true;
-    _.each(requiredParams , function(item , key){
-          if (!clientInput[item]) {
-              _returned = item;
-              return ;
-          }
-    });
-
-    return _returned;
+    return _.every(requiredParams, item => typeof clientInput[item] !== 'undefined');
 }
 
-exports.defaultGitPath = (title) => {
-    return path.resolve(`D://git/Visions/${title}`);
+exports.defaultGitPath = (repoName) => {
+    return path.resolve(`D://git/Visions/${repoName}`);
+}
+
+exports.defaultUploadPath = () => {  
+    return path.resolve(`D://fileUpload/`);
 }

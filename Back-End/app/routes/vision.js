@@ -12,7 +12,8 @@ var {
   readFile,
   checkoutBranch,
   branchList,
-  deleteBranch
+  deleteBranch,
+  addLike
 } = require('../controllers/visionController');
 
 var {
@@ -39,5 +40,7 @@ visions.get('/:id/branch', branchList);
 visions.post('/:id/branch', createBranch);
 visions.put('/:id/branch', checkoutBranch);
 visions.delete('/:id/branch', deleteBranch);
+
+visions.post('/:id/like', addLike);
 
 module.exports = visions;

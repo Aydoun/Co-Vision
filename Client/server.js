@@ -1,7 +1,7 @@
 require('babel-register');
 const webpack = require('webpack');
 const express = require('express');
-const helmet = require('helmet');
+// const helmet = require('helmet');
 const path = require('path');
 const bodyParser = require('body-parser');
 const config = require('./webpack.config');
@@ -13,7 +13,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 const isDeveloping = !isProduction;
 const port = isProduction ? (process.env.PORT || 8300) : 3003;
 
-app.use(helmet());
+// app.use(helmet());
 app.use(bodyParser.json({ type: 'application/json' }));
 
 const publicPath = path.resolve(__dirname, 'dist');

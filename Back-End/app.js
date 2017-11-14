@@ -1,24 +1,32 @@
-var express = require('express');
-var logger = require('morgan');
-var compression = require ('compression');
-var bodyParser = require('body-parser');
-var cors = require('cors')
-var routes = require('./app/routes');
-var notFound = require('./app/routes/notFound');
-var app = express();
-var subpath = express();
-var swagger = require('swagger-node-express').createNew(subpath);
+const express = require('express');
+const logger = require('morgan');
+const path = require('path');
+const compression = require ('compression');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const routes = require('./app/routes');
+const notFound = require('./app/routes/notFound');
+const { defaultUploadPath } = require('./app/lib');
+
+const app = express();
+const subpath = express();
+const swagger = require('swagger-node-express').createNew(subpath);
 
 // view engine setup
 app.set('view engine', 'pug');
-app.use(express.static('dist'));
+app.use('/media', express.static(`${defaultUploadPath()}`))
 app.use(compression());
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({limit: "2mb"}));
+app.use(bodyParser.urlencoded({limit: "2mb", extended: false, parameterLimit:50}));
 app.use("/api", subpath);
 subpath.use(cors());
-subpath.use('/', routes);
+
+const preCheck = (req, res, next) => {
+   next();
+}
+
+subpath.use('/', preCheck, routes);
 subpath.use('*', notFound);
 
 swagger.setApiInfo({

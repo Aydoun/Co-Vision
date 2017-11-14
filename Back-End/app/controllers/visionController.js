@@ -1,5 +1,5 @@
-var visionModel = require('../models/visionModel');
-var {
+const visionModel = require('../models/visionModel');
+const {
     commit,
     initRepository,
     history,
@@ -11,143 +11,138 @@ var {
     getAllBranchList,
     deleteBranch,
 } = require('./gitController');
-const { Formatter } = require('../lib');
+const { Formatter, queryCheck, isValidObjectId } = require('../lib');
 const parallel = require('async/parallel');
-const series = require('async/series');
+
+/*
+ Git API
+*/
 
 exports.historyList = function (req, res, next) {
     history(res , req.query);
 };
 
 exports.historyTree = function(req , res , next){
-    var treePromise = treeWalk(res , req.query);
-
-    treePromise.then(function(files){
+    treeWalk(res , req.query).then(function(files){
         res.status(200).send(Formatter(files));
-    });
-
-    treePromise.catch(function(err){
+    })
+    .catch(function(err){
         res.status(200).send(Formatter({data : err.message} , true));
-        return ;
     });
 }
 
 exports.visionStatus = function(req , res , next){
-    var statusPromise = status(req.query);
-
-    statusPromise.then(function(statuses){
+    status(req.query).then(function(statuses){
         res.status(200).send(Formatter(statuses));
     });
 }
 
 exports.readFile = function(req , res , next){
-    var filePromise = readFileContent(req.query);
-
-    filePromise.then(function(fileContent){
+    readFileContent(req.query).then(function(fileContent){
         res.status(200).send(Formatter(fileContent));
-    });
-
-    filePromise.catch(function(err){
+    })
+    .catch(function(err){
         res.status(200).send(Formatter({data : err.message} , true));
-        return ;
     });
 }
 
 exports.branchList = function(req , res , next){
-    var branchPromise = getAllBranchList(req.query);
-
-    branchPromise.then(function(data){
+    getAllBranchList(req.query).then(function(data){
         res.status(200).send(Formatter(data));
-    });
-
-    branchPromise.catch(function(err){
+    })
+    .catch(function(err){
         res.status(200).send(Formatter({data : err.message} , true));
-        return ;
     });
 }
 
 exports.createBranch = function(req , res , next){
-    var branchPromise = createBranch(req.body);
-
-    branchPromise.then(function(ref){
-
+    createBranch(req.body).then(function(ref){
         res.status(200).send(Formatter({data : ref.name()}));
-    });
-
-    branchPromise.catch(function(err){
+    })
+    .catch(function(err){
         res.status(200).send(Formatter({data : err.message} , true));
-        return ;
     });
 }
 
 exports.checkoutBranch = function(req , res , next){
-    var checkoutPromise = checkoutBranch(req.body);
-    checkoutPromise.then(function(message){
+    checkoutBranch(req.body).then(function(message){
         res.status(200).send(Formatter({data : message}));
-    });
-
-    checkoutPromise.catch(function(err){
+    })
+    .catch(function(err){
         res.status(200).send(Formatter({data : err.message} , true));
-        return ;
     });
 }
 
 exports.deleteBranch = function(req , res , next){
-    var responsePromise = deleteBranch(req.body);
-
-    responsePromise.then(function(message){
+    deleteBranch(req.body).then(function(message){
         res.status(200).send(Formatter({data : 'lala'}));
-    });
-
-    responsePromise.catch(function(err){
+    })
+    .catch(function(err){
         res.status(200).send(Formatter({data : err.message} , true));
-        return ;
     });
 }
 
 exports.createVision = function(req , res , next){
-    parallel({
-      internal: function(callback) {
-        var backPromise = initRepository(req.body);
+    const body = req.body;
+    const checkRes = queryCheck(body , ['creator', 'author' , 'authorMail']);
 
-        backPromise.then(function(commitsha) {
-            callback(null , commitsha);
-        });
+    if (!checkRes) {
+        return res.status(200).send(Formatter({data : 'Missing Required Parameters'} , true));
+    }
 
-        backPromise.catch(function(err){
-            callback(true , err);
-        })
-      },
-      base: function(callback) {
-        var newVision = new visionModel(req.body);
-
-      	newVision.save(function (err, data) {
-      		if (err) {
-              callback(true , err);
-          } else {
-              req.addResults = data;
-              callback(null , data);
-          }
-      	});
-      }
-    },
-    function(err, results) {
-        if (err) {
-          res.status(200).send(Formatter(results , true));
-        } else {
-          next();
-        }
+    const newVision = new visionModel(body);
+    newVision.save(function (err, data) {
+      	  if (err) {
+            res.status(200).send(Formatter({data : err.message} , true));
+            return ;
+          } 
+          body.repoName = data._id;
+          initRepository(body)
+          .then((commitSha) => {
+            const response = {
+              repository: commitSha,
+              db: data
+            };
+            res.status(200).send(Formatter({data : response}));
+          })
+          .catch((err) => {
+            res.status(200).send(Formatter({data : err} , true));
+          });
     });
 }
 
 exports.contribute = function(req , res , next){
-    var backPromise = commit(req.body);
-
-    backPromise.then(function(commitsha){
+    commit(req.body).then(function(commitsha){
           res.status(200).send(Formatter(commitsha));
-    });
-
-    backPromise.catch(function(err){
-        res.status(200).send(Formatter(err , true));
     })
+    .catch(function(err){
+        res.status(200).send(Formatter(err , true));
+    });
+}
+
+/*
+  Vision API
+*/
+
+exports.addLike = function(req , res , next){
+    if(!(isValidObjectId(req.query.userId) && isValidObjectId(req.params.id))) {
+        return res.status(200).send(Formatter({message:'All Fields Are Required'} , true));
+    }
+    const userId = req.query.userId;
+    const visionId = req.params.id;
+
+    visionModel.findById(visionId , function(err , data){
+        if (err) return res.status(200).send(Formatter(err , true));
+        const foundUser = data.likes.find((likeItem => likeItem.userId == userId));
+
+        if (typeof foundUser === 'undefined') {
+            // First Time To Like The Vision
+            data.likes.push({ userId });
+            data.save(function(err , _data){
+                res.status(200).send(Formatter(_data));
+            });
+        } else {
+            res.status(200).send(Formatter('', true));
+        }    
+    });
 }

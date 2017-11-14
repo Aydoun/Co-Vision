@@ -6,9 +6,4 @@ var Schema = new mongooseSchema({
   creator : {type : mongooseSchema.Types.ObjectId , required: true },
 }, {timestamps: true});
 
-Schema.static('findByAuthor', function (author) {
-  return this.find({ author: author })
-    .exec();
-});
-
 module.exports = mongoose.model('cov-feedback', Schema);

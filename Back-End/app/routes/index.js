@@ -1,17 +1,29 @@
-var AllRoutes = require('express').Router();
+const AllRoutes = require('express').Router();
 
-var {LogIn, Register } = require('../controllers/userController');
-var config = require('../config');
-var users = require('./user');
-var contributions = require('./contribution');
-var visions = require('./vision');
-var invitations = require('./invitation');
-var channels = require('./channel');
-var feedbacks = require('./feedback');
-var tests = require('./test');
+const { LogIn, Register } = require('../controllers/userController');
+const { uploadFile } = require('../controllers/fileController');
+const config = require('../config');
+const users = require('./user');
+const visions = require('./vision');
+const invitations = require('./invitation');
+const feedbacks = require('./feedback');
+const messages = require('./message');
+const discover = require('./discover');
+const tests = require('./test');
 
-// AllRoutes.post('/login', LogIn);
-// AllRoutes.post('/register', Register);
+AllRoutes.post('/login', LogIn);
+AllRoutes.post('/register', Register);
+AllRoutes.post('/upload', uploadFile);
+
+AllRoutes.use('/user' , users);
+AllRoutes.use('/invitation' , invitations);
+AllRoutes.use('/feedback' , feedbacks);
+AllRoutes.use('/vision' , visions);
+AllRoutes.use('/message' , messages);
+AllRoutes.use('/discover' , discover);
+AllRoutes.use('/test' , tests);
+
+module.exports = AllRoutes;
 
 // AllRoutes.use((req , res , next) => {
 //     const token = req.body.token || req.query.token || req.headers['x-access-token'];
@@ -42,14 +54,3 @@ var tests = require('./test');
 //       });
 //     }
 // });
-
-
-AllRoutes.use('/user' , users);
-AllRoutes.use('/contribution' , contributions);
-AllRoutes.use('/channel' , channels);
-AllRoutes.use('/invitation' , invitations);
-AllRoutes.use('/feedback' , feedbacks);
-AllRoutes.use('/vision' , visions);
-AllRoutes.use('/test' , tests);
-
-module.exports = AllRoutes;

@@ -35,13 +35,13 @@ var server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
-
- mongoose.connect(serverConfig.mongoURL, (error) => {
-   if (error) {
-     console.error('Please make sure Mongodb is installed and running!'); // eslint-disable-line no-console
-     throw error;
-   }
- });
+mongoose.Promise = Promise;  
+mongoose.connect(serverConfig.mongoURL, (error) => {
+  if (error) {
+    console.error('Please make sure Mongodb is installed and running!'); // eslint-disable-line no-console
+    throw error;
+  }
+});
 
 server.listen(port);
 //server.on('error', onError);
