@@ -1,25 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { Router, Route } from 'react-router';
-import 'antd/dist/antd.min.css';
-import 'global-styles.js';
-import config from 'config';
-
-import store , { history } from './store';
-import allRoutes from './routes';
-
-window.config = config;
+import {Provider} from 'react-redux';
+import store , {history} from './store';
+import App from './app';
 
 ReactDOM.render(
-  <Provider store={store}>
-    <Router history={history}>
-      {allRoutes()}
-    </Router>
-  </Provider>,
-  document.getElementById('app')
-);
+    <Provider store={store}>
+      <App />   
+    </Provider>,
+    document.getElementById('app'),
+  )
 
+// Webpack Hot Module Replacement API
 if (module.hot) {
   module.hot.accept()
 }
