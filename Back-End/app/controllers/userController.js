@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const visionModel = require('../models/visionModel');
 const UserModel = require('../models/userModel');
 const notifs = require('../constants/notificationMessages');
@@ -7,13 +8,18 @@ const { Formatter, generateToken } = require('../lib');
 
 exports.visionList = function(req, res, next) {
     if (!req.params.id) res.status(200).send(Formatter(data , true));
-    var contributor = UserModel.findById(req.params.id , function(err , data){
-      visionModel.find({}).
+    const REJECTED_VALUES = ['password', 'salt', 'privacy'];
+    const contributor = UserModel.findById(req.params.id , function(err , user){
+      if (err) {
+        return res.status(200).send(Formatter(err , true));
+      }
+
+      const userVisionsId = user.visions.map(item => item.visionId);
+      visionModel.find({status:'Active'}).
       where('_id').
-      in(data.visions.map((item)=>item.visionId)).
+      in(userVisionsId).
       exec(function(err , data){
           if (err) return res.status(200).send(Formatter(err , true));
-
           res.status(200).send(Formatter(data));
       });
     });

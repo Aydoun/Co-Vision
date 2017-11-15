@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { Link } from 'react-router';
+import { Row, Col } from 'antd';
 import AppHeader from 'components/Header';
 import Footer from 'components/Footer';
 import SideBarContent from 'components/SideBar';
@@ -18,10 +19,28 @@ class App extends Component {
       const text = <span>Title</span>;
 
       return (
-        <div>
-          <AppHeader />
+        <div >
+          <AppHeader />   
           <div className="app-top__wrapper">
-            {this.props.children}
+            <div className="Navigation-Links">
+              <Row type="flex">
+                <Col span={6} >
+                  <Link to="/vision">Activity</Link>
+                </Col>
+                <Col span={6} >
+                  <Link to="/discover">Discover</Link>
+                </Col>
+                <Col span={6} >
+                  <Link to="/mail">Mail</Link>
+                </Col>
+                <Col span={6} >
+                  <Link to="/Me">Me</Link>
+                </Col>
+            </Row>
+            </div>
+            <div>
+              {this.props.children}
+            </div>
           </div>
         </div>
       );
@@ -35,9 +54,7 @@ App.propTypes = {
 function mapDispatchToProps(dispatch){
   return bindActionCreators({} , dispatch)
 }
-
 function mapStateToProps(state) {
-  console.log(state , 'App State');
   return {
     menuContent : state.app.menuContent
   };

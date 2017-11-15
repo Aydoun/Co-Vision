@@ -1,66 +1,37 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import {Link} from 'react-router';
-import { Card, Tag, Button, Spin} from 'antd';
+import React, { PureComponent } from 'react';
+import { Link } from 'react-router';
+import { Menu, Spin, Layout, Icon } from 'antd';
 import './index.css';
 
-import { prepareListing } from 'actions/visionAction';
+const { Content, Footer, Sider } = Layout;
 
-class VisionPage extends Component {
+class VisionPage extends PureComponent {
   constructor(props){
       super(props);
   }
-
-  componentDidMount(){
-      this.props.prepareListing({
-        _id : localStorage.userId
-      });
-  }
-
   render() {
     const {visionList , listPagination , loading} = this.props;
     return (
       <div>
-          <div className="module-header">
-            <h3>My Visions</h3>
-          </div>
-
-          <Spin spinning={loading}>
-            {
-              visionList.map(function(elem , i){
-                  return (
-                    <div key={i} className="list-items__margin">
-                        <Card  title={<Link to={`/vision/${elem._id}/content`}>{elem.title}</Link>} >
-                          <p className="bottomMargin">{elem.description}</p>
-                          <div>
-                            <Tag color="#2db7f5">
-                              {elem.updatedAt}
-                            </Tag>
-                            <Tag color="#87d068">
-                              {elem.createdAt}
-                            </Tag>
-                          </div>
-                        </Card>
-                    </div>
-                  )
-              })
-            }
-          </Spin>
+          <Layout style={{ padding: '24px 0', background:'#f7f7f7' }}>
+            <Sider width={200} >
+              <Menu
+                mode="inline"
+                defaultSelectedKeys={['1']}
+                defaultOpenKeys={['sub1']}
+                style={{ height: '100%' }}
+              >
+                <Menu.Item key="1"><Link to="/vision/list"><Icon type="eye-o" />My Visions</Link></Menu.Item>
+                <Menu.Item key="2"><Link to="/vision/create"><Icon type="plus" />Add Vision</Link></Menu.Item>
+              </Menu>
+            </Sider>
+            <Content style={{ padding: '0 24px', minHeight: 280 }}>
+              {this.props.children}
+            </Content>
+          </Layout>
       </div>
     )
   }
 }
 
-function mapDispatchToProps(dispatch){
-  return bindActionCreators({prepareListing} , dispatch)
-}
-
-function mapStateToProps(state) {
-  return {
-      visionList : state.vision.visionList,
-      loading : state.vision.loading,
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(VisionPage);
+export default VisionPage;

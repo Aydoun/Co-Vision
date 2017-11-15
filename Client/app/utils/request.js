@@ -13,7 +13,7 @@ function checkStatus(response) {
 
  export default function request(options) {
    return axios(Object.assign(options , {
-     headers: {'x-access-token': localStorage.getItem('token') || 'fuck'}
+     headers: {'x-access-token': localStorage.getItem('token') || ''}
    }))
    .then(checkStatus)
  }

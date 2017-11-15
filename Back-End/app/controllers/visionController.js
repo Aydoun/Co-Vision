@@ -12,8 +12,6 @@ const {
     deleteBranch,
 } = require('./gitController');
 const { Formatter, queryCheck, isValidObjectId } = require('../lib');
-const parallel = require('async/parallel');
-
 /*
  Git API
 */

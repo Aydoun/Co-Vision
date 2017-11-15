@@ -18,16 +18,6 @@ export default class Header extends PureComponent {
               </Link>
             </Col>  
           </Row>
-          <div className="header-right-menu">
-              <Search
-                  placeholder="Search..."
-                  style={{ width: 200 }}
-                  onSearch={value => console.log(value)}
-              />
-              <Link to="/profile">
-                <span className="profile-link">Me</span>
-              </Link>
-          </div>
         </div>   
       </div>
     );

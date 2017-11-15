@@ -7,7 +7,7 @@ export class HomePage extends React.PureComponent {
   render() {
     return (
       <div>
-        <h2>Home New!!23</h2>
+        <h2>Home New</h2>
       </div>
     );
   }
