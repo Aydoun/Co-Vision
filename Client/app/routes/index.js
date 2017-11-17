@@ -7,7 +7,6 @@ import Register from 'views/UserPage/register';
 import VisionRoutes from './visionRoutes';
 import HomeRoutes from './homeRoutes';
 import DiscoverRoutes from './discoverRoutes';
-import InvitationRoutes from './invitationRoutes';
 import UserRoute from './userRoutes';
 import NotFound from 'views/NotFoundPage';
 
@@ -34,7 +33,6 @@ export default ()=> (
             {HomeRoutes}
             {UserRoute}
             {DiscoverRoutes}
-            {InvitationRoutes}
         </Route>
       </Route>
       <Route path="/login" component={SignIn} />

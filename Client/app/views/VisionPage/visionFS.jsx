@@ -54,23 +54,23 @@ class VisionFS extends React.Component {
       <div>
         <Card>
           <Row gutter={12}>
-            <Col span={6}>{VisionObject.title || ''}</Col>
-            <Col span={6}>{formatDate(VisionObject.updatedAt || '')}</Col>
+            <Col span={6}>{VisionObject.title}</Col>
+            <Col span={6}>{formatDate(VisionObject.updatedAt)}</Col>
             <Col span={6}>
               <Link to={`/vision/${VisionObject._id}/history`}>
-                {contributionStats.totalContributions || ''}
+                {contributionStats.totalContributions}
               </Link>
             </Col>
             <Col span={6}>
               <Link onClick={() => this.setState({visible : true})}>
-                {contributionStats.totalContributors || ''}
+                {contributionStats.totalContributors}
               </Link>
             </Col>
           </Row>
         </Card>
         <br/>
         <div className="bottomMargin">
-          <label>Branches ({branchList.length || ''}) : </label>
+          <label>Branches ({branchList.length || 0}) : </label>
           <Select style={{width:155}} onChange={this.branchChanged.bind(this)}>
               {
                 branchList.map((item , i) => <Option key={i} value={item.name}>{item.name}</Option>)
@@ -85,7 +85,7 @@ class VisionFS extends React.Component {
           pagination={false}
           loading={false}
         />
-      <Modal
+        <Modal
         visible={visible}
         title="Vision Contributors"
         onCancel={() => this.setState({visible : false})}

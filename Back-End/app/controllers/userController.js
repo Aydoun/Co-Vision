@@ -7,8 +7,7 @@ const { passwordHash } = require('../lib/crypto');
 const { Formatter, generateToken } = require('../lib');
 
 exports.visionList = function(req, res, next) {
-    if (!req.params.id) res.status(200).send(Formatter(data , true));
-    const REJECTED_VALUES = ['password', 'salt', 'privacy'];
+    if (!req.params.id) res.status(200).send(Formatter({} , true));
     const contributor = UserModel.findById(req.params.id , function(err , user){
       if (err) {
         return res.status(200).send(Formatter(err , true));

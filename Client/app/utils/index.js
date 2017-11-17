@@ -20,13 +20,15 @@ export function saveUserData(serverResponse){
 }
 
 export function formatDate(date){
-    var dateObj = new Date(date);
+    if (date) {
+      var dateObj = new Date(date);
 
-    var y = dateObj.getFullYear(),
-     m = dateObj.getMonth() + 1,
-     d = dateObj.getDate();
-
-    return y
-     + "-" + (m < 10 ? "0" + m : m)
-     + "-" + (d < 10 ? "0" + d : d);
+      var y = dateObj.getFullYear(),
+      m = dateObj.getMonth() + 1,
+      d = dateObj.getDate();
+      return y
+      + "-" + (m < 10 ? "0" + m : m)
+      + "-" + (d < 10 ? "0" + d : d);
+    }
+    return '';    
 }

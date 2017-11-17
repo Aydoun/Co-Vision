@@ -6,7 +6,6 @@ import { Card, Icon,Tag, Menu, Dropdown, Button, Popconfirm } from 'antd';
 export default class VisionCard extends Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
-    visionId: PropTypes.string.isRequired,
     onConfirm: PropTypes.func,
     description: PropTypes.string,
     updatedAt: PropTypes.string,
@@ -37,7 +36,7 @@ export default class VisionCard extends Component {
     const cardTitle = (
         <div>
             <Icon type="api" />
-            <Link to="/"><span className="global-left-margin">{name || 'Unamed'}</span></Link>
+            <Link to={`/vision/${visionId}/content`}><span className="global-left-margin">{name || 'Unamed'}</span></Link>
         </div>
     );
     const menu = (
@@ -76,7 +75,7 @@ export default class VisionCard extends Component {
             className="relative-content"
             extra={
                 <Dropdown overlay={menu} placement="bottomCenter">
-                    <Button type="dashed" icon="down-circle-o" shape="circle"/>
+                    <Button type="dashed" icon="bars" shape="circle"/>
                 </Dropdown>
             }
         >

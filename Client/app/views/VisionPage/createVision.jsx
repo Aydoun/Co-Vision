@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {browserHistory} from 'react-router';
+import { Link } from 'react-router';
 import {Form , Button , Input , Card} from 'antd';
 
 const FormItem = Form.Item;
@@ -39,19 +39,19 @@ class addVision extends React.Component {
             label="Vision Name"
           >
             {getFieldDecorator('title', config)(
-              <Input placeholder="Cure For Cancer..." />
+              <Input />
             )}
           </FormItem>
           <FormItem
-            label="Short Introduction"
+            label="Motivation"
           >
             {getFieldDecorator('description', config)(
-              <Input type="textarea" rows={8} placeholder="This Vision Would..." />
+              <Input type="textarea" rows={8} placeholder="Express Yourself!..." />
             )}
           </FormItem>
           <FormItem >
             <Button type="primary" icon="save" onClick={this.handleSubmit.bind(this)}>Create</Button>&nbsp;&nbsp;&nbsp;
-            <Button icon="close" onClick={() => browserHistory.goBack()}>Cancel</Button>
+            <Button icon="close" ><Link to="/vision/list">Cancel</Link></Button>
           </FormItem>
         </Form>
       </Card>

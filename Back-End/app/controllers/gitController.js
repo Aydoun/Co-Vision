@@ -120,105 +120,6 @@ exports.treeWalk = function(res , params){
     });
 }
 
-//treeSummary
-
-exports.treeSummary = function(params , next){
-  var clientInput = params;
-
-  var checkRes = queryCheck(clientInput , ['repoName']);
-
-  if (checkRes !== true) {
-      throw new Error('Missing Required Paramenters');
-  }
-
-  var pathToRepo = getPath(clientInput.repoName);
-  var branchName = clientInput.branchName || 'master';
-
-  Git.Repository.open(pathToRepo)
-  .then(function(repository) {
-      return repository.getBranchCommit(branchName);
-  })
-  .then(function(firstCommit){
-      var history = firstCommit.history();
-
-      var contributors = {};
-
-      history.on("commit", function(commit) {
-          var author = commit.author();
-          var email = author.email();
-          var name = author.name();
-
-          if (contributors.hasOwnProperty(email)) {
-            //if contributor already counted in
-            contributors[email] = contributors[email] + 1
-          } else {
-            //save the first comer
-            contributors[email] = 1
-          }
-      });
-
-      history.on('end', function(commits) {
-        var result = {
-            totalContributions : commits.length,
-            totalContributors : Object.keys(contributors).length,
-            contributorsList : contributors
-        }
-        next(result);
-      });
-
-      history.start();
-  })
-  .catch(function(err){
-      console.log(err , "Catched Error");
-  });
-}
-
-exports.returnTreeSummary = function(params , next){
-  var clientInput = params;
-
-  var pathToRepo = getPath(clientInput.repoName);
-  var branchName = clientInput.branchName || 'master';
-
-  Git.Repository.open(pathToRepo)
-  .then(function(repository) {
-      return repository.getBranchCommit(branchName);
-  })
-  .then(function(firstCommit){
-      var history = firstCommit.history();
-
-      var contributors = {};
-
-      history.on("commit", function(commit) {
-          var author = commit.author();
-          var email = author.email();
-          var name = author.name();
-
-          if (contributors.hasOwnProperty(email)) {
-            //if contributor already counted in
-            contributors[email] = contributors[email] + 1
-          } else {
-            //save the first comer
-            contributors[email] = 1
-          }
-      });
-
-      history.on('end', function(commits) {
-        var result = {
-            totalContributions : commits.length,
-            totalContributors : Object.keys(contributors).length,
-            contributorsList : contributors
-        }
-
-        next(result);
-      });
-
-      history.start();
-  })
-  .catch(function(err){
-      console.log(err , "Catched Error");
-  });
-}
-
 exports.status = function(params){
     var clientInput = params;
     var pathToRepo = defaultGitPath(clientInput.title);
@@ -246,6 +147,48 @@ exports.status = function(params){
         });
     });
 }
+
+exports.treeSummary = function(res , req){
+  const pathToRepo = defaultGitPath(req.params.id);
+  const branchName = req.query.branchName || 'master';
+
+  Git.Repository.open(pathToRepo)
+  .then(function(repository) {
+      return repository.getBranchCommit(branchName);
+  })
+  .then(function(firstCommit){
+      const history = firstCommit.history();
+
+      var contributors = {};
+
+      history.on("commit", function(commit) {
+          const author = commit.author();
+          const email = author.email();
+          const name = author.name();
+
+          if (contributors.hasOwnProperty(email)) {
+            //if contributor already counted in
+            contributors[email] += 1;
+          } else {
+            //save the first comer
+            contributors[email] = 1
+          }
+      });
+
+      history.on('end', function(commits) {
+        res.status(200).send(Formatter({
+            totalContributions : commits.length,
+            contributorsList : contributors
+        }));
+      });
+
+      history.start();
+  })
+  .catch(function(err){
+      console.log(err , "Catched Error");
+  });
+}
+
 
 exports.getAllBranchList = function(params){
     var clientInput = params;
@@ -394,10 +337,6 @@ exports.gitTest = function(params){
   Helper Functions
 
 */
-
-function testify(){
-    return path.resolve('D://git/Visions/Cancer');
-}
 
 function addFile(pathToFile, fileName, fileContent){
     if (typeof fileContent !== 'undefined') {

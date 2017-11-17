@@ -5,25 +5,5 @@
 }
 
 .Navigation-Links {
-    background: #f7f7f7;
-    margin-bottom: 8px;
-}
-
-.Navigation-Links a {
-   display: inline-block;
-   color: teal;
-   text-decoration: none;
-}
-
-.Navigation-Links a:after {
-   content: '';
-   display: block;
-   width: 0;
-   height: 2px;
-   background: crimson;
-   transition: width .3s;
-}
-
-.Navigation-Links a:hover:after {
-    width: 68%;
+    background: #fff;
 }

@@ -2,12 +2,13 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { Link } from 'react-router';
-import { Row, Col } from 'antd';
+import { Icon, Tabs } from 'antd';
 import AppHeader from 'components/Header';
 import Footer from 'components/Footer';
 import SideBarContent from 'components/SideBar';
-
 import './index.css';
+
+const TabPane = Tabs.TabPane;
 
 class App extends Component {
     constructor(props){
@@ -23,20 +24,12 @@ class App extends Component {
           <AppHeader />   
           <div className="app-top__wrapper">
             <div className="Navigation-Links">
-              <Row type="flex">
-                <Col span={6} >
-                  <Link to="/vision">Activity</Link>
-                </Col>
-                <Col span={6} >
-                  <Link to="/discover">Discover</Link>
-                </Col>
-                <Col span={6} >
-                  <Link to="/mail">Mail</Link>
-                </Col>
-                <Col span={6} >
-                  <Link to="/Me">Me</Link>
-                </Col>
-            </Row>
+              <Tabs type="card">
+              <TabPane key="1" tab={<Link to="/vision"><Icon type="home" />Home</Link>} />
+              <TabPane key="2" tab={<Link to="/discover"><Icon type="share-alt" />Discover</Link>} />
+              <TabPane key="31" tab={<Link to="/mail"><Icon type="message" />Correspondance</Link>} />
+              <TabPane key="4" tab={<Link to="/Me"><Icon type="user" />Me</Link>} />
+            </Tabs>
             </div>
             <div>
               {this.props.children}

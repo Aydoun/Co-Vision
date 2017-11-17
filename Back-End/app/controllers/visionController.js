@@ -7,6 +7,7 @@ const {
     status,
     createBranch,
     readFileContent,
+    treeSummary,
     checkoutBranch,
     getAllBranchList,
     deleteBranch,
@@ -78,6 +79,11 @@ exports.deleteBranch = function(req , res , next){
     .catch(function(err){
         res.status(200).send(Formatter({data : err.message} , true));
     });
+}
+
+exports.visionSummary = function(req , res , next){
+    if (!req.params.id) res.status(200).send(Formatter(data , true));
+    treeSummary(res , req);
 }
 
 exports.createVision = function(req , res , next){

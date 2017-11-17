@@ -8,6 +8,7 @@ var {
   historyList,
   historyTree,
   visionStatus,
+  visionSummary,
   createBranch,
   readFile,
   checkoutBranch,
@@ -33,6 +34,7 @@ visions.delete('/:id', base.remove);
 
 visions.get('/:id/log', historyList);
 visions.get('/:id/tree', historyTree);
+visions.get('/:id/summary', visionSummary);
 visions.get('/:id/status', visionStatus);
 visions.get('/:id/file', readFile);
 visions.post('/:id/contribute', contribute);
