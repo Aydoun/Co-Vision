@@ -4,14 +4,6 @@ export function getRandomString(){
     return Math.random().toString(36).substring(2, 15);
 }
 
-export function GlobalPagination(list){
-    return {
-      total : list.length,
-      showTotal:(total, range) => `${range[0]}-${range[1]} of ${total} items`,
-      pageSize:5
-    }
-}
-
 export function saveUserData(serverResponse){
     localStorage.setItem('token' , serverResponse.token);
     localStorage.setItem('userId' , serverResponse._id);
@@ -30,5 +22,5 @@ export function formatDate(date){
       + "-" + (m < 10 ? "0" + m : m)
       + "-" + (d < 10 ? "0" + d : d);
     }
-    return '';    
+    return '';
 }

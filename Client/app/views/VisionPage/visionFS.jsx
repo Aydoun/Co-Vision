@@ -30,9 +30,9 @@ class VisionFS extends React.Component {
            repoName : FoundVision.title
         }
         this.setState({VisionObject : FoundVision});
-        this.props.preContent(params);
-        this.props.preBranch(params);
-        this.props.preStat(params);
+        // this.props.preContent(params);
+        // this.props.preBranch(params);
+        // this.props.preStat(params);
       }
   }
 
@@ -49,57 +49,51 @@ class VisionFS extends React.Component {
   render() {
     const {visionFS , branchList, contributionStats} = this.props;
     const { VisionObject, visible } = this.state;
+    const SelectBranch = (
+      <div>
+        <label>Branches ({branchList.length || 0}) : </label>
+        <Select style={{width:155}} onChange={this.branchChanged.bind(this)}>
+            {
+              branchList.map((item , i) => <Option key={i} value={item.name}>{item.name}</Option>)
+            }
+        </Select>
+      </div>
+    );
+    const CardTitle = (
+      <div>
+        <span>{VisionObject.title || 'Nope'}</span><br />
+        <span>
+          Hey
+        </span>
+      </div>
+    );
 
     return (
       <div>
-        <Card>
-          <Row gutter={12}>
-            <Col span={6}>{VisionObject.title}</Col>
-            <Col span={6}>{formatDate(VisionObject.updatedAt)}</Col>
-            <Col span={6}>
-              <Link to={`/vision/${VisionObject._id}/history`}>
-                {contributionStats.totalContributions}
-              </Link>
-            </Col>
-            <Col span={6}>
-              <Link onClick={() => this.setState({visible : true})}>
-                {contributionStats.totalContributors}
-              </Link>
-            </Col>
-          </Row>
+        <Card extra={SelectBranch} title={CardTitle}>
+          <Table
+            columns={Columns.bind(this)()}
+            dataSource={visionFS}
+            showHeader={false}
+            pagination={false}
+            loading={false}
+          />
         </Card>
-        <br/>
-        <div className="bottomMargin">
-          <label>Branches ({branchList.length || 0}) : </label>
-          <Select style={{width:155}} onChange={this.branchChanged.bind(this)}>
-              {
-                branchList.map((item , i) => <Option key={i} value={item.name}>{item.name}</Option>)
-              }
-          </Select>
-        </div>
-        <br/>
-        <Table
-          columns={Columns.bind(this)()}
-          dataSource={visionFS}
-          showHeader={false}
-          pagination={false}
-          loading={false}
-        />
         <Modal
-        visible={visible}
-        title="Vision Contributors"
-        onCancel={() => this.setState({visible : false})}
-      >
-        {
-          Object.keys(contributionStats.contributorsList).map(function(key , index){
-            return (
-              <p key={index}>
-                  <span>{key}</span>
-              </p>
-            )
-          })
-        }
-      </Modal>
+          visible={visible}
+          title="Vision Contributors"
+          onCancel={() => this.setState({visible : false})}
+        >
+          {
+            Object.keys(contributionStats.contributorsList).map(function(key , index){
+              return (
+                <p key={index}>
+                    <span>{key}</span>
+                </p>
+              )
+            })
+          }
+        </Modal>
       </div>
     );
   }

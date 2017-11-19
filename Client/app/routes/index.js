@@ -8,6 +8,7 @@ import VisionRoutes from './visionRoutes';
 import HomeRoutes from './homeRoutes';
 import DiscoverRoutes from './discoverRoutes';
 import UserRoute from './userRoutes';
+import MailRoute from './mailRoutes';
 import NotFound from 'views/NotFoundPage';
 
 function loginCheck(nextState, replace){
@@ -33,6 +34,7 @@ export default ()=> (
             {HomeRoutes}
             {UserRoute}
             {DiscoverRoutes}
+            {MailRoute}
         </Route>
       </Route>
       <Route path="/login" component={SignIn} />

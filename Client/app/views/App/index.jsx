@@ -21,14 +21,14 @@ class App extends Component {
 
       return (
         <div >
-          <AppHeader />   
+          <AppHeader />
           <div className="app-top__wrapper">
             <div className="Navigation-Links">
               <Tabs type="card">
               <TabPane key="1" tab={<Link to="/vision"><Icon type="home" />Home</Link>} />
               <TabPane key="2" tab={<Link to="/discover"><Icon type="share-alt" />Discover</Link>} />
               <TabPane key="31" tab={<Link to="/mail"><Icon type="message" />Correspondance</Link>} />
-              <TabPane key="4" tab={<Link to="/Me"><Icon type="user" />Me</Link>} />
+              <TabPane key="4" tab={<Link to="/user/profile"><Icon type="user" />Me</Link>} />
             </Tabs>
             </div>
             <div>

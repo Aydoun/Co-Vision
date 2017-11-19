@@ -23,28 +23,28 @@ class VisionList extends Component {
   }
 
   componentDidMount(){
-      this.props.prepareListing({
-        _id : localStorage.userId
-      });
+      // this.props.prepareListing({
+      //  _id : localStorage.userId
+      // });
   }
 
   render() {
     const {visionList , loading} = this.props;
-    
+
     return (
-      <div>          
+      <div>
           <Spin spinning={loading}>
             {
               visionList.map((elem, i) => (
                 <VisionCard
-                   key={i} 
-                   name={elem.title} 
-                   description={elem.description} 
+                   key={i}
+                   name={elem.title}
+                   description={elem.description}
                    status={elem.status}
                    visionId={elem._id}
                    updatedAt={formatDate(elem.updatedAt)}
                    onConfirm={() => console.log(elem._id)}
-                />  
+                />
               ))
             }
           </Spin>

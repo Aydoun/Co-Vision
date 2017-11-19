@@ -2,10 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import find from 'lodash/find';
-import {Timeline , Icon , Card , Tag , Spin , Pagination} from 'antd';
-
+import {Timeline , Icon , Card , Tag , Spin} from 'antd';
 import { preHistory } from 'actions/visionAction';
-import {GlobalPagination , formatDate} from 'utils';
+import { formatDate } from 'utils';
 
 class VisionHistory extends React.Component {
   componentDidMount() {
@@ -21,31 +20,24 @@ class VisionHistory extends React.Component {
       }
   }
 
-  onPageChange(page, pageSize){
-      console.log(page, pageSize);
-  }
-
   render() {
-    const {historyList , listPagination , loading} = this.props;
+    const {historyList , loading} = this.props;
 
     return (
       <div>
           <Spin spinning={loading}>
             <Timeline>
               {
-                  historyList.map(function(elem , i){
-                      return (
-                          <Timeline.Item key={i}>
-                              <p>{new Date(elem.Date).toDateString()}</p>
-                              <Card title={elem.comment} >
-                                  <Tag>{elem.Author}</Tag>
-                              </Card>
-                          </Timeline.Item>
-                      )
-                  })
+                  historyList.map((elem, i) => (
+                    <Timeline.Item key={i}>
+                        <p>{formatDate(elem.Date)}</p>
+                        <Card title={elem.comment} >
+                            <Tag>{elem.Author || 'gaga'}</Tag>
+                        </Card>
+                    </Timeline.Item>
+                  ))
               }
             </Timeline>
-            <Pagination onChange={this.onPageChange.bind(this)} {...listPagination} />
           </Spin>
       </div>
     )
@@ -60,8 +52,7 @@ function mapStateToProps(state) {
   return {
       visionList : state.vision.visionList,
       loading : state.vision.loading,
-      historyList : state.vision.historyList,
-      listPagination : GlobalPagination(state.vision.historyList)
+      historyList : state.vision.historyList
   };
 }
 

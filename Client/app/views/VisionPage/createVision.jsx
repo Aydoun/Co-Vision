@@ -21,7 +21,7 @@ class addVision extends React.Component {
             creator : localStorage.userId
         } , fieldsValue);
 
-        this.props.prepareSaving(params);
+        // this.props.prepareSaving(params);
       }
     });
   }
