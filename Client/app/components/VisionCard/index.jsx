@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import { Card, Icon,Tag, Menu, Dropdown, Button, Popconfirm } from 'antd';
+import { Card, Icon, Tag, Dropdown, Button } from 'antd';
+import VisionMenu from '../DropMenu/VisionCardMenu';
 
 export default class VisionCard extends Component {
   static propTypes = {
@@ -23,61 +24,36 @@ export default class VisionCard extends Component {
   }
 
   render() {
-    const { 
-        name, 
-        description, 
-        status, 
-        updatedAt, 
-        likes, 
+    const {
+        name,
+        description,
+        status,
+        updatedAt,
+        likes,
         visionId,
-        onConfirm 
+        onConfirm
     } = this.props;
-
     const cardTitle = (
         <div>
             <Icon type="api" />
-            <Link to={`/vision/${visionId}/content`}><span className="global-left-margin">{name || 'Unamed'}</span></Link>
+            <Link to={`/vision/${visionId}/content`}>
+              <span className="global-left-margin">{name || 'Unamed'}</span>
+            </Link>
         </div>
     );
-    const menu = (
-    <Menu selectable={false}>
-        <Menu.Item>
-            <Link to={`/vision/${visionId}/content`} >
-                <Icon type="eye-o" />
-                <span className="global-left-margin">View</span>
-            </Link>
-        </Menu.Item>   
-        <Menu.Item>
-            <Link to={`/vision/${visionId}/history`} >
-                <Icon type="coffee" />
-                <span className="global-left-margin">Contributions</span>
-            </Link>
-        </Menu.Item>
-        <Menu.Item>
-            <Link to={`/vision/${visionId}/history`} >
-                <Icon type="team" />
-                <span className="global-left-margin">TimeLine</span>
-            </Link>
-        </Menu.Item>
-        <Menu.Item>
-            <Popconfirm placement="bottom" title="Reconfirm Your Choice" onConfirm={onConfirm} okText="Confirm" cancelText="Cancel">
-                <Icon type="logout" />
-                <span className="global-left-margin">Unregister</span>
-            </Popconfirm>
-        </Menu.Item>
-    </Menu>
-    );
+    const Menu = VisionMenu(visionId , () => console.log('yyeyye'));
+    const extra = Menu !== null ? (
+      <Dropdown overlay={Menu} placement="bottomCenter">
+          <Button type="dashed" icon="bars" shape="circle"/>
+      </Dropdown>
+    ) : null;
 
     return (
         <Card
             title={cardTitle}
             noHovering
             className="relative-content"
-            extra={
-                <Dropdown overlay={menu} placement="bottomCenter">
-                    <Button type="dashed" icon="bars" shape="circle"/>
-                </Dropdown>
-            }
+            extra={extra}
         >
             <div className="vision-desc" >
                 <p>
@@ -85,10 +61,10 @@ export default class VisionCard extends Component {
                 </p>
                 <div className="card-sub-info">
                     <Tag color="#595755">{status}</Tag>
-                    <Tag color="#595755">{updatedAt}</Tag>  
-                    <Tag color="blue"><Icon type="like" /> {likes}</Tag>    
+                    <Tag color="#595755">{updatedAt}</Tag>
+                    <Tag color="blue"><Icon type="like" /> {likes}</Tag>
                 </div>
-            </div>    
+            </div>
         </Card>
     );
   }

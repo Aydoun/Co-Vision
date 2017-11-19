@@ -10,6 +10,7 @@ function loadStories() {
   require('../components/ProfileSideNav/psn.story.js');
   require('../components/MicroMessage/mm.story.js');
   require('../components/CorrespondanceNav/cn.story.js');
+  require('../components/InvitationCard/invitationCard.story.js');
 }
 
 configure(loadStories, module);

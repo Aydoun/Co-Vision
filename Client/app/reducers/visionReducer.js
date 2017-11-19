@@ -11,9 +11,7 @@ const initialState = {
   contributionStats : {
     contributorsList: {}
   },
-  historyList : [{
-      comment : 'Apprently This Vision lacks history!'
-  }],
+  historyList : [],
   visionList : [{
       title : 'No Active Visions Yet!',
       _id : 0
