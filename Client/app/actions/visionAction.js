@@ -14,7 +14,7 @@ import {
 export function prepareSaving(params) {
   return {
     type: VISION_SAVE_LOADING,
-    playload : params
+    playload : Object.assign({}, params, { loading: true })
   };
 }
 
@@ -67,12 +67,20 @@ export function preStat(params) {
   };
 }
 
-export function visionSaved(res) {
-  var response = res.data.response;
+export function visionSaved(err, res) {
+  if (err) {
+    return {
+      type: DUPLICATE_VISION_ACTION,
+      error: res
+    };
+  }
+
+  const response = res.data.response;
+  console.log(response, 'response');
 
   return {
     type: DUPLICATE_VISION_ACTION,
-    visionId : response.internal,
+    visionId : response.data.db._id,
   };
 }
 

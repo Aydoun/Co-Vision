@@ -25,15 +25,14 @@ exports.visionList = function(req, res, next) {
 };
 
 exports.addVisionToContributor = function(req, res, next) {
-    var visionId = req.body.visionId;
+    var visionId = req.visionId;
     if (!visionId) return res.status(200).send(Formatter({message:'All Fields Are Required'} , true));;
-
-    UserModel.findById(req.params.id , function(err , data){
+    UserModel.findById(req.body.creator , function(err , data){
         data.visions.push({
             visionId : visionId
         });
         data.save(function(err , data){
-            res.status(200).send(Formatter(data));
+            res.status(200).send(Formatter(req.repoResponse));
         });
     });
 };

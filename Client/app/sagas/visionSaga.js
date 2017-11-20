@@ -26,10 +26,8 @@ import {
 
 import request from 'utils/request';
 
-
 function* createVision(returnedData) {
-  const requestURL = config.apiBase + '/vision';
-
+  const requestURL = `${config.apiBase}/vision`;
   const PostOptions = {
     method: 'POST',
     url: requestURL,
@@ -38,11 +36,10 @@ function* createVision(returnedData) {
 
   try {
     const res = yield call(request, PostOptions);
-    yield put(visionSaved(res));
+    yield put(visionSaved(null, res));
   } catch (err) {
-    console.log(err);
+    yield put(visionSaved(true, err.message));
   }
-
 }
 
 function* createContribution(returnedData) {
@@ -98,7 +95,6 @@ function* listHistory(returnedData) {
 }
 
 //listBranch
-
 function* listBranch(returnedData) {
 
   const requestURL = config.apiBase + '/vision/' + returnedData.playload.id + '/branch';

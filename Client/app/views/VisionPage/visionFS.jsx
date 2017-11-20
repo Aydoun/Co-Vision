@@ -30,9 +30,9 @@ class VisionFS extends React.Component {
            repoName : FoundVision.title
         }
         this.setState({VisionObject : FoundVision});
-        // this.props.preContent(params);
-        // this.props.preBranch(params);
-        // this.props.preStat(params);
+        this.props.preContent(params);
+        this.props.preBranch(params);
+        this.props.preStat(params);
       }
   }
 

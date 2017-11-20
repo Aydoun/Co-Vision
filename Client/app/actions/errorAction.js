@@ -4,7 +4,6 @@ import {
 } from 'constants/errorConstants';
 
 export function reportError(error) {
-  console.log(error , 'got an error');
   return {
     type: ERROR_THROWN,
     status : false,

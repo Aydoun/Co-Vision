@@ -66,7 +66,7 @@ exports.history = function(res , params) {
 };
 
 exports.initRepository = function(inputs){
-    const pathToRepo = defaultGitPath(inputs.repoName);
+    const pathToRepo = defaultGitPath(inputs.id);
 
     return Git.Repository.init(pathToRepo, 0)
     .then(function (repo) {

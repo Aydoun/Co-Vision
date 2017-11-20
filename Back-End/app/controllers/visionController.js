@@ -89,7 +89,6 @@ exports.visionSummary = function(req , res , next){
 exports.createVision = function(req , res , next){
     const body = req.body;
     const checkRes = queryCheck(body , ['creator', 'author' , 'authorMail']);
-
     if (!checkRes) {
         return res.status(200).send(Formatter({data : 'Missing Required Parameters'} , true));
     }
@@ -99,15 +98,17 @@ exports.createVision = function(req , res , next){
       	  if (err) {
             res.status(200).send(Formatter({data : err.message} , true));
             return ;
-          } 
-          body.repoName = data._id;
+          }
+          body.id = data._id;
           initRepository(body)
           .then((commitSha) => {
             const response = {
               repository: commitSha,
               db: data
             };
-            res.status(200).send(Formatter({data : response}));
+            req.visionId = data._id;
+            req.repoResponse = response;
+            next();
           })
           .catch((err) => {
             res.status(200).send(Formatter({data : err} , true));
@@ -147,6 +148,6 @@ exports.addLike = function(req , res , next){
             });
         } else {
             res.status(200).send(Formatter('', true));
-        }    
+        }
     });
 }

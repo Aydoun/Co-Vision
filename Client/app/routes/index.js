@@ -25,6 +25,11 @@ function loginCheck(nextState, replace){
     }
 }
 
+function IsLogin(nextState, replace) {
+  const token = localStorage.getItem('token');
+  return true;
+}
+
 export default ()=> (
   <Route>
       <Route path="/app" onEnter={loginCheck}>
@@ -36,7 +41,7 @@ export default ()=> (
             {MailRoute}
         </Route>
       </Route>
-      <Route path="/" >
+      <Route path="/" onEnter={IsLogin}>
         <IndexRedirect to="home" />
         <Route path="/home" component={SignIn} />
       </Route>
