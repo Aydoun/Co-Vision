@@ -6,7 +6,7 @@ const Likes = new Schema({
 } , {timestamps: true});
 
 const Vision = new Schema({
-	title : {type: String},
+	title : {type: String, required: true},
   description : {type: String},
   creator : {type : Schema.Types.ObjectId, required: true},
   privacy : {type:Array, default : []},

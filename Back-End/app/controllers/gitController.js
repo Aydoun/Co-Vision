@@ -1,4 +1,4 @@
-// var Git = require('../../nodegit');
+var Git = require('../../nodegit');
 var path = require('path');
 var {queryCheck , Formatter, defaultGitPath} = require('../lib');
 var promisify = require("promisify-node");

@@ -2,7 +2,7 @@ var express = require('express');
 var users = express.Router();
 var contributorModel = require('../models/userModel');
 var base = require('../controllers/baseCrudController')(contributorModel);
-var { visionList , addVisionToContributor , LogIn, Register } = require('../controllers/userController');
+var { visionList , addVisionToContributor } = require('../controllers/userController');
 
 //General Crud Routing
 users.get('/findOne', base.getOne);

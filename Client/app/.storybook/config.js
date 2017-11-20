@@ -2,15 +2,10 @@ import { configure } from '@storybook/react';
 import 'antd/dist/antd.min.css';
 import './index.css';
 
+const req = require.context('../components/', true, /\.story\.js$/)
+
 function loadStories() {
-  require('../components/Header/header.story.js');
-  require('../components/Filter/filter.story.js');
-  require('../components/VisionCard/vc.story.js');
-  require('../components/PublicCard/pc.story.js');
-  require('../components/ProfileSideNav/psn.story.js');
-  require('../components/MicroMessage/mm.story.js');
-  require('../components/CorrespondanceNav/cn.story.js');
-  require('../components/InvitationCard/invitationCard.story.js');
+  req.keys().forEach((filename) => req(filename))
 }
 
 configure(loadStories, module);

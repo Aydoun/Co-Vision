@@ -35,7 +35,7 @@ var server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
- /**
+
 mongoose.Promise = Promise;
 mongoose.connect(serverConfig.mongoURL, (error) => {
   if (error) {
@@ -43,7 +43,7 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
     throw error;
   }
 });
-*/
+
 server.listen(port);
 //server.on('error', onError);
 server.on('listening', onListening);

@@ -38,9 +38,9 @@ exports.queryCheck = function(clientInput , requiredParams){
 }
 
 exports.defaultGitPath = (repoName) => {
-    return path.resolve(`D://git/Visions/${repoName}`);
+    return path.resolve(`C://git/Visions/${repoName}`);
 }
 
-exports.defaultUploadPath = () => {  
-    return path.resolve(`D://fileUpload/`);
+exports.defaultUploadPath = () => {
+    return path.resolve(`C://fileUpload/`);
 }
