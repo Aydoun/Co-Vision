@@ -27,18 +27,19 @@ function loginCheck(nextState, replace){
 
 export default ()=> (
   <Route>
-      <Route path="/" onEnter={loginCheck}>
+      <Route path="/app" onEnter={loginCheck}>
         <IndexRedirect to="vision" />
         <Route component={App} >
             {VisionRoutes}
-            {HomeRoutes}
             {UserRoute}
             {DiscoverRoutes}
             {MailRoute}
         </Route>
       </Route>
-      <Route path="/login" component={SignIn} />
-      <Route path="/register" component={Register} />
+      <Route path="/" >
+        <IndexRedirect to="home" />
+        <Route path="/home" component={SignIn} />
+      </Route>
       <Route path="*" component={NotFound} />
   </Route>
 )

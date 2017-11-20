@@ -4,7 +4,7 @@ import discover from 'views/DiscoverPage';
 
 export default (
   <Route>
-      <Route path="/discover" component={discover}>
+      <Route path="/app/discover" component={discover}>
       </Route>
   </Route>
 )

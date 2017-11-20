@@ -21,10 +21,26 @@ class VisionPage extends PureComponent {
                 defaultOpenKeys={['sub1']}
                 style={{ height: '100%' }}
               >
-                <Menu.Item key="1"><Link to="/vision/list"><Icon type="eye-o" />My Visions</Link></Menu.Item>
-                <Menu.Item key="2"><Link to="/vision/create"><Icon type="plus-circle-o" />Add Vision</Link></Menu.Item>
-                <Menu.Item key="3"><Link to="/invitation"><Icon type="mail" />Invitation</Link></Menu.Item>
-                <Menu.Item key="4"><Link to="/feedback"><Icon type="customer-service" />Feedback</Link></Menu.Item>
+                <Menu.Item key="1">
+                  <Link to="/app/vision/list">
+                    <Icon type="eye-o" />My Visions
+                  </Link>
+                </Menu.Item>
+                <Menu.Item key="2">
+                  <Link to="/app/vision/create">
+                    <Icon type="plus-circle-o" />Add Vision
+                  </Link>
+                </Menu.Item>
+                <Menu.Item key="3">
+                  <Link to="/app/invitation">
+                    <Icon type="mail" />Invitation
+                  </Link>
+                </Menu.Item>
+                <Menu.Item key="4">
+                  <Link to="/app/feedback">
+                    <Icon type="customer-service" />Feedback
+                  </Link>
+                </Menu.Item>
               </Menu>
             </Sider>
             <Content style={{ padding: '0 24px', minHeight: 280 }}>

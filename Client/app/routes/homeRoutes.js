@@ -4,6 +4,6 @@ import Home from 'views/HomePage';
 
 export default (
   <Route>
-      <Route path="/home" component={Home} />
+      <Route path="/app/home" component={Home} />
   </Route>
 )

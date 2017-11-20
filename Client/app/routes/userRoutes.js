@@ -4,7 +4,7 @@ import UserProfile from 'views/UserPage';
 
 export default (
   <Route>
-      <Route path="/user/profile" component={UserProfile}>
+      <Route path="/app/user/profile" component={UserProfile}>
       </Route>
   </Route>
 )

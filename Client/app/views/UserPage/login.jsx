@@ -20,7 +20,6 @@ function mapDispatchToProps(dispatch){
 }
 
 function mapStateToProps(state) {
-  //console.log(state , 'login state');
   return {
     errorObj : state.error
   };

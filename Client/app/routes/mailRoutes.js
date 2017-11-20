@@ -4,6 +4,6 @@ import MailPage from 'views/MailPage';
 
 export default (
   <Route>
-      <Route path="/mail" component={MailPage} />
+      <Route path="/app/mail" component={MailPage} />
   </Route>
 )
