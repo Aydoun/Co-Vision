@@ -18,7 +18,7 @@ import request from 'utils/request';
 import { saveUserData } from 'utils';
 
 function* userLogin(returnedData) {
-  const requestURL = config.apiBase + '/user/login';
+  const requestURL = `${config.apiBase}/login`;
 
   const PostOptions = {
     method: 'POST',
@@ -31,14 +31,15 @@ function* userLogin(returnedData) {
     yield put(authenticateUser(res));
     //Login Successfull
     saveUserData(res.data.response);
-    browserHistory.push("/");
+    console.log('Pushing' , res.data.response);
+    browserHistory.push("/app");
   } catch (err) {
     yield put(reportError(err))
   }
 }
 
 function* userRegister(returnedData) {
-  const requestURL = config.apiBase + '/user/register';
+  const requestURL = `${config.apiBase}/register`;
 
   const PostOptions = {
     method: 'POST',
@@ -52,7 +53,8 @@ function* userRegister(returnedData) {
 
     //  Regtistration Successfull
     saveUserData(res.data.response);
-    browserHistory.push("/");
+    console.log('Pushing');
+    browserHistory.push("/app");
   } catch (err) {
     yield put(reportError(err))
   }

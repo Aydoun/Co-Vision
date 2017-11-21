@@ -2,10 +2,8 @@ import React from 'react';
 import {Router, Route , IndexRedirect } from 'react-router';
 
 import App from 'views/App';
-import SignIn from 'views/UserPage/login';
-import Register from 'views/UserPage/register';
+import Home from 'views/HomePage';
 import VisionRoutes from './visionRoutes';
-import HomeRoutes from './homeRoutes';
 import DiscoverRoutes from './discoverRoutes';
 import UserRoute from './userRoutes';
 import MailRoute from './mailRoutes';
@@ -13,11 +11,9 @@ import NotFound from 'views/NotFoundPage';
 
 function loginCheck(nextState, replace){
     const token = localStorage.getItem('token');
-    return true;
-
     if (!token) {
       replace({
-          pathname : '/login',
+          pathname : '/home',
           state : {}
       })
     } else {
@@ -27,7 +23,14 @@ function loginCheck(nextState, replace){
 
 function IsLogin(nextState, replace) {
   const token = localStorage.getItem('token');
-  return true;
+  if (nextState.location.pathname.indexOf('/home') >= 0 && token) {
+    replace({
+        pathname : '/app',
+        state : {}
+    })
+  } else {
+    return true;
+  }
 }
 
 export default ()=> (
@@ -43,7 +46,7 @@ export default ()=> (
       </Route>
       <Route path="/" onEnter={IsLogin}>
         <IndexRedirect to="home" />
-        <Route path="/home" component={SignIn} />
+        <Route path="/home" component={Home} />
       </Route>
       <Route path="*" component={NotFound} />
   </Route>

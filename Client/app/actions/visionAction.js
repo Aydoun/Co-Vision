@@ -74,9 +74,7 @@ export function visionSaved(err, res) {
       error: res
     };
   }
-
   const response = res.data.response;
-  console.log(response, 'response');
 
   return {
     type: DUPLICATE_VISION_ACTION,

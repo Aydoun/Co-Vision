@@ -49,6 +49,7 @@ export default class VisionCard extends Component {
     ) : null;
 
     return (
+      <div className="global-bottom-margin">
         <Card
             title={cardTitle}
             noHovering
@@ -66,6 +67,7 @@ export default class VisionCard extends Component {
                 </div>
             </div>
         </Card>
+      </div>
     );
   }
 }

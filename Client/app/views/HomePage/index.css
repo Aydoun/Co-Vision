@@ -1,0 +1,17 @@
+.ant-tabs-nav-wrap {
+  height: 42px;
+}
+
+.main {
+  margin: 80px 112px;
+      background: #fffaf4;
+  padding: 24px 12px;
+}
+
+.login-form {
+  max-width: 300px;
+}
+
+.login-form-button {
+  width: 100%;
+}

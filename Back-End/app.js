@@ -23,7 +23,33 @@ app.use("/api", subpath);
 subpath.use(cors());
 
 const preCheck = (req, res, next) => {
-   next();
+  const token = req.body.token || req.query.token || req.headers['x-access-token'];
+  //decode token
+  next();
+  // if (token) {
+  //   try {
+  //     console.log('decoding')
+  //     const decoded = jwt.decode(token, config.secret);
+  //     console.log('post decoding')
+  //     if (decoded.exp <= Date.now()) {
+  //       res.end('Access token has expired', 400);
+  //     } else {
+  //       //  save user id in the request object
+  //        req.userId = decoded.iss;
+  //       next();
+  //     }
+  //   } catch (err) {
+  //       return res.status(403).send({
+  //           status: false,
+  //           message: 'Invalid Token'
+  //       });
+  //   }
+  // } else {
+  //   return res.status(403).send({
+  //       status: false,
+  //       message: 'No token provided.'
+  //   });
+  // }
 }
 
 subpath.use('/', preCheck, routes);

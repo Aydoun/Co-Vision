@@ -57,7 +57,10 @@ injectGlobal`
   }
 
   .global-right-margin {
-      margin-right:8px;
+      margin-right: 8px;
+  }
+  .global-bottom-margin {
+      margin-bottom: 8px;
   }
 
   .global-left-margin {
