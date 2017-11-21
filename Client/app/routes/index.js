@@ -2,7 +2,7 @@ import React from 'react';
 import {Router, Route , IndexRedirect } from 'react-router';
 
 import App from 'views/App';
-import Home from 'views/HomePage';
+import Welcome from 'views/WelcomePage';
 import VisionRoutes from './visionRoutes';
 import DiscoverRoutes from './discoverRoutes';
 import UserRoute from './userRoutes';
@@ -45,8 +45,8 @@ export default ()=> (
         </Route>
       </Route>
       <Route path="/" onEnter={IsLogin}>
-        <IndexRedirect to="home" />
-        <Route path="/home" component={Home} />
+        <IndexRedirect to="welcome" />
+        <Route path="/welcome" component={Welcome} />
       </Route>
       <Route path="*" component={NotFound} />
   </Route>

@@ -1,9 +1,9 @@
-.app-top__wrapper {
-   width: 1128px;
-   margin: 32px auto;
-   position: relative;
+.app-sider-wrapper a {
+  color: #ececec;
+  font-family: cursive;
 }
-
-.Navigation-Links {
-    background: #fff;
+.logo {
+  height: 32px;
+  border-radius: 6px;
+  margin: 10px 16px;
 }

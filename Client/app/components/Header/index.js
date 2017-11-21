@@ -12,13 +12,15 @@ export default class Header extends PureComponent {
       <div className="header-wrapper">
         <div className="header-right-content">
           <Row type="flex">
-            <Col span={6}>
-              <Link to="/">
-                <Avatar src="http://tse3.mm.bing.net/th?id=OIP.ZotSj2OR21ya9ySgfb9zlgD6D6&w=173&h=168&c=7&qlt=90&o=4&pid=1.7" />
-              </Link>
-            </Col>  
+            <Col span={3}>
+              <Search
+                placeholder="Search Anything..."
+                style={{ width: 200 }}
+                onSearch={value => console.log(value)}
+              />
+            </Col>
           </Row>
-        </div>   
+        </div>
       </div>
     );
   }
