@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import { Card, Icon, Tag, Dropdown, Button } from 'antd';
 import VisionMenu from '../DropMenu/VisionCardMenu';
 
+
 export default class VisionCard extends Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
@@ -49,7 +50,7 @@ export default class VisionCard extends Component {
     ) : null;
 
     return (
-      <div className="global-bottom-margin">
+      <div className="global-top-margin">
         <Card
             title={cardTitle}
             noHovering
@@ -61,9 +62,9 @@ export default class VisionCard extends Component {
                     {description}
                 </p>
                 <div className="card-sub-info">
-                    <Tag color="#595755">{status}</Tag>
-                    <Tag color="#595755">{updatedAt}</Tag>
-                    <Tag color="blue"><Icon type="like" /> {likes}</Tag>
+                    <Tag color="#595755">{ status }</Tag>
+                    <Tag color="#595755">{ updatedAt }</Tag>
+                    <Tag color="blue"><Icon type="like" /> { likes }</Tag>
                 </div>
             </div>
         </Card>

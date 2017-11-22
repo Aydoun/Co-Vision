@@ -12,12 +12,13 @@ class addVision extends React.Component {
     this.props.form.validateFields((err, fieldsValue) => {
       if (!err) {
         var params = Object.assign({} , {
-            author : localStorage.fullName,
+            author : localStorage.userfullName,
             authorMail : localStorage.userEmail,
             creator : localStorage.userId
         } , fieldsValue);
 
         this.props.prepareSaving(params);
+        // this.props.cb();
       }
     });
   }
@@ -47,14 +48,14 @@ class addVision extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { loading, error, visionId } = this.props;
+    const { loading, error, visionId, onCancel } = this.props;
     const config = {
       rules: [{ type: 'string', required: true, message: 'Required Field' }],
     };
     const message = this.getMessage();
 
     return (
-      <Card >
+      <Card noHovering>
         {message}
         <Form layout="vertical">
           <FormItem
@@ -79,7 +80,7 @@ class addVision extends React.Component {
               onClick={this.handleSubmit.bind(this)}>
               Create
             </Button>&nbsp;&nbsp;&nbsp;
-            <Button icon="close" ><Link to="/vision/list">Cancel</Link></Button>
+            <Button icon="close" onClick={onCancel} >Cancel</Button>
           </FormItem>
         </Form>
       </Card>

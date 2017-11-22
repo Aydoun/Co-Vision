@@ -13,7 +13,7 @@ function loginCheck(nextState, replace){
     const token = localStorage.getItem('token');
     if (!token) {
       replace({
-          pathname : '/home',
+          pathname : '/welcome',
           state : {}
       })
     } else {
@@ -23,7 +23,7 @@ function loginCheck(nextState, replace){
 
 function IsLogin(nextState, replace) {
   const token = localStorage.getItem('token');
-  if (nextState.location.pathname.indexOf('/home') >= 0 && token) {
+  if (nextState.location.pathname.indexOf('/welcome') >= 0 && token) {
     replace({
         pathname : '/app',
         state : {}

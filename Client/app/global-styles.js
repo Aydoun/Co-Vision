@@ -45,8 +45,8 @@ injectGlobal`
     padding:4px;
   }
 
-  .ant-popover-inner-content{
-    background:#f9f9f9;
+  .ant-modal-header {
+    background: #ffce3d;
   }
 
   hr {
@@ -60,6 +60,10 @@ injectGlobal`
       margin-right: 8px;
   }
   .global-bottom-margin {
+      margin-bottom: 8px;
+  }
+
+  .global-top-margin {
       margin-bottom: 8px;
   }
 

@@ -11,6 +11,11 @@ export function saveUserData(serverResponse){
     localStorage.setItem('userfullName' , serverResponse.fullName);
 }
 
+export function logout() {
+  localStorage.clear();
+  window.location.reload();
+}
+
 export function formatDate(date){
     if (date) {
       var dateObj = new Date(date);

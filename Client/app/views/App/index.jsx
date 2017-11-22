@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { Layout, Menu, Breadcrumb, Icon, Avatar } from 'antd';
+import { Layout, Menu, Breadcrumb, Icon, Avatar, Button, Popconfirm } from 'antd';
 import MyHeader from 'components/Header';
+import { logout } from 'utils';
 import './index.css';
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -30,8 +31,8 @@ class App extends React.Component {
             </div>
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
               <Menu.Item key="1">
-                <Icon type="home" />
-                <span><Link to="/app">Home</Link></span>
+                <Link to="/app"><Icon type="home" />
+                <span>Home</span></Link>
               </Menu.Item>
               <Menu.Item key="2">
                 <Icon type="global" />
@@ -56,18 +57,23 @@ class App extends React.Component {
                 key="sub2"
                 title={<span><Icon type="user" /><span>Me</span></span>}
               >
-                <Menu.Item key="3"><span>
+                <Menu.Item key="5"><span>
                   <Icon type="user" />
-                    <Link to="/app/user/profile">Profile</Link>
+                  <Link to="/app/user/profile">Profile</Link>
                 </span>
                 </Menu.Item>
-                <Menu.Item key="4"><Icon type="logout" /> Logout</Menu.Item>
+                <Menu.Item key="6">
+                  <Popconfirm title="Confirm Logout"
+                    onConfirm={logout}
+                    okText="Confirm" cancelText="Cancel">
+                    <Icon type="logout" />
+                    <a href="javascript:void(0)">Logout</a>
+                  </Popconfirm>
+                </Menu.Item>
               </SubMenu>
-              <Menu.Item key="9">
-                <span>
-                  <Icon type="customer-service" />
-                  <Link to="/app/feedback">FeedBack</Link>
-                </span>
+              <Menu.Item key="7">
+                <Icon type="customer-service" />
+                <span><Link to="/app/feedback">FeedBack</Link></span>
               </Menu.Item>
             </Menu>
           </Sider>

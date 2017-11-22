@@ -88,9 +88,10 @@ exports.visionSummary = function(req , res , next){
 
 exports.createVision = function(req , res , next){
     const body = req.body;
-    const checkRes = queryCheck(body , ['creator', 'author' , 'authorMail']);
+    const checkRes = queryCheck(body , ['creator', 'author' , 'authorMail', 'title']);
+    console.log(checkRes, 'body');
     if (!checkRes) {
-        return res.status(200).send(Formatter({data : 'Missing Required Parameters'} , true));
+        return res.status(400).send(Formatter({data : 'Missing Required Parameters'} , true));
     }
 
     const newVision = new visionModel(body);

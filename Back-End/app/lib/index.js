@@ -34,6 +34,13 @@ exports.generateToken = function (userId, tokenSecret) {
 };
 
 exports.queryCheck = function(clientInput , requiredParams){
+    // for (var i = 0; i< requiredParams.length; i++) {
+    //   if (typeof clientInput[requiredParams[i]] === 'undefined') {
+    //     console.log(requiredParams[i]);
+    //     return false;
+    //   }
+    // }
+    // return true;
     return _.every(requiredParams, item => typeof clientInput[item] !== 'undefined');
 }
 
