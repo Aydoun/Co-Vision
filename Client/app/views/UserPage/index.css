@@ -1,0 +1,26 @@
+.user-profile__form h3 {
+  font-size: 16px;
+  color: #108ee9;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #ececec;
+  margin: 22px 0;
+}
+
+.avatar-uploader,
+.avatar-uploader-trigger,
+.avatar {
+  width: 250px;
+  height: 250px;
+}
+.avatar-uploader {
+  display: block;
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.avatar-uploader-trigger {
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 28px;
+  color: #999;
+}

@@ -10,7 +10,8 @@ const Visions = new Schema({
 
 const userSchema = new Schema({
 	fullName: {type: String , required: true , unique : true},
-  nickName: {type: String},
+  sexe: {type : Number , enum: [0, 1, -1] , default : 0},
+	age: {type : String},
   addresses: {type : Array},
   contactInfo : {type:Array},
   phone: {type : String},

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { Layout, Menu, Breadcrumb, Icon, Avatar, Button, Popconfirm } from 'antd';
 import MyHeader from 'components/Header';
+import MyFooter from 'components/Footer';
 import { logout } from 'utils';
 import './index.css';
 
@@ -85,7 +86,7 @@ class App extends React.Component {
               </div>
             </Content>
             <Footer style={{ textAlign: 'center' }}>
-              Aydoun Corporation
+              <MyFooter />
             </Footer>
           </Layout>
         </Layout>
