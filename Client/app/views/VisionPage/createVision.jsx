@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
+import assign from 'lodash/assign';
 import { Form , Button , Input , Card, Alert } from 'antd';
 import { prepareSaving } from 'actions/visionAction';
 
@@ -11,7 +12,7 @@ class addVision extends React.Component {
   handleSubmit(){
     this.props.form.validateFields((err, fieldsValue) => {
       if (!err) {
-        var params = Object.assign({} , {
+        var params = assign({} , {
             author : localStorage.userfullName,
             authorMail : localStorage.userEmail,
             creator : localStorage.userId

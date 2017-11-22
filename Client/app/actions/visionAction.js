@@ -1,3 +1,4 @@
+import assign from 'lodash/assign';
 import {
   VISION_SAVE_LOADING,
   SAVE_CONTRIBUTION_LOADING,
@@ -14,7 +15,7 @@ import {
 export function prepareSaving(params) {
   return {
     type: VISION_SAVE_LOADING,
-    playload : Object.assign({}, params, { loading: true })
+    playload : assign({}, params, { loading: true })
   };
 }
 

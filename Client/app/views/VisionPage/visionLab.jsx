@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import find from 'lodash/find';
+import assign from 'lodash/assign';
 import {Form , Button , Card , Input , Spin , message} from 'antd';
 import { fileContent , preRead , preContribution } from 'actions/visionAction';
 import {getAllCookies} from 'utils';
@@ -18,7 +19,7 @@ class VisionLab extends React.Component {
           var FoundVision = find(this.props.visionList , ['_id' , visionId]);
 
           if (FoundVision) {
-            var params = Object.assign({} , fieldsValue , {
+            var params = assign({} , fieldsValue , {
                 fileName : fileName,
                 id :  visionId,
                 repoName : FoundVision.title,
@@ -70,7 +71,7 @@ class VisionLab extends React.Component {
               <FormItem
                 label={(fileName || '') + ' Content'}
               >
-                {getFieldDecorator('fileContent', Object.assign({} , config , {
+                {getFieldDecorator('fileContent', assign({} , config , {
                     initialValue : ContentString
                 }))(
                   <Input type="textarea" rows={8} />

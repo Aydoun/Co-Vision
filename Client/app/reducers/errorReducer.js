@@ -1,3 +1,4 @@
+import assign from 'lodash/assign';
 import {
   ERROR_THROWN,
   ERROR_CANCELLED
@@ -12,9 +13,9 @@ function visionReducer(state = initialState, action) {
 
   switch (action.type) {
     case ERROR_THROWN:
-      return Object.assign({} , state , {...action} );
+      return assign({} , state , {...action} );
     case ERROR_CANCELLED:
-      return Object.assign({} , state , {...action} );
+      return assign({} , state , {...action} );
     default:
       return state;
   }

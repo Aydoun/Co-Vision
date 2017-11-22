@@ -1,3 +1,4 @@
+import assign from 'lodash/assign';
 import axios from 'axios';
 
 function checkStatus(response) {
@@ -12,7 +13,7 @@ function checkStatus(response) {
 }
 
  export default function request(options) {
-   return axios(Object.assign(options , {
+   return axios(assign(options , {
      headers: {'x-access-token': localStorage.getItem('token') || ''}
    }))
    .then(checkStatus)

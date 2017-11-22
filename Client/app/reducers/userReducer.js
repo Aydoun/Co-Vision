@@ -1,4 +1,4 @@
-//import { fromJS } from 'immutable';
+import assign from 'lodash/assign';
 
 import {
   DUPLICATE_USER_ACTION,
@@ -13,9 +13,9 @@ function visionReducer(state = initialState, action) {
 
   switch (action.type) {
     case DUPLICATE_USER_ACTION:
-      return Object.assign({} , state , {...action} , {loading:false});
+      return assign({} , state , {...action} , {loading:false});
     default:
-      return Object.assign({} , state , {loading:true});
+      return assign({} , state , {loading:true});
   }
 }
 
