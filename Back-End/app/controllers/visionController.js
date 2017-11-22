@@ -88,18 +88,21 @@ exports.visionSummary = function(req , res , next){
 
 exports.createVision = function(req , res , next){
     const body = req.body;
+
     const checkRes = queryCheck(body , ['creator', 'author' , 'authorMail']);
 
     if (!checkRes) {
         return res.status(200).send(Formatter({data : 'Missing Required Parameters'} , true));
     }
 
+
     const newVision = new visionModel(body);
     newVision.save(function (err, data) {
       	  if (err) {
-            res.status(200).send(Formatter({data : err.message} , true));
+            console.log(err.message)
+            res.status(403).send(Formatter({data : err.message} , true));
             return ;
-          } 
+          }
           body.repoName = data._id;
           initRepository(body)
           .then((commitSha) => {
@@ -147,6 +150,6 @@ exports.addLike = function(req , res , next){
             });
         } else {
             res.status(200).send(Formatter('', true));
-        }    
+        }
     });
 }
