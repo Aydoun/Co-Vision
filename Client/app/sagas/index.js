@@ -9,5 +9,5 @@ export default function* root() {
     yield [
         vision,
         user
-    ]
+    ];
 }

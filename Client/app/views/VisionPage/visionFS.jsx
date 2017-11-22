@@ -1,43 +1,41 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Link } from 'react-router';
 import find from 'lodash/find';
-import {Icon , Table , Select, Card, Row, Col, Modal} from 'antd';
+import { Table, Select, Card, Modal } from 'antd';
 import Columns from './table-columns/fileSystem';
-import { preContent , preBranch, preStat } from 'actions/visionAction';
-import { formatDate } from 'utils';
+import { preContent, preBranch, preStat } from 'actions/visionAction';
 
 const Option = Select.Option;
 
 class VisionFS extends React.Component {
 
-  constructor(props){
+  constructor(props) {
       super(props);
       this.state = {
           VisionObject : {},
           visible : false
-      }
+      };
   }
 
   componentDidMount() {
-      var _id = this.props.routeParams.id;
-      var FoundVision = find(this.props.visionList , ['_id' , _id]);
+      const _id = this.props.routeParams.id;
+      const FoundVision = find(this.props.visionList, ['_id', _id]);
 
       if (FoundVision) {
-        var params = {
+        const params = {
            id : _id,
            repoName : FoundVision.title
-        }
-        this.setState({VisionObject : FoundVision});
+        };
+        this.setState({ VisionObject : FoundVision });
         this.props.preContent(params);
         this.props.preBranch(params);
         this.props.preStat(params);
       }
   }
 
-  branchChanged(value , label){
-      const {VisionObject} = this.state;
+  branchChanged(value) {
+      const { VisionObject } = this.state;
 
       this.props.preContent({
           id : this.props.routeParams.id,
@@ -47,14 +45,14 @@ class VisionFS extends React.Component {
   }
 
   render() {
-    const {visionFS , branchList, contributionStats} = this.props;
+    const { visionFS, branchList, contributionStats } = this.props;
     const { VisionObject, visible } = this.state;
     const SelectBranch = (
       <div>
         <label>Branches ({branchList.length || 0}) : </label>
-        <Select style={{width:155}} onChange={this.branchChanged.bind(this)}>
-            {
-              branchList.map((item , i) => <Option key={i} value={item.name}>{item.name}</Option>)
+        <Select style={{ width:155 }} onChange={this.branchChanged.bind(this)}>
+          {
+              branchList.map((item, i) => <Option key={i} value={item.name}>{item.name}</Option>)
             }
         </Select>
       </div>
@@ -82,16 +80,14 @@ class VisionFS extends React.Component {
         <Modal
           visible={visible}
           title="Vision Contributors"
-          onCancel={() => this.setState({visible : false})}
+          onCancel={() => this.setState({ visible : false })}
         >
           {
-            Object.keys(contributionStats.contributorsList).map(function(key , index){
-              return (
-                <p key={index}>
-                    <span>{key}</span>
-                </p>
-              )
-            })
+            Object.keys(contributionStats.contributorsList).map((key, index) => (
+              <p key={index}>
+                <span>{key}</span>
+              </p>
+              ))
           }
         </Modal>
       </div>
@@ -99,8 +95,8 @@ class VisionFS extends React.Component {
   }
 }
 
-function mapDispatchToProps(dispatch){
-  return bindActionCreators({preContent , preBranch, preStat} , dispatch)
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ preContent, preBranch, preStat }, dispatch);
 }
 
 function mapStateToProps(state) {

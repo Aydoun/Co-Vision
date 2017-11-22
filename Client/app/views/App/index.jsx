@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { Layout, Menu, Breadcrumb, Icon, Avatar, Button, Popconfirm } from 'antd';
+import { Layout, Menu, Icon, Avatar, Popconfirm } from 'antd';
 import MyHeader from 'components/Header';
 import MyFooter from 'components/Footer';
 import { logout } from 'utils';
 import './index.css';
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
 
 class App extends React.Component {
@@ -33,7 +33,8 @@ class App extends React.Component {
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
               <Menu.Item key="1">
                 <Link to="/app"><Icon type="home" />
-                <span>Home</span></Link>
+                  <span>Home</span>
+                </Link>
               </Menu.Item>
               <Menu.Item key="2">
                 <Icon type="global" />
@@ -64,11 +65,14 @@ class App extends React.Component {
                 </span>
                 </Menu.Item>
                 <Menu.Item key="6">
-                  <Popconfirm title="Confirm Logout"
+                  <Popconfirm
+                    title="Confirm Logout"
                     onConfirm={logout}
-                    okText="Confirm" cancelText="Cancel">
+                    okText="Confirm"
+                    cancelText="Cancel"
+                  >
                     <Icon type="logout" />
-                    <a href="javascript:void(0)">Logout</a>
+                    <a href="#">Logout</a>
                   </Popconfirm>
                 </Menu.Item>
               </SubMenu>

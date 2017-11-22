@@ -1,26 +1,25 @@
 import React from 'react';
-import {Link} from 'react-router';
-import {Menu , Dropdown , Icon} from 'antd';
-
+import { Link } from 'react-router';
+import { Menu, Dropdown, Icon } from 'antd';
 
 export function getVisionCardExtra(key) {
-  var _this = this;
+  const _this = this;
 
-  var menu = (
+  const menu = (
     <Menu onSelect={() => _this.onMenuSelectedItem.bind(_this)(key)}>
       <Menu.Item key="0">
         <div className="global-padding">
-          <Link to={"/vision/" + key + "/history"}> <Icon type="clock-circle-o" /> TimeLine </Link>
+          <Link to={`/vision/${key}/history`}> <Icon type="clock-circle-o" /> TimeLine </Link>
         </div>
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="1">
         <div className="global-padding">
-          <Link to={"/vision/" + key + "/content"}> <Icon type="folder" /> Content </Link>        
+          <Link to={`/vision/${key}/content`}> <Icon type="folder" /> Content </Link>
         </div>
       </Menu.Item>
     </Menu>
-  )
+  );
 
   return (
     <Dropdown overlay={menu} placement="bottomCenter" trigger={['click']}>

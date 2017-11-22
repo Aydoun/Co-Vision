@@ -14,7 +14,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(rootReducer, defaultState, applyMiddleware(sagaMiddleware, reduxLogger));
 
-sagaMiddleware.run(mySaga)
+sagaMiddleware.run(mySaga);
 
 export const history = syncHistoryWithStore(browserHistory, store);
 

@@ -1,12 +1,10 @@
 import React, { PureComponent } from 'react';
-import { Link } from 'react-router';
-import { Row, Col, Avatar, Input } from 'antd';
+import { Row, Col, Input } from 'antd';
 import './index.css';
 
 const Search = Input.Search;
 
 export default class Header extends PureComponent {
-
   render() {
     return (
       <div className="header-wrapper">

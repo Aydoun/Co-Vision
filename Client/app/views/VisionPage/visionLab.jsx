@@ -1,33 +1,30 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 import find from 'lodash/find';
 import assign from 'lodash/assign';
-import {Form , Button , Card , Input , Spin , message} from 'antd';
-import { fileContent , preRead , preContribution } from 'actions/visionAction';
-import {getAllCookies} from 'utils';
+import { Form, Button, Card, Input, message } from 'antd';
+import { fileContent, preRead, preContribution } from 'actions/visionAction';
 
 const FormItem = Form.Item;
 
 class VisionLab extends React.Component {
-  handleSubmit(){
+  handleSubmit() {
       this.props.form.validateFields((err, fieldsValue) => {
           if (err) {
             return;
           }
-          const {fileName , visionId} = this.props.location.query;
-          var FoundVision = find(this.props.visionList , ['_id' , visionId]);
+          const { fileName, visionId } = this.props.location.query;
+          const FoundVision = find(this.props.visionList, ['_id', visionId]);
 
           if (FoundVision) {
-            var params = assign({} , fieldsValue , {
-                fileName : fileName,
+            const params = assign({}, fieldsValue, {
+                fileName,
                 id :  visionId,
                 repoName : FoundVision.title,
                 author : localStorage.userfullName,
                 authorMail : localStorage.userEmail
             });
-
-            console.log(params , 'params');
 
             this.props.preContribution(params);
           } else {
@@ -36,30 +33,30 @@ class VisionLab extends React.Component {
       });
   }
 
+  componentDidMount() {
+      const { fileName, visionId, sha } = this.props.location.query;
+      const FoundVision = find(this.props.visionList, ['_id', visionId]);
+
+      if (FoundVision) {
+        this.props.preRead({
+            id : visionId,
+            commitSha : sha,
+            fileName,
+            repoName : FoundVision.title
+        });
+      }
+  }
+
   componentWillReceiveProps(nextProps) {
       if (!nextProps.error.status && this.props.error.errorMessage != nextProps.error.errorMessage) {
           message.error(nextProps.error.errorMessage);
       }
   }
 
-  componentDidMount(){
-      const {fileName , visionId , sha} = this.props.location.query;
-      var FoundVision = find(this.props.visionList , ['_id' , visionId]);
-
-      if (FoundVision) {
-        this.props.preRead({
-            id : visionId,
-            commitSha : sha,
-            fileName : fileName,
-            repoName : FoundVision.title
-        });
-      }
-  }
-
   render() {
-      const {ContentString} = this.props;
+      const { ContentString } = this.props;
       const { getFieldDecorator } = this.props.form;
-      const {fileName} = this.props.location.query;
+      const { fileName } = this.props.location.query;
       const config = {
         rules: [{ type: 'string', required: true, message: 'Required Field' }],
       };
@@ -69,9 +66,9 @@ class VisionLab extends React.Component {
           <Card >
             <Form layout="vertical">
               <FormItem
-                label={(fileName || '') + ' Content'}
+                label={`${fileName || ''} Content`}
               >
-                {getFieldDecorator('fileContent', assign({} , config , {
+                {getFieldDecorator('fileContent', assign({}, config, {
                     initialValue : ContentString
                 }))(
                   <Input type="textarea" rows={8} />
@@ -94,8 +91,8 @@ class VisionLab extends React.Component {
     }
 }
 
-function mapDispatchToProps(dispatch){
-  return bindActionCreators({fileContent , preRead , preContribution} , dispatch)
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ fileContent, preRead, preContribution }, dispatch);
 }
 
 function mapStateToProps(state) {

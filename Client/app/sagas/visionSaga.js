@@ -1,10 +1,9 @@
-import { call, put, takeLatest , fork } from 'redux-saga/effects';
-import {reportError , cancelError} from 'actions/errorAction';
+import { call, put, takeLatest, fork } from 'redux-saga/effects';
+import { reportError, cancelError } from 'actions/errorAction';
 import {
-  VISION_SAVE_LOADING ,
-  VISION_LIST_LOADING ,
-  SAVE_CONTRIBUTION_LOADING ,
-  DUPLICATE_VISION_ACTION,
+  VISION_SAVE_LOADING,
+  VISION_LIST_LOADING,
+  SAVE_CONTRIBUTION_LOADING,
   VISION_HISTORY_LOADING,
   VISION_STAT_LOADING,
   BRANCH_LIST_LOADING,
@@ -32,7 +31,7 @@ function* createVision(returnedData) {
     method: 'POST',
     url: requestURL,
     data: returnedData.playload
-  }
+  };
 
   try {
     const res = yield call(request, PostOptions);
@@ -43,13 +42,13 @@ function* createVision(returnedData) {
 }
 
 function* createContribution(returnedData) {
-  const requestURL = config.apiBase + '/vision/' + returnedData.id + '/contribute';
+  const requestURL = `${config.apiBase}/vision/${returnedData.id}/contribute`;
 
   const PostOptions = {
     method: 'POST',
     url: requestURL,
     data: returnedData.playload
-  }
+  };
 
   try {
     const res = yield call(request, PostOptions);
@@ -57,7 +56,6 @@ function* createContribution(returnedData) {
   } catch (err) {
     console.log(err);
   }
-
 }
 
 function* listVision(returnedData) {
@@ -67,7 +65,7 @@ function* listVision(returnedData) {
     method: 'GET',
     url: requestURL,
     params: {}
-  }
+  };
 
   try {
     const res = yield call(request, GetOptions);
@@ -79,12 +77,12 @@ function* listVision(returnedData) {
 
 
 function* listHistory(returnedData) {
-  const requestURL = config.apiBase + '/vision/' + returnedData.playload.id + '/history';
+  const requestURL = `${config.apiBase}/vision/${returnedData.playload.id}/history`;
   const GetOptions = {
     method: 'GET',
     url: requestURL,
     params: returnedData.playload
-  }
+  };
 
   try {
     const res = yield call(request, GetOptions);
@@ -94,16 +92,15 @@ function* listHistory(returnedData) {
   }
 }
 
-//listBranch
+// listBranch
 function* listBranch(returnedData) {
-
-  const requestURL = config.apiBase + '/vision/' + returnedData.playload.id + '/branch';
+  const requestURL = `${config.apiBase}/vision/${returnedData.playload.id}/branch`;
 
   const GetOptions = {
     method: 'GET',
     url: requestURL,
     params: returnedData.playload
-  }
+  };
 
   try {
     const res = yield call(request, GetOptions);
@@ -114,14 +111,13 @@ function* listBranch(returnedData) {
 }
 
 function* listContent(returnedData) {
-
-  const requestURL = config.apiBase + '/vision/' + returnedData.playload.id + '/tree';
+  const requestURL = `${config.apiBase}/vision/${returnedData.playload.id}/tree`;
 
   const GetOptions = {
     method: 'GET',
     url: requestURL,
     params: returnedData.playload
-  }
+  };
 
   try {
     const res = yield call(request, GetOptions);
@@ -132,25 +128,24 @@ function* listContent(returnedData) {
 }
 
 function* listFileContent(returnedData) {
-
-  const requestURL = config.apiBase + '/vision/' + returnedData.playload.id + '/file';
+  const requestURL = `${config.apiBase}/vision/${returnedData.playload.id}/file`;
 
   const GetOptions = {
     method: 'GET',
     url: requestURL,
     params: returnedData.playload
-  }
+  };
 
   try {
-    var res = yield call(request, GetOptions);
+    const res = yield call(request, GetOptions);
     yield put(fileContent(res));
   } catch (err) {
-    yield put(reportError(err))
-    yield put(cancelError())
+    yield put(reportError(err));
+    yield put(cancelError());
   }
 }
 
-//liststats
+// liststats
 
 function* liststats(returnedData) {
   const requestURL = `${config.apiBase}/vision/${returnedData.playload.id}/summary`;
@@ -159,14 +154,14 @@ function* liststats(returnedData) {
     method: 'GET',
     url: requestURL,
     params: returnedData.playload
-  }
+  };
 
   try {
-    var res = yield call(request, GetOptions);
+    const res = yield call(request, GetOptions);
     yield put(getVisionStats(res));
   } catch (err) {
-    yield put(reportError(err))
-    yield put(cancelError())
+    yield put(reportError(err));
+    yield put(cancelError());
   }
 }
 
@@ -211,4 +206,4 @@ export default [
   fork(_readFile),
   fork(_saveContribution),
   fork(_visionStat),
-]
+];

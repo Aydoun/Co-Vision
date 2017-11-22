@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {bindActionCreators} from 'redux';
-import { Link } from 'react-router';
+import { bindActionCreators } from 'redux';
 import { Form, Icon, Input, Button, Card } from 'antd';
 const FormItem = Form.Item;
 import { preLogin } from 'actions/userAction';
@@ -53,8 +52,8 @@ class NormalLoginForm extends React.Component {
   }
 }
 
-function mapDispatchToProps(dispatch){
-  return bindActionCreators({ preLogin } , dispatch)
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ preLogin }, dispatch);
 }
 
 function mapStateToProps(state) {

@@ -3,48 +3,49 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import assign from 'lodash/assign';
-import { Form , Button , Input , Card, Alert } from 'antd';
+import { Form, Button, Input, Card, Alert } from 'antd';
 import { prepareSaving } from 'actions/visionAction';
 
 const FormItem = Form.Item;
 
 class addVision extends React.Component {
-  handleSubmit(){
-    this.props.form.validateFields((err, fieldsValue) => {
-      if (!err) {
-        var params = assign({} , {
-            author : localStorage.userfullName,
-            authorMail : localStorage.userEmail,
-            creator : localStorage.userId
-        } , fieldsValue);
-
-        this.props.prepareSaving(params);
-        // this.props.cb();
-      }
-    });
-  }
-
   getMessage() {
     const { error, visionId } = this.props;
     if (visionId && !error) {
       return (
         <div>
-          <Alert message={(
+          <Alert
+            message={(
               <span>Vision Successfully Created
                 <Link to="/app/vision/list"> details </Link>
               </span>
-            )} type="success" closable showIcon /><br/>
+            )} type="success" closable showIcon
+          /><br />
         </div>
       );
-    }
-    else if (error) {
+    } else if (error) {
       return (
         <div>
-          <Alert message={`${error}`} type="error" closable showIcon /><br/>
+          <Alert message={`${error}`} type="error" closable showIcon /><br />
         </div>
       );
     }
     return null;
+  }
+
+  handleSubmit() {
+    this.props.form.validateFields((err, fieldsValue) => {
+      if (!err) {
+        const params = assign({}, {
+            author : localStorage.userfullName,
+            authorMail : localStorage.userEmail,
+            creator : localStorage.userId
+        }, fieldsValue);
+
+        this.props.prepareSaving(params);
+        // this.props.cb();
+      }
+    });
   }
 
   render() {
@@ -76,9 +77,11 @@ class addVision extends React.Component {
             )}
           </FormItem>
           <FormItem >
-            <Button type="primary" loading={loading}
+            <Button
+              type="primary" loading={loading}
               icon="save"
-              onClick={this.handleSubmit.bind(this)}>
+              onClick={this.handleSubmit.bind(this)}
+            >
               Create
             </Button>&nbsp;&nbsp;&nbsp;
             <Button icon="close" onClick={onCancel} >Cancel</Button>
@@ -89,8 +92,8 @@ class addVision extends React.Component {
   }
 }
 
-function mapDispatchToProps(dispatch){
-  return bindActionCreators({prepareSaving} , dispatch)
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ prepareSaving }, dispatch);
 }
 
 function mapStateToProps(state) {

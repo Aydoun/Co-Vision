@@ -2,15 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
-import { Card, Tag, Button, Spin, Modal, Icon } from 'antd';
+import { Button, Spin, Modal, Icon } from 'antd';
 import VisionCard from 'components/VisionCard';
 import Empty from 'components/Empty';
 import CreateForm from './createVision';
 import { formatDate } from 'utils';
-import './index.css';
-
 import { prepareListing } from 'actions/visionAction';
+import './index.css';
 
 class VisionList extends Component {
   static propTypes = {
@@ -21,14 +19,14 @@ class VisionList extends Component {
     loading: false
   }
 
-  constructor(props){
+  constructor(props) {
       super(props);
       this.state = {
         visible: false
-      }
+      };
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.props.prepareListing({
      _id : localStorage.userId
     });
@@ -41,16 +39,16 @@ class VisionList extends Component {
   }
 
   render() {
-    const { visionList , loading } = this.props;
+    const { visionList, loading } = this.props;
     const { visible } = this.state;
     const AddModal = (
       <Modal
-      visible={visible}
-      onCancel={() => this.setState({visible: false})}
-      title={<span><Icon type="plus" /> Add Vision</span>}
-      footer={null}
+        visible={visible}
+        onCancel={() => this.setState({ visible: false })}
+        title={<span><Icon type="plus" /> Add Vision</span>}
+        footer={null}
       >
-        <CreateForm cb={this.cb} onCancel={() => this.setState({ visible: false })}/>
+        <CreateForm cb={this.cb} onCancel={() => this.setState({ visible: false })} />
       </Modal>
     );
 
@@ -59,8 +57,10 @@ class VisionList extends Component {
         <div>
           <Empty
             message={<span>
-              <Button icon="plus" type="primary"
-                onClick={() => this.setState({visible:true})}>
+              <Button
+                icon="plus" type="primary"
+                onClick={() => this.setState({ visible:true })}
+              >
                 Add Vision
               </Button>
             </span>}
@@ -72,33 +72,35 @@ class VisionList extends Component {
 
     return (
       <div>
-          <Spin spinning={loading}>
-            <Button icon="plus" type="primary"
-              onClick={() => this.setState({visible:true})}>
+        <Spin spinning={loading}>
+          <Button
+            icon="plus" type="primary"
+            onClick={() => this.setState({ visible:true })}
+          >
               Add Vision
             </Button>
-            {
+          {
               visionList.map((elem, i) => (
                 <VisionCard
-                   key={i}
-                   name={elem.title}
-                   description={elem.description}
-                   status={elem.status}
-                   visionId={elem._id}
-                   updatedAt={formatDate(elem.updatedAt)}
-                   onConfirm={() => console.log(elem._id)}
+                  key={i}
+                  name={elem.title}
+                  description={elem.description}
+                  status={elem.status}
+                  visionId={elem._id}
+                  updatedAt={formatDate(elem.updatedAt)}
+                  onConfirm={() => console.log(elem._id)}
                 />
               ))
             }
-          </Spin>
-          { AddModal }
+        </Spin>
+        { AddModal }
       </div>
-    )
+    );
   }
 }
 
-function mapDispatchToProps(dispatch){
-  return bindActionCreators({prepareListing} , dispatch)
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ prepareListing }, dispatch);
 }
 
 function mapStateToProps(state) {

@@ -1,23 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {Link} from 'react-router';
+import { bindActionCreators } from 'redux';
 
 class invitationPage extends Component {
 
   render() {
-    var _this = this;
+    const _this = this;
 
     return (
       <div>
-          <p>Welcome Invitation!</p>
+        <p>Welcome Invitation!</p>
       </div>
-    )
+    );
   }
 }
 
-function mapDispatchToProps(dispatch){
-  return bindActionCreators({} , dispatch)
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({}, dispatch);
 }
 
 function mapStateToProps(state) {

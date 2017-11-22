@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { Icon, Avatar, Menu } from 'antd';
 import './index.css';
 
 export default class extends Component {
-  render() {  
-    const  { fullName, time, src } = this.props;
+  render() {
+    const  {fullName, time, src} = this.props;
 
     return (
         <div className="msg-nav-wrapper">
@@ -19,5 +18,3 @@ export default class extends Component {
     );
   }
 }
-
-

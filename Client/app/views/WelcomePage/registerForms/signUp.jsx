@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {bindActionCreators} from 'redux';
-import { Link } from 'react-router';
-import { Form, Icon, Input, Button, Card } from 'antd';
-import { preRegister  } from 'actions/userAction';
+import { bindActionCreators } from 'redux';
+import { Form, Input, Button, Card } from 'antd';
+import { preRegister } from 'actions/userAction';
 
 const FormItem = Form.Item;
 
@@ -61,8 +60,8 @@ class RegisterForm extends React.Component {
   }
 }
 
-function mapDispatchToProps(dispatch){
-  return bindActionCreators({ preRegister } , dispatch)
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ preRegister }, dispatch);
 }
 
 function mapStateToProps(state) {

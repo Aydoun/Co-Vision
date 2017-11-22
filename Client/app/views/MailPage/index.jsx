@@ -1,20 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {bindActionCreators} from 'redux';
-import { Link } from 'react-router';
+import { bindActionCreators } from 'redux';
 
 class mailPage extends React.Component {
   render() {
     return (
       <div>
-          <p>Welcome Mail!</p>
+        <p>Welcome Mail!</p>
       </div>
-    )
+    );
   }
 }
 
-function mapDispatchToProps(dispatch){
-  return bindActionCreators({} , dispatch)
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({}, dispatch);
 }
 
 function mapStateToProps(state) {

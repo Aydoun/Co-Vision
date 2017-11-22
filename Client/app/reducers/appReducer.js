@@ -8,10 +8,9 @@ const initialState = {
 };
 
 function visionReducer(state = initialState, action) {
-
   switch (action.type) {
     case APP_MENU_CHANGE:
-      return assign({} , state , {...action} );
+      return assign({}, state, { ...action });
     default:
       return state;
   }

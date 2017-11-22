@@ -1,21 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 import { Layout, Tabs, Icon } from 'antd';
 import Login from './registerForms/signIn';
 import Register from './registerForms/signUp';
 import './index.css';
 
-const { Header, Content } = Layout;
+const { Header } = Layout;
 const TabPane = Tabs.TabPane;
 
 export class HomePage extends React.PureComponent {
   render() {
     return (
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <Header style={{ width: '100%' }}>
           <div className="logo" />
-          <h3 style={{color:'white'}}>Welcome To Co-Vision , Togetherness!</h3>
+          <h3 style={{ color:'white' }}>Welcome To Co-Vision , Togetherness!</h3>
         </Header>
         <div className="main">
           <Tabs defaultActiveKey="1">
@@ -32,8 +32,8 @@ export class HomePage extends React.PureComponent {
   }
 }
 
-function mapDispatchToProps(dispatch){
-  return bindActionCreators({} , dispatch)
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({}, dispatch);
 }
 
 function mapStateToProps(state) {

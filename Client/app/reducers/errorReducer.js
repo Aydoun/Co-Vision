@@ -10,12 +10,11 @@ const initialState = {
 };
 
 function visionReducer(state = initialState, action) {
-
   switch (action.type) {
     case ERROR_THROWN:
-      return assign({} , state , {...action} );
+      return assign({}, state, { ...action });
     case ERROR_CANCELLED:
-      return assign({} , state , {...action} );
+      return assign({}, state, { ...action });
     default:
       return state;
   }

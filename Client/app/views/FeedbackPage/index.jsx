@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {bindActionCreators} from 'redux';
-import { Link } from 'react-router';
+import { bindActionCreators } from 'redux';
 import { Card, Form, Input, Button, Rate } from 'antd';
 
 const FormItem = Form.Item;
 
 class feedBackPage extends Component {
 
-  handleSubmit(){
+  handleSubmit() {
     this.props.form.validateFields((err, fieldsValue) => {
       if (!err) {
         console.log(fieldsValue);
@@ -46,12 +45,12 @@ class feedBackPage extends Component {
           </FormItem>
         </Form>
       </Card>
-    )
+    );
   }
 }
 
-function mapDispatchToProps(dispatch){
-  return bindActionCreators({} , dispatch)
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({}, dispatch);
 }
 
 function mapStateToProps(state) {

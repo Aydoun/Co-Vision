@@ -35,38 +35,38 @@ export default class VisionCard extends Component {
         onConfirm
     } = this.props;
     const cardTitle = (
-        <div>
-            <Icon type="api" />
-            <Link to={`/vision/${visionId}/content`}>
-              <span className="global-left-margin">{name || 'Unamed'}</span>
-            </Link>
-        </div>
+      <div>
+        <Icon type="api" />
+        <Link to={`/vision/${visionId}/content`}>
+          <span className="global-left-margin">{name || 'Unamed'}</span>
+        </Link>
+      </div>
     );
-    const Menu = VisionMenu(visionId , () => console.log('yyeyye'));
+    const Menu = VisionMenu(visionId, () => console.log('yyeyye'));
     const extra = Menu !== null ? (
       <Dropdown overlay={Menu} placement="bottomCenter">
-          <Button type="dashed" icon="bars" shape="circle"/>
+        <Button type="dashed" icon="bars" shape="circle" />
       </Dropdown>
     ) : null;
 
     return (
       <div className="global-top-margin">
         <Card
-            title={cardTitle}
-            noHovering
-            className="relative-content"
-            extra={extra}
+          title={cardTitle}
+          noHovering
+          className="relative-content"
+          extra={extra}
         >
-            <div className="vision-desc" >
-                <p>
-                    {description}
-                </p>
-                <div className="card-sub-info">
-                    <Tag color="#595755">{ status }</Tag>
-                    <Tag color="#595755">{ updatedAt }</Tag>
-                    <Tag color="blue"><Icon type="like" /> { likes }</Tag>
-                </div>
+          <div className="vision-desc" >
+            <p>
+              {description}
+            </p>
+            <div className="card-sub-info">
+              <Tag color="#595755">{ status }</Tag>
+              <Tag color="#595755">{ updatedAt }</Tag>
+              <Tag color="blue"><Icon type="like" /> { likes }</Tag>
             </div>
+          </div>
         </Card>
       </div>
     );
