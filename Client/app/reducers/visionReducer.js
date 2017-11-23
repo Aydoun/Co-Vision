@@ -5,6 +5,7 @@ import {
 
 const initialState = {
   visionList: [],
+  allVisionList: [],
   loading:false,
   error: null,
   ContentString : '',

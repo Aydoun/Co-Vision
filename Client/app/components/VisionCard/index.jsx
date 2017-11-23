@@ -4,13 +4,13 @@ import { Link } from 'react-router';
 import { Card, Icon, Tag, Dropdown, Button } from 'antd';
 import VisionMenu from '../DropMenu/VisionCardMenu';
 
-
 export default class VisionCard extends Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
     onConfirm: PropTypes.func,
     description: PropTypes.string,
     updatedAt: PropTypes.string,
+    visionId: PropTypes.string,
     status: PropTypes.string,
     likes: PropTypes.number
   }
@@ -21,7 +21,8 @@ export default class VisionCard extends Component {
     updatedAt: 'UnRecorded',
     status: 'Public',
     onConfirm: () => {},
-    likes: 0
+    likes: 0,
+    visionId: 0
   }
 
   render() {
@@ -37,12 +38,12 @@ export default class VisionCard extends Component {
     const cardTitle = (
       <div>
         <Icon type="api" />
-        <Link to={`/vision/${visionId}/content`}>
+        <Link to={`/app/vision/${visionId}/content`}>
           <span className="global-left-margin">{name || 'Unamed'}</span>
         </Link>
       </div>
     );
-    const Menu = VisionMenu(visionId, () => console.log('yyeyye'));
+    const Menu = VisionMenu(visionId, onConfirm);
     const extra = Menu !== null ? (
       <Dropdown overlay={Menu} placement="bottomCenter">
         <Button type="dashed" icon="bars" shape="circle" />

@@ -12,7 +12,6 @@ export function reportError(error) {
 }
 
 export function cancelError() {
-
   return {
     type: ERROR_CANCELLED,
     status : true,

@@ -50,15 +50,14 @@ class addVision extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { loading, error, visionId, onCancel } = this.props;
+    const { loading, error, onCancel } = this.props;
     const config = {
       rules: [{ type: 'string', required: true, message: 'Required Field' }],
     };
-    const message = this.getMessage();
+    // const message = this.getMessage();
 
     return (
       <Card noHovering>
-        {message}
         <Form layout="vertical">
           <FormItem
             label="Vision Name"

@@ -11,15 +11,15 @@ export function preLogin(params) {
   };
 }
 
-export function preRegister(params){
+export function preRegister(params) {
     return {
       type : USER_REGISTER_LOADING,
       playload : params
-    }
+    };
 }
 
 export function authenticateUser(res) {
-  var response = res.data.response;
+  const response = res.data.response;
   return {
     type: DUPLICATE_USER_ACTION,
     userGeneralInfo : response,
@@ -27,7 +27,7 @@ export function authenticateUser(res) {
 }
 
 export function registerUser(res) {
-  var response = res.data.response;
+  const response = res.data.response;
 
   return {
     type: DUPLICATE_USER_ACTION,

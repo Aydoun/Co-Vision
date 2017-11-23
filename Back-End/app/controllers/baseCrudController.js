@@ -10,7 +10,7 @@ module.exports = function (model){
 
     model.find(query , (err , result) => {
         if (err) return res.status(200).send(Formatter(err , true));
-        res.status(200).send(Formatter({result}));
+        res.status(200).send(Formatter(result));
     });
   }
 

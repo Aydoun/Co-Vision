@@ -106,7 +106,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   return {
       visionList : state.vision.visionList,
-      loading : state.vision.loading,
+      loading : state.vision.loading
   };
 }
 

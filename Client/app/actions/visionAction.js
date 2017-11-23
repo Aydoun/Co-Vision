@@ -4,6 +4,7 @@ import {
   SAVE_CONTRIBUTION_LOADING,
   DUPLICATE_VISION_ACTION,
   VISION_HISTORY_LOADING,
+  ALL_VISION_LIST_LOADING,
   VISION_FS_LOADING,
   VISION_STAT_LOADING,
   BRANCH_LIST_LOADING,
@@ -23,6 +24,13 @@ export function prepareListing(params) {
   return {
     type: VISION_LIST_LOADING,
     playload : params
+  };
+}
+
+export function prepareAllVisions() {
+  return {
+    type: ALL_VISION_LIST_LOADING,
+    playload : {}
   };
 }
 
@@ -84,7 +92,7 @@ export function visionSaved(err, res) {
 }
 
 export function saveContribution(res) {
-  var response = res.data.response;
+  const response = res.data.response;
 
   return {
     type: DUPLICATE_VISION_ACTION,
@@ -93,7 +101,7 @@ export function saveContribution(res) {
 }
 
 export function showVisionList(res) {
-  var response = res.data.response;
+  const response = res.data.response;
 
   return {
     type: DUPLICATE_VISION_ACTION,
@@ -101,8 +109,18 @@ export function showVisionList(res) {
   };
 }
 
+export function showAllVisionList(res) {
+  console.log(res, 'res');
+  const response = res.data.response;
+
+  return {
+    type: DUPLICATE_VISION_ACTION,
+    allVisionList : response,
+  };
+}
+
 export function showHistoryList(res) {
-  var response = res.data.response;
+  const response = res.data.response;
   return {
     type: DUPLICATE_VISION_ACTION,
     historyList : response,
@@ -110,7 +128,7 @@ export function showHistoryList(res) {
 }
 
 export function showContentList(res) {
-  var response = res.data.response;
+  const response = res.data.response;
 
   return {
     type: DUPLICATE_VISION_ACTION,
@@ -119,7 +137,7 @@ export function showContentList(res) {
 }
 
 export function showBranchList(res) {
-  var response = res.data.response;
+  const response = res.data.response;
 
   return {
     type: DUPLICATE_VISION_ACTION,
@@ -128,7 +146,7 @@ export function showBranchList(res) {
 }
 
 export function fileContent(res) {
-  var response = res.data.response;
+  const response = res.data.response;
 
   return {
     type: DUPLICATE_VISION_ACTION,
@@ -137,7 +155,7 @@ export function fileContent(res) {
 }
 
 export function getVisionStats(res) {
-  var response = res.data.response;
+  const response = res.data.response;
 
   return {
     type: DUPLICATE_VISION_ACTION,

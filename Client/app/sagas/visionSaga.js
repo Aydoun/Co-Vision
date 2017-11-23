@@ -7,6 +7,7 @@ import {
   VISION_HISTORY_LOADING,
   VISION_STAT_LOADING,
   BRANCH_LIST_LOADING,
+  ALL_VISION_LIST_LOADING,
   FILE_READ_LOADING,
   VISION_FS_LOADING,
 } from 'constants/visionConstants';
@@ -19,6 +20,7 @@ import {
         showHistoryList,
         showContentList,
         showBranchList,
+        showAllVisionList,
         fileContent,
         getVisionStats,
 } from 'actions/visionAction';
@@ -145,6 +147,23 @@ function* listFileContent(returnedData) {
   }
 }
 
+// list all visions
+
+function* listAllVision() {
+  const requestURL = `${config.apiBase}/vision`;
+  const GetOptions = {
+    method: 'GET',
+    url: requestURL
+  };
+
+  try {
+    const res = yield call(request, GetOptions);
+    yield put(showAllVisionList(res));
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 // liststats
 
 function* liststats(returnedData) {
@@ -171,6 +190,10 @@ function* _saveVisionSaga() {
 
 function* _listVisionSaga() {
     yield takeLatest(VISION_LIST_LOADING, listVision);
+}
+
+function* allVisionSage() {
+    yield takeLatest(ALL_VISION_LIST_LOADING, listAllVision);
 }
 
 function* _branchList() {
@@ -200,6 +223,7 @@ function* _visionStat() {
 export default [
   fork(_saveVisionSaga),
   fork(_listVisionSaga),
+  fork(allVisionSage),
   fork(_visionHistoryList),
   fork(_visionContent),
   fork(_branchList),
