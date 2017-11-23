@@ -1,7 +1,7 @@
 import {
   ERROR_THROWN,
   ERROR_CANCELLED
-} from 'constants/errorConstants';
+} from 'constants/error';
 
 export function reportError(error) {
   return {

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import assign from 'lodash/assign';
 import { Card, Form, Input, Button, Rate } from 'antd';
+import { sendFeedback } from 'actions/feedback';
 
 const FormItem = Form.Item;
 
@@ -10,7 +12,10 @@ class feedBackPage extends Component {
   handleSubmit() {
     this.props.form.validateFields((err, fieldsValue) => {
       if (!err) {
-        console.log(fieldsValue);
+        const params = assign({}, {
+          creator: localStorage.userId
+        }, fieldsValue);
+        this.props.sendFeedback(params);
       }
     });
   }
@@ -27,7 +32,7 @@ class feedBackPage extends Component {
           <FormItem
             label="Leave A Feedback"
           >
-            {getFieldDecorator('feedback', config)(
+            {getFieldDecorator('message', config)(
               <Input type="textarea" rows={8} placeholder="What's On Your Mind?" />
             )}
           </FormItem>
@@ -50,7 +55,7 @@ class feedBackPage extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({}, dispatch);
+  return bindActionCreators({ sendFeedback }, dispatch);
 }
 
 function mapStateToProps(state) {

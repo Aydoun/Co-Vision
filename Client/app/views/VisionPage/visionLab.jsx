@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import find from 'lodash/find';
 import assign from 'lodash/assign';
 import { Form, Button, Card, Input, message } from 'antd';
-import { fileContent, preRead, preContribution } from 'actions/visionAction';
+import { fileContent, preRead, preContribution } from 'actions/vision';
 
 const FormItem = Form.Item;
 

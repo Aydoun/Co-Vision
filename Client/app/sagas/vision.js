@@ -1,5 +1,5 @@
 import { call, put, takeLatest, fork } from 'redux-saga/effects';
-import { reportError, cancelError } from 'actions/errorAction';
+import { reportError, cancelError } from 'actions/error';
 import {
   VISION_SAVE_LOADING,
   VISION_LIST_LOADING,
@@ -10,7 +10,7 @@ import {
   ALL_VISION_LIST_LOADING,
   FILE_READ_LOADING,
   VISION_FS_LOADING,
-} from 'constants/visionConstants';
+} from 'constants/vision';
 
 
 import {
@@ -23,7 +23,7 @@ import {
         showAllVisionList,
         fileContent,
         getVisionStats,
-} from 'actions/visionAction';
+} from 'actions/vision';
 
 import request from 'utils/request';
 

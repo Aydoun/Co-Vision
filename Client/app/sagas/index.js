@@ -1,6 +1,6 @@
-import vision from './visionSaga';
-import user from './userSaga';
-
+import vision from './vision';
+import user from './user';
+import feedback from './feedback';
 /**
  * rootSaga
  */
@@ -8,6 +8,7 @@ import user from './userSaga';
 export default function* root() {
     yield [
         vision,
-        user
+        user,
+        feedback
     ];
 }

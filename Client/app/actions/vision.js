@@ -10,7 +10,7 @@ import {
   BRANCH_LIST_LOADING,
   FILE_READ_LOADING,
   VISION_LIST_LOADING
-} from 'constants/visionConstants';
+} from 'constants/vision';
 
 
 export function prepareSaving(params) {

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Spin } from 'antd';
 import VisionCard from 'components/VisionCard';
-import { prepareAllVisions } from 'actions/visionAction';
+import { prepareAllVisions } from 'actions/vision';
 import { formatDate } from 'utils';
 
 class discoverPage extends Component {

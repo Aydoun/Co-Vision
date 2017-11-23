@@ -1,7 +1,7 @@
 var channelModel = require('../models/channelModel');
 var notifs = require('../constants/notificationMessages');
 var {Formatter} = require('../lib');
-
+ 
 exports.comment = function (req, res, next) {
 	var contributorId = req.body.contributorId;
 	if (!contributorId) return res.status(200).send(Formatter(notifs.missing_required_parameters + ' , contributorId' , true));

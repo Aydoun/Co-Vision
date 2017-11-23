@@ -1,7 +1,7 @@
 import assign from 'lodash/assign';
 import {
   DUPLICATE_VISION_ACTION,
-} from 'constants/visionConstants';
+} from 'constants/vision';
 
 const initialState = {
   visionList: [],

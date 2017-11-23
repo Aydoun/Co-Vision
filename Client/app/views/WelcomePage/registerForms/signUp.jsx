@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Form, Input, Button, Card } from 'antd';
-import { preRegister } from 'actions/userAction';
+import { preRegister } from 'actions/user';
 
 const FormItem = Form.Item;
 

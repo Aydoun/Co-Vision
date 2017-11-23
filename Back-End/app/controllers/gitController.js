@@ -1,9 +1,9 @@
 var Git = require('../../nodegit');
 var path = require('path');
-var {queryCheck , Formatter, defaultGitPath} = require('../lib');
+var { queryCheck , Formatter, defaultGitPath} = require('../lib');
 var promisify = require("promisify-node");
 var fse = promisify(require("fs-extra"));
-
+ 
 exports.commit = function(inputs) {
       var clientInput = inputs;
       var checkRes = queryCheck(clientInput , ['fileContent' , 'fileName' , 'title' , 'author' , 'authorMail' , 'message']);

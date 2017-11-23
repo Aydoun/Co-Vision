@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import assign from 'lodash/assign';
 import { Form, Button, Input, Card, Alert } from 'antd';
-import { prepareSaving } from 'actions/visionAction';
+import { prepareSaving } from 'actions/vision';
 
 const FormItem = Form.Item;
 

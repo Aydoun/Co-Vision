@@ -1,7 +1,7 @@
 import assign from 'lodash/assign';
 import {
   DUPLICATE_USER_ACTION,
-} from 'constants/userConstants';
+} from 'constants/user';
 
 const initialState = {
   userGeneralInfo : {}

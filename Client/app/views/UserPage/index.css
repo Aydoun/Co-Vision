@@ -9,8 +9,10 @@
 .avatar-uploader,
 .avatar-uploader-trigger,
 .avatar {
-  width: 250px;
-  height: 250px;
+  width: 220px;
+  height: 184px;
+  border-radius: 6px;
+  border: 1px solid #ececec;
 }
 .avatar-uploader {
   display: block;

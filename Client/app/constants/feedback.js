@@ -1,0 +1,1 @@
+export const SEND_FEEDBACK = 'SEND_FEEDBACK';

@@ -4,7 +4,7 @@ const path = require('path');
 const uuidv1 = require('uuid/v1');
 const { defaultUploadPath, Formatter } = require('../lib');
 const config = require('../config');
-
+ 
 exports.uploadFile = function(req, res, next) {
     const form = new formidable.IncomingForm();
     form.parse(req, function (err, fields, files) {
@@ -23,5 +23,3 @@ exports.uploadFile = function(req, res, next) {
         });
     });
 };
-
-

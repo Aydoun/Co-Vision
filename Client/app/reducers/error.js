@@ -2,7 +2,7 @@ import assign from 'lodash/assign';
 import {
   ERROR_THROWN,
   ERROR_CANCELLED
-} from 'constants/errorConstants';
+} from 'constants/error';
 
 const initialState = {
   status: true,

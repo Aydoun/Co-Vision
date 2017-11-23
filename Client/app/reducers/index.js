@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 
-import appReducer from './appReducer';
-import visionReducer from './visionReducer';
-import userReducer from './userReducer';
-import errorReducer from './errorReducer';
+import appReducer from './app';
+import visionReducer from './vision';
+import userReducer from './user';
+import errorReducer from './error';
 
 const rootReducer = combineReducers({
   routing: routerReducer,

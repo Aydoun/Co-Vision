@@ -1,15 +1,15 @@
 import { call, put, takeLatest, fork } from 'redux-saga/effects';
 import { browserHistory } from 'react-router';
-import { reportError, cancelError } from 'actions/errorAction';
+import { reportError, cancelError } from 'actions/error';
 import {
   USER_LOGIN_LOADING,
   USER_REGISTER_LOADING
-} from 'constants/userConstants';
+} from 'constants/user';
 
 import {
         authenticateUser,
         registerUser
-} from 'actions/userAction';
+} from 'actions/user';
 
 import request from 'utils/request';
 
@@ -30,7 +30,6 @@ function* userLogin(returnedData) {
     yield put(authenticateUser(res));
     // Login Successfull
     saveUserData(res.data.response);
-    console.log('Pushing', res.data.response);
     browserHistory.push('/app');
   } catch (err) {
     yield put(reportError(err));
@@ -52,7 +51,6 @@ function* userRegister(returnedData) {
 
     //  Regtistration Successfull
     saveUserData(res.data.response);
-    console.log('Pushing');
     browserHistory.push('/app');
   } catch (err) {
     yield put(reportError(err));

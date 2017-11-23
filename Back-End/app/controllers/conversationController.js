@@ -1,6 +1,6 @@
 const conversationModel = require('../models/conversationModel');
 const { Formatter, queryCheck, isValidObjectId } = require('../lib');
-
+ 
 exports.AllConversations = function(req, res, next) {
     const { userId } = req.params;
 
@@ -59,6 +59,5 @@ exports.sendMessage = function(req, res, next) {
             res.status(200).send(Formatter(_data));
         });
       });
-    } 
+    }
 };
-

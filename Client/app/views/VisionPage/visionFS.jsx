@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import find from 'lodash/find';
 import { Table, Select, Card, Modal } from 'antd';
 import Columns from './table-columns/fileSystem';
-import { preContent, preBranch, preStat } from 'actions/visionAction';
+import { preContent, preBranch, preStat } from 'actions/vision';
 
 const Option = Select.Option;
 

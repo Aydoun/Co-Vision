@@ -1,7 +1,7 @@
 import assign from 'lodash/assign';
 import {
   APP_MENU_CHANGE
-} from 'constants/appConstants';
+} from 'constants/app';
 
 const initialState = {
   menuContent : []

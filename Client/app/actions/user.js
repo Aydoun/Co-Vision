@@ -2,7 +2,7 @@ import {
   USER_LOGIN_LOADING,
   USER_REGISTER_LOADING,
   DUPLICATE_USER_ACTION
-} from 'constants/userConstants';
+} from 'constants/user';
 
 export function preLogin(params) {
   return {

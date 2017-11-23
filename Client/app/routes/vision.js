@@ -7,7 +7,6 @@ import visionLab from 'views/VisionPage/visionLab';
 import visionHistory from 'views/VisionPage/visionHistory';
 import visionFs from 'views/VisionPage/visionFS';
 
-import invitation from 'views/InvitationPage';
 import feedback from 'views/FeedbackPage';
 
 export default (
@@ -19,7 +18,6 @@ export default (
       <Route path="/app/vision/lab" component={visionLab} />
       <Route path="/app/vision/:id/history" component={visionHistory} />
       <Route path="/app/vision/:id/content" component={visionFs} />
-      <Route path="/app/invitation" component={invitation} />
       <Route path="/app/feedback" component={feedback} />
     </Route>
   </Route>

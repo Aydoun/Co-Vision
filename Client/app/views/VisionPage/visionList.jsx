@@ -7,7 +7,7 @@ import VisionCard from 'components/VisionCard';
 import Empty from 'components/Empty';
 import CreateForm from './createVision';
 import { formatDate } from 'utils';
-import { prepareListing } from 'actions/visionAction';
+import { prepareListing } from 'actions/vision';
 import './index.css';
 
 class VisionList extends Component {

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Form, Icon, Input, Button, Card } from 'antd';
 const FormItem = Form.Item;
-import { preLogin } from 'actions/userAction';
+import { preLogin } from 'actions/user';
 
 class NormalLoginForm extends React.Component {
   handleSubmit = (e) => {

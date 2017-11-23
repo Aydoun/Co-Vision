@@ -3,34 +3,33 @@ import { Route, IndexRedirect } from 'react-router';
 
 import App from 'views/App';
 import Welcome from 'views/WelcomePage';
-import VisionRoutes from './visionRoutes';
-import DiscoverRoutes from './discoverRoutes';
-import UserRoute from './userRoutes';
-import MailRoute from './mailRoutes';
+import VisionRoutes from './vision';
+import DiscoverRoutes from './discover';
+import UserRoute from './user';
+import MailRoute from './mail';
 import NotFound from 'views/NotFoundPage';
 
 function loginCheck(nextState, replace) {
     const token = localStorage.getItem('token');
     if (!token) {
-      replace({
+      return replace({
           pathname : '/welcome',
           state : {}
       });
-    } else {
-      return true;
     }
+
+    return true;
 }
 
 function IsLogin(nextState, replace) {
   const token = localStorage.getItem('token');
   if (nextState.location.pathname.indexOf('/welcome') >= 0 && token) {
-    replace({
+    return replace({
         pathname : '/app',
         state : {}
     });
-  } else {
-    return true;
   }
+  return true;
 }
 
 export default () => (

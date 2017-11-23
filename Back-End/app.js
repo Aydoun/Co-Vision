@@ -1,11 +1,15 @@
 const express = require('express');
 const logger = require('morgan');
 const path = require('path');
+const jwt = require('jwt-simple');
+const config = require('./app/config');
 const compression = require ('compression');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const routes = require('./app/routes');
 const notFound = require('./app/routes/notFound');
+const { LogIn, Register } = require('./app/controllers/userController');
+const { uploadFile } = require('./app/controllers/fileController');
 const { defaultUploadPath } = require('./app/lib');
 
 const app = express();
@@ -22,34 +26,36 @@ app.use(bodyParser.urlencoded({limit: "2mb", extended: false, parameterLimit:50}
 app.use("/api", subpath);
 subpath.use(cors());
 
+subpath.post('/login', LogIn);
+subpath.post('/register', Register);
+subpath.post('/upload', uploadFile);
+
 const preCheck = (req, res, next) => {
   const token = req.body.token || req.query.token || req.headers['x-access-token'];
   //decode token
-  next();
-  // if (token) {
-  //   try {
-  //     console.log('decoding')
-  //     const decoded = jwt.decode(token, config.secret);
-  //     console.log('post decoding')
-  //     if (decoded.exp <= Date.now()) {
-  //       res.end('Access token has expired', 400);
-  //     } else {
-  //       //  save user id in the request object
-  //        req.userId = decoded.iss;
-  //       next();
-  //     }
-  //   } catch (err) {
-  //       return res.status(403).send({
-  //           status: false,
-  //           message: 'Invalid Token'
-  //       });
-  //   }
-  // } else {
-  //   return res.status(403).send({
-  //       status: false,
-  //       message: 'No token provided.'
-  //   });
-  // }
+  // next();
+  if (token) {
+    try {
+      const decoded = jwt.decode(token, config.secret);
+      if (decoded.exp <= Date.now()) {
+        res.end('Access token has expired', 403);
+      } else {
+        //  save user id in the request object
+        req.userId = decoded.iss;
+        next();
+      }
+    } catch (err) {
+        return res.status(403).send({
+            status: false,
+            message: 'Invalid Token'
+        });
+    }
+  } else {
+    return res.status(403).send({
+        status: false,
+        message: 'No token provided.'
+    });
+  }
 }
 
 subpath.use('/', preCheck, routes);

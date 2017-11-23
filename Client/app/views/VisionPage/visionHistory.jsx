@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import find from 'lodash/find';
 import { Timeline, Card, Tag, Spin } from 'antd';
-import { preHistory } from 'actions/visionAction';
+import { preHistory } from 'actions/vision';
 import { formatDate } from 'utils';
 
 class VisionHistory extends React.Component {

@@ -64,7 +64,7 @@ injectGlobal`
   }
 
   .global-top-margin {
-      margin-bottom: 8px;
+      margin-top: 16px;
   }
 
   .global-left-margin {

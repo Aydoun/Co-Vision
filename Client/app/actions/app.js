@@ -1,6 +1,6 @@
 import {
   APP_MENU_CHANGE
-} from 'constants/appConstants';
+} from 'constants/app';
 
 export function changeMenuItems(newMenu) {
   return {
