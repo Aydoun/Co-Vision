@@ -3,7 +3,7 @@ var path = require('path');
 var { queryCheck , Formatter, defaultGitPath} = require('../lib');
 var promisify = require("promisify-node");
 var fse = promisify(require("fs-extra"));
- 
+
 exports.commit = function(inputs) {
       var clientInput = inputs;
       var checkRes = queryCheck(clientInput , ['fileContent' , 'fileName' , 'title' , 'author' , 'authorMail' , 'message']);
@@ -26,13 +26,7 @@ exports.commit = function(inputs) {
 exports.history = function(res , params) {
     var clientInput = params;
 
-    var checkRes = queryCheck(clientInput , ['title']);
-
-    if (checkRes !== true) {
-        res.status(200).send(Formatter('Missing Required Paramenters' , true))
-    }
-
-    var pathToRepo = defaultGitPath(clientInput.title);
+    var pathToRepo = defaultGitPath(params.id);
     var branchName = clientInput.branchName || 'master';
 
     Git.Repository.open(pathToRepo)

@@ -18,7 +18,7 @@ const { Formatter, queryCheck, isValidObjectId } = require('../lib');
 */
 
 exports.historyList = function (req, res, next) {
-    history(res , req.query);
+    history(res , req.params);
 };
 
 exports.historyTree = function(req , res , next){

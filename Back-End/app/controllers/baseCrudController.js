@@ -35,12 +35,13 @@ module.exports = function (model){
   }
 
   function create(req,res,next){
+    req.body.creator = req.userId;
     var newVision = new model(req.body);
 
   	newVision.save(function (err, data) {
   		if (err) return res.status(200).send(Formatter(err , true));
 
-  		return res.status(200).send(Formatter(data));
+  		return res.status(200).send(Formatter(data._id));
   	});
   }
 

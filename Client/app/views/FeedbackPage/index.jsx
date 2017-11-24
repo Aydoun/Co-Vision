@@ -12,10 +12,7 @@ class feedBackPage extends Component {
   handleSubmit() {
     this.props.form.validateFields((err, fieldsValue) => {
       if (!err) {
-        const params = assign({}, {
-          creator: localStorage.userId
-        }, fieldsValue);
-        this.props.sendFeedback(params);
+        this.props.sendFeedback(fieldsValue);
       }
     });
   }

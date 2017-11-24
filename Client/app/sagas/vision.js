@@ -79,7 +79,7 @@ function* listVision(returnedData) {
 
 
 function* listHistory(returnedData) {
-  const requestURL = `${config.apiBase}/vision/${returnedData.playload.id}/history`;
+  const requestURL = `${config.apiBase}/vision/${returnedData.playload.id}/log`;
   const GetOptions = {
     method: 'GET',
     url: requestURL,
