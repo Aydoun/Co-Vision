@@ -20,10 +20,10 @@ function* sendFeedback(returnedData) {
   }
 }
 
-function* sendFeedbackSage() {
+function* sendFeedbackSaga() {
     yield takeLatest(SEND_FEEDBACK, sendFeedback);
 }
 
 export default [
-  fork(sendFeedbackSage)
+  fork(sendFeedbackSaga)
 ];

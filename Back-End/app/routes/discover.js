@@ -2,7 +2,7 @@ const discovery = require('express').Router();
 const { search, discover } = require('../controllers/discoverController');
 
 
-discovery.get('/:userId', discover);
-discovery.get('/:userId/search', search);
+discovery.get('/', discover);
+discovery.get('/search', search);
 
 module.exports = discovery;

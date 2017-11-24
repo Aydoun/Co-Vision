@@ -1,19 +1,15 @@
 import { call, put, takeLatest, fork } from 'redux-saga/effects';
 import { browserHistory } from 'react-router';
-import { reportError, cancelError } from 'actions/error';
+import { reportError } from 'actions/error';
 import {
   USER_LOGIN_LOADING,
   USER_REGISTER_LOADING
 } from 'constants/user';
-
 import {
         authenticateUser,
         registerUser
 } from 'actions/user';
-
 import request from 'utils/request';
-
-
 import { saveUserData } from 'utils';
 
 function* userLogin(returnedData) {

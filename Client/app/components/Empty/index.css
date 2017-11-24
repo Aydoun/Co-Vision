@@ -7,11 +7,8 @@
 }
 
 .supporting_text {
-  position: absolute;
-  bottom: -30px;
-  left: 48%;
-  right: 50%;
+  text-align: center;
   color: #404040;
   font-size: 16px;
-  width: 300px;
+  width: 100%;
 }

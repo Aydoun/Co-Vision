@@ -27,7 +27,7 @@ class feedBackPage extends Component {
     };
 
     return (
-      <Card >
+      <Card noHovering>
         <Form layout="vertical">
           <FormItem
             label="Leave A Feedback"

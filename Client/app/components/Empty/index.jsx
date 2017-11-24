@@ -5,7 +5,8 @@ export default class Header extends Component {
   render() {
     const { message } = this.props;
     return (
-      <div className="empty-result__set">
+      <div>
+        <div className="empty-result__set" />
         <div className="supporting_text">
           <span>
             { message || 'No Message' }

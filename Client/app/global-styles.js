@@ -45,6 +45,10 @@ injectGlobal`
     padding:4px;
   }
 
+  .global-fontSize {
+    font-size: 15px;
+  }
+
   .ant-modal-header {
     background: #ffce3d;
   }
@@ -83,13 +87,19 @@ injectGlobal`
 
   .relative-content {
       position: relative;
+      font-size: 16px;
   }
 
   div.card-sub-info{
-      position: absolute;
-      bottom: 4px;
-      right: 32px;
-      padding: 2px;
+    position: absolute;
+    bottom: 7px;
+    right: 32px;
+  }
+
+  div.card-dropMenu{
+    position: absolute;
+    top: 15px;
+    right: 34px;
   }
 
   .public-card-body {

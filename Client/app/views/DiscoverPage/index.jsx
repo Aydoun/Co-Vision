@@ -3,22 +3,35 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Spin } from 'antd';
 import VisionCard from 'components/VisionCard';
-import { prepareAllVisions } from 'actions/vision';
+import Empty from 'components/Empty';
+import { preDicoverList } from 'actions/discover';
 import { formatDate } from 'utils';
 
 class discoverPage extends Component {
   componentDidMount() {
-    this.props.prepareAllVisions();
+    this.props.preDicoverList();
   }
 
   render() {
-    const { allVisionList, loading } = this.props;
+    const { discoverList, loading } = this.props;
+
+    if (!loading && discoverList.length === 0) {
+      return (
+        <div>
+          <Empty
+            message={<span>
+              Nothing is Open For Discovery
+            </span>}
+          />
+        </div>
+      );
+    }
 
     return (
       <div>
         <Spin spinning={loading}>
           {
-              allVisionList.map((elem, i) => (
+              discoverList.map((elem, i) => (
                 <VisionCard
                   key={i}
                   name={elem.title}
@@ -37,13 +50,13 @@ class discoverPage extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ prepareAllVisions }, dispatch);
+  return bindActionCreators({ preDicoverList }, dispatch);
 }
 
 function mapStateToProps(state) {
   return {
-    allVisionList: state.vision.allVisionList,
-    loading : state.vision.loading
+    discoverList: state.discover.discoverList,
+    loading : state.discover.loading
   };
 }
 
