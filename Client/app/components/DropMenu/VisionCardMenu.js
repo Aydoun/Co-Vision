@@ -14,12 +14,6 @@ export default (visionId, onConfirm) => {
         </Menu.Item>
         <Menu.Item>
           <Link to={`/app/vision/${visionId}/history`} >
-            <Icon type="coffee" />
-            <span className="global-left-margin">Contributions</span>
-          </Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link to={`/app/vision/${visionId}/history`} >
             <Icon type="team" />
             <span className="global-left-margin">TimeLine</span>
           </Link>
