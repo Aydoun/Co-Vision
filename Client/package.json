@@ -57,6 +57,7 @@
     }
   },
   "dependencies": {
+    "@storybook/react": "^3.2.15",
     "antd": "^2.11.1",
     "babel-polyfill": "6.20.0",
     "body-parser": "^1.17.1",
@@ -74,10 +75,10 @@
     "react-router-scroll": "0.4.1",
     "redux": "3.6.0",
     "redux-saga": "0.14.0",
-    "styled-components": "1.1.2"
+    "styled-components": "1.1.2",
+    "webpack": "^3.5.1"
   },
   "devDependencies": {
-    "@storybook/react": "^3.2.15",
     "axios": "^0.15.3",
     "babel-cli": "6.18.0",
     "babel-core": "6.21.0",
@@ -129,7 +130,6 @@
     "redux-logger": "3.0.6",
     "sinon": "2.0.0-pre",
     "style-loader": "0.13.1",
-    "url-loader": "0.5.7",
-    "webpack": "^3.5.1"
+    "url-loader": "0.5.7"
   }
 }

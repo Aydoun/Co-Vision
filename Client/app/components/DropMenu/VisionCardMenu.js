@@ -21,7 +21,7 @@ export default (visionId, onConfirm) => {
         <Menu.Item>
           <Popconfirm
             placement="bottom"
-            title="Reconfirm Your Choice"
+            title="Confirm Your Choice"
             onConfirm={onConfirm}
             okText="Confirm"
             cancelText="Cancel"

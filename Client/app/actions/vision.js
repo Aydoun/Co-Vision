@@ -9,7 +9,8 @@ import {
   VISION_STAT_LOADING,
   BRANCH_LIST_LOADING,
   FILE_READ_LOADING,
-  VISION_LIST_LOADING
+  VISION_LIST_LOADING,
+  VISION_UNREGISTER_USER
 } from 'constants/vision';
 
 
@@ -76,6 +77,13 @@ export function preStat(params) {
   };
 }
 
+export function unregister(params) {
+  return {
+    type: VISION_UNREGISTER_USER,
+    playload : params
+  };
+}
+
 export function visionSaved(err, res) {
   if (err) {
     return {
@@ -110,7 +118,6 @@ export function showVisionList(res) {
 }
 
 export function showAllVisionList(res) {
-  console.log(res, 'res');
   const response = res.data.response;
 
   return {

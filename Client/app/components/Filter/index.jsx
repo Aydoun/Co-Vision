@@ -3,7 +3,12 @@ import { Card, Input, Slider, Row, Col, Icon, Select } from 'antd';
 
 const Option = Select.Option;
 const Search = Input.Search;
-const formatter = value => `${value} days`;
+const formatter = (value) => {
+  if (value === 0) {
+    return 'All';
+  }
+  return `${value} days`;
+};
 const CardTitle = (
   <div>
     <Icon type="filter" />
@@ -23,7 +28,7 @@ export default props => (
           <Col >
             <Search
               placeholder="Keyword"
-              onSearch={value => console.log(value)}
+              onSearch={value => props.onSearch(value)}
             />
           </Col>
         </Row>
@@ -32,10 +37,10 @@ export default props => (
           <Col >
             <h4>Last Activity:</h4>
             <Slider
-              defaultValue={3}
-              max={8}
+              max={6}
               step={1}
               tipFormatter={formatter}
+              onChange={props.onSliderChange}
             />
           </Col>
         </Row>
@@ -43,11 +48,16 @@ export default props => (
         <Row>
           <Col span={24} size="small">
             <h4 className="filter-label">Active Contributors:</h4>
-            <Select defaultValue="a" size="large" style={{ width: 150 }} >
-              <Option value="a">10+</Option>
-              <Option value="b">100+</Option>
-              <Option value="c">1000+</Option>
-              <Option value="d">All</Option>
+            <Select
+              defaultValue="0"
+              size="large"
+              style={{ width: 150 }}
+              onChange={props.onSelectChange}
+            >
+              <Option value="10">10+</Option>
+              <Option value="100">100+</Option>
+              <Option value="1000">1000+</Option>
+              <Option value="0">All</Option>
             </Select>
           </Col>
         </Row>

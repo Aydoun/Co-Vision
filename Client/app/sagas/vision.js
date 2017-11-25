@@ -10,9 +10,8 @@ import {
   ALL_VISION_LIST_LOADING,
   FILE_READ_LOADING,
   VISION_FS_LOADING,
+  VISION_UNREGISTER_USER
 } from 'constants/vision';
-
-
 import {
         visionSaved,
         showVisionList,
@@ -24,7 +23,6 @@ import {
         fileContent,
         getVisionStats,
 } from 'actions/vision';
-
 import request from 'utils/request';
 
 function* createVision(returnedData) {
@@ -184,6 +182,23 @@ function* liststats(returnedData) {
   }
 }
 
+function* unregisterUser(returnedData) {
+  const requestURL =
+  `${config.apiBase}/vision/${returnedData.playload.id}/unregister`;
+
+  const PostOptions = {
+    method: 'PUT',
+    url: requestURL,
+    data: returnedData.playload
+  };
+
+  try {
+    yield call(request, PostOptions);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 function* _saveVisionSaga() {
     yield takeLatest(VISION_SAVE_LOADING, createVision);
 }
@@ -220,6 +235,10 @@ function* _visionStat() {
     yield takeLatest(VISION_STAT_LOADING, liststats);
 }
 
+function* unregiterVision() {
+  yield takeLatest(VISION_UNREGISTER_USER, unregisterUser);
+}
+
 export default [
   fork(_saveVisionSaga),
   fork(_listVisionSaga),
@@ -230,4 +249,5 @@ export default [
   fork(_readFile),
   fork(_saveContribution),
   fork(_visionStat),
+  fork(unregiterVision)
 ];

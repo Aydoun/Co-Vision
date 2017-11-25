@@ -4,6 +4,9 @@ import View from './index';
 
 storiesOf('Filter', module)
   .add('Basic Usage', () => (
-    <View />
-  ))
-  
+    <View
+      onSliderChange={value => console.log(value, 'slider')}
+      onSearch={value => console.log(value, 'search')}
+      onSelectChange={value => console.log(value, 'select')}
+    />
+  ));

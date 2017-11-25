@@ -5,14 +5,15 @@ import PropTypes from 'prop-types';
 import { Button, Spin, Modal, Icon } from 'antd';
 import VisionCard from 'components/VisionCard';
 import Empty from 'components/Empty';
-import CreateForm from './createVision';
 import { formatDate } from 'utils';
-import { prepareListing } from 'actions/vision';
+import { prepareListing, unregister } from 'actions/vision';
+import CreateForm from './createVision';
 import './index.css';
 
 class VisionList extends Component {
   static propTypes = {
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
+    prepareListing: PropTypes.func
   }
 
   static defaultProps = {
@@ -35,6 +36,13 @@ class VisionList extends Component {
   cb() {
     this.props.prepareListing({
      _id : localStorage.userId
+    });
+  }
+
+  unregister(visionId, creatorId) {
+    this.props.unregister({
+      id: visionId,
+      creator: creatorId
     });
   }
 
@@ -88,7 +96,7 @@ class VisionList extends Component {
                   status={elem.status}
                   visionId={elem._id}
                   updatedAt={formatDate(elem.updatedAt)}
-                  onConfirm={() => console.log(elem._id)}
+                  onConfirm={() => this.unregister(elem._id, elem.creator)}
                 />
               ))
             }
@@ -100,7 +108,7 @@ class VisionList extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ prepareListing }, dispatch);
+  return bindActionCreators({ prepareListing, unregister }, dispatch);
 }
 
 function mapStateToProps(state) {
