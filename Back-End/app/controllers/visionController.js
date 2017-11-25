@@ -1,4 +1,6 @@
 const visionModel = require('../models/visionModel');
+const userModel = require('../models/userModel');
+const parallel = require('async/parallel');
 const {
     commit,
     initRepository,
@@ -22,7 +24,8 @@ exports.historyList = function (req, res, next) {
 };
 
 exports.historyTree = function(req , res , next){
-    treeWalk(res , req.query).then(function(files){
+    treeWalk(res , req.params)
+    .then(function(files){
         res.status(200).send(Formatter(files));
     })
     .catch(function(err){
@@ -46,7 +49,7 @@ exports.readFile = function(req , res , next){
 }
 
 exports.branchList = function(req , res , next){
-    getAllBranchList(req.query).then(function(data){
+    getAllBranchList(req.params).then(function(data){
         res.status(200).send(Formatter(data));
     })
     .catch(function(err){
@@ -88,11 +91,12 @@ exports.visionSummary = function(req , res , next){
 
 exports.createVision = function(req , res , next){
     const body = req.body;
-    const checkRes = queryCheck(body , ['creator', 'author' , 'authorMail', 'title']);
-    console.log(checkRes, 'body');
+    const checkRes = queryCheck(body , ['author' , 'authorMail', 'title']);
     if (!checkRes) {
         return res.status(400).send(Formatter({data : 'Missing Required Parameters'} , true));
     }
+
+    body.creator = req.userId;
 
     const newVision = new visionModel(body);
     newVision.save(function (err, data) {
@@ -150,5 +154,55 @@ exports.addLike = function(req , res , next){
         } else {
             res.status(200).send(Formatter('', true));
         }
+    });
+}
+
+exports.unRegister = function(req , res , next){
+    if(!isValidObjectId(req.params.id) || !req.body.creator) {
+      return res.status(200).send(Formatter({message:'All Fields Are Required'} , true));
+    }
+    const userId = req.userId;
+    const visionId = req.params.id;
+
+    parallel({
+      vision: callback => {
+        if (userId === req.body.creator) {
+          // Desactivate Vision From Database
+          visionModel.update({_id: visionId}, {status : 'Inactive'})
+          .then(data => {
+            callback(null, true);
+          })
+          .catch(err => {
+            callback(err, err.message);
+          });
+        } else {
+          callback(null, true);
+        }
+      },
+      user: callback => {
+        userModel.findById(userId)
+        .then(data => {
+          const foundIndex = data.visions.findIndex(elem => elem.visionId == visionId);
+          if (foundIndex >= 0) {
+            data.visions.splice(foundIndex, 1);
+            data.save(function(err , data) {
+                if(err) {
+                  callback(err, err.message);
+                }
+                callback(null, true);
+            });
+          } else {
+            callback(null, true);
+          }
+        })
+        .catch(err => {
+          callback(err, err.message);
+        });
+      }
+    }, (err, results) => {
+        if(err) {
+          res.status(403).send(Formatter(results));
+        }
+        res.status(200).send(Formatter(results));
     });
 }

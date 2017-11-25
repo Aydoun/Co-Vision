@@ -7,10 +7,10 @@ var { visionList , addVisionToContributor } = require('../controllers/userContro
 //General Crud Routing
 users.get('/findOne', base.getOne);
 users.get('/count', base.count);
-users.get('/:id', base.getById);
+users.get('/vision', visionList);
+users.get('/', base.getById);
 users.get('/:id/exists', base.exists);
 users.put('/:id', base.update);
-users.get('/:id/vision', visionList);
 users.post('/:id/vision', addVisionToContributor);
 
 module.exports = users;

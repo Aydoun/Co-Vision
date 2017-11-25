@@ -16,6 +16,7 @@ const userSchema = new Schema({
   contactInfo : {type:Array},
   phone: {type : String},
 	profession: {type : String},
+	bio: {type: String},
   privacy: {type:Array},
   email: {type : String , required: true},
   avatar: {type : String , default : ''},

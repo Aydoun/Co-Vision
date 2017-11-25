@@ -15,9 +15,12 @@ module.exports = function (model){
   }
 
   function getById(req,res,next){
-    if (!req.params.id) res.status(200).send(Formatter(data , true));
+    const finalId = typeof req.params.id === 'undefined' ? req.userId : req.params.id;
+    if (!finalId) {
+      return res.status(403).send(Formatter({message:'All Fields Are Required'} , true));
+    }
 
-  	model.findById(req.params.id, function (err, data) {
+  	model.findById(finalId, function (err, data) {
     		if (err) return res.status(200).send(Formatter(err , true));
 
         res.status(200).send(Formatter(data));

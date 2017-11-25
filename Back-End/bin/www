@@ -19,10 +19,9 @@ var mongoose = require('mongoose');
  var port = normalizePort(process.env.PORT || serverConfig.port);
 
 // Set and display the application URL
-var applicationUrl = 'http://' + domain + ':' + port + '/api-docs';
+var applicationUrl = `http://${domain}:${port}/api-docs`;
 
 swagger.configure(applicationUrl, '1.0.0');
-
 
 app.set('port', port);
 
@@ -39,7 +38,7 @@ var server = http.createServer(app);
 mongoose.Promise = Promise;
 mongoose.connect(serverConfig.mongoURL, (error) => {
   if (error) {
-    console.error('Please make sure Mongodb is installed and running!'); // eslint-disable-line no-console
+    console.error('Please make sure Mongodb is installed and running!');
     throw error;
   }
 });

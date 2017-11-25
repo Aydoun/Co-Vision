@@ -14,7 +14,8 @@ var {
   checkoutBranch,
   branchList,
   deleteBranch,
-  addLike
+  addLike,
+  unRegister
 } = require('../controllers/visionController');
 
 var {
@@ -44,5 +45,6 @@ visions.put('/:id/branch', checkoutBranch);
 visions.delete('/:id/branch', deleteBranch);
 
 visions.post('/:id/like', addLike);
+visions.put('/:id/unregister', unRegister);
 
 module.exports = visions;

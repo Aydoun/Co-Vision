@@ -79,14 +79,8 @@ exports.treeWalk = function(res , params){
     var clientInput = params;
     var sha;
 
-    var checkRes = queryCheck(clientInput , ['title']);
-
-    if (checkRes !== true) {
-        throw new Error('Missing Required Paramenters');
-    }
-
     var branchName = clientInput.branchName || 'master';
-    var pathToRepo = defaultGitPath(clientInput.title);
+    var pathToRepo = defaultGitPath(params.id);
 
     return Git.Repository.open(pathToRepo)
     .then(function(repo) {
@@ -185,22 +179,13 @@ exports.treeSummary = function(res , req){
 
 
 exports.getAllBranchList = function(params){
-    var clientInput = params;
-    var _entry;
-    var checkRes = queryCheck(clientInput , ['title']);
-
-    if (checkRes !== true) {
-        throw new Error('Missing Required Paramenters');
-    }
-
-    var pathToRepo = defaultGitPath(clientInput.title);
+    const pathToRepo = defaultGitPath(params.id);
 
     return Git.Repository.open(pathToRepo)
     .then(function(repo) {
       return repo.getReferenceNames(3).then(function(arrayReference) {
         // Use reference
         return arrayReference
-        //.filter(function(elem){return elem.isBranch()})
         .map(function(reference){
             return {
                 name : reference.toString().replace('refs/heads/', ''),
