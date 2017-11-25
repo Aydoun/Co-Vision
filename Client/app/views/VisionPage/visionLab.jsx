@@ -15,36 +15,27 @@ class VisionLab extends React.Component {
             return;
           }
           const { fileName, visionId } = this.props.location.query;
-          const FoundVision = find(this.props.visionList, ['_id', visionId]);
+          const { authInfo } = this.props;
 
-          if (FoundVision) {
-            const params = assign({}, fieldsValue, {
-                fileName,
-                id :  visionId,
-                repoName : FoundVision.title,
-                author : localStorage.userfullName,
-                authorMail : localStorage.userEmail
-            });
+          const params = assign({}, fieldsValue, {
+              fileName,
+              id :  visionId,
+              author : authInfo.fullName,
+              authorMail : authInfo.email
+          });
 
-            this.props.preContribution(params);
-          } else {
-            message.error('vision Not Found');
-          }
+          this.props.preContribution(params);
       });
   }
 
   componentDidMount() {
       const { fileName, visionId, sha } = this.props.location.query;
-      const FoundVision = find(this.props.visionList, ['_id', visionId]);
 
-      if (FoundVision) {
-        this.props.preRead({
-            id : visionId,
-            commitSha : sha,
-            fileName,
-            repoName : FoundVision.title
-        });
-      }
+      this.props.preRead({
+          id : visionId,
+          commitSha : sha,
+          fileName
+      });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -99,6 +90,7 @@ function mapStateToProps(state) {
   return {
       visionList : state.vision.visionList,
       ContentString : state.vision.ContentString,
+      authInfo: state.user.authInfo,
       error : state.error
   };
 }

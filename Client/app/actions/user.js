@@ -1,6 +1,7 @@
 import {
   USER_LOGIN_LOADING,
   USER_REGISTER_LOADING,
+  USER_PROFILE_LOADING,
   DUPLICATE_USER_ACTION
 } from 'constants/user';
 
@@ -22,15 +23,21 @@ export function authenticateUser(res) {
   const response = res.data.response;
   return {
     type: DUPLICATE_USER_ACTION,
-    userGeneralInfo : response,
+    authInfo : response
   };
 }
 
-export function registerUser(res) {
-  const response = res.data.response;
+export function preUserProfile(params) {
+  return {
+    type: USER_PROFILE_LOADING,
+    playload : params
+  };
+}
 
+export function UserProfile(res) {
+  const response = res.data.response;
   return {
     type: DUPLICATE_USER_ACTION,
-    userGeneralInfo : response,
+    profile : response
   };
 }

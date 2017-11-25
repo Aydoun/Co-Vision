@@ -1,10 +1,11 @@
 import assign from 'lodash/assign';
 import {
-  DUPLICATE_USER_ACTION,
+  DUPLICATE_USER_ACTION
 } from 'constants/user';
 
 const initialState = {
-  userGeneralInfo : {}
+  authInfo : {},
+  profile: {}
 };
 
 

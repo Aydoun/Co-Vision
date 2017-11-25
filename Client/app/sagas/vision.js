@@ -59,7 +59,7 @@ function* createContribution(returnedData) {
 }
 
 function* listVision(returnedData) {
-  const requestURL = `${config.apiBase}/user/${returnedData.playload._id}/vision`;
+  const requestURL = `${config.apiBase}/user/vision`;
 
   const GetOptions = {
     method: 'GET',
@@ -116,7 +116,7 @@ function* listContent(returnedData) {
   const GetOptions = {
     method: 'GET',
     url: requestURL,
-    params: returnedData.playload
+    params: {}
   };
 
   try {

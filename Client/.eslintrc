@@ -30,6 +30,8 @@
         "comma-dangle" : "off",
         "no-underscore-dangle": "off",
         "react/jsx-filename-extension" : "off",
+        "react/forbid-prop-types": "off",
+        "react/sort-comp": "off",
         "indent" : "off",
         "react/jsx-uses-vars": [2],
         "no-console": "off",

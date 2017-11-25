@@ -1,22 +1,36 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Form, Input, Radio, DatePicker, Upload } from 'antd';
+import { Form, Input, Radio, DatePicker, Upload, Button, Icon } from 'antd';
+import { preUserProfile } from 'actions/user';
+import moment from 'moment';
 import './index.css';
 
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 
 class UserProfile extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      imageUrl: 'http://tse3.mm.bing.net/th?id=OIP.LeSdHRCk208SZXtGBVLCzwEsDh&w=264&h=195&c=7&qlt=90&o=4&pid=1.7'
-    };
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+      }
+    });
   }
+
+  componentDidMount() {
+    this.props.preUserProfile({});
+  }
+
   render() {
-    const { imageUrl } = this.state;
-    const plainOptions = ['Male', 'Female', 'Secret'];
+    const { profile } = this.props;
+    const { getFieldDecorator } = this.props.form;
+    const options = [
+      { label: 'Male', value: 0 },
+      { label: 'Female', value: 1 },
+      { label: 'Secret', value: -1 },
+    ];
 
     return (
       <div className="user-profile__form">
@@ -27,46 +41,87 @@ class UserProfile extends React.Component {
           action="//jsonplaceholder.typicode.com/posts/"
         >
           {
-         imageUrl ?
-           <img src={imageUrl} alt="" className="avatar" /> :
+         profile.avatar ?
+           <img src={profile.avatar} alt="profile-pic" className="avatar" /> :
            <Icon type="plus" className="avatar-uploader-trigger" />
        }
         </Upload>
         <Form layout="inline">
           <h3>Basic:</h3>
           <FormItem >
-            <Input placeholder="Full Name" />
+            {getFieldDecorator('fullName', {
+              initialValue: profile.fullName,
+            })(
+              <Input placeholder="Full Name" />
+            )}
           </FormItem>
           <FormItem
             label="Sexe"
           >
-            <RadioGroup
-              options={plainOptions}
-              value={'Male'}
-            />
+            {getFieldDecorator('sexe', {
+              initialValue: profile.sexe,
+            })(
+              <RadioGroup
+                options={options}
+              />
+            )}
           </FormItem>
           <FormItem >
-            <DatePicker placeholder="choose your birthday" />
+            {getFieldDecorator('age', {
+              initialValue: moment(profile.age),
+            })(
+              <DatePicker placeholder="choose your birthday" />
+            )}
+
           </FormItem>
           <h3>Contact: </h3>
           <FormItem >
-            <Input placeholder="email" />
+            {getFieldDecorator('email', {
+              initialValue: profile.email,
+            })(
+              <Input placeholder="email" />
+            )}
           </FormItem>
           <FormItem >
-            <Input placeholder="Phone Number" />
+            {getFieldDecorator('phone', {
+              initialValue: profile.phone,
+            })(
+              <Input placeholder="Phone Number" />
+            )}
+
           </FormItem>
           <h3>Profession: </h3>
           <FormItem >
-            <Input placeholder="What do you do?" />
+            {getFieldDecorator('profession', {
+              initialValue: profile.profession,
+            })(
+              <Input placeholder="What do you do?" />
+            )}
+
           </FormItem>
-          <h3>What's Up: </h3>
+          <h3>What is Up: </h3>
           <FormItem >
-            <Input
-              type="textarea"
-              rows={8}
-              style={{ width: 500 }}
-              placeholder="Tell Us About Yourself"
-            />
+            {getFieldDecorator('bio', {
+              initialValue: profile.bio,
+            })(
+              <Input
+                type="textarea"
+                rows={8}
+                style={{ width: 500 }}
+                placeholder="Tell Us About Yourself"
+              />
+            )}
+          </FormItem>
+          <h3 />
+          <FormItem >
+            <Button
+              icon="save"
+              type="primary"
+              onClick={this.handleSubmit}
+              htmlType="submit"
+            >
+              Save
+            </Button>
           </FormItem>
         </Form>
       </div>
@@ -75,12 +130,13 @@ class UserProfile extends React.Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({}, dispatch);
+  return bindActionCreators({ preUserProfile }, dispatch);
 }
 
 function mapStateToProps(state) {
   return {
+    profile: state.user.profile
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);
+export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(UserProfile));

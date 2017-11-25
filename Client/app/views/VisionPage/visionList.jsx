@@ -13,7 +13,9 @@ import './index.css';
 class VisionList extends Component {
   static propTypes = {
     loading: PropTypes.bool,
-    prepareListing: PropTypes.func
+    visionList: PropTypes.array,
+    prepareListing: PropTypes.func,
+    unregister: PropTypes.func
   }
 
   static defaultProps = {
@@ -29,13 +31,11 @@ class VisionList extends Component {
 
   componentDidMount() {
     this.props.prepareListing({
-     _id : localStorage.userId
     });
   }
 
   cb() {
     this.props.prepareListing({
-     _id : localStorage.userId
     });
   }
 

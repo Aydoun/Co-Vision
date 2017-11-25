@@ -6,9 +6,8 @@ export function getRandomString() {
 
 export function saveUserData(serverResponse) {
     localStorage.setItem('token', serverResponse.token);
-    localStorage.setItem('userId', serverResponse._id);
-    localStorage.setItem('userEmail', serverResponse.email);
-    localStorage.setItem('userfullName', serverResponse.fullName);
+    localStorage.setItem('email', serverResponse.email);
+    localStorage.setItem('fullName', serverResponse.fullName);
 }
 
 export function logout() {

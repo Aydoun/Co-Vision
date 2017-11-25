@@ -36,10 +36,10 @@ class addVision extends React.Component {
   handleSubmit() {
     this.props.form.validateFields((err, fieldsValue) => {
       if (!err) {
+        const { authInfo } = this.props;
         const params = assign({}, {
-            author : localStorage.userfullName,
-            authorMail : localStorage.userEmail,
-            creator : localStorage.userId
+            author : localStorage.fullName,
+            authorMail : localStorage.email
         }, fieldsValue);
 
         this.props.prepareSaving(params);
@@ -99,6 +99,7 @@ function mapStateToProps(state) {
   return {
     loading: state.vision.loading,
     visionId: state.vision.visionId,
+    authInfo: state.user.authInfo,
     error: state.vision.error
   };
 }
