@@ -8,9 +8,8 @@ export default class VisionCard extends Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
     onConfirm: PropTypes.func,
-    onClick: PropTypes.func,
+    onLike: PropTypes.func,
     description: PropTypes.string,
-    discover: PropTypes.bool,
     avatar: PropTypes.string,
     updatedAt: PropTypes.string,
     visionId: PropTypes.string,
@@ -20,10 +19,9 @@ export default class VisionCard extends Component {
   static defaultProps = {
     name: 'Unamed',
     description: '',
-    discover: false,
     updatedAt: 'UnRecorded',
     avatar: '',
-    onClick: () => {},
+    onLike: () => {},
     onConfirm: () => {},
     likes: 0,
     visionId: 0
@@ -86,7 +84,12 @@ export default class VisionCard extends Component {
             {description}
             <div className="card-sub-info">
               <Tag color="#595755">{ updatedAt }</Tag>
-              <Tag color="blue"><Icon type="like" /> { likes }</Tag>
+              <Tag
+                onClick={() => this.props.onLike(visionId)}
+                color="blue"
+              >
+                <Icon type="like" /> { likes }
+              </Tag>
             </div>
           </div>
         </Card>

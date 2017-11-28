@@ -135,25 +135,24 @@ exports.contribute = function(req , res , next){
 */
 
 exports.addLike = function(req , res , next){
-    if(!(isValidObjectId(req.query.userId) && isValidObjectId(req.params.id))) {
-        return res.status(200).send(Formatter({message:'All Fields Are Required'} , true));
-    }
-    const userId = req.query.userId;
+    const userId = req.userId;
     const visionId = req.params.id;
 
-    visionModel.findById(visionId , function(err , data){
-        if (err) return res.status(200).send(Formatter(err , true));
-        const foundUser = data.likes.find((likeItem => likeItem.userId == userId));
+    visionModel.findById(visionId)
+    .then(data => {
+      const foundUser = data.likes.find((likeItem => likeItem.userId == userId));
+      if (typeof foundUser !== 'undefined') {
+        throw new Error('User already registered');
+      }
 
-        if (typeof foundUser === 'undefined') {
-            // First Time To Like The Vision
-            data.likes.push({ userId });
-            data.save(function(err , _data){
-                res.status(200).send(Formatter(_data));
-            });
-        } else {
-            res.status(200).send(Formatter('', true));
-        }
+      data.likes.push({ userId });
+      return data.save();
+    })
+    .then(data => {
+      return  res.status(200).send(Formatter(data));
+    })
+    .catch(err => {
+      return res.status(403).send(Formatter(err.message , true));
     });
 }
 

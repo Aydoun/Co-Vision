@@ -1,6 +1,7 @@
 import assign from 'lodash/assign';
 import {
   DUPLICATE_VISION_ACTION,
+  SAVE_USER_LIKE
 } from 'constants/vision';
 
 const initialState = {
@@ -25,6 +26,14 @@ function visionReducer(state = initialState, action) {
   switch (action.type) {
     case DUPLICATE_VISION_ACTION:
       return assign({}, state, { ...action }, { loading:false });
+    case SAVE_USER_LIKE: {
+      const newVisionList = state.visionList.slice();
+      const formalVisionIndex =
+      newVisionList.findIndex(v => v._id === action.likedVisionId);
+      newVisionList[formalVisionIndex].likes.push({});
+
+      return assign({}, state, { visionList: newVisionList });
+    }
     default:
       return state;
   }

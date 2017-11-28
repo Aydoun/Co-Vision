@@ -10,7 +10,9 @@ import {
   BRANCH_LIST_LOADING,
   FILE_READ_LOADING,
   VISION_LIST_LOADING,
-  VISION_UNREGISTER_USER
+  VISION_UNREGISTER_USER,
+  VISION_USER_LIKE,
+  SAVE_USER_LIKE
 } from 'constants/vision';
 
 
@@ -77,6 +79,13 @@ export function preStat(params) {
   };
 }
 
+export function preLike(params) {
+  return {
+    type: VISION_USER_LIKE,
+    playload : params
+  };
+}
+
 export function unregister(params) {
   return {
     type: VISION_UNREGISTER_USER,
@@ -105,6 +114,16 @@ export function saveContribution(res) {
   return {
     type: DUPLICATE_VISION_ACTION,
     commitId : response.internal,
+  };
+}
+
+export function saveLike(res) {
+  const response = res.data.response;
+
+  return {
+    type: SAVE_USER_LIKE,
+    // commitId : response.internal,
+    likedVisionId: response._id
   };
 }
 

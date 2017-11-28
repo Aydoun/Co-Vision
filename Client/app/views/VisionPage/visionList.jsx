@@ -6,7 +6,7 @@ import { Button, Spin, Modal, Icon } from 'antd';
 import VisionCard from 'components/VisionCard';
 import Empty from 'components/Empty';
 import { formatDate } from 'utils';
-import { prepareListing, unregister } from 'actions/vision';
+import { prepareListing, unregister, preLike } from 'actions/vision';
 import CreateForm from './createVision';
 import './index.css';
 
@@ -24,6 +24,7 @@ class VisionList extends Component {
 
   constructor(props) {
       super(props);
+      this.userLike = this.userLike.bind(this);
       this.state = {
         visible: false
       };
@@ -36,6 +37,12 @@ class VisionList extends Component {
 
   cb() {
     this.props.prepareListing({
+    });
+  }
+
+  userLike(visionId) {
+    this.props.preLike({
+      id: visionId
     });
   }
 
@@ -59,6 +66,7 @@ class VisionList extends Component {
         <CreateForm cb={this.cb} onCancel={() => this.setState({ visible: false })} />
       </Modal>
     );
+    console.log(visionList, 'visionList');
 
     if (!loading && visionList.length === 0) {
       return (
@@ -83,7 +91,7 @@ class VisionList extends Component {
         <Spin spinning={loading}>
           <Button
             icon="plus" type="primary"
-            onClick={() => this.setState({ visible:true })}
+            onClick={() => this.setState({ visible: true })}
           >
               Add Vision
             </Button>
@@ -95,8 +103,10 @@ class VisionList extends Component {
                   description={elem.description}
                   status={elem.status}
                   visionId={elem._id}
+                  likes={elem.likes.length}
                   updatedAt={formatDate(elem.updatedAt)}
                   onConfirm={() => this.unregister(elem._id, elem.creator)}
+                  onLike={this.userLike}
                 />
               ))
             }
@@ -108,7 +118,7 @@ class VisionList extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ prepareListing, unregister }, dispatch);
+  return bindActionCreators({ prepareListing, unregister, preLike }, dispatch);
 }
 
 function mapStateToProps(state) {

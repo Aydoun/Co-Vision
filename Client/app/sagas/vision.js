@@ -10,7 +10,8 @@ import {
   ALL_VISION_LIST_LOADING,
   FILE_READ_LOADING,
   VISION_FS_LOADING,
-  VISION_UNREGISTER_USER
+  VISION_UNREGISTER_USER,
+  VISION_USER_LIKE
 } from 'constants/vision';
 import {
         visionSaved,
@@ -22,6 +23,7 @@ import {
         showAllVisionList,
         fileContent,
         getVisionStats,
+        saveLike
 } from 'actions/vision';
 import request from 'utils/request';
 
@@ -199,6 +201,23 @@ function* unregisterUser(returnedData) {
   }
 }
 
+function* userLikeVision(returnedData) {
+  const requestURL = `${config.apiBase}/vision/${returnedData.playload.id}/like`;
+
+  const PostOptions = {
+    method: 'POST',
+    url: requestURL,
+    data: {}
+  };
+  try {
+    const res = yield call(request, PostOptions);
+    yield put(saveLike(res));
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+
 function* _saveVisionSaga() {
     yield takeLatest(VISION_SAVE_LOADING, createVision);
 }
@@ -239,6 +258,10 @@ function* unregiterVision() {
   yield takeLatest(VISION_UNREGISTER_USER, unregisterUser);
 }
 
+function* likeVision() {
+  yield takeLatest(VISION_USER_LIKE, userLikeVision);
+}
+
 export default [
   fork(_saveVisionSaga),
   fork(_listVisionSaga),
@@ -249,5 +272,6 @@ export default [
   fork(_readFile),
   fork(_saveContribution),
   fork(_visionStat),
-  fork(unregiterVision)
+  fork(unregiterVision),
+  fork(likeVision)
 ];
