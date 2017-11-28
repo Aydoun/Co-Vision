@@ -5,7 +5,7 @@ import MessageNav from 'components/CorrespondanceNav';
 import MicroMessage from 'components/MicroMessage';
 import Empty from 'components/Empty';
 import { Layout, Menu } from 'antd';
-import { preMessage } from 'actions/mail';
+import { preMessage, preSend } from 'actions/mail';
 import { formatDate } from 'utils';
 import SendForm from './sendMessageForm';
 
@@ -15,6 +15,7 @@ class mailPage extends React.Component {
   constructor(props) {
     super(props);
     this.onMenuChanged = this.onMenuChanged.bind(this);
+    this.sendMessage = this.sendMessage.bind(this);
     this.state = {
       conversationId: null
     };
@@ -29,7 +30,10 @@ class mailPage extends React.Component {
 
   sendMessage(message) {
     const { conversationId } = this.state;
-    console.log(message, 'message');
+    this.props.preSend({
+      content: message,
+      conversationId
+    });
   }
 
   render() {
@@ -98,7 +102,7 @@ class mailPage extends React.Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ preMessage }, dispatch);
+  return bindActionCreators({ preMessage, preSend }, dispatch);
 }
 
 function mapStateToProps(state) {

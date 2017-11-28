@@ -1,6 +1,7 @@
 import assign from 'lodash/assign';
 import {
   MAIL_MESSAGE_LOADING,
+  SAVE_SENT_MESSAGE,
   DUPLICATE_MAIL_ACTION
 } from 'constants/mail';
 
@@ -20,6 +21,16 @@ function mailReducer(state = initialState, action) {
   switch (action.type) {
     case DUPLICATE_MAIL_ACTION:
       return assign({}, state, { ...action }, { loading:false });
+    case SAVE_SENT_MESSAGE: {
+      const newMailList = assign({}, state.mailList);
+      const newConversations = newMailList.conversations.slice();
+      const formalConversationIndex =
+      newConversations.findIndex(v => v._id === action.conversationId);
+      newConversations[formalConversationIndex].messages.push(action.lastMessage);
+      newMailList.conversations = newConversations;
+
+      return assign({}, state, { mailList: newMailList });
+    }
     default:
       return state;
   }
