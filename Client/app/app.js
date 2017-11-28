@@ -8,7 +8,7 @@ import { history } from './store';
 
 window.config = config;
 
-export default props => (
+export default () => (
   <Router history={history}>
     {allRoutes()}
   </Router>

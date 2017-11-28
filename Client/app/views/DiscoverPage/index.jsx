@@ -48,6 +48,7 @@ class discoverPage extends Component {
                       visionId={elem._id}
                       updatedAt={formatDate(elem.updatedAt)}
                       onConfirm={() => console.log(elem._id)}
+                      discover
                     />
                   ))
                 }

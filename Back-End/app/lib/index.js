@@ -25,7 +25,7 @@ exports.convertToObjectId = strId => ObjectId(strId);
 exports.isValidObjectId = (id) =>  ObjectId.isValid(id);
 
 exports.generateToken = function (userId, tokenSecret) {
-    const expires = moment().add(1, 'days').valueOf();
+    const expires = moment().add(7, 'days').valueOf();
     return jwt.encode({
       iss: userId,
       exp: expires

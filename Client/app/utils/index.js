@@ -1,13 +1,8 @@
-export const globalPageSize = 5;
-
-export function getRandomString() {
-    return Math.random().toString(36).substring(2, 15);
-}
-
 export function saveUserData(serverResponse) {
     localStorage.setItem('token', serverResponse.token);
     localStorage.setItem('email', serverResponse.email);
     localStorage.setItem('fullName', serverResponse.fullName);
+    localStorage.setItem('userId', serverResponse._id);
 }
 
 export function logout() {
@@ -18,9 +13,9 @@ export function logout() {
 export function formatDate(date) {
     if (date) {
       const dateObj = new Date(date);
-      const y = dateObj.getFullYear(),
-      m = dateObj.getMonth() + 1,
-      d = dateObj.getDate();
+      const y = dateObj.getFullYear();
+      const m = dateObj.getMonth() + 1;
+      const d = dateObj.getDate();
 
       return `${y
        }-${m < 10 ? `0${m}` : m

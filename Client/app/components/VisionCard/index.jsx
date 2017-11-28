@@ -8,7 +8,9 @@ export default class VisionCard extends Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
     onConfirm: PropTypes.func,
+    onClick: PropTypes.func,
     description: PropTypes.string,
+    discover: PropTypes.bool,
     avatar: PropTypes.string,
     updatedAt: PropTypes.string,
     visionId: PropTypes.string,
@@ -18,8 +20,10 @@ export default class VisionCard extends Component {
   static defaultProps = {
     name: 'Unamed',
     description: '',
+    discover: false,
     updatedAt: 'UnRecorded',
     avatar: '',
+    onClick: () => {},
     onConfirm: () => {},
     likes: 0,
     visionId: 0
@@ -49,7 +53,9 @@ export default class VisionCard extends Component {
         <Col>
           <Row>
             <Icon type="api" />
-            <Link to={`/app/vision/${visionId}/content`}>
+            <Link
+              to={`/app/vision/${visionId}/content`}
+            >
               <span className="global-left-margin">{name || 'Unamed'}</span>
             </Link>
           </Row>

@@ -121,7 +121,6 @@ injectGlobal`
     line-height: 18px;
     font-size: 15px;
     padding: 8px;
-    position: relative;
     margin: 8px 0;
     max-width: 85%;
     word-wrap: break-word;
@@ -148,10 +147,6 @@ injectGlobal`
       right: -8px;
   }
 
-  .message:first-child {
-      margin: 16px 10px 16px;
-  }
-
   .metadata {
       display: inline-block;
       padding: 0 0 0 7px;
@@ -160,7 +155,7 @@ injectGlobal`
   }
 
   .message.received {
-      background: #fff;
+      border: 1px solid #ccc;
       border-radius: 0px 5px 5px 5px;
       float: left;
   }
@@ -179,12 +174,6 @@ injectGlobal`
       border-style: solid;
   }
 
-  .message.received {
-    background: #fff;
-    border-radius: 0px 5px 5px 5px;
-    float: left;
-  }
-
   .message.received .metadata {
     padding: 0 0 0 16px;
   }
@@ -194,6 +183,10 @@ injectGlobal`
     border-color: transparent #fff transparent transparent;
     top: 0;
     left: -10px;
+  }
+
+  .ant-menu-vertical .ant-menu-item {
+    height: auto;
   }
 
 `;

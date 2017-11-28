@@ -14,7 +14,7 @@ function checkStatus(response) {
 
  export default function request(options) {
    return axios(assign(options, {
-     headers: { 'x-access-token': localStorage.getItem('token') || '' }
+     headers: { 'x-access-token': localStorage.getItem('token') }
    }))
    .then(checkStatus);
  }

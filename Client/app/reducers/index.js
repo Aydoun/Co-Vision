@@ -6,6 +6,7 @@ import visionReducer from './vision';
 import userReducer from './user';
 import errorReducer from './error';
 import discoverReducer from './discover';
+import mailReducer from './mail';
 
 const loadingReducer = (state, _) => (
   assign({}, state, { loading: true })
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
   user : userReducer,
   error : errorReducer,
   discover: discoverReducer,
-  app : appReducer
+  app : appReducer,
+  mail: mailReducer
   // loading: loadingReducer
 });
 

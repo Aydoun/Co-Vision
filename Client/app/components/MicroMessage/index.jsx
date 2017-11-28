@@ -1,7 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Icon } from 'antd';
 
-export default class extends Component {
+// export default props => (
+//   <div className={`message ${props.type || ''}`}>
+//     {props.message}
+//     <span className="metadata">
+//       <span className="time"><Icon type="clock-circle-o" />{props.time || ''}</span>
+//     </span>
+//   </div>
+//   );
+
+export default class extends React.Component {
   render() {
     const { type, message, time } = this.props;
     return (
