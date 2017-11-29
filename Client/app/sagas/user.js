@@ -4,6 +4,7 @@ import { reportError } from 'actions/error';
 import {
   USER_LOGIN_LOADING,
   USER_REGISTER_LOADING,
+  USER_SAVE_PROFILE,
   USER_PROFILE_LOADING
 } from 'constants/user';
 import {
@@ -67,6 +68,21 @@ function* getProfile() {
   }
 }
 
+function* saveProfile(returnedData) {
+  const requestURL = `${config.apiBase}/user`;
+  const PostOptions = {
+    method: 'PUT',
+    url: requestURL,
+    data: returnedData.playload
+  };
+
+  try {
+    yield call(request, PostOptions);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 function* _userLogin() {
     yield takeLatest(USER_LOGIN_LOADING, userLogin);
 }
@@ -79,8 +95,13 @@ function* getUserProfile() {
     yield takeLatest(USER_PROFILE_LOADING, getProfile);
 }
 
+function* saveProfileSaga() {
+    yield takeLatest(USER_SAVE_PROFILE, saveProfile);
+}
+
 export default [
   fork(_userLogin),
   fork(_userRegister),
-  fork(getUserProfile)
+  fork(getUserProfile),
+  fork(saveProfileSaga)
 ];

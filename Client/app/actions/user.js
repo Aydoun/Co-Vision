@@ -2,6 +2,7 @@ import {
   USER_LOGIN_LOADING,
   USER_REGISTER_LOADING,
   USER_PROFILE_LOADING,
+  USER_SAVE_PROFILE,
   DUPLICATE_USER_ACTION
 } from 'constants/user';
 
@@ -30,6 +31,13 @@ export function authenticateUser(res) {
 export function preUserProfile(params) {
   return {
     type: USER_PROFILE_LOADING,
+    playload : params
+  };
+}
+
+export function saveProfile(params) {
+  return {
+    type: USER_SAVE_PROFILE,
     playload : params
   };
 }

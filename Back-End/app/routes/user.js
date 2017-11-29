@@ -9,8 +9,8 @@ users.get('/findOne', base.getOne);
 users.get('/count', base.count);
 users.get('/vision', visionList);
 users.get('/', base.getById);
-users.get('/:id/exists', base.exists);
-users.put('/:id', base.update);
-users.post('/:id/vision', addVisionToContributor);
+users.get('/exists', base.exists);
+users.put('/', base.update);
+users.post('/vision', addVisionToContributor);
 
 module.exports = users;

@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import assign from 'lodash/assign';
 import { Card, Form, Input, Button, Rate } from 'antd';
 import { sendFeedback } from 'actions/feedback';
 
 const FormItem = Form.Item;
 
 class feedBackPage extends Component {
-
+  constructor(props) {
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
   handleSubmit() {
     this.props.form.validateFields((err, fieldsValue) => {
       if (!err) {
@@ -43,7 +45,13 @@ class feedBackPage extends Component {
             )}
           </FormItem>
           <FormItem >
-            <Button type="primary" icon="save" onClick={this.handleSubmit.bind(this)}>Submit</Button>&nbsp;&nbsp;&nbsp;
+            <Button
+              type="primary"
+              icon="save"
+              onClick={this.handleSubmit}
+            >
+              Submit
+            </Button>
           </FormItem>
         </Form>
       </Card>

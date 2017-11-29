@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Form, Input, Radio, DatePicker, Upload, Button, Icon } from 'antd';
-import { preUserProfile } from 'actions/user';
+import { preUserProfile, saveProfile } from 'actions/user';
 import moment from 'moment';
 import './index.css';
 
@@ -14,6 +14,7 @@ class UserProfile extends React.Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        this.props.saveProfile(values);
         console.log('Received values of form: ', values);
       }
     });
@@ -97,7 +98,6 @@ class UserProfile extends React.Component {
             })(
               <Input placeholder="What do you do?" />
             )}
-
           </FormItem>
           <h3>What is Up: </h3>
           <FormItem >
@@ -130,7 +130,7 @@ class UserProfile extends React.Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ preUserProfile }, dispatch);
+  return bindActionCreators({ preUserProfile, saveProfile }, dispatch);
 }
 
 function mapStateToProps(state) {
