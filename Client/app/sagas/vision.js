@@ -118,7 +118,9 @@ function* listContent(returnedData) {
   const GetOptions = {
     method: 'GET',
     url: requestURL,
-    params: {}
+    params: {
+      branchName: returnedData.playload.branchName
+    }
   };
 
   try {

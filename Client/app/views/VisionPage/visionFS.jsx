@@ -44,7 +44,11 @@ class VisionFS extends React.Component {
     const SelectBranch = (
       <div>
         <span>Drafts ({branchList.length || 0}) : </span>
-        <Select style={{ width:155 }} onChange={this.branchChanged}>
+        <Select
+          style={{ width:155 }}
+          onChange={this.branchChanged}
+          defaultValue="master"
+        >
           {
               branchList.map((item, i) => <Option key={i} value={item.name}>{item.name}</Option>)
             }

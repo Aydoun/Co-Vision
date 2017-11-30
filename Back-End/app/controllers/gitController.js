@@ -76,12 +76,11 @@ exports.initRepository = function(inputs){
     });
 }
 
-exports.treeWalk = function(res , params){
-    var clientInput = params;
+exports.treeWalk = function(res , req){
     var sha;
 
-    var branchName = clientInput.branchName || 'master';
-    var pathToRepo = defaultGitPath(params.id);
+    var branchName = req.query.branchName || 'master';
+    var pathToRepo = defaultGitPath(req.params.id);
 
     return Git.Repository.open(pathToRepo)
     .then(function(repo) {

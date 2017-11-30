@@ -5,11 +5,14 @@ import { Card, Icon, Tag, Avatar, Row, Col, Dropdown, Button } from 'antd';
 import VisionMenu from '../DropMenu/VisionCardMenu';
 import DiscoverVisionMenu from '../DropMenu/DiscoveryMenu';
 
+const noop = () => {};
+
 export default class VisionCard extends Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
     onConfirm: PropTypes.func,
     onLike: PropTypes.func,
+    onClick: PropTypes.func,
     discover: PropTypes.bool,
     description: PropTypes.string,
     avatar: PropTypes.string,
@@ -19,13 +22,14 @@ export default class VisionCard extends Component {
   }
 
   static defaultProps = {
-    name: 'Unamed',
+    name: '--',
     description: '',
-    updatedAt: 'UnRecorded',
+    updatedAt: '--',
     avatar: '',
     discover: false,
-    onLike: () => {},
-    onConfirm: () => {},
+    onClick: noop,
+    onLike: noop,
+    onConfirm: noop,
     likes: 0,
     visionId: 0
   }
@@ -39,7 +43,8 @@ export default class VisionCard extends Component {
         updatedAt,
         likes,
         visionId,
-        onConfirm
+        onConfirm,
+        onClick
     } = this.props;
     const cardTitle = (
       <Row type="flex" gutter={16}>
@@ -67,7 +72,7 @@ export default class VisionCard extends Component {
         </Col>
       </Row>
     );
-    const Menu = discover ? DiscoverVisionMenu(visionId) : VisionMenu(visionId, onConfirm);
+    const Menu = discover ? DiscoverVisionMenu(visionId, onClick) : VisionMenu(visionId, onConfirm);
     const extra = Menu !== null ? (
       <Dropdown overlay={Menu} placement="bottomCenter">
         <Button type="dashed" icon="bars" shape="circle" />

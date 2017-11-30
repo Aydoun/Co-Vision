@@ -1,22 +1,37 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Spin, Layout } from 'antd';
+import { Spin, Layout, Modal, Icon } from 'antd';
 import VisionCard from 'components/VisionCard';
 import Empty from 'components/Empty';
 import Filter from 'components/Filter';
 import { preDicoverList } from 'actions/discover';
 import { formatDate } from 'utils';
+import JoinForm from './joinVisionForm';
 
 const { Content, Sider } = Layout;
 
 class discoverPage extends Component {
+  constructor(props) {
+    super(props);
+    this.onDiscoveryClick = this.onDiscoveryClick.bind(this);
+    this.state = {
+      visible: false
+    };
+  }
   componentDidMount() {
     this.props.preDicoverList();
   }
 
+  onDiscoveryClick(obj) {
+    if (obj.key === '0') {
+      this.setState({ visible: true });
+    }
+  }
+
   render() {
     const { discoverList, loading } = this.props;
+    const { visible } = this.state;
 
     if (!loading && discoverList.length === 0) {
       return (
@@ -47,12 +62,20 @@ class discoverPage extends Component {
                       status={elem.status}
                       visionId={elem._id}
                       updatedAt={formatDate(elem.updatedAt)}
-                      onConfirm={() => console.log(elem._id)}
+                      onClick={this.onDiscoveryClick}
                       discover
                     />
                   ))
                 }
             </Spin>
+            <Modal
+              visible={visible}
+              onCancel={() => this.setState({ visible: false })}
+              title={<span><Icon type="fork" /> Join Request</span>}
+              footer={null}
+            >
+              <JoinForm onCancel={() => this.setState({ visible: false })} />
+            </Modal>
           </div>
         </Content>
       </Layout>

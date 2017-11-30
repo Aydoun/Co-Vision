@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import assign from 'lodash/assign';
 import { Form, Button, Input, Card, Alert } from 'antd';
 import { prepareSaving } from 'actions/vision';
 
@@ -15,38 +14,21 @@ class addVision extends React.Component {
   handleSubmit() {
     this.props.form.validateFields((err, fieldsValue) => {
       if (!err) {
-        const { authInfo } = this.props;
-        const params = assign({}, {
-            author : localStorage.fullName,
-            authorMail : localStorage.email
-        }, fieldsValue);
-
-        this.props.prepareSaving(params);
-        // this.props.cb();
+        console.log(fieldsValue);
       }
     });
   }
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { loading, onCancel } = this.props;
-    const config = {
-      rules: [{ type: 'string', required: true, message: 'Required Field' }],
-    };
+    const { onCancel } = this.props;
+    const config = {};
 
     return (
       <Card noHovering>
         <Form layout="vertical">
           <FormItem
-            label="Vision Name"
-            colon
-          >
-            {getFieldDecorator('title', config)(
-              <Input />
-            )}
-          </FormItem>
-          <FormItem
-            label="Description"
+            label="Motivation"
             colon
           >
             {getFieldDecorator('description', config)(
@@ -55,7 +37,7 @@ class addVision extends React.Component {
           </FormItem>
           <FormItem >
             <Button
-              type="primary" loading={loading}
+              type="primary"
               icon="save"
               onClick={this.handleSubmit}
             >
@@ -75,9 +57,6 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   return {
-    loading: state.vision.loading,
-    visionId: state.vision.visionId,
-    authInfo: state.user.authInfo
   };
 }
 

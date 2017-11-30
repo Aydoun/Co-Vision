@@ -24,7 +24,7 @@ exports.historyList = function (req, res, next) {
 };
 
 exports.historyTree = function(req , res , next){
-    treeWalk(res , req.params)
+    treeWalk(res , req)
     .then(function(files){
         res.status(200).send(Formatter(files));
     })
