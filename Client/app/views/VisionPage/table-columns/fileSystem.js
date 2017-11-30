@@ -7,24 +7,25 @@ export default function Columns() {
     return [
       {
           dataIndex: 'name',
-          render(item, row, index) {
+          render(item, row) {
               const iconType = row.isDirectory ? 'folder' : 'file-text';
               const visionId = _this.props.routeParams.id;
               return (
                 <div>
-                  <Link to={`${'/vision/lab?' + 'visionId='}${visionId}&sha=${row.sha}&fileName=${row.name}`}><Icon type={iconType} /> {item}</Link>
+                  <Link to={`${'/vision/lab?' + 'visionId='}${visionId}&sha=${row.sha}&fileName=${row.name}`}>
+                    <Icon type={iconType} /> {item}
+                  </Link>
                 </div>
               );
           }
       },
       {
-          render(item, row, index) {
-              return <span>--</span>;
-          }
-      },
-      {
-          render(item, row, index) {
-              return <span>--</span>;
+          render(item, row) {
+              return (
+                <div>
+                  <Icon type="edit" />
+                </div>
+              );
           }
       }
     ];

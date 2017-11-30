@@ -7,4 +7,4 @@ var Schema = new mongooseSchema({
   creator : {type : mongooseSchema.Types.ObjectId , required: true },
 }, {timestamps: true});
 
-module.exports = mongoose.model('cov-feedback', Schema);
+module.exports = mongoose.model('cov_feedback', Schema);

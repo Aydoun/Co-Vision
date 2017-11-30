@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { Layout, Menu, Icon, Avatar, Popconfirm } from 'antd';
+import { Layout, Menu, Icon, Avatar, Popconfirm, Alert } from 'antd';
 import MyHeader from 'components/Header';
 import MyFooter from 'components/Footer';
 import { logout } from 'utils';
@@ -85,7 +85,9 @@ class App extends React.Component {
           <Layout>
             <MyHeader />
             <Content style={{ margin: '0 16px' }}>
+              <Alert message="Success Tips" type="success" showIcon />
               <div style={{ padding: 24, background: '#fff', margin: '16px 0', minHeight: '100%' }}>
+
                 {this.props.children}
               </div>
             </Content>

@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { Card, Icon, Tag, Avatar, Row, Col, Dropdown, Button } from 'antd';
 import VisionMenu from '../DropMenu/VisionCardMenu';
+import DiscoverVisionMenu from '../DropMenu/DiscoveryMenu';
 
 export default class VisionCard extends Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
     onConfirm: PropTypes.func,
     onLike: PropTypes.func,
+    discover: PropTypes.bool,
     description: PropTypes.string,
     avatar: PropTypes.string,
     updatedAt: PropTypes.string,
@@ -21,6 +23,7 @@ export default class VisionCard extends Component {
     description: '',
     updatedAt: 'UnRecorded',
     avatar: '',
+    discover: false,
     onLike: () => {},
     onConfirm: () => {},
     likes: 0,
@@ -32,6 +35,7 @@ export default class VisionCard extends Component {
         name,
         description,
         avatar,
+        discover,
         updatedAt,
         likes,
         visionId,
@@ -52,7 +56,7 @@ export default class VisionCard extends Component {
           <Row>
             <Icon type="api" />
             <Link
-              to={`/app/vision/${visionId}/content`}
+              to={!discover ? `/app/vision/${visionId}/content` : null}
             >
               <span className="global-left-margin">{name || 'Unamed'}</span>
             </Link>
@@ -63,7 +67,7 @@ export default class VisionCard extends Component {
         </Col>
       </Row>
     );
-    const Menu = VisionMenu(visionId, onConfirm);
+    const Menu = discover ? DiscoverVisionMenu(visionId) : VisionMenu(visionId, onConfirm);
     const extra = Menu !== null ? (
       <Dropdown overlay={Menu} placement="bottomCenter">
         <Button type="dashed" icon="bars" shape="circle" />

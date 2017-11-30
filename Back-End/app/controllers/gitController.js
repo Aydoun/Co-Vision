@@ -1,6 +1,7 @@
 var Git = require('../../nodegit');
 var path = require('path');
-var { queryCheck , Formatter, defaultGitPath} = require('../lib');
+const omit = require('omit');
+var { queryCheck , Formatter, defaultGitPath, picking} = require('../lib');
 var promisify = require("promisify-node");
 var fse = promisify(require("fs-extra"));
 
@@ -136,11 +137,11 @@ exports.status = function(params){
     });
 }
 
-exports.treeSummary = function(res , req){
+exports.treeSummary = function(res , req, vision){
   const pathToRepo = defaultGitPath(req.params.id);
   const branchName = req.query.branchName || 'master';
 
-  Git.Repository.open(pathToRepo)
+  return Git.Repository.open(pathToRepo)
   .then(function(repository) {
       return repository.getBranchCommit(branchName);
   })
@@ -150,6 +151,7 @@ exports.treeSummary = function(res , req){
       var contributors = {};
 
       history.on("commit", function(commit) {
+          console.log(commit.message());
           const author = commit.author();
           const email = author.email();
           const name = author.name();
@@ -164,16 +166,17 @@ exports.treeSummary = function(res , req){
       });
 
       history.on('end', function(commits) {
-        res.status(200).send(Formatter({
+        return res.status(200).send(Formatter({
             totalContributions : commits.length,
-            contributorsList : contributors
+            contributorsList : contributors,
+            vision: picking(vision, ['title', 'status', 'descrption', '_id'])
         }));
       });
 
       history.start();
   })
   .catch(function(err){
-      console.log(err , "Catched Error");
+      throw new Error(err.message);
   });
 }
 

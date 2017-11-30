@@ -19,6 +19,12 @@ export default (visionId, onConfirm) => {
           </Link>
         </Menu.Item>
         <Menu.Item>
+          <Link to={`/app/vision/${visionId}/summary`} >
+            <Icon type="coffee" />
+            <span className="global-left-margin">Summary</span>
+          </Link>
+        </Menu.Item>
+        <Menu.Item>
           <Popconfirm
             placement="bottom"
             title="Confirm Your Choice"

@@ -13,6 +13,4 @@ const Conversation = new Schema({
   messages: [Messages],
 } , {timestamps: true});
 
-Conversation.index({ creator: 1, receiver: 1}, { unique: true });
-
-module.exports = mongoose.model('cov-conversation', Conversation);
+module.exports = mongoose.model('cov_conversation', Conversation);

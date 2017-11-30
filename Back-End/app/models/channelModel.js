@@ -6,7 +6,7 @@ var Comments = new Schema({
   comment : {type : String},
 } , {timestamps: true});
 
-module.exports = mongoose.model('cov-channel', new Schema({
+module.exports = mongoose.model('cov_channel', new Schema({
 	title: {type: String , required: true , unique : true},
   description: {type: String},
   creator : {type : Schema.Types.ObjectId , required: true },

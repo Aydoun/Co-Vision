@@ -16,6 +16,4 @@ const Vision = new Schema({
   status : {type : String , enum: ['Active', 'Inactive'] , default : 'Active'},
 }, {timestamps: true});
 
-Vision.index({ title: 'text', description: 'text'});
-
-module.exports = mongoose.model('cov-vision', Vision);
+module.exports = mongoose.model('cov_vision', Vision);

@@ -85,8 +85,15 @@ exports.deleteBranch = function(req , res , next){
 }
 
 exports.visionSummary = function(req , res , next){
-    if (!req.params.id) res.status(200).send(Formatter(data , true));
-    treeSummary(res , req);
+    const visionId = req.params.id;
+    visionModel.findById(visionId)
+    .then(vision => {
+      return treeSummary(res , req, vision);
+    })
+    .catch(err => {
+      return res.status(403).send(Formatter(err.message , true));
+    });
+
 }
 
 exports.createVision = function(req , res , next){
@@ -123,10 +130,10 @@ exports.createVision = function(req , res , next){
 
 exports.contribute = function(req , res , next){
     commit(req.body).then(function(commitsha){
-          res.status(200).send(Formatter(commitsha));
+        return res.status(200).send(Formatter(commitsha));
     })
     .catch(function(err){
-        res.status(200).send(Formatter(err , true));
+        return res.status(403).send(Formatter(err , true));
     });
 }
 

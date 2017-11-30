@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import find from 'lodash/find';
-import { Table, Select, Card, Modal } from 'antd';
+import { Table, Select, Card, Modal, Icon, Menu, Dropdown, Button, Breadcrumb } from 'antd';
 import Columns from './table-columns/fileSystem';
 import { preContent, preBranch, preStat } from 'actions/vision';
 
@@ -12,65 +11,99 @@ class VisionFS extends React.Component {
 
   constructor(props) {
       super(props);
+      this.branchChanged = this.branchChanged.bind(this);
+      this.Columns = Columns.bind(this);
       this.state = {
-          VisionObject : {},
           visible : false
       };
   }
 
   componentDidMount() {
       const _id = this.props.routeParams.id;
-      const FoundVision = find(this.props.visionList, ['_id', _id]);
+      const params = {
+         id : _id,
+      };
 
-      if (FoundVision) {
-        const params = {
-           id : _id,
-           repoName : FoundVision.title
-        };
-        this.setState({ VisionObject : FoundVision });
-        this.props.preContent(params);
-        this.props.preBranch(params);
-        this.props.preStat(params);
-      }
+      this.props.preContent(params);
+      this.props.preBranch(params);
+      this.props.preStat(params);
   }
 
   branchChanged(value) {
-      const { VisionObject } = this.state;
-
-      this.props.preContent({
-          id : this.props.routeParams.id,
-          repoName : VisionObject.title,
-          branchName : value
-      });
+     if (value !== '-1') {
+       this.props.preContent({
+           id : this.props.routeParams.id,
+           branchName : value
+       });
+     }
   }
 
   render() {
-    const { visionFS, branchList, contributionStats } = this.props;
-    const { VisionObject, visible } = this.state;
+    const { visionFS, branchList, contributionStats, vision } = this.props;
+    const { visible } = this.state;
     const SelectBranch = (
       <div>
-        <label>Branches ({branchList.length || 0}) : </label>
-        <Select style={{ width:155 }} onChange={this.branchChanged.bind(this)}>
+        <span>Drafts ({branchList.length || 0}) : </span>
+        <Select style={{ width:155 }} onChange={this.branchChanged}>
           {
               branchList.map((item, i) => <Option key={i} value={item.name}>{item.name}</Option>)
             }
+          <Option key="-1" value="-1">Add Draft</Option>
         </Select>
       </div>
     );
-    const CardTitle = (
-      <div>
-        <span>{VisionObject.title || 'Nope'}</span><br />
-        <span>
-          Hey
-        </span>
-      </div>
+    const Choices = (
+      <Menu onClick={this.handleMenuClick}>
+        <Menu.Item key="1">
+          <Icon type="file" /> Add File
+        </Menu.Item>
+        <Menu.Item key="2">
+          <Icon type="folder" /> Add Folder
+        </Menu.Item>
+        <Menu.Item key="3">
+          <Icon type="mail" /> Invite
+        </Menu.Item>
+        <Menu.Divider />
+        <Menu.Item key="4">
+          <Icon type="share-alt" /> Merge Draft
+        </Menu.Item>
+      </Menu>
     );
 
     return (
       <div>
-        <Card extra={SelectBranch} title={CardTitle}>
+        <Card
+          extra={SelectBranch}
+          title={<span><Icon type="link" />
+            {vision.title}
+          </span>}
+          noHovering
+        >
+          <div style={{ margin:8 }}>
+            <div className="global-bottom-margin">
+              <span className="global-right-margin">
+                <a onClick={() => this.setState({ visible: true })}>
+                  {contributionStats.totalContributions}
+                </a>
+              </span>
+              <span >Contributons
+                <Dropdown overlay={Choices} placement="bottomCenter">
+                  <Button type="dashed" icon="bars" shape="circle" />
+                </Dropdown>
+              </span>
+            </div>
+            <div>
+              <span>
+                <Breadcrumb separator=">">
+                  <Breadcrumb.Item>Home</Breadcrumb.Item>
+                  <Breadcrumb.Item href="">Application Center</Breadcrumb.Item>
+                  <Breadcrumb.Item href="">Application List</Breadcrumb.Item>
+                </Breadcrumb>
+              </span>
+            </div>
+          </div>
           <Table
-            columns={Columns.bind(this)()}
+            columns={this.Columns()}
             dataSource={visionFS}
             showHeader={false}
             pagination={false}
@@ -101,10 +134,10 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   return {
-      visionList : state.vision.visionList,
       visionFS : state.vision.visionFS,
       branchList : state.vision.branchList,
-      contributionStats : state.vision.contributionStats
+      contributionStats : state.vision.contributionStats,
+      vision: state.vision.contributionStats.vision
   };
 }
 

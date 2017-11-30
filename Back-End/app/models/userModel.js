@@ -39,4 +39,4 @@ userSchema.methods.comparePassword = function (candidatePassword, callback) {
   });
 };
 
-module.exports = mongoose.model('cov-user', userSchema);
+module.exports = mongoose.model('cov_user', userSchema);

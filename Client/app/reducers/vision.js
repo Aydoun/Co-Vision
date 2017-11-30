@@ -12,7 +12,8 @@ const initialState = {
   visionFS : [],
   branchList : [],
   contributionStats : {
-    contributorsList: {}
+    contributorsList: {},
+    vision: {}
   },
   historyList : []
 };

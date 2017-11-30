@@ -46,7 +46,7 @@ injectGlobal`
   }
 
   .global-fontSize {
-    font-size: 15px;
+    font-size: 14px;
   }
 
   .ant-modal-header {

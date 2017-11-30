@@ -172,7 +172,6 @@ function* liststats(returnedData) {
   const GetOptions = {
     method: 'GET',
     url: requestURL,
-    params: returnedData.playload
   };
 
   try {
