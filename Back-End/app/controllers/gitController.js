@@ -197,23 +197,20 @@ exports.getAllBranchList = function(params){
     });
 }
 
-exports.createBranch = function(params){
-    var clientInput = params;
-
-    var checkRes = queryCheck(clientInput , ['title' , 'branchName']);
-
-    if (checkRes !== true) {
-        throw new Error('Missing Required Paramenters');
+exports.createBranch = function(req, res){
+    const checkRes = queryCheck(req.body , ['branchName' ]);
+    if (!checkRes) {
+        return res.status(403).send(Formatter({data : 'Missing Required Parameters'} , true));
     }
 
-    var pathToRepo = defaultGitPath(clientInput.title);
+    var pathToRepo = defaultGitPath(req.params.id);
 
     return Git.Repository.open(pathToRepo)
     .then(function(repo) {
       return repo.getHeadCommit()
       .then(function(commit) {
         return repo.createBranch(
-          params.branchName,
+          req.body.branchName,
           commit,
           0);
       });

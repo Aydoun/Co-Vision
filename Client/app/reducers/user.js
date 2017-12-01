@@ -9,7 +9,7 @@ const initialState = {
 };
 
 
-function visionReducer(state = initialState, action) {
+function userReducer(state = initialState, action) {
   switch (action.type) {
     case DUPLICATE_USER_ACTION:
       return assign({}, state, { ...action }, { loading:false });
@@ -18,4 +18,4 @@ function visionReducer(state = initialState, action) {
   }
 }
 
-export default visionReducer;
+export default userReducer;

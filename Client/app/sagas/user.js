@@ -1,6 +1,5 @@
 import { call, put, takeLatest, fork } from 'redux-saga/effects';
 import { browserHistory } from 'react-router';
-import { reportError } from 'actions/error';
 import {
   USER_LOGIN_LOADING,
   USER_REGISTER_LOADING,
@@ -29,7 +28,6 @@ function* userLogin(returnedData) {
     saveUserData(res.data.response);
     browserHistory.push('/app');
   } catch (err) {
-    yield put(reportError(err));
   }
 }
 
@@ -48,7 +46,6 @@ function* userRegister(returnedData) {
     saveUserData(res.data.response);
     browserHistory.push('/app');
   } catch (err) {
-    yield put(reportError(err));
   }
 }
 

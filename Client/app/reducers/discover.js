@@ -8,7 +8,7 @@ const initialState = {
   loading:false,
 };
 
-function visionReducer(state = initialState, action) {
+function discoverReducer(state = initialState, action) {
   if (action.type.indexOf('LOADING') >= 0) {
       return assign({}, state, { loading:true });
   }
@@ -21,4 +21,4 @@ function visionReducer(state = initialState, action) {
   }
 }
 
-export default visionReducer;
+export default discoverReducer;

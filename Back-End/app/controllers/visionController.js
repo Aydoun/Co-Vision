@@ -58,11 +58,11 @@ exports.branchList = function(req , res , next){
 }
 
 exports.createBranch = function(req , res , next){
-    createBranch(req.body).then(function(ref){
+    createBranch(req, res).then(function(ref){
         res.status(200).send(Formatter({data : ref.name()}));
     })
     .catch(function(err){
-        res.status(200).send(Formatter({data : err.message} , true));
+        res.status(403).send(Formatter({data : err.message} , true));
     });
 }
 
@@ -100,7 +100,7 @@ exports.createVision = function(req , res , next){
     const body = req.body;
     const checkRes = queryCheck(body , ['author' , 'authorMail', 'title']);
     if (!checkRes) {
-        return res.status(400).send(Formatter({data : 'Missing Required Parameters'} , true));
+        return res.status(403).send(Formatter({data : 'Missing Required Parameters'} , true));
     }
 
     body.creator = req.userId;

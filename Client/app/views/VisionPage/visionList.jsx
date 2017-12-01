@@ -66,7 +66,6 @@ class VisionList extends Component {
         <CreateForm cb={this.cb} onCancel={() => this.setState({ visible: false })} />
       </Modal>
     );
-    console.log(visionList, 'visionList');
 
     if (!loading && visionList.length === 0) {
       return (

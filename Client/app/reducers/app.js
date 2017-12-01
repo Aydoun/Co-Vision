@@ -7,7 +7,7 @@ const initialState = {
   menuContent : []
 };
 
-function visionReducer(state = initialState, action) {
+function appReducer(state = initialState, action) {
   switch (action.type) {
     case APP_MENU_CHANGE:
       return assign({}, state, { ...action });
@@ -16,4 +16,4 @@ function visionReducer(state = initialState, action) {
   }
 }
 
-export default visionReducer;
+export default appReducer;

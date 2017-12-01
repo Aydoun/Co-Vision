@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import { Layout, Menu, Icon, Avatar, Popconfirm, Alert } from 'antd';
 import MyHeader from 'components/Header';
@@ -18,6 +20,8 @@ class App extends React.Component {
     this.setState({ collapsed });
   }
   render() {
+    const { notification } = this.props;
+
     return (
       <div >
         <Layout style={{ minHeight: '100vh' }}>
@@ -85,7 +89,19 @@ class App extends React.Component {
           <Layout>
             <MyHeader />
             <Content style={{ margin: '0 16px' }}>
-              <Alert message="Success Tips" type="success" showIcon />
+              {
+                notification && notification.message ? (
+                  <div style={{ marginTop: 10 }}>
+                    <Alert
+                      message={notification.message}
+                      type={notification.status ? 'success' : 'error'}
+                      showIcon
+                      closable
+                    />
+                  </div>
+                ) : null
+              }
+
               <div style={{ padding: 24, background: '#fff', margin: '16px 0', minHeight: '100%' }}>
 
                 {this.props.children}
@@ -101,4 +117,14 @@ class App extends React.Component {
   }
 }
 
-export default App;
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ }, dispatch);
+}
+
+function mapStateToProps(state) {
+  return {
+    notification: state.notif
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

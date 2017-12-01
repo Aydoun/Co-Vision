@@ -1,5 +1,4 @@
 import { call, put, takeLatest, fork } from 'redux-saga/effects';
-import { reportError, cancelError } from 'actions/error';
 import {
   VISION_SAVE_LOADING,
   VISION_LIST_LOADING,
@@ -11,7 +10,8 @@ import {
   FILE_READ_LOADING,
   VISION_FS_LOADING,
   VISION_UNREGISTER_USER,
-  VISION_USER_LIKE
+  VISION_USER_LIKE,
+  SAVE_BRANCH
 } from 'constants/vision';
 import {
         visionSaved,
@@ -23,8 +23,11 @@ import {
         showAllVisionList,
         fileContent,
         getVisionStats,
+        prepareListing,
+        preBranch,
         saveLike
 } from 'actions/vision';
+import { notify } from 'actions/notif';
 import request from 'utils/request';
 
 function* createVision(returnedData) {
@@ -37,9 +40,42 @@ function* createVision(returnedData) {
 
   try {
     const res = yield call(request, PostOptions);
-    yield put(visionSaved(null, res));
+    yield put(visionSaved(res));
+    yield put(notify({
+      status: res.data.status,
+      message: 'Vision Created Successfully'
+    }));
+    yield put(prepareListing({}));
   } catch (err) {
-    yield put(visionSaved(true, err.message));
+    yield put(notify({
+      status: false,
+      message: 'Network Error'
+    }));
+  }
+}
+
+function* createBranch(returnedData) {
+  const requestURL = `${config.apiBase}/vision/${returnedData.playload.id}/branch`;
+  const PostOptions = {
+    method: 'POST',
+    url: requestURL,
+    data: returnedData.playload
+  };
+
+  try {
+    const res = yield call(request, PostOptions);
+    yield put(notify({
+      status: res.data.status,
+      message: 'Draft Created Successfully'
+    }));
+    yield put(preBranch({
+      id: returnedData.playload.id
+    }));
+  } catch (err) {
+    yield put(notify({
+      status: false,
+      message: 'Network Error'
+    }));
   }
 }
 
@@ -60,7 +96,7 @@ function* createContribution(returnedData) {
   }
 }
 
-function* listVision(returnedData) {
+function* listVision() {
   const requestURL = `${config.apiBase}/user/vision`;
 
   const GetOptions = {
@@ -76,7 +112,6 @@ function* listVision(returnedData) {
     console.log(err);
   }
 }
-
 
 function* listHistory(returnedData) {
   const requestURL = `${config.apiBase}/vision/${returnedData.playload.id}/log`;
@@ -144,8 +179,7 @@ function* listFileContent(returnedData) {
     const res = yield call(request, GetOptions);
     yield put(fileContent(res));
   } catch (err) {
-    yield put(reportError(err));
-    yield put(cancelError());
+
   }
 }
 
@@ -180,8 +214,7 @@ function* liststats(returnedData) {
     const res = yield call(request, GetOptions);
     yield put(getVisionStats(res));
   } catch (err) {
-    yield put(reportError(err));
-    yield put(cancelError());
+
   }
 }
 
@@ -197,8 +230,12 @@ function* unregisterUser(returnedData) {
 
   try {
     yield call(request, PostOptions);
+    yield put(prepareListing({}));
   } catch (err) {
-    console.log(err);
+    yield put(notify({
+      status: false,
+      message: 'Network Error'
+    }));
   }
 }
 
@@ -263,6 +300,11 @@ function* likeVision() {
   yield takeLatest(VISION_USER_LIKE, userLikeVision);
 }
 
+function* createBranchSaga() {
+  yield takeLatest(SAVE_BRANCH, createBranch);
+}
+
+
 export default [
   fork(_saveVisionSaga),
   fork(_listVisionSaga),
@@ -274,5 +316,6 @@ export default [
   fork(_saveContribution),
   fork(_visionStat),
   fork(unregiterVision),
-  fork(likeVision)
+  fork(likeVision),
+  fork(createBranchSaga)
 ];

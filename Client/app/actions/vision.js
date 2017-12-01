@@ -12,14 +12,15 @@ import {
   VISION_LIST_LOADING,
   VISION_UNREGISTER_USER,
   VISION_USER_LIKE,
-  SAVE_USER_LIKE
+  SAVE_USER_LIKE,
+  SAVE_BRANCH
 } from 'constants/vision';
 
 
 export function prepareSaving(params) {
   return {
     type: VISION_SAVE_LOADING,
-    playload : assign({}, params, { loading: true })
+    playload : params
   };
 }
 
@@ -65,6 +66,13 @@ export function preBranch(params) {
   };
 }
 
+export function saveBranch(params) {
+  return {
+    type: SAVE_BRANCH,
+    playload: params
+  };
+}
+
 export function preRead(params) {
   return {
     type: FILE_READ_LOADING,
@@ -93,18 +101,12 @@ export function unregister(params) {
   };
 }
 
-export function visionSaved(err, res) {
-  if (err) {
-    return {
-      type: DUPLICATE_VISION_ACTION,
-      error: res
-    };
-  }
+export function visionSaved(res) {
   const response = res.data.response;
 
   return {
     type: DUPLICATE_VISION_ACTION,
-    visionId : response.data.db._id,
+    visionId : response.db._id,
   };
 }
 

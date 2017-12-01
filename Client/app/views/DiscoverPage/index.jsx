@@ -6,6 +6,7 @@ import VisionCard from 'components/VisionCard';
 import Empty from 'components/Empty';
 import Filter from 'components/Filter';
 import { preDicoverList } from 'actions/discover';
+import { preLike } from 'actions/vision';
 import { formatDate } from 'utils';
 import JoinForm from './joinVisionForm';
 
@@ -15,6 +16,7 @@ class discoverPage extends Component {
   constructor(props) {
     super(props);
     this.onDiscoveryClick = this.onDiscoveryClick.bind(this);
+    this.userLike = this.userLike.bind(this);
     this.state = {
       visible: false
     };
@@ -27,6 +29,12 @@ class discoverPage extends Component {
     if (obj.key === '0') {
       this.setState({ visible: true });
     }
+  }
+
+  userLike(visionId) {
+    this.props.preLike({
+      id: visionId
+    });
   }
 
   render() {
@@ -61,8 +69,10 @@ class discoverPage extends Component {
                       description={elem.description}
                       status={elem.status}
                       visionId={elem._id}
+                      likes={elem.likes.length}
                       updatedAt={formatDate(elem.updatedAt)}
                       onClick={this.onDiscoveryClick}
+                      onLike={this.userLike}
                       discover
                     />
                   ))
@@ -84,7 +94,7 @@ class discoverPage extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ preDicoverList }, dispatch);
+  return bindActionCreators({ preDicoverList, preLike }, dispatch);
 }
 
 function mapStateToProps(state) {

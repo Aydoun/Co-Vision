@@ -7,7 +7,6 @@ import {
 const initialState = {
   visionList: [],
   loading:false,
-  error: null,
   ContentString : '',
   visionFS : [],
   branchList : [],

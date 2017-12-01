@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { Table, Select, Card, Modal, Icon, Menu, Dropdown, Button, Breadcrumb } from 'antd';
 import Columns from './table-columns/fileSystem';
 import { preContent, preBranch, preStat } from 'actions/vision';
+import DraftForm from './createDraft';
 
 const Option = Select.Option;
 
@@ -14,7 +15,8 @@ class VisionFS extends React.Component {
       this.branchChanged = this.branchChanged.bind(this);
       this.Columns = Columns.bind(this);
       this.state = {
-          visible : false
+          visible : false,
+          branchName: 'master'
       };
   }
 
@@ -30,12 +32,11 @@ class VisionFS extends React.Component {
   }
 
   branchChanged(value) {
-     if (value !== '-1') {
-       this.props.preContent({
-           id : this.props.routeParams.id,
-           branchName : value
-       });
-     }
+    this.setState({ branchName: value });
+    this.props.preContent({
+        id : this.props.routeParams.id,
+        branchName : value
+    });
   }
 
   render() {
@@ -48,12 +49,13 @@ class VisionFS extends React.Component {
           style={{ width:155 }}
           onChange={this.branchChanged}
           defaultValue="master"
+          size="large"
         >
           {
               branchList.map((item, i) => <Option key={i} value={item.name}>{item.name}</Option>)
             }
-          <Option key="-1" value="-1">Add Draft</Option>
-        </Select>
+        </Select>&nbsp;&nbsp;&nbsp;
+        <Button icon="plus" shape="circle" onClick={() => this.setState({ visible:true })} />
       </div>
     );
     const Choices = (
@@ -78,7 +80,7 @@ class VisionFS extends React.Component {
       <div>
         <Card
           extra={SelectBranch}
-          title={<span><Icon type="link" />
+          title={<span><Icon type="api" />&nbsp;&nbsp;
             {vision.title}
           </span>}
           noHovering
@@ -86,9 +88,7 @@ class VisionFS extends React.Component {
           <div style={{ margin:8 }}>
             <div className="global-bottom-margin">
               <span className="global-right-margin">
-                <a onClick={() => this.setState({ visible: true })}>
-                  {contributionStats.totalContributions}
-                </a>
+                {contributionStats.totalContributions}
               </span>
               <span >Contributons
                 <Dropdown overlay={Choices} placement="bottomCenter">
@@ -116,16 +116,14 @@ class VisionFS extends React.Component {
         </Card>
         <Modal
           visible={visible}
-          title="Vision Contributors"
+          title={<span><Icon type="plus" /> Add Draft</span>}
           onCancel={() => this.setState({ visible : false })}
+          footer={null}
         >
-          {
-            Object.keys(contributionStats.contributorsList).map((key, index) => (
-              <p key={index}>
-                <span>{key}</span>
-              </p>
-              ))
-          }
+          <DraftForm
+            visionId={this.props.routeParams.id}
+            onCancel={() => this.setState({ visible:false })}
+          />
         </Modal>
       </div>
     );
