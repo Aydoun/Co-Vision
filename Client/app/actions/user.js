@@ -9,14 +9,14 @@ import {
 export function preLogin(params) {
   return {
     type: USER_LOGIN_LOADING,
-    playload : params
+    payload : params
   };
 }
 
 export function preRegister(params) {
     return {
       type : USER_REGISTER_LOADING,
-      playload : params
+      payload : params
     };
 }
 
@@ -31,14 +31,14 @@ export function authenticateUser(res) {
 export function preUserProfile(params) {
   return {
     type: USER_PROFILE_LOADING,
-    playload : params
+    payload : params
   };
 }
 
 export function saveProfile(params) {
   return {
     type: USER_SAVE_PROFILE,
-    playload : params
+    payload : params
   };
 }
 

@@ -18,7 +18,7 @@ function* userLogin(returnedData) {
   const PostOptions = {
     method: 'POST',
     url: requestURL,
-    data: returnedData.playload
+    data: returnedData.payload
   };
 
   try {
@@ -36,7 +36,7 @@ function* userRegister(returnedData) {
   const PostOptions = {
     method: 'POST',
     url: requestURL,
-    data: returnedData.playload
+    data: returnedData.payload
   };
 
   try {
@@ -70,7 +70,7 @@ function* saveProfile(returnedData) {
   const PostOptions = {
     method: 'PUT',
     url: requestURL,
-    data: returnedData.playload
+    data: returnedData.payload
   };
 
   try {

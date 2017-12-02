@@ -50,7 +50,7 @@ class App extends React.Component {
               >
                 <Menu.Item key="3">
                   <span><Icon type="mail" />
-                    <Link to="/app/invitation">Invitations</Link>
+                    <Link to="/app/invitation">Requests</Link>
                   </span>
                 </Menu.Item>
                 <Menu.Item key="4">

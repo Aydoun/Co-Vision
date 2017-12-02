@@ -35,7 +35,7 @@ function* createVision(returnedData) {
   const PostOptions = {
     method: 'POST',
     url: requestURL,
-    data: returnedData.playload
+    data: returnedData.payload
   };
 
   try {
@@ -55,11 +55,11 @@ function* createVision(returnedData) {
 }
 
 function* createBranch(returnedData) {
-  const requestURL = `${config.apiBase}/vision/${returnedData.playload.id}/branch`;
+  const requestURL = `${config.apiBase}/vision/${returnedData.payload.id}/branch`;
   const PostOptions = {
     method: 'POST',
     url: requestURL,
-    data: returnedData.playload
+    data: returnedData.payload
   };
 
   try {
@@ -69,7 +69,7 @@ function* createBranch(returnedData) {
       message: 'Draft Created Successfully'
     }));
     yield put(preBranch({
-      id: returnedData.playload.id
+      id: returnedData.payload.id
     }));
   } catch (err) {
     yield put(notify({
@@ -85,7 +85,7 @@ function* createContribution(returnedData) {
   const PostOptions = {
     method: 'POST',
     url: requestURL,
-    data: returnedData.playload
+    data: returnedData.payload
   };
 
   try {
@@ -114,11 +114,11 @@ function* listVision() {
 }
 
 function* listHistory(returnedData) {
-  const requestURL = `${config.apiBase}/vision/${returnedData.playload.id}/log`;
+  const requestURL = `${config.apiBase}/vision/${returnedData.payload.id}/log`;
   const GetOptions = {
     method: 'GET',
     url: requestURL,
-    params: returnedData.playload
+    params: returnedData.payload
   };
 
   try {
@@ -131,12 +131,12 @@ function* listHistory(returnedData) {
 
 // listBranch
 function* listBranch(returnedData) {
-  const requestURL = `${config.apiBase}/vision/${returnedData.playload.id}/branch`;
+  const requestURL = `${config.apiBase}/vision/${returnedData.payload.id}/branch`;
 
   const GetOptions = {
     method: 'GET',
     url: requestURL,
-    params: returnedData.playload
+    params: returnedData.payload
   };
 
   try {
@@ -148,13 +148,13 @@ function* listBranch(returnedData) {
 }
 
 function* listContent(returnedData) {
-  const requestURL = `${config.apiBase}/vision/${returnedData.playload.id}/tree`;
+  const requestURL = `${config.apiBase}/vision/${returnedData.payload.id}/tree`;
 
   const GetOptions = {
     method: 'GET',
     url: requestURL,
     params: {
-      branchName: returnedData.playload.branchName
+      branchName: returnedData.payload.branchName
     }
   };
 
@@ -167,12 +167,12 @@ function* listContent(returnedData) {
 }
 
 function* listFileContent(returnedData) {
-  const requestURL = `${config.apiBase}/vision/${returnedData.playload.id}/file`;
+  const requestURL = `${config.apiBase}/vision/${returnedData.payload.id}/file`;
 
   const GetOptions = {
     method: 'GET',
     url: requestURL,
-    params: returnedData.playload
+    params: returnedData.payload
   };
 
   try {
@@ -203,7 +203,7 @@ function* listAllVision() {
 // liststats
 
 function* liststats(returnedData) {
-  const requestURL = `${config.apiBase}/vision/${returnedData.playload.id}/summary`;
+  const requestURL = `${config.apiBase}/vision/${returnedData.payload.id}/summary`;
 
   const GetOptions = {
     method: 'GET',
@@ -220,12 +220,12 @@ function* liststats(returnedData) {
 
 function* unregisterUser(returnedData) {
   const requestURL =
-  `${config.apiBase}/vision/${returnedData.playload.id}/unregister`;
+  `${config.apiBase}/vision/${returnedData.payload.id}/unregister`;
 
   const PostOptions = {
     method: 'PUT',
     url: requestURL,
-    data: returnedData.playload
+    data: returnedData.payload
   };
 
   try {
@@ -240,7 +240,7 @@ function* unregisterUser(returnedData) {
 }
 
 function* userLikeVision(returnedData) {
-  const requestURL = `${config.apiBase}/vision/${returnedData.playload.id}/like`;
+  const requestURL = `${config.apiBase}/vision/${returnedData.payload.id}/like`;
 
   const PostOptions = {
     method: 'POST',

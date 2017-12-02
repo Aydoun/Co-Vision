@@ -20,84 +20,84 @@ import {
 export function prepareSaving(params) {
   return {
     type: VISION_SAVE_LOADING,
-    playload : params
+    payload : params
   };
 }
 
 export function prepareListing(params) {
   return {
     type: VISION_LIST_LOADING,
-    playload : params
+    payload : params
   };
 }
 
 export function prepareAllVisions() {
   return {
     type: ALL_VISION_LIST_LOADING,
-    playload : {}
+    payload : {}
   };
 }
 
 export function preContribution(params) {
   return {
     type: SAVE_CONTRIBUTION_LOADING,
-    playload : params
+    payload : params
   };
 }
 
 export function preHistory(params) {
   return {
     type: VISION_HISTORY_LOADING,
-    playload : params
+    payload : params
   };
 }
 
 export function preContent(params) {
   return {
     type: VISION_FS_LOADING,
-    playload : params
+    payload : params
   };
 }
 
 export function preBranch(params) {
   return {
     type: BRANCH_LIST_LOADING,
-    playload : params
+    payload : params
   };
 }
 
 export function saveBranch(params) {
   return {
     type: SAVE_BRANCH,
-    playload: params
+    payload: params
   };
 }
 
 export function preRead(params) {
   return {
     type: FILE_READ_LOADING,
-    playload : params
+    payload : params
   };
 }
 
 export function preStat(params) {
   return {
     type: VISION_STAT_LOADING,
-    playload : params
+    payload : params
   };
 }
 
 export function preLike(params) {
   return {
     type: VISION_USER_LIKE,
-    playload : params
+    payload : params
   };
 }
 
 export function unregister(params) {
   return {
     type: VISION_UNREGISTER_USER,
-    playload : params
+    payload : params
   };
 }
 

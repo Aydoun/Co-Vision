@@ -5,7 +5,7 @@ import MessageNav from 'components/CorrespondanceNav';
 import MicroMessage from 'components/MicroMessage';
 import Empty from 'components/Empty';
 import { Layout, Menu } from 'antd';
-import { preMessage, preSend } from 'actions/mail';
+import { preMessage, preSend } from 'actions/courrier';
 import { formatDate } from 'utils';
 import SendForm from './sendMessageForm';
 
@@ -107,8 +107,8 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   return {
-    conversations: state.mail.mailList.conversations,
-    userMeta: state.mail.mailList.userMeta
+    conversations: state.courrier.mailList.conversations,
+    userMeta: state.courrier.mailList.userMeta
   };
 }
 

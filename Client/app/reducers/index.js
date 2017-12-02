@@ -6,7 +6,7 @@ import visionReducer from './vision';
 import userReducer from './user';
 import notifReducer from './notif';
 import discoverReducer from './discover';
-import mailReducer from './mail';
+import courrierReducer from './courrier';
 
 const loadingReducer = (state, _) => (
   assign({}, state, { loading: true })
@@ -19,7 +19,7 @@ const rootReducer = combineReducers({
   notif : notifReducer,
   discover: discoverReducer,
   app : appReducer,
-  mail: mailReducer
+  courrier: courrierReducer
   // loading: loadingReducer
 });
 

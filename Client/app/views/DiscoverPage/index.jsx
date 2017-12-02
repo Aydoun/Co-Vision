@@ -18,16 +18,24 @@ class discoverPage extends Component {
     this.onDiscoveryClick = this.onDiscoveryClick.bind(this);
     this.userLike = this.userLike.bind(this);
     this.state = {
-      visible: false
+      visible: false,
+      creator: null,
+      vision: null
     };
   }
   componentDidMount() {
     this.props.preDicoverList();
   }
 
-  onDiscoveryClick(obj) {
+  onDiscoveryClick(obj, visionId) {
     if (obj.key === '0') {
-      this.setState({ visible: true });
+      const { discoverList } = this.props;
+      const FoundVision = discoverList.find(elem => elem._id === visionId);
+      this.setState({
+        visible: true,
+        creator: FoundVision && FoundVision.creator,
+        vision: visionId
+      });
     }
   }
 
@@ -39,7 +47,7 @@ class discoverPage extends Component {
 
   render() {
     const { discoverList, loading } = this.props;
-    const { visible } = this.state;
+    const { visible, creator, vision } = this.state;
 
     if (!loading && discoverList.length === 0) {
       return (
@@ -84,7 +92,11 @@ class discoverPage extends Component {
               title={<span><Icon type="fork" /> Join Request</span>}
               footer={null}
             >
-              <JoinForm onCancel={() => this.setState({ visible: false })} />
+              <JoinForm
+                creator={creator}
+                vision={vision}
+                onCancel={() => this.setState({ visible: false })}
+              />
             </Modal>
           </div>
         </Content>

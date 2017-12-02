@@ -5,14 +5,9 @@ const { Formatter, queryCheck, isValidObjectId } = require('../lib');
 const parallel = require('async/parallel');
 
 exports.userWaitingInvitations = function(req, res, next) {
-    
-    const check = queryCheck(req.params, ['userId']);
-    if(!isValidObjectId(req.params.userId)) {
-        return res.status(200).send(Formatter({message:'All Fields Are Required'} , true));
-    }
     const defaults = {
         status: 'Waiting',
-        requested: req.params.userId
+        requested: req.userId
     };
 
     const query = Object.assign({}, defaults);
@@ -30,14 +25,9 @@ exports.userWaitingInvitations = function(req, res, next) {
 };
 
 exports.visionWaitingInvitations = function(req, res, next) {
-    if(!isValidObjectId(req.params.userId)) {
-        res.status(200).send(Formatter({message:'All Fields Are Required'} , true));
-        return;
-    }
-
-    userModel.findById(req.params.userId)
+    userModel.findById(req.userId)
     .then((user) => {
-      // extract All Visions Id 
+      // extract All Visions Id
       const adminVisions = user.visions.filter(vs => vs.role !== 'Common').map(vs => vs._id);
       if (adminVisions.length > 0) {
         invitationModel.find({status: 'Waiting'}).
@@ -57,13 +47,14 @@ exports.visionWaitingInvitations = function(req, res, next) {
 };
 
 exports.answerRequest = function(req, res, next) {
-    const { status, userId, vision, role } = req.body;
-    const check = queryCheck(req.body, ['vision', 'userId', 'status']);
+    const { status, vision, role } = req.body;
+    const check = queryCheck(req.body, ['vision', 'status']);
 
-    if (!(check && isValidObjectId(req.body.vision) && isValidObjectId(req.body.userId))) {
+    if (!(check && isValidObjectId(req.body.vision))) {
         res.status(200).send(Formatter({message:'All Fields Are Required'} , true));
         return;
     }
+    const userId = req.userId;
 
     parallel({
       update : function(callback) {

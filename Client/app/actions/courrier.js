@@ -1,27 +1,35 @@
 import {
   MAIL_MESSAGE_LOADING,
-  DUPLICATE_MAIL_ACTION,
+  DUPLICATE_COURRIER_ACTION,
   SEND_MESSAGE,
-  SAVE_SENT_MESSAGE
-} from 'constants/mail';
+  SAVE_SENT_MESSAGE,
+  SEND_JOIN_REQUEST
+} from 'constants/courrier';
 
 export function preMessage(params = {}) {
   return {
     type: MAIL_MESSAGE_LOADING,
-    playload: params
+    payload: params
   };
 }
 
 export function preSend(params = {}) {
   return {
     type: SEND_MESSAGE,
-    playload: params
+    payload: params
+  };
+}
+
+export function sendRequest(params = {}) {
+  return {
+    type: SEND_JOIN_REQUEST,
+    payload: params
   };
 }
 
 export function GetMessages(res) {
   return {
-    type: DUPLICATE_MAIL_ACTION,
+    type: DUPLICATE_COURRIER_ACTION,
     mailList: res.data.response
   };
 }

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Form, Button, Input, Card, Alert } from 'antd';
 import { prepareSaving } from 'actions/vision';
+import { sendRequest } from 'actions/courrier';
 
 const FormItem = Form.Item;
 
@@ -14,7 +15,12 @@ class addVision extends React.Component {
   handleSubmit() {
     this.props.form.validateFields((err, fieldsValue) => {
       if (!err) {
-        console.log(fieldsValue);
+        this.props.sendRequest({
+          vision: this.props.vision,
+          requester: localStorage.userId,
+          requested: this.props.creator,
+          ...fieldsValue
+        });
       }
     });
   }
@@ -31,7 +37,7 @@ class addVision extends React.Component {
             label="Motivation"
             colon
           >
-            {getFieldDecorator('description', config)(
+            {getFieldDecorator('motivation', config)(
               <Input type="textarea" rows={8} placeholder="Express Yourself!..." />
             )}
           </FormItem>
@@ -52,7 +58,7 @@ class addVision extends React.Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ prepareSaving }, dispatch);
+  return bindActionCreators({ prepareSaving, sendRequest }, dispatch);
 }
 
 function mapStateToProps(state) {

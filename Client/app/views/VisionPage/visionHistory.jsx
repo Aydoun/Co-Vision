@@ -24,7 +24,7 @@ class VisionHistory extends React.Component {
                   historyList.map((elem, i) => (
                     <Timeline.Item key={i}>
                       <p>{formatDate(elem.Date)}</p>
-                      <Card title={elem.comment} noHovering >
+                      <Card title={elem.comment} noHovering bordered={false} >
                         <Tag>{elem.Author}</Tag>
                       </Card>
                     </Timeline.Item>

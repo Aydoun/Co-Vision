@@ -11,7 +11,7 @@ function* getDiscoverList(returnedData) {
   const GetOptions = {
     method: 'GET',
     url: requestURL,
-    params: returnedData.playload
+    params: returnedData.payload
   };
 
   try {

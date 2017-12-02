@@ -1,6 +1,6 @@
 import vision from './vision';
 import user from './user';
-import mail from './mail';
+import courrier from './courrier';
 import feedback from './feedback';
 import discover from './discover';
 /**
@@ -11,7 +11,7 @@ export default function* root() {
     yield [
         vision,
         user,
-        mail,
+        courrier,
         feedback,
         discover
     ];

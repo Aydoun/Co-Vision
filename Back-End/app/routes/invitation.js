@@ -3,8 +3,8 @@ const invitationModel = require('../models/invitationModel');
 const base = require('../controllers/baseCrudController')(invitationModel);
 const { userWaitingInvitations, answerRequest, visionWaitingInvitations } = require('../controllers/invitationController');
 
-invitations.get('/:userId', userWaitingInvitations);
-invitations.get('/:userId/vision', visionWaitingInvitations);
+invitations.get('/', userWaitingInvitations);
+invitations.get('/vision', visionWaitingInvitations);
 invitations.get('/findOne', base.getOne);
 invitations.get('/count', base.count);
 invitations.get('/:id', base.getById);

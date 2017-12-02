@@ -8,13 +8,13 @@ export default class VisionCard extends Component {
   static propTypes = {
     visionName: PropTypes.string.isRequired,
     onAction: PropTypes.func,
-    invitorName: PropTypes.string,
+    requesterName: PropTypes.string,
     Motivation: PropTypes.string
   }
 
   static defaultProps = {
-    visionName: 'Unamed',
-    invitorName: '',
+    visionName: '',
+    requesterName: '',
     Motivation: '',
     onAction: () => {}
   }
@@ -22,7 +22,7 @@ export default class VisionCard extends Component {
   render() {
     const {
         visionName,
-        invitorName,
+        requesterName,
         Motivation,
         visionId,
         onAction
@@ -31,10 +31,10 @@ export default class VisionCard extends Component {
     const cardTitle = (
       <div>
         <Icon type="api" />
-        <Link to={`/vision/${visionId}/content`}>
-          <span className="global-left-margin">{visionName || 'Unamed'}</span>
+        <Link to={null}>
+          <span className="global-left-margin">{requesterName}</span>
         </Link>
-        <span> Invitation To Join</span>
+        <span> Requests To Join</span>
       </div>
     );
     const Menu = InivitationMenu(visionId);
@@ -49,14 +49,15 @@ export default class VisionCard extends Component {
         title={cardTitle}
         noHovering
         extra={extra}
+        bordered={false}
       >
         <div>
-          <Row>
-            <Col span={8}>
+          <Row gutter={12} type="flex">
+            <Col >
               <Avatar src="" />
             </Col>
-            <Col span={8}>
-              <p>{ invitorName }</p>
+            <Col >
+              <p>{ visionName }</p>
               <p>{ Motivation }</p>
             </Col>
           </Row>

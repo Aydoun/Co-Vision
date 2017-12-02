@@ -5,6 +5,6 @@ import {
 export function sendFeedback(data) {
   return {
     type: SEND_FEEDBACK,
-    playload: data
+    payload: data
   };
 }

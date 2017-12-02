@@ -6,7 +6,7 @@ import {
 export function preDicoverList(params = {}) {
   return {
     type: DISCOVER_LIST_LOADING,
-    playload: params
+    payload: params
   };
 }
 

@@ -9,7 +9,6 @@ const cors = require('cors');
 const routes = require('./app/routes');
 const notFound = require('./app/routes/notFound');
 const { LogIn, Register } = require('./app/controllers/userController');
-const { uploadFile } = require('./app/controllers/fileController');
 const { defaultUploadPath } = require('./app/lib');
 
 const app = express();
@@ -28,7 +27,7 @@ subpath.use(cors());
 
 subpath.post('/login', LogIn);
 subpath.post('/register', Register);
-subpath.post('/upload', uploadFile);
+
 
 const preCheck = (req, res, next) => {
   const token = req.body.token || req.query.token || req.headers['x-access-token'];

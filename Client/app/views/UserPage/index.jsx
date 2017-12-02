@@ -15,7 +15,6 @@ class UserProfile extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         this.props.saveProfile(values);
-        console.log('Received values of form: ', values);
       }
     });
   }
@@ -39,7 +38,7 @@ class UserProfile extends React.Component {
           className="avatar-uploader"
           name="avatar"
           showUploadList={false}
-          action="//jsonplaceholder.typicode.com/posts/"
+          action={`${config.apiBase}/upload?token=${localStorage.token}`}
         >
           {
          profile.avatar ?

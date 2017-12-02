@@ -10,7 +10,7 @@ function* sendFeedback(returnedData) {
   const PostOptions = {
     method: 'POST',
     url: requestURL,
-    data: returnedData.playload
+    data: returnedData.payload
   };
 
   try {
