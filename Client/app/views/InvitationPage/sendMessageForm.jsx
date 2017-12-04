@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Form, Button, Input, Card } from 'antd';
+import { preSend } from 'actions/courrier';
 
 const FormItem = Form.Item;
 
@@ -14,7 +15,12 @@ class sendMessage extends React.Component {
   handleSubmit() {
     this.props.form.validateFields((err, fieldsValue) => {
       if (!err) {
-        console.log(fieldsValue);
+        // console.log({ ...fieldsValue, requesterId: this.props.requesterId });
+        this.props.preSend({
+          ...fieldsValue,
+          receiver: this.props.requesterId,
+          external: true
+        });
       }
     });
   }
@@ -33,7 +39,7 @@ class sendMessage extends React.Component {
             label="message"
             colon
           >
-            {getFieldDecorator('branchName', config)(
+            {getFieldDecorator('content', config)(
               <Input type="textarea" rows={8} />
             )}
           </FormItem>
@@ -45,7 +51,7 @@ class sendMessage extends React.Component {
             >
               Send
             </Button>&nbsp;&nbsp;&nbsp;
-            <Button icon="close" onClick={onCancel} >Cancel</Button>
+            <Button icon="close" onClick={onCancel}>Cancel</Button>
           </FormItem>
         </Form>
       </Card>
@@ -54,7 +60,7 @@ class sendMessage extends React.Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ saveBranch }, dispatch);
+  return bindActionCreators({ preSend }, dispatch);
 }
 
 function mapStateToProps(state) {

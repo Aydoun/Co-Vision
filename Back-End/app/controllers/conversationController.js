@@ -60,7 +60,6 @@ exports.sendMessage = function(req, res, next) {
         return res.status(403).send(Formatter(err , true));
       });
     } else {
-      
       const query =
       {
         $or:
@@ -73,11 +72,11 @@ exports.sendMessage = function(req, res, next) {
       .then(data => {
         if (data.length > 0) {
           // Having a onGoing Conversation
-          data.messages.push({
+          data[0].messages.push({
             content,
             sender: req.userId
           });
-          return data.save();
+          return data[0].save();
         } else {
           // First Conversation
           const input = {

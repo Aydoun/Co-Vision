@@ -7,8 +7,9 @@ import InivitationMenu from '../DropMenu/InvitationCardMenu';
 export default class VisionCard extends Component {
   static propTypes = {
     visionName: PropTypes.string.isRequired,
+    onClick: PropTypes.func,
     visionId: PropTypes.string,
-    onAction: PropTypes.func,
+    visionAvatar: PropTypes.string,
     requesterName: PropTypes.string,
     Motivation: PropTypes.string
   }
@@ -17,8 +18,9 @@ export default class VisionCard extends Component {
     visionName: '',
     requesterName: '',
     Motivation: '',
+    visionAvatar: '',
     visionId: 0,
-    onAction: () => {}
+    onClick: () => {}
   }
 
   render() {
@@ -27,6 +29,8 @@ export default class VisionCard extends Component {
         requesterName,
         Motivation,
         visionId,
+        visionAvatar,
+        onClick
     } = this.props;
 
     const cardTitle = (
@@ -38,7 +42,7 @@ export default class VisionCard extends Component {
         <span> Requests To Join</span>
       </div>
     );
-    const Menu = InivitationMenu(visionId);
+    const Menu = InivitationMenu(visionId, obj => onClick(obj, this.props.requesterId));
     const extra = Menu !== null ? (
       <Dropdown overlay={Menu} placement="bottomCenter">
         <Button type="dashed" icon="bars" shape="circle" />
@@ -55,7 +59,7 @@ export default class VisionCard extends Component {
         <div>
           <Row gutter={12} type="flex">
             <Col >
-              <Avatar src="" />
+              <Avatar src={visionAvatar} />
             </Col>
             <Col >
               <p>{ visionName }</p>

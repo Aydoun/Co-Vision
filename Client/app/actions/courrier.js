@@ -42,12 +42,12 @@ export function GetRequestsList(res) {
   };
 }
 
-export function saveMessage(res) {
+export function saveMessage(res, isExternal) {
   const response = res.data.response;
   const lastMessage = response.messages[response.messages.length - 1];
 
   return {
-    type: C.SAVE_SENT_MESSAGE,
+    type: isExternal ? C.DUPLICATE_COURRIER_ACTION : C.SAVE_SENT_MESSAGE,
     lastMessage,
     conversationId: response._id
   };

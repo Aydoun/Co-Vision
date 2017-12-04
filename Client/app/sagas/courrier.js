@@ -48,12 +48,22 @@ function* sendMessage(returnedData) {
     url: requestURL,
     data: returnedData.payload
   };
+  const isExternal = typeof returnedData.payload.external !== 'undefined';
 
   try {
     const res = yield call(request, PostOptions);
-    yield put(saveMessage(res));
+    yield put(saveMessage(res, isExternal));
+    if (isExternal) {
+      yield put(notify({
+        status: res.data.status,
+        message: 'Message Successfully Sent'
+      }));
+    }
   } catch (err) {
-    console.log(err);
+    yield put(notify({
+      status: false,
+      message: err.message
+    }));
   }
 }
 
