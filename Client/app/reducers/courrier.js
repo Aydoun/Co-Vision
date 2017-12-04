@@ -9,7 +9,8 @@ const initialState = {
   mailList : {
     conversations: [],
     userMeta: {}
-  }
+  },
+  requestList: []
 };
 
 function mailReducer(state = initialState, action) {

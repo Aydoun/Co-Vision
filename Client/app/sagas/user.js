@@ -1,11 +1,6 @@
 import { call, put, takeLatest, fork } from 'redux-saga/effects';
 import { browserHistory } from 'react-router';
-import {
-  USER_LOGIN_LOADING,
-  USER_REGISTER_LOADING,
-  USER_SAVE_PROFILE,
-  USER_PROFILE_LOADING
-} from 'constants/user';
+import * as C from 'constants/user';
 import {
   authenticateUser,
   UserProfile
@@ -81,19 +76,19 @@ function* saveProfile(returnedData) {
 }
 
 function* _userLogin() {
-    yield takeLatest(USER_LOGIN_LOADING, userLogin);
+    yield takeLatest(C.USER_LOGIN_LOADING, userLogin);
 }
 
 function* _userRegister() {
-    yield takeLatest(USER_REGISTER_LOADING, userRegister);
+    yield takeLatest(C.USER_REGISTER_LOADING, userRegister);
 }
 
 function* getUserProfile() {
-    yield takeLatest(USER_PROFILE_LOADING, getProfile);
+    yield takeLatest(C.USER_PROFILE_LOADING, getProfile);
 }
 
 function* saveProfileSaga() {
-    yield takeLatest(USER_SAVE_PROFILE, saveProfile);
+    yield takeLatest(C.USER_SAVE_PROFILE, saveProfile);
 }
 
 export default [

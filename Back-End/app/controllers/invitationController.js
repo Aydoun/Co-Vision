@@ -30,19 +30,21 @@ exports.visionWaitingInvitations = function(req, res, next) {
       // extract All Visions Id
       const adminVisions = user.visions.filter(vs => vs.role !== 'Common').map(vs => vs._id);
       if (adminVisions.length > 0) {
-        invitationModel.find({status: 'Waiting'}).
-        where('vision').
-        in(adminVisions).
-        exec(function(err , data){
-            if (err) return res.status(200).send(Formatter(err , true));
-            res.status(200).send(Formatter(data));
+        invitationModel.find(
+          { status:'Waiting', "_id": { "$in": adminVisions }
+        })
+        .then(data => {
+          return res.status(200).send(Formatter(data));
+        })
+        .catch(err => {
+          return res.status(403).send(Formatter(err , true));
         });
       } else {
-        res.status(200).send(Formatter([]));
+        return res.status(200).send(Formatter([]));
       }
     })
     .catch((err) => {
-      res.status(200).send(Formatter(err , true))
+      return res.status(403).send(Formatter(err , true))
     });
 };
 

@@ -1,32 +1,7 @@
 import { call, put, takeLatest, fork } from 'redux-saga/effects';
-import {
-  VISION_SAVE_LOADING,
-  VISION_LIST_LOADING,
-  SAVE_CONTRIBUTION_LOADING,
-  VISION_HISTORY_LOADING,
-  VISION_STAT_LOADING,
-  BRANCH_LIST_LOADING,
-  ALL_VISION_LIST_LOADING,
-  FILE_READ_LOADING,
-  VISION_FS_LOADING,
-  VISION_UNREGISTER_USER,
-  VISION_USER_LIKE,
-  SAVE_BRANCH
-} from 'constants/vision';
-import {
-        visionSaved,
-        showVisionList,
-        saveContribution,
-        showHistoryList,
-        showContentList,
-        showBranchList,
-        showAllVisionList,
-        fileContent,
-        getVisionStats,
-        prepareListing,
-        preBranch,
-        saveLike
-} from 'actions/vision';
+import * as C from 'constants/vision';
+import * as A from 'actions/vision';
+import { saveDiscoverLike } from 'actions/discover';
 import { notify } from 'actions/notif';
 import request from 'utils/request';
 
@@ -40,12 +15,12 @@ function* createVision(returnedData) {
 
   try {
     const res = yield call(request, PostOptions);
-    yield put(visionSaved(res));
+    yield put(A.visionSaved(res));
     yield put(notify({
       status: res.data.status,
       message: 'Vision Created Successfully'
     }));
-    yield put(prepareListing({}));
+    yield put(A.prepareListing({}));
   } catch (err) {
     yield put(notify({
       status: false,
@@ -68,7 +43,7 @@ function* createBranch(returnedData) {
       status: res.data.status,
       message: 'Draft Created Successfully'
     }));
-    yield put(preBranch({
+    yield put(A.preBranch({
       id: returnedData.payload.id
     }));
   } catch (err) {
@@ -90,7 +65,7 @@ function* createContribution(returnedData) {
 
   try {
     const res = yield call(request, PostOptions);
-    yield put(saveContribution(res));
+    yield put(A.saveContribution(res));
   } catch (err) {
     console.log(err);
   }
@@ -107,7 +82,7 @@ function* listVision() {
 
   try {
     const res = yield call(request, GetOptions);
-    yield put(showVisionList(res));
+    yield put(A.showVisionList(res));
   } catch (err) {
     console.log(err);
   }
@@ -123,7 +98,7 @@ function* listHistory(returnedData) {
 
   try {
     const res = yield call(request, GetOptions);
-    yield put(showHistoryList(res));
+    yield put(A.showHistoryList(res));
   } catch (err) {
     console.log(err);
   }
@@ -141,7 +116,7 @@ function* listBranch(returnedData) {
 
   try {
     const res = yield call(request, GetOptions);
-    yield put(showBranchList(res));
+    yield put(A.showBranchList(res));
   } catch (err) {
     console.log(err);
   }
@@ -160,7 +135,7 @@ function* listContent(returnedData) {
 
   try {
     const res = yield call(request, GetOptions);
-    yield put(showContentList(res));
+    yield put(A.showContentList(res));
   } catch (err) {
     console.log(err);
   }
@@ -177,7 +152,7 @@ function* listFileContent(returnedData) {
 
   try {
     const res = yield call(request, GetOptions);
-    yield put(fileContent(res));
+    yield put(A.fileContent(res));
   } catch (err) {
 
   }
@@ -194,7 +169,7 @@ function* listAllVision() {
 
   try {
     const res = yield call(request, GetOptions);
-    yield put(showAllVisionList(res));
+    yield put(A.showAllVisionList(res));
   } catch (err) {
     console.log(err);
   }
@@ -212,7 +187,7 @@ function* liststats(returnedData) {
 
   try {
     const res = yield call(request, GetOptions);
-    yield put(getVisionStats(res));
+    yield put(A.getVisionStats(res));
   } catch (err) {
 
   }
@@ -230,7 +205,7 @@ function* unregisterUser(returnedData) {
 
   try {
     yield call(request, PostOptions);
-    yield put(prepareListing({}));
+    yield put(A.prepareListing({}));
   } catch (err) {
     yield put(notify({
       status: false,
@@ -249,7 +224,11 @@ function* userLikeVision(returnedData) {
   };
   try {
     const res = yield call(request, PostOptions);
-    yield put(saveLike(res));
+    if (returnedData.payload.discover) {
+      yield put(saveDiscoverLike(res));
+    } else {
+      yield put(A.saveLike(res));
+    }
   } catch (err) {
     console.log(err);
   }
@@ -257,51 +236,51 @@ function* userLikeVision(returnedData) {
 
 
 function* _saveVisionSaga() {
-    yield takeLatest(VISION_SAVE_LOADING, createVision);
+    yield takeLatest(C.VISION_SAVE_LOADING, createVision);
 }
 
 function* _listVisionSaga() {
-    yield takeLatest(VISION_LIST_LOADING, listVision);
+    yield takeLatest(C.VISION_LIST_LOADING, listVision);
 }
 
 function* allVisionSage() {
-    yield takeLatest(ALL_VISION_LIST_LOADING, listAllVision);
+    yield takeLatest(C.ALL_VISION_LIST_LOADING, listAllVision);
 }
 
 function* _branchList() {
-    yield takeLatest(BRANCH_LIST_LOADING, listBranch);
+    yield takeLatest(C.BRANCH_LIST_LOADING, listBranch);
 }
 
 function* _readFile() {
-    yield takeLatest(FILE_READ_LOADING, listFileContent);
+    yield takeLatest(C.FILE_READ_LOADING, listFileContent);
 }
 
 function* _visionHistoryList() {
-    yield takeLatest(VISION_HISTORY_LOADING, listHistory);
+    yield takeLatest(C.VISION_HISTORY_LOADING, listHistory);
 }
 
 function* _saveContribution() {
-    yield takeLatest(SAVE_CONTRIBUTION_LOADING, createContribution);
+    yield takeLatest(C.SAVE_CONTRIBUTION_LOADING, createContribution);
 }
 
 function* _visionContent() {
-    yield takeLatest(VISION_FS_LOADING, listContent);
+    yield takeLatest(C.VISION_FS_LOADING, listContent);
 }
 
 function* _visionStat() {
-    yield takeLatest(VISION_STAT_LOADING, liststats);
+    yield takeLatest(C.VISION_STAT_LOADING, liststats);
 }
 
 function* unregiterVision() {
-  yield takeLatest(VISION_UNREGISTER_USER, unregisterUser);
+  yield takeLatest(C.VISION_UNREGISTER_USER, unregisterUser);
 }
 
 function* likeVision() {
-  yield takeLatest(VISION_USER_LIKE, userLikeVision);
+  yield takeLatest(C.VISION_USER_LIKE, userLikeVision);
 }
 
 function* createBranchSaga() {
-  yield takeLatest(SAVE_BRANCH, createBranch);
+  yield takeLatest(C.SAVE_BRANCH, createBranch);
 }
 
 

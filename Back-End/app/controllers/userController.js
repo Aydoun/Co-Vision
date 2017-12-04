@@ -7,19 +7,20 @@ const { passwordHash } = require('../lib/crypto');
 const { Formatter, generateToken } = require('../lib');
 
 exports.visionList = function(req, res, next) {
-    UserModel.findById(req.userId , function(err , user){
-      if (err) {
-        return res.status(403).send(Formatter(err , true));
-      }
-
-      const userVisionsId = user.visions.map(item => item.visionId);
-      visionModel.find({status:'Active'}).
-      where('_id').
-      in(userVisionsId).
-      exec(function(err , data){
-          if (err) return res.status(200).send(Formatter(err , true));
-          res.status(200).send(Formatter(data));
-      });
+    UserModel.findById(req.userId)
+    .then(user => {
+      return user.visions.map(item => item.visionId);
+    })
+    .then(userVisionsId => {
+      return visionModel.find(
+        { status:'Active', "_id": { "$in": userVisionsId },
+      })
+    })
+    .then(visions => {
+      return  res.status(200).send(Formatter(visions));
+    })
+    .catch(err => {
+      return res.status(403).send(Formatter(err , true));
     });
 };
 

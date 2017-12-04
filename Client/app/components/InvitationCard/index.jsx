@@ -7,6 +7,7 @@ import InivitationMenu from '../DropMenu/InvitationCardMenu';
 export default class VisionCard extends Component {
   static propTypes = {
     visionName: PropTypes.string.isRequired,
+    visionId: PropTypes.string,
     onAction: PropTypes.func,
     requesterName: PropTypes.string,
     Motivation: PropTypes.string
@@ -16,6 +17,7 @@ export default class VisionCard extends Component {
     visionName: '',
     requesterName: '',
     Motivation: '',
+    visionId: 0,
     onAction: () => {}
   }
 
@@ -25,12 +27,11 @@ export default class VisionCard extends Component {
         requesterName,
         Motivation,
         visionId,
-        onAction
     } = this.props;
 
     const cardTitle = (
       <div>
-        <Icon type="api" />
+        <Icon type="user" />
         <Link to={null}>
           <span className="global-left-margin">{requesterName}</span>
         </Link>

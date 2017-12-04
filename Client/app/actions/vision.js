@@ -15,6 +15,7 @@ import {
   SAVE_USER_LIKE,
   SAVE_BRANCH
 } from 'constants/vision';
+import { DISCOVER_LIKE_VISION } from 'constants/discover';
 
 
 export function prepareSaving(params) {
@@ -124,7 +125,6 @@ export function saveLike(res) {
 
   return {
     type: SAVE_USER_LIKE,
-    // commitId : response.internal,
     likedVisionId: response._id
   };
 }

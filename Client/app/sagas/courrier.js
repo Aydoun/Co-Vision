@@ -1,13 +1,11 @@
 import { call, put, takeLatest, fork } from 'redux-saga/effects';
-import {
-  MAIL_MESSAGE_LOADING,
-  SEND_MESSAGE,
-  SEND_JOIN_REQUEST
-} from 'constants/courrier';
+import * as C from 'constants/courrier';
 import {
   GetMessages,
-  saveMessage
+  saveMessage,
+  GetRequestsList
 } from 'actions/courrier';
+import { notify } from 'actions/notif';
 import request from 'utils/request';
 
 
@@ -22,6 +20,22 @@ function* getMessageList() {
   try {
     const res = yield call(request, GetOptions);
     yield put(GetMessages(res));
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+function* getRequestsList() {
+  const requestURL = `${config.apiBase}/invitation`;
+  const GetOptions = {
+    method: 'GET',
+    url: requestURL,
+    params: {}
+  };
+
+  try {
+    const res = yield call(request, GetOptions);
+    yield put(GetRequestsList(res));
   } catch (err) {
     console.log(err);
   }
@@ -53,27 +67,38 @@ function* sendRequest(returnedData) {
 
   try {
     const res = yield call(request, PostOptions);
-    // yield put(saveMessage(res));
+    yield put(notify({
+      status: res.data.status,
+      message: 'Request Successfully Sent'
+    }));
   } catch (err) {
-    console.log(err);
+    yield put(notify({
+      status: false,
+      message: 'Couldn\'t Send Your Request, Check Your Network Connection'
+    }));
   }
 }
 
 function* messageListSaga() {
-    yield takeLatest(MAIL_MESSAGE_LOADING, getMessageList);
+    yield takeLatest(C.MAIL_MESSAGE_LOADING, getMessageList);
 }
 
 function* sendMessageSaga() {
-    yield takeLatest(SEND_MESSAGE, sendMessage);
+    yield takeLatest(C.SEND_MESSAGE, sendMessage);
+}
+
+function* requestsListSaga() {
+    yield takeLatest(C.REQUEST_LIST_LOADING, getRequestsList);
 }
 
 function* sendRequestSaga() {
-    yield takeLatest(SEND_JOIN_REQUEST, sendRequest);
+    yield takeLatest(C.SEND_JOIN_REQUEST, sendRequest);
 }
 
 
 export default [
   fork(messageListSaga),
   fork(sendMessageSaga),
-  fork(sendRequestSaga)
+  fork(sendRequestSaga),
+  fork(requestsListSaga)
 ];

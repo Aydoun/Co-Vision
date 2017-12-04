@@ -22,18 +22,20 @@ exports.search = function(req, res, next) {
 };
 
 exports.discover = function(req, res, next) {
-    UserModel.findById(req.userId , function(err , user){
-      if (err) {
-        return res.status(200).send(Formatter(err , true));
-      }
-      const userVisionsId = user.visions.map(item => item.visionId);
-      
-      visionModel.find({ status:'Active', "_id": { "$nin": userVisionsId } })
-      .then((results) => {
-        res.status(200).send(Formatter(results));
+    const searchTerm = req.query.q || '';
+    UserModel.findById(req.userId)
+    .then(user => {
+      return user.visions.map(item => item.visionId);
+    })
+    .then(userVisionsId => {
+      return visionModel.find(
+        { status:'Active', "_id": { "$nin": userVisionsId }
       })
-      .catch((err) => {
-        res.status(200).send(Formatter(err, true));
-      });
+    })
+    .then(data => {
+      return res.status(200).send(Formatter(data));
+    })
+    .catch(err => {
+      return res.status(403).send(Formatter(err, true));
     });
 };

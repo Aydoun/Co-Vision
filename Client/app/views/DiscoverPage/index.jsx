@@ -39,9 +39,27 @@ class discoverPage extends Component {
     }
   }
 
+  onFilterChanged(key, object) {
+    switch (key) {
+      case 0:
+        // Term Search
+        console.log(object);
+        break;
+      case 1:
+        // Active Time
+        break;
+      case 2:
+        // Contributors Count
+        break;
+      default:
+        break;
+    }
+  }
+
   userLike(visionId) {
     this.props.preLike({
-      id: visionId
+      id: visionId,
+      discover: true
     });
   }
 
@@ -64,7 +82,11 @@ class discoverPage extends Component {
     return (
       <Layout style={{ background: '#fff' }}>
         <Sider width={200} style={{ background: '#fff' }}>
-          <Filter />
+          <Filter
+            onSearch={obj => this.onFilterChanged(0, obj)}
+            onSliderChange={obj => this.onFilterChanged(1, obj)}
+            onSelectChange={obj => this.onFilterChanged(2, obj)}
+          />
         </Sider>
         <Content style={{ padding: '0 24px', minHeight: 280 }}>
           <div>
