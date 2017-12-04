@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
-import { Layout, Menu, Icon, Avatar, Popconfirm, Alert } from 'antd';
+import { Layout, Menu, Icon, Avatar, Popconfirm, Alert, message } from 'antd';
 import MyHeader from 'components/Header';
 import MyFooter from 'components/Footer';
 import { logout } from 'utils';
@@ -14,14 +14,24 @@ const SubMenu = Menu.SubMenu;
 class App extends React.Component {
   state = {
     collapsed: false,
+
   };
   onCollapse = (collapsed) => {
     console.log(collapsed);
     this.setState({ collapsed });
   }
-  render() {
-    const { notification } = this.props;
 
+  componentWillReceiveProps(nextProps) {
+    const { notification } = nextProps;
+    const isNotif = notification && notification.message;
+    if (isNotif) {
+      const isSucess = isNotif && notification.status;
+      const messageNotif = isSucess ? message.success : message.error;
+      messageNotif(notification.message, 3);
+    }
+  }
+
+  render() {
     return (
       <div >
         <Layout style={{ minHeight: '100vh' }}>
@@ -90,18 +100,8 @@ class App extends React.Component {
             <MyHeader />
             <Content style={{ margin: '0 16px' }}>
               {
-                notification && notification.message ? (
-                  <div style={{ marginTop: 10 }}>
-                    <Alert
-                      message={notification.message}
-                      type={notification.status ? 'success' : 'error'}
-                      showIcon
-                      closable
-                    />
-                  </div>
-                ) : null
-              }
 
+              }
               <div style={{ padding: 24, background: '#fff', margin: '16px 0', minHeight: '100%' }}>
 
                 {this.props.children}

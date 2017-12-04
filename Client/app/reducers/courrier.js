@@ -23,7 +23,7 @@ function mailReducer(state = initialState, action) {
     case DUPLICATE_COURRIER_ACTION:
       return assign({}, state, { ...action }, { loading:false });
     case SAVE_SENT_MESSAGE: {
-      const newMailList = assign({}, state.courrierList);
+      const newMailList = assign({}, state.mailList);
       const newConversations = newMailList.conversations.slice();
       const formalConversationIndex =
       newConversations.findIndex(v => v._id === action.conversationId);

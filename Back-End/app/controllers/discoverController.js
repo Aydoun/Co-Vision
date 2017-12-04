@@ -4,7 +4,7 @@ const { Formatter, queryCheck, isValidObjectId } = require('../lib');
 
 exports.search = function(req, res, next) {
     if (!req.query.q) {
-        return res.status(200).send(Formatter({message:'All Fields Are Required'} , true));
+        return res.status(403).send(Formatter({message:'All Fields Are Required'} , true));
     }
     const searchTerm = req.query.q;
 
@@ -15,7 +15,7 @@ exports.search = function(req, res, next) {
     )
     .sort({ score : { $meta : 'textScore' } })
     .exec(function(err, results) {
-        if (err) return res.status(200).send(Formatter(err , true));
+        if (err) return res.status(403).send(Formatter(err , true));
 
         res.status(200).send(Formatter(results));
     });

@@ -230,7 +230,10 @@ function* userLikeVision(returnedData) {
       yield put(A.saveLike(res));
     }
   } catch (err) {
-    console.log(err);
+    yield put(notify({
+      status: false,
+      message: 'Couldn\'t perform action'
+    }));
   }
 }
 

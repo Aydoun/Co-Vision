@@ -5,7 +5,10 @@ module.exports = mongoose.model('cov_invitation', new Schema({
 	vision: { type : Schema.Types.ObjectId, required : true },
   requested: {type: Schema.Types.ObjectId },
   requester: {type: Schema.Types.ObjectId },
-  motivation: { type : String, required: true },
+  motivation: { type : String, default: 'Hi i Want to to Join The Vision'},
+	userName: {type: String, default: ''},
+	visionName: {type: String, default: ''},
+	visionAvatar: {type: String, default: ''},
 	role : {type : String , enum: ['Owner', 'Admin', 'Common'] , default : 'Common'},
   status: {type : String , enum: ['Accepted', 'Waiting' , 'Rejected'] , default : 'Waiting'},
 }, {timestamps: true}));

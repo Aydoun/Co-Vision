@@ -165,7 +165,7 @@ exports.addLike = function(req , res , next){
 
 exports.unRegister = function(req , res , next){
     if(!isValidObjectId(req.params.id) || !req.body.creator) {
-      return res.status(200).send(Formatter({message:'All Fields Are Required'} , true));
+      return res.status(403).send(Formatter({message:'All Fields Are Required'} , true));
     }
     const userId = req.userId;
     const visionId = req.params.id;

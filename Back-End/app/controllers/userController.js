@@ -26,7 +26,7 @@ exports.visionList = function(req, res, next) {
 
 exports.addVisionToContributor = function(req, res, next) {
     var visionId = req.visionId;
-    if (!visionId) return res.status(200).send(Formatter({message:'All Fields Are Required'} , true));;
+    if (!visionId) return res.status(403).send(Formatter({message:'All Fields Are Required'} , true));;
     UserModel.findById(req.body.creator , function(err , data){
         data.visions.push({
             visionId : visionId

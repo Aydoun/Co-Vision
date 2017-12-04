@@ -48,13 +48,55 @@ exports.visionWaitingInvitations = function(req, res, next) {
     });
 };
 
+exports.addJoinRequest = (req, res, next) => {
+    const { vision, requested, motivation } = req.body;
+    const check = queryCheck(req.body, ['vision', 'requested']);
+    if (!check) {
+      return res.status(403).send(Formatter({message:'All Fields Are Required'} , true));
+    }
+    const requester = req.userId;
+    let userName = '';
+
+    userModel.findById(requester)
+    .then(user => {
+      userName = user.fullName;
+      return user.fullName;
+    })
+    .then(userName => {
+      return visionModel.findById(vision)
+    })
+    .then(foundVision => {
+      return {
+        visionName: foundVision.title,
+        visionAvatar: foundVision.avatar
+      };
+    })
+    .then(visionData => {
+      const newRequest = {
+        vision,
+        requested,
+        requester,
+        motivation,
+      	userName,
+      	...visionData
+      }
+      const requestModel = new invitationModel(newRequest);
+      return requestModel.save()
+    })
+    .then(request => {
+      return res.status(200).send(Formatter(request));
+    })
+    .catch(err => {
+      return res.status(403).send(Formatter(err , true));
+    });
+};
+
 exports.answerRequest = function(req, res, next) {
     const { status, vision, role } = req.body;
     const check = queryCheck(req.body, ['vision', 'status']);
 
     if (!(check && isValidObjectId(req.body.vision))) {
-        res.status(200).send(Formatter({message:'All Fields Are Required'} , true));
-        return;
+      return res.status(403).send(Formatter({message:'All Fields Are Required'} , true));
     }
     const userId = req.userId;
 
@@ -97,9 +139,9 @@ exports.answerRequest = function(req, res, next) {
     },
     function(err, results) {
         if (err) {
-          res.status(200).send(Formatter(err , true));
+          return res.status(403).send(Formatter(err , true));
         } else {
-          res.status(200).send(Formatter(results));
+          return res.status(200).send(Formatter(results));
         }
     });
 };

@@ -86,7 +86,7 @@ class VisionList extends Component {
     }
 
     return (
-      <div>
+      <div >
         <Spin spinning={loading}>
           <Button
             icon="plus" type="primary"

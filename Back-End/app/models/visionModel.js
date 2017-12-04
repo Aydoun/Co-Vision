@@ -10,7 +10,7 @@ const Vision = new Schema({
   description : {type: String},
   creator : {type : Schema.Types.ObjectId, required: true},
   privacy : {type:Array, default : []},
-  avatar : {type : String},
+  avatar : {type : String, default: ''},
   likes: [Likes],
 	type : {type : String, enum : ['public' , 'private'] , default : 'public'},
   status : {type : String , enum: ['Active', 'Inactive'] , default : 'Active'},

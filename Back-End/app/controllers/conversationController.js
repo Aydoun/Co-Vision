@@ -35,40 +35,65 @@ exports.AllConversations = function(req, res, next) {
 };
 
 exports.sendMessage = function(req, res, next) {
-    const { creator, conversationId, receiver, content } = req.body;
+    const { conversationId, receiver, content } = req.body;
+    const userId = req.userId;
     const cehckParams = conversationId ?  ['content'] : ['content', 'receiver'];
-    const check = queryCheck(req.body , cehckParams)
+    const check = queryCheck(req.body , cehckParams);
 
     if (!(check)) {
       return res.status(403).send(Formatter({message:'Input Fields Incorrect'} , true));
     }
 
     if (conversationId) {
-      conversationModel.findById(conversationId , function(err , data){
-        if (err) return res.status(200).send(Formatter(err , true));
-
+      conversationModel.findById(conversationId)
+      .then(data => {
         data.messages.push({
           content,
           sender: req.userId
         });
-        data.save(function(err , _data){
-          return res.status(200).send(Formatter(_data));
-        });
+        return data.save();
+      })
+      .then(savedData => {
+        return res.status(200).send(Formatter(savedData));
+      })
+      .catch(err => {
+        return res.status(403).send(Formatter(err , true));
       });
     } else {
-      // Create New Conversation
-      const input = {
-          receiver: req.body.receiver,
-          creator: req.userId,
-          messages: [{
+      
+      const query =
+      {
+        $or:
+        [
+          { $and:[ {'creator': userId}, {'receiver': receiver} ] },
+          { $and:[ {'creator': receiver}, {'receiver': userId} ] }
+        ]
+      };
+      conversationModel.find(query)
+      .then(data => {
+        if (data.length > 0) {
+          // Having a onGoing Conversation
+          data.messages.push({
             content,
             sender: req.userId
-          }]
-      };
-      const newConversation = new conversationModel(input);
-      newConversation.save()
-      .then(data => {
-        return res.status(200).send(Formatter(data));
+          });
+          return data.save();
+        } else {
+          // First Conversation
+          const input = {
+              receiver: req.body.receiver,
+              creator: req.userId,
+              messages: [{
+                content,
+                sender: req.userId
+              }]
+          };
+          const newConversation = new conversationModel(input);
+          return newConversation.save();
+        }
+      })
+      .then(results => {
+        return res.status(200).send(Formatter(results));
       })
       .catch(err => {
         return res.status(403).send(Formatter(err.message , true));
