@@ -40,6 +40,7 @@ class App extends React.Component {
             collapsed={this.state.collapsed}
             onCollapse={this.onCollapse}
             className="app-sider-wrapper"
+            breakpoint="sm"
           >
             <div className="logo" >
               <Avatar src="http://tse3.mm.bing.net/th?id=OIP.ZotSj2OR21ya9ySgfb9zlgD6D6&w=173&h=168&c=7&qlt=90&o=4&pid=1.7" />

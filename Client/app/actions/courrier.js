@@ -28,6 +28,13 @@ export function sendRequest(params = {}) {
   };
 }
 
+export function answerRequest(params = {}) {
+  return {
+    type: C.ANSWER_JOIN_REQUEST,
+    payload: params
+  };
+}
+
 export function GetMessages(res) {
   return {
     type: C.DUPLICATE_COURRIER_ACTION,

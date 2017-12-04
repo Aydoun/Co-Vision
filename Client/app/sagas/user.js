@@ -5,6 +5,7 @@ import {
   authenticateUser,
   UserProfile
 } from 'actions/user';
+import { notify } from 'actions/notif';
 import request from 'utils/request';
 import { saveUserData } from 'utils';
 
@@ -23,6 +24,10 @@ function* userLogin(returnedData) {
     saveUserData(res.data.response);
     browserHistory.push('/app');
   } catch (err) {
+    yield put(notify({
+      status: false,
+      message: 'Login Failed, Email or Password is Incorrect'
+    }));
   }
 }
 
@@ -41,6 +46,12 @@ function* userRegister(returnedData) {
     saveUserData(res.data.response);
     browserHistory.push('/app');
   } catch (err) {
+    yield put(notify({
+      status: false,
+      message: err.response.status === 422 ?
+      'Account Already in Use' :
+      'Network Error, Make Sure you are Connected to the internet'
+    }));
   }
 }
 
@@ -69,9 +80,16 @@ function* saveProfile(returnedData) {
   };
 
   try {
-    yield call(request, PostOptions);
+    const res = yield call(request, PostOptions);
+    yield put(notify({
+      status: res.data.status,
+      message: 'Profile Successfully Updated'
+    }));
   } catch (err) {
-    console.log(err);
+    yield put(notify({
+      status: false,
+      message: 'Network Error'
+    }));
   }
 }
 

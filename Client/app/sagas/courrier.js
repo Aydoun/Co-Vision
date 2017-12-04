@@ -3,7 +3,8 @@ import * as C from 'constants/courrier';
 import {
   GetMessages,
   saveMessage,
-  GetRequestsList
+  GetRequestsList,
+  preRequests
 } from 'actions/courrier';
 import { notify } from 'actions/notif';
 import request from 'utils/request';
@@ -89,6 +90,25 @@ function* sendRequest(returnedData) {
   }
 }
 
+function* answerRequest(returnedData) {
+  const requestURL = `${config.apiBase}/invitation/answer`;
+  const PutOptions = {
+    method: 'PUT',
+    url: requestURL,
+    data: returnedData.payload
+  };
+
+  try {
+    yield call(request, PutOptions);
+    yield put(preRequests());
+  } catch (err) {
+    yield put(notify({
+      status: false,
+      message: 'Couldn\'t Perform Action, Check Your Network Connection'
+    }));
+  }
+}
+
 function* messageListSaga() {
     yield takeLatest(C.MAIL_MESSAGE_LOADING, getMessageList);
 }
@@ -105,10 +125,15 @@ function* sendRequestSaga() {
     yield takeLatest(C.SEND_JOIN_REQUEST, sendRequest);
 }
 
+function* answerRequestSaga() {
+    yield takeLatest(C.ANSWER_JOIN_REQUEST, answerRequest);
+}
+
 
 export default [
   fork(messageListSaga),
   fork(sendMessageSaga),
   fork(sendRequestSaga),
-  fork(requestsListSaga)
+  fork(requestsListSaga),
+  fork(answerRequestSaga)
 ];

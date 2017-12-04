@@ -66,11 +66,8 @@ class VisionFS extends React.Component {
         <Menu.Item key="2">
           <Icon type="folder" /> Add Folder
         </Menu.Item>
-        <Menu.Item key="3">
-          <Icon type="mail" /> Invite
-        </Menu.Item>
         <Menu.Divider />
-        <Menu.Item key="4">
+        <Menu.Item key="3">
           <Icon type="share-alt" /> Merge Draft
         </Menu.Item>
       </Menu>

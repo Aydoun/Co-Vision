@@ -45,14 +45,14 @@ exports.LogIn = function(req, res, next){
           throw err;
         }
         if (!user) {
-          res.status(200).send(Formatter('Authentication failed. User not found.', true));
+          res.status(403).send(Formatter('Authentication failed. User not found.', true));
         } else {
           user.comparePassword(req.body.password, (err2, isMatch) => {
             if (err2) {
-                res.status(200).send(Formatter('Authentication failed' , true));
+                res.status(403).send(Formatter('Authentication failed' , true));
             }
             else if (!isMatch) {
-                res.status(200).send(Formatter('Authentication failed, Wrong password', true));
+                res.status(403).send(Formatter('Authentication failed, Wrong password', true));
             } else {
                 res.status(200).send(Formatter({
                   _id : user._id,
@@ -69,7 +69,7 @@ exports.LogIn = function(req, res, next){
 exports.Register = function(req, res, next){
     const { email, password, fullName } = req.body;
     if (!email || !password || !fullName) {
-      res.status(200).send(Formatter('all fields are required', true));
+      res.status(403).send(Formatter('all fields are required', true));
     } else {
       UserModel.findOne({ email }, (err, existingUser) => {
         if (err) { return next(err); }
@@ -78,13 +78,13 @@ exports.Register = function(req, res, next){
         } else {
           passwordHash(password , (hash) => {
             if (!hash) {
-              res.status(200).send(Formatter('error While Generating Hash', true));
+              res.status(403).send(Formatter('error While Generating Hash', true));
             } else {
               const newUser = new UserModel({ email, password : hash, fullName });
 
               newUser.save((err2 , userData) => {
                 if (err2) {
-                  res.status(200).send(Formatter(err2, true));
+                  res.status(403).send(Formatter(err2, true));
                 } else {
                   res.status(200).send(Formatter({
                     email : email,

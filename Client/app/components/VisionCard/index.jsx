@@ -18,6 +18,7 @@ export default class VisionCard extends Component {
     avatar: PropTypes.string,
     updatedAt: PropTypes.string,
     visionId: PropTypes.string,
+    creator: PropTypes.string,
     likes: PropTypes.number
   }
 
@@ -31,7 +32,8 @@ export default class VisionCard extends Component {
     onLike: noop,
     onConfirm: noop,
     likes: 0,
-    visionId: 0
+    visionId: '0',
+    creator: '0'
   }
 
   render() {
@@ -42,6 +44,7 @@ export default class VisionCard extends Component {
         discover,
         updatedAt,
         likes,
+        creator,
         visionId,
         onConfirm,
         onClick
@@ -72,7 +75,9 @@ export default class VisionCard extends Component {
         </Col>
       </Row>
     );
-    const Menu = discover ? DiscoverVisionMenu(visionId, onClick) : VisionMenu(visionId, onConfirm);
+    const Menu = discover ?
+    DiscoverVisionMenu(visionId, onClick)
+    : VisionMenu(visionId, onConfirm, creator === localStorage.userId);
     const extra = Menu !== null ? (
       <Dropdown overlay={Menu} placement="bottomCenter">
         <Button type="dashed" icon="bars" shape="circle" />

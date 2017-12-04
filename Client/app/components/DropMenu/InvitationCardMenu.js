@@ -7,16 +7,12 @@ export default (visionId, onClick) => {
     return (
       <Menu onClick={onClick}>
         <Menu.Item key="0">
-          <Link to={null} >
-            <Icon type="check" />
-            <span className="global-left-margin">Accept</span>
-          </Link>
+          <Icon type="check" />
+          <span className="global-left-margin">Accept</span>
         </Menu.Item>
         <Menu.Item key="1">
-          <Link to={null} >
-            <Icon type="close" />
-            <span className="global-left-margin">Reject</span>
-          </Link>
+          <Icon type="close" />
+          <span className="global-left-margin">Reject</span>
         </Menu.Item >
         <Menu.Divider />
         <Menu.Item key="2">

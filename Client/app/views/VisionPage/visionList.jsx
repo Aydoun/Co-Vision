@@ -102,6 +102,7 @@ class VisionList extends Component {
                   description={elem.description}
                   status={elem.status}
                   visionId={elem._id}
+                  creator={elem.creator}
                   likes={elem.likes.length}
                   updatedAt={formatDate(elem.updatedAt)}
                   onConfirm={() => this.unregister(elem._id, elem.creator)}

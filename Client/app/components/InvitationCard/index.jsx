@@ -9,6 +9,7 @@ export default class VisionCard extends Component {
     visionName: PropTypes.string.isRequired,
     onClick: PropTypes.func,
     visionId: PropTypes.string,
+    requesterId: PropTypes.string,
     visionAvatar: PropTypes.string,
     requesterName: PropTypes.string,
     Motivation: PropTypes.string
@@ -19,7 +20,8 @@ export default class VisionCard extends Component {
     requesterName: '',
     Motivation: '',
     visionAvatar: '',
-    visionId: 0,
+    visionId: '0',
+    requesterId: '0',
     onClick: () => {}
   }
 
@@ -29,6 +31,7 @@ export default class VisionCard extends Component {
         requesterName,
         Motivation,
         visionId,
+        requesterId,
         visionAvatar,
         onClick
     } = this.props;
@@ -42,7 +45,7 @@ export default class VisionCard extends Component {
         <span> Requests To Join</span>
       </div>
     );
-    const Menu = InivitationMenu(visionId, obj => onClick(obj, this.props.requesterId));
+    const Menu = InivitationMenu(visionId, obj => onClick(obj, requesterId, visionId));
     const extra = Menu !== null ? (
       <Dropdown overlay={Menu} placement="bottomCenter">
         <Button type="dashed" icon="bars" shape="circle" />

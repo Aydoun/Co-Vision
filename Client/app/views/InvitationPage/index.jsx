@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Spin, Modal, Icon } from 'antd';
-import { preRequests } from 'actions/courrier';
+import { preRequests, answerRequest } from 'actions/courrier';
 import InvitationCard from 'components/InvitationCard';
 import Empty from 'components/Empty';
 import SendMessageForm from './sendMessageForm';
@@ -23,14 +23,23 @@ class RequestPage extends Component {
     this.props.preRequests();
   }
 
-  onMenuClicked(obj, requesterId) {
-    console.log(requesterId, 'requesterId');
+  onMenuClicked(obj, requesterId, visionId) {
     switch (obj.key) {
       case '0':
-
+        // Accept Request
+        this.props.answerRequest({
+          status: 'Accepted',
+          requester: requesterId,
+          vision: visionId
+        });
         break;
       case '1':
-
+        // Reject Request
+        this.props.answerRequest({
+          status: 'Rejected',
+          requester: requesterId,
+          vision: visionId
+        });
         break;
       case '2':
         this.setState({ visible:true, requesterId });
@@ -90,7 +99,7 @@ class RequestPage extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ preRequests }, dispatch);
+  return bindActionCreators({ preRequests, answerRequest }, dispatch);
 }
 
 function mapStateToProps(state) {

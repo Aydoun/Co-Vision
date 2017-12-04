@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Layout, Tabs, Icon } from 'antd';
+import { Layout, Tabs, Icon, message } from 'antd';
 import Login from './registerForms/signIn';
 import Register from './registerForms/signUp';
 import './index.css';
@@ -9,7 +9,14 @@ import './index.css';
 const { Header } = Layout;
 const TabPane = Tabs.TabPane;
 
-export class HomePage extends React.PureComponent {
+export class WelcomePage extends React.Component {
+  componentWillReceiveProps(nextProps) {
+    const { notification } = nextProps;
+    const isNotif = notification && notification.message;
+    if (isNotif) {
+      message.error(notification.message, 3);
+    }
+  }
   render() {
     return (
       <div style={{ position: 'relative' }}>
@@ -38,7 +45,8 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   return {
+    notification: state.notif
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(WelcomePage);

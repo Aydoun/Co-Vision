@@ -92,56 +92,51 @@ exports.addJoinRequest = (req, res, next) => {
 };
 
 exports.answerRequest = function(req, res, next) {
-    const { status, vision, role } = req.body;
-    const check = queryCheck(req.body, ['vision', 'status']);
+    const { status, vision, requester, role } = req.body;
+    const check = queryCheck(req.body, ['vision', 'status', 'requester']);
 
-    if (!(check && isValidObjectId(req.body.vision))) {
+    if (!check) {
       return res.status(403).send(Formatter({message:'All Fields Are Required'} , true));
     }
     const userId = req.userId;
 
     parallel({
-      update : function(callback) {
-        invitationModel.update({ vision:vision, requested:userId } , { status: req.body.status } , (err , result) => {
-            if (err) {
-              callback(true, result);
-            }
-            callback(null, result);
+      update : callback => {
+        invitationModel.update({ vision:vision, requested:userId, requester } , { status: req.body.status })
+        .then(result => {
+          callback(null, result);
+        })
+        .catch(err => {
+          console.log(err, '1')
+          callback(err, {});
         });
       },
-      save : function(callback) {
+      save : callback  => {
         if (status === 'Accepted') {
-          userModel.findById(userId, (err, user) => {
-              if(err){
-                callback(err);
-                return ;
-              }
-              visionModel.findById(vision, (err, visionObj) => {
-                  if(err){
-                    callback(err);
-                    return ;
-                  }
-
-                  user.visions.push({
-                    visionId:vision,
-                    visionName:visionObj.title,
-                    role: role || 'Common',
-                  });
-                  user.save((err, data) => {
-                      callback(null, data);
-                  });
-              });
+          userModel.findById(requester)
+          .then(user => {
+            user.visions.push({
+              visionId:vision,
+              role: role || 'Common',
+            });
+            user.save((err, data) => {
+              callback(null, data);
+            });
+          })
+          .catch(err => {
+            console.log(err, '2')
+            callback(err);
           });
         } else {
             callback(null);
         }
       }
     },
-    function(err, results) {
+    (err, results) => {
         if (err) {
-          return res.status(403).send(Formatter(err , true));
-        } else {
-          return res.status(200).send(Formatter(results));
+          console.log(err, '3')
+          return res.status(403).send(Formatter(err.message , true));
         }
+        return res.status(200).send(Formatter(results));
     });
 };
