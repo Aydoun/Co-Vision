@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export function saveUserData(serverResponse) {
     localStorage.setItem('token', serverResponse.token);
     localStorage.setItem('email', serverResponse.email);
@@ -12,14 +14,11 @@ export function logout() {
 
 export function formatDate(date) {
     if (date) {
-      const dateObj = new Date(date);
-      const y = dateObj.getFullYear();
-      const m = dateObj.getMonth() + 1;
-      const d = dateObj.getDate();
+      const dateMoment = moment(date);
+      const diffDays = moment(new Date()).diff(dateMoment, 'days');
+      const format = diffDays > 0 ? 'YYYY-MM-DD' : 'HH:mm';
 
-      return `${y
-       }-${m < 10 ? `0${m}` : m
-       }-${d < 10 ? `0${d}` : d}`;
+      return dateMoment.format(format);
     }
     return '';
 }

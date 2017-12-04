@@ -2,16 +2,18 @@ import { createStore, applyMiddleware } from 'redux';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { browserHistory } from 'react-router';
 import createSagaMiddleware from 'redux-saga';
-import mySaga from 'sagas';
 import reduxLogger from 'redux-logger';
-import rootReducer from 'reducers';
+import mySaga from './sagas';
+import rootReducer from './reducers';
 
 const LocationChangedMiddleware = store => next => (action) => {
-  const notifMessage = store.getState().notif.message;
-  if (action.type.indexOf('LOCATION_CHANGE') >= 0 && notifMessage.length > 0) {
-    store.dispatch({
-      type: 'APP_CHANGED_LOCATION'
-    });
+  if (action.type.indexOf('LOCATION_CHANGE') >= 0) {
+    const notifMessage = store.getState().notif.message;
+    if (notifMessage.length > 0) {
+      store.dispatch({
+        type: 'APP_CHANGED_LOCATION'
+      });
+    }
   }
   next(action);
 };
