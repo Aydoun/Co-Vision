@@ -87,30 +87,21 @@ class VisionList extends Component {
 
     return (
       <div >
-        <Spin spinning={loading}>
-          <Button
-            icon="plus" type="primary"
-            onClick={() => this.setState({ visible: true })}
-          >
-              Add Vision
-            </Button>
-          {
-              visionList.map((elem, i) => (
-                <VisionCard
-                  key={i}
-                  name={elem.title}
-                  description={elem.description}
-                  status={elem.status}
-                  visionId={elem._id}
-                  creator={elem.creator}
-                  likes={elem.likes.length}
-                  updatedAt={formatDate(elem.updatedAt)}
-                  onConfirm={() => this.unregister(elem._id, elem.creator)}
-                  onLike={this.userLike}
-                />
-              ))
-            }
-        </Spin>
+        <Button
+          icon="plus" type="primary"
+          onClick={() => this.setState({ visible: true })}
+        >
+            Add Vision
+          </Button>
+        {
+          <VisionCard
+            onConfirm={() => this.unregister(elem._id, elem.creator)}
+            onLike={this.userLike}
+            header={<span><Icon type="api" /> Active Visions</span>}
+            listData={visionList}
+            loading={loading}
+          />
+        }
         { AddModal }
       </div>
     );

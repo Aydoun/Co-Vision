@@ -14,7 +14,7 @@ export default class extends Component {
     return (
       <Card
         title={cardTitle}
-        noHovering
+        
       >
         <Row type="flex" gutter={24}>
           <Col >

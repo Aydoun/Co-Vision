@@ -6,6 +6,7 @@ import createVision from 'views/VisionPage/createVision';
 import visionLab from 'views/VisionPage/visionLab';
 import visionHistory from 'views/VisionPage/visionHistory';
 import visionFs from 'views/VisionPage/visionFS';
+import visionSummary from 'views/VisionPage/visionSummary';
 
 import feedback from 'views/FeedbackPage';
 
@@ -18,6 +19,7 @@ export default (
       <Route path="/app/vision/lab" component={visionLab} />
       <Route path="/app/vision/:id/history" component={visionHistory} />
       <Route path="/app/vision/:id/content" component={visionFs} />
+      <Route path="/app/vision/:id/summary" component={visionSummary} />
       <Route path="/app/feedback" component={feedback} />
     </Route>
   </Route>

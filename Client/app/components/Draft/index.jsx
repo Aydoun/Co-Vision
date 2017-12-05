@@ -1,5 +1,6 @@
 import React from 'react';
 import { Editor, EditorState } from 'draft-js';
+import 'draft-js/dist/Draft.css';
 
 class MyEditor extends React.Component {
   constructor(props) {
@@ -9,7 +10,10 @@ class MyEditor extends React.Component {
   }
   render() {
     return (
-      <Editor editorState={this.state.editorState} onChange={this.onChange} />
+      <div>
+        <Editor editorState={this.state.editorState} onChange={this.onChange} />
+      </div>
+
     );
   }
 }

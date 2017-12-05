@@ -21,7 +21,7 @@ export default props => (
     <Col >
       <Card
         title={CardTitle}
-        noHovering
+        
         bordered={false}
       >
         <Row>

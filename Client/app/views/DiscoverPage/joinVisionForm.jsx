@@ -30,7 +30,7 @@ class addVision extends React.Component {
     const config = {};
 
     return (
-      <Card noHovering>
+      <Card >
         <Form layout="vertical">
           <FormItem
             label="Motivation"

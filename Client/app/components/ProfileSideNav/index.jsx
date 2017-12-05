@@ -12,7 +12,7 @@ export default class extends Component {
     );
     return (
       <Card
-        noHovering
+        
       >
         <Row type="flex" gutter={24}>
           <Col >

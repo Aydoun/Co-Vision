@@ -1,112 +1,94 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import { Card, Icon, Tag, Avatar, Row, Col, Dropdown, Button } from 'antd';
+import { Icon, Tag, Avatar, Dropdown, Button, List } from 'antd';
 import VisionMenu from '../DropMenu/VisionCardMenu';
 import DiscoverVisionMenu from '../DropMenu/DiscoveryMenu';
+import { formatDate } from '../../utils';
 
 const noop = () => {};
 
+const IconText = ({ type, text }) => (
+  <span>
+    <Icon type={type} style={{ marginRight: 8 }} />
+    {text}
+  </span>
+);
+
 export default class VisionCard extends Component {
   static propTypes = {
-    name: PropTypes.string.isRequired,
     onConfirm: PropTypes.func,
     onLike: PropTypes.func,
+    header: PropTypes.node,
+    loading: PropTypes.bool,
+    listData: PropTypes.array,
     onClick: PropTypes.func,
-    discover: PropTypes.bool,
-    description: PropTypes.string,
-    avatar: PropTypes.string,
-    updatedAt: PropTypes.string,
-    visionId: PropTypes.string,
-    creator: PropTypes.string,
-    likes: PropTypes.number
+    discover: PropTypes.bool
   }
 
   static defaultProps = {
-    name: '--',
-    description: '',
-    updatedAt: '--',
-    avatar: '',
+    listData: [],
     discover: false,
     onClick: noop,
+    header: null,
+    loading: false,
     onLike: noop,
-    onConfirm: noop,
-    likes: 0,
-    visionId: '0',
-    creator: '0'
+    onConfirm: noop
+  }
+
+  getExtraMenu(item) {
+    const { discover, onClick, onConfirm } = this.props;
+    const Menu = discover ?
+    DiscoverVisionMenu(item._id, onClick)
+    : VisionMenu(item._id, onConfirm, item.creator === localStorage.userId);
+
+    return Menu !== null ? (
+      <Dropdown overlay={Menu} placement="bottomCenter">
+        <Button icon="ellipsis" shape="circle" />
+      </Dropdown>
+    ) : null;
   }
 
   render() {
     const {
-        name,
-        description,
-        avatar,
-        discover,
-        updatedAt,
-        likes,
-        creator,
-        visionId,
-        onConfirm,
-        onClick
+        listData,
+        header,
+        onLike,
+        loading
     } = this.props;
-    const cardTitle = (
-      <Row type="flex" gutter={16}>
-        {
-          avatar ? (
-            <Col>
-              <Avatar
-                src={avatar}
-              />
-            </Col>
-          ) : null
-        }
-        <Col>
-          <Row>
-            <Icon type="api" />
-            <Link
-              to={!discover ? `/app/vision/${visionId}/content` : null}
-            >
-              <span className="global-left-margin">{name || 'Unamed'}</span>
-            </Link>
-          </Row>
-          <Row>
-            <Tag color="#595755">{ updatedAt }</Tag>
-          </Row>
-        </Col>
-      </Row>
-    );
-    const Menu = discover ?
-    DiscoverVisionMenu(visionId, onClick)
-    : VisionMenu(visionId, onConfirm, creator === localStorage.userId);
-    const extra = Menu !== null ? (
-      <Dropdown overlay={Menu} placement="bottomCenter">
-        <Button type="dashed" icon="bars" shape="circle" />
-      </Dropdown>
-    ) : null;
 
     return (
       <div className="global-top-margin">
-        <Card
-          title={cardTitle}
-          noHovering
-          className="relative-content"
-          extra={extra}
-          bordered={false}
-          bodyStyle={{ borderBottom: '1px solid #d2eafb' }}
-        >
-          <div className="vision-desc" >
-            {description}
-            <div className="card-sub-info">
-              <Tag color="#595755">{ updatedAt }</Tag>
-              <Tag
-                onClick={() => this.props.onLike(visionId)}
-                color="blue"
-              >
-                <Icon type="like" /> { likes }
-              </Tag>
-            </div>
-          </div>
-        </Card>
+        <List
+          itemLayout="vertical"
+          size="large"
+          header={header}
+          loading={loading}
+          dataSource={listData}
+          renderItem={(item, i) => (
+            <List.Item
+              key={item.id}
+              actions={[<Tag color="#448bb1" onClick={() => onLike(item._id)}>
+                <Icon type="like-o" /> {item.likes.length}
+              </Tag>,
+                <Tag color="#52c41a">
+                  <Icon type="clock-circle-o" /> {formatDate(item.updatedAt)}
+                </Tag>
+                      ]}
+              extra={this.getExtraMenu(item)}
+            >
+              <List.Item.Meta
+                avatar={<Avatar src={item.avatar} />}
+                title={
+                  <Link to={`/app/vision/${item._id}/content`}>
+                    {`${i + 1}. ${item.title}`}
+                  </Link>
+                }
+                description={item.description}
+              />
+            </List.Item>
+          )}
+        />
       </div>
     );
   }

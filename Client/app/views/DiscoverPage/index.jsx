@@ -90,24 +90,14 @@ class discoverPage extends Component {
         </Sider>
         <Content style={{ padding: '0 24px', minHeight: 280 }}>
           <div>
-            <Spin spinning={loading}>
-              {
-                  discoverList.map((elem, i) => (
-                    <VisionCard
-                      key={i}
-                      name={elem.title}
-                      description={elem.description}
-                      status={elem.status}
-                      visionId={elem._id}
-                      likes={elem.likes.length}
-                      updatedAt={formatDate(elem.updatedAt)}
-                      onClick={this.onDiscoveryClick}
-                      onLike={this.userLike}
-                      discover
-                    />
-                  ))
-                }
-            </Spin>
+            <VisionCard
+              listData={discoverList}
+              loading={loading}
+              onClick={this.onDiscoveryClick}
+              header={<span><Icon type="global" /> Open Up To Possibilities</span>}
+              onLike={this.userLike}
+              discover
+            />
             <Modal
               visible={visible}
               onCancel={() => this.setState({ visible: false })}

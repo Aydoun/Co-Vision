@@ -33,7 +33,7 @@ class sendMessage extends React.Component {
     };
 
     return (
-      <Card noHovering>
+      <Card >
         <Form layout="vertical">
           <FormItem
             label="message"

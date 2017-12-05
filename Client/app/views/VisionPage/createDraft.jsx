@@ -32,7 +32,7 @@ class addDraft extends React.Component {
     };
 
     return (
-      <Card noHovering>
+      <Card >
         <Form layout="vertical">
           <FormItem
             label="Draft Name"

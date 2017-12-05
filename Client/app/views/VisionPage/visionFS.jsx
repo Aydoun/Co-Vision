@@ -80,7 +80,7 @@ class VisionFS extends React.Component {
           title={<span><Icon type="api" />&nbsp;&nbsp;
             {vision.title}
           </span>}
-          noHovering
+          
         >
           <div style={{ margin:8 }}>
             <div className="global-bottom-margin">

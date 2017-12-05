@@ -55,7 +55,7 @@ export default class VisionCard extends Component {
     return (
       <Card
         title={cardTitle}
-        noHovering
+        
         extra={extra}
         bordered={false}
       >
