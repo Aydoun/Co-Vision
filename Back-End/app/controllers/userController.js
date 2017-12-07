@@ -1,7 +1,8 @@
-const _ = require('lodash');
 const visionModel = require('../models/visionModel');
 const UserModel = require('../models/userModel');
 const notifs = require('../constants/notificationMessages');
+const omit = require('lodash/omit');
+const _ = require('lodash');
 const config = require('../config');
 const { passwordHash } = require('../lib/crypto');
 const { Formatter, generateToken } = require('../lib');
@@ -14,13 +15,20 @@ exports.visionList = function(req, res, next) {
     .then(userVisionsId => {
       return visionModel.find(
         { status:'Active', "_id": { "$in": userVisionsId },
-      })
+      }).lean()
     })
     .then(visions => {
-      return  res.status(200).send(Formatter(visions));
+      return res.status(200).send(
+        Formatter(visions.map(vs => {
+          const likesCount = vs.likes.length;
+          delete vs['likes'];
+          vs.likes = likesCount;
+          return vs;
+        }))
+      );
     })
     .catch(err => {
-      return res.status(403).send(Formatter(err , true));
+      return res.status(403).send(Formatter(err.message , true));
     });
 };
 

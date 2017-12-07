@@ -56,8 +56,19 @@ exports.addJoinRequest = (req, res, next) => {
     }
     const requester = req.userId;
     let userName = '';
-
-    userModel.findById(requester)
+    invitationModel.find({ requester, requested: req.body.requested, vision, status: 'Waiting' })
+    .then(request => {
+      if (request.length === 0) {
+        return;
+      } else {
+        const error = new Error('Request Already Sent');
+        error.status = 422;
+        throw error;
+      }
+    })
+    .then(() => {
+      return userModel.findById(requester)
+    })
     .then(user => {
       userName = user.fullName;
       return user.fullName;
@@ -87,7 +98,7 @@ exports.addJoinRequest = (req, res, next) => {
       return res.status(200).send(Formatter(request));
     })
     .catch(err => {
-      return res.status(403).send(Formatter(err , true));
+      return res.status(err.status || 403).send(Formatter(err.message , true));
     });
 };
 
@@ -102,12 +113,11 @@ exports.answerRequest = function(req, res, next) {
 
     parallel({
       update : callback => {
-        invitationModel.update({ vision:vision, requested:userId, requester } , { status: req.body.status })
+        invitationModel.update({ vision, requested:userId, requester } , { status: req.body.status })
         .then(result => {
           callback(null, result);
         })
         .catch(err => {
-          console.log(err, '1')
           callback(err, {});
         });
       },
@@ -124,7 +134,6 @@ exports.answerRequest = function(req, res, next) {
             });
           })
           .catch(err => {
-            console.log(err, '2')
             callback(err);
           });
         } else {
@@ -134,7 +143,6 @@ exports.answerRequest = function(req, res, next) {
     },
     (err, results) => {
         if (err) {
-          console.log(err, '3')
           return res.status(403).send(Formatter(err.message , true));
         }
         return res.status(200).send(Formatter(results));

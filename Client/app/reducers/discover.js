@@ -21,7 +21,9 @@ function discoverReducer(state = initialState, action) {
       const newVisionList = state.discoverList.slice();
       const formalVisionIndex =
       newVisionList.findIndex(v => v._id === action.likedVisionId);
-      newVisionList[formalVisionIndex].likes.push({});
+      action.add ?
+      newVisionList[formalVisionIndex].likes += 1 :
+      newVisionList[formalVisionIndex].likes -= 1;
 
       return assign({}, state, { discoverList: newVisionList });
     }

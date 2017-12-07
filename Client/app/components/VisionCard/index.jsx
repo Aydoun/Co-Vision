@@ -4,16 +4,10 @@ import { Link } from 'react-router';
 import { Icon, Tag, Avatar, Dropdown, Button, List } from 'antd';
 import VisionMenu from '../DropMenu/VisionCardMenu';
 import DiscoverVisionMenu from '../DropMenu/DiscoveryMenu';
+import DropButton from '../DropDownButton';
 import { formatDate } from '../../utils';
 
 const noop = () => {};
-
-const IconText = ({ type, text }) => (
-  <span>
-    <Icon type={type} style={{ marginRight: 8 }} />
-    {text}
-  </span>
-);
 
 export default class VisionCard extends Component {
   static propTypes = {
@@ -44,7 +38,7 @@ export default class VisionCard extends Component {
 
     return Menu !== null ? (
       <Dropdown overlay={Menu} placement="bottomCenter">
-        <Button icon="ellipsis" shape="circle" />
+        <Button icon="ellipsis" style={{ background: '#bae7ff' }} shape="circle" />
       </Dropdown>
     ) : null;
   }
@@ -54,6 +48,7 @@ export default class VisionCard extends Component {
         listData,
         header,
         onLike,
+        discover,
         loading
     } = this.props;
 
@@ -69,7 +64,7 @@ export default class VisionCard extends Component {
             <List.Item
               key={item.id}
               actions={[<Tag color="#448bb1" onClick={() => onLike(item._id)}>
-                <Icon type="like-o" /> {item.likes.length}
+                <Icon type="like-o" /> {item.likes}
               </Tag>,
                 <Tag color="#52c41a">
                   <Icon type="clock-circle-o" /> {formatDate(item.updatedAt)}
@@ -80,7 +75,10 @@ export default class VisionCard extends Component {
               <List.Item.Meta
                 avatar={<Avatar src={item.avatar} />}
                 title={
-                  <Link to={`/app/vision/${item._id}/content`}>
+                  <Link
+                    to={discover ? `/app/vision/${item._id}/summary` :
+                    `/app/vision/${item._id}/content`}
+                  >
                     {`${i + 1}. ${item.title}`}
                   </Link>
                 }

@@ -23,6 +23,7 @@ export function saveDiscoverLike(res) {
 
   return {
     type: DISCOVER_LIKE_VISION,
-    likedVisionId: response._id
+    likedVisionId: response._id,
+    add: response.add
   };
 }

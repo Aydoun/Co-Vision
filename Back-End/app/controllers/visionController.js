@@ -144,19 +144,22 @@ exports.contribute = function(req , res , next){
 exports.addLike = function(req , res , next){
     const userId = req.userId;
     const visionId = req.params.id;
+    let foundUserIndex;
 
     visionModel.findById(visionId)
     .then(data => {
-      const foundUser = data.likes.find((likeItem => likeItem.userId == userId));
-      if (typeof foundUser !== 'undefined') {
-        throw new Error('User already registered');
+      foundUserIndex = data.likes.findIndex((likeItem => likeItem.userId == userId));
+      if (foundUserIndex >= 0) {
+        data.likes.splice(foundUserIndex, 1);
+      } else {
+        data.likes.push({ userId });
       }
-
-      data.likes.push({ userId });
       return data.save();
     })
     .then(data => {
-      return  res.status(200).send(Formatter(data));
+      return  res.status(200).send(
+        Formatter({ add: foundUserIndex < 0, _id: data._id })
+      );
     })
     .catch(err => {
       return res.status(403).send(Formatter(err.message , true));

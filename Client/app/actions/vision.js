@@ -110,7 +110,8 @@ export function saveLike(res) {
 
   return {
     type: C.SAVE_USER_LIKE,
-    likedVisionId: response._id
+    likedVisionId: response._id,
+    add: response.add
   };
 }
 

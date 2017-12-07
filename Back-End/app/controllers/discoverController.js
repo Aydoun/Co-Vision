@@ -30,10 +30,15 @@ exports.discover = function(req, res, next) {
     .then(userVisionsId => {
       return visionModel.find(
         { status:'Active', "_id": { "$nin": userVisionsId }
-      })
+      }).lean()
     })
-    .then(data => {
-      return res.status(200).send(Formatter(data));
+    .then(visions => {
+      return res.status(200).send(Formatter(visions.map(vs => {
+        const likesCount = vs.likes.length;
+        delete vs['likes'];
+        vs.likes = likesCount;
+        return vs;
+      })));
     })
     .catch(err => {
       return res.status(403).send(Formatter(err, true));
