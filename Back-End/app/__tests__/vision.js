@@ -61,7 +61,7 @@ describe('## Vision APIs', () => {
             title: faker.random.word()
         });
         vision.save((err, book) => {
-                chai.request(server)
+                chai.request(`${prefix}`)
                 .put('/vision/' + vision.creator)
                 .send({ title: "Test Title" })
                 .end((err, res) => {
