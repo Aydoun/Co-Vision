@@ -108,7 +108,7 @@ exports.createVision = function(req , res , next){
     const newVision = new visionModel(body);
     newVision.save(function (err, data) {
       	  if (err) {
-            res.status(200).send(Formatter({data : err.message} , true));
+            res.status(403).send(Formatter({data : err.message} , true));
             return ;
           }
           body.id = data._id;

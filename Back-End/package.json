@@ -7,13 +7,16 @@
     "test": "mocha app/__tests__/*.js"
   },
   "devDependencies": {
+    "axios": "^0.17.1",
     "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
     "coveralls": "^2.13.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
     "formidable": "^1.1.1",
     "mocha": "^3.2.0",
+    "mockgoose": "^7.3.3",
     "node-uuid": "^1.4.8",
     "omit": "^1.0.1",
     "restler": "^3.4.0",
