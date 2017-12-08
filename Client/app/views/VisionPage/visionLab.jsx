@@ -14,14 +14,13 @@ class VisionLab extends React.Component {
           if (err) {
             return;
           }
-          const { fileName, visionId } = this.props.location.query;
-          const { authInfo } = this.props;
+          const { fileName } = this.props.location.query;
 
           const params = assign({}, fieldsValue, {
               fileName,
-              id :  visionId,
-              author : authInfo.fullName,
-              authorMail : authInfo.email
+              id :  this.props.params.id,
+              author : localStorage.fullName,
+              authorMail : localStorage.email
           });
 
           this.props.preContribution(params);
@@ -29,19 +28,13 @@ class VisionLab extends React.Component {
   }
 
   componentDidMount() {
-      const { fileName, visionId, sha } = this.props.location.query;
+      const { fileName, sha } = this.props.location.query;
 
       this.props.preRead({
-          id : visionId,
+          id : this.props.params.id,
           commitSha : sha,
           fileName
       });
-  }
-
-  componentWillReceiveProps(nextProps) {
-      if (!nextProps.error.status && this.props.error.errorMessage != nextProps.error.errorMessage) {
-          message.error(nextProps.error.errorMessage);
-      }
   }
 
   render() {
@@ -90,8 +83,6 @@ function mapStateToProps(state) {
   return {
       visionList : state.vision.visionList,
       ContentString : state.vision.ContentString,
-      authInfo: state.user.authInfo,
-      error : state.error
   };
 }
 

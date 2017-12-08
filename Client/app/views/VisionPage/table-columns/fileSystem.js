@@ -12,7 +12,8 @@ export default function Columns() {
               const visionId = _this.props.routeParams.id;
               return (
                 <div>
-                  <Link to={`${'/vision/lab?' + 'visionId='}${visionId}&sha=${row.sha}&fileName=${row.name}`}>
+
+                  <Link to={`/app/vision/${visionId}/lab?sha=${row.sha}&fileName=${row.name}`}>
                     <Icon type={iconType} /> {item}
                   </Link>
                 </div>

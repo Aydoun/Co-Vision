@@ -55,7 +55,7 @@ function* createBranch(returnedData) {
 }
 
 function* createContribution(returnedData) {
-  const requestURL = `${config.apiBase}/vision/${returnedData.id}/contribute`;
+  const requestURL = `${config.apiBase}/vision/${returnedData.payload.id}/contribute`;
 
   const PostOptions = {
     method: 'POST',

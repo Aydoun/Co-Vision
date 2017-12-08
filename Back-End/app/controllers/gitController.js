@@ -5,22 +5,20 @@ var { queryCheck , Formatter, defaultGitPath, picking} = require('../lib');
 var promisify = require("promisify-node");
 var fse = promisify(require("fs-extra"));
 
-exports.commit = function(inputs) {
-      var clientInput = inputs;
-      var checkRes = queryCheck(clientInput , ['fileContent' , 'fileName' , 'title' , 'author' , 'authorMail' , 'message']);
+exports.commit = function(req) {
+      var clientInput = req.body;
+      const visionId = req.params.id;
+      var checkRes = queryCheck(clientInput , ['fileContent' , 'fileName' , 'author' , 'authorMail' , 'message']);
 
       if (checkRes !== true) {
           throw new Error('Missing Required Paramenters');
       }
 
-      var pathToRepo = defaultGitPath(clientInput.title);
-
+      var pathToRepo = defaultGitPath(visionId);
       return Git.Repository.open(pathToRepo)
       .then(function(repository){
-          return repository;
-      })
-      .then(function(repo){
-          return registerCommit(clientInput , repo);
+          console.log('about to register');
+          return registerCommit(clientInput , repository);
       });
 };
 
@@ -255,16 +253,17 @@ exports.deleteBranch = (params) => {
     });
 }
 
-exports.readFileContent = function(params){
-    var clientInput = params;
+exports.readFileContent = function(req){
+    const visionId = req.params.id;
+    var clientInput = req.query;
     var _entry;
-    var checkRes = queryCheck(clientInput , ['title' , 'fileName' , 'commitSha']);
+    var checkRes = queryCheck(clientInput , ['fileName' , 'commitSha']);
 
-    if (checkRes !== true) {
+    if (!checkRes) {
         throw new Error('Missing Required Paramenters');
     }
 
-    var pathToRepo = defaultGitPath(clientInput.title);
+    var pathToRepo = defaultGitPath(visionId);
 
     return Git.Repository.open(pathToRepo)
       .then(function(repo) {
@@ -279,7 +278,7 @@ exports.readFileContent = function(params){
       })
       .then(function(blob) {
         //first Ten Lines
-        return blob.toString().split("\n").slice(0, 10).join("\n");
+        return blob.toString();//  .split("\n").slice(0, 10).join("\n");
       });
 }
 
@@ -328,6 +327,7 @@ function addFile(pathToFile, fileName, fileContent){
 
 
 function registerCommit(inputs , repo) {
+  console.log(inputs, 'inputs');
         var fileName = inputs.fileName;
         var fileContent = inputs.fileContent;
         var index;

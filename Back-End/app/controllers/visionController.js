@@ -40,7 +40,7 @@ exports.visionStatus = function(req , res , next){
 }
 
 exports.readFile = function(req , res , next){
-    readFileContent(req.query).then(function(fileContent){
+    readFileContent(req).then(function(fileContent){
         res.status(200).send(Formatter(fileContent));
     })
     .catch(function(err){
@@ -129,7 +129,7 @@ exports.createVision = function(req , res , next){
 }
 
 exports.contribute = function(req , res , next){
-    commit(req.body).then(function(commitsha){
+    commit(req).then(function(commitsha){
         return res.status(200).send(Formatter(commitsha));
     })
     .catch(function(err){
