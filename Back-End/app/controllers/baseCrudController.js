@@ -52,7 +52,7 @@ module.exports = function (model){
     const id = req.params.id || req.userId;
 
   	model.update({_id: id}, req.body, function (err, data) {
-    		if (err) return res.status(403).send(Formatter(err , true));
+    		if (err) return res.status(403).send(Formatter(err, true));
 
     		res.status(200).send(Formatter(data));
   	});

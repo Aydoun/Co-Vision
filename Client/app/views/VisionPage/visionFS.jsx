@@ -13,10 +13,12 @@ class VisionFS extends React.Component {
   constructor(props) {
       super(props);
       this.branchChanged = this.branchChanged.bind(this);
+      this.handleMenuClick = this.handleMenuClick.bind(this);
       this.Columns = Columns.bind(this);
       this.state = {
           visible : false,
-          branchName: 'master'
+          branchName: 'master',
+          newRows : []
       };
   }
 
@@ -39,6 +41,30 @@ class VisionFS extends React.Component {
     });
   }
 
+  getRows() {
+    const { visionFS } = this.props;
+    const { newRows } = this.state;
+
+    return visionFS.concat(newRows);
+  }
+
+  handleMenuClick(obj) {
+    const { newRows } = this.state;
+    switch (obj.key) {
+      case '1':
+        this.setState({ newRows: newRows.concat({ type: 'file', key: new Date().getTime() }) });
+        break;
+      case '2':
+        this.setState({ newRows: newRows.concat({ type: 'folder', key: new Date().getTime() }) });
+        break;
+      case '3':
+
+        break;
+        default:
+        break;
+    }
+  }
+
   render() {
     const { visionFS, branchList, contributionStats, vision } = this.props;
     const { visible } = this.state;
@@ -52,8 +78,8 @@ class VisionFS extends React.Component {
           size="large"
         >
           {
-              branchList.map((item, i) => <Option key={i} value={item.name}>{item.name}</Option>)
-            }
+            branchList.map((item, i) => <Option key={i} value={item.name}>{item.name}</Option>)
+          }
         </Select>&nbsp;&nbsp;&nbsp;
         <Button icon="plus" shape="circle" onClick={() => this.setState({ visible:true })} />
       </div>
@@ -80,7 +106,7 @@ class VisionFS extends React.Component {
           title={<span><Icon type="api" />&nbsp;&nbsp;
             {vision.title}
           </span>}
-          
+
         >
           <div style={{ margin:8 }}>
             <div className="global-bottom-margin">
@@ -93,19 +119,10 @@ class VisionFS extends React.Component {
                 </Dropdown>
               </span>
             </div>
-            <div>
-              <span>
-                <Breadcrumb separator=">">
-                  <Breadcrumb.Item>Home</Breadcrumb.Item>
-                  <Breadcrumb.Item href="">Application Center</Breadcrumb.Item>
-                  <Breadcrumb.Item href="">Application List</Breadcrumb.Item>
-                </Breadcrumb>
-              </span>
-            </div>
           </div>
           <Table
             columns={this.Columns()}
-            dataSource={visionFS}
+            dataSource={this.getRows()}
             showHeader={false}
             pagination={false}
             loading={false}

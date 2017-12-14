@@ -25,6 +25,7 @@ class VisionList extends Component {
   constructor(props) {
       super(props);
       this.userLike = this.userLike.bind(this);
+      this.unregister = this.unregister.bind(this);
       this.state = {
         visible: false
       };
@@ -84,7 +85,7 @@ class VisionList extends Component {
         </div>
       );
     }
-
+    console.log('V List Render');
     return (
       <div >
         <Button
@@ -95,7 +96,7 @@ class VisionList extends Component {
           </Button>
         {
           <VisionCard
-            onConfirm={() => this.unregister(elem._id, elem.creator)}
+            onConfirm={this.unregister}
             onLike={this.userLike}
             header={<span><Icon type="api" /> Active Visions</span>}
             listData={visionList}

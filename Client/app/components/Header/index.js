@@ -6,7 +6,9 @@ import './index.css';
 const Search = Input.Search;
 
 export default class Header extends PureComponent {
+
   render() {
+    console.log('Header Render');
     return (
       <div className="header-wrapper">
         <div>

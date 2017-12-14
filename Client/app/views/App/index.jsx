@@ -32,6 +32,7 @@ class App extends React.Component {
   }
 
   render() {
+    console.log('APP Render');
     return (
       <div >
         <Layout style={{ minHeight: '100vh' }}>

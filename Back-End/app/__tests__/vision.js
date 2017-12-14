@@ -11,6 +11,8 @@ const prefix = `http://${appConfig.hostname}:${appConfig.port}/api`;
 let should = chai.should();
 
 chai.use(chaiHttp);
+const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI1YTI1MWQxM2Y0NTc1YTNlZDAyNTYxZmUiLCJleHAiOjE1MTMzMDk4NDA2MDB9.T_l9n3gNfxaCnHLtzj2rsh_VeglOtA8Mxs9dMQvtSQ4';
+
 
 describe('## Vision APIs', () => {
   beforeEach((done) => {
@@ -20,6 +22,7 @@ describe('## Vision APIs', () => {
     it('it should GET all the visions', (done) => {
       chai.request(`${prefix}`)
           .get(`/vision`)
+          .set('x-access-token', token)
           .end((err, res) => {
             expect(err).to.be.null;
             expect(res).to.have.status(200);
@@ -33,7 +36,6 @@ describe('## Vision APIs', () => {
   describe('/POST vision', () => {
       it('it should create new vision', (done) => {
         let vision = {
-            creator: "111111111111111111111111",
             author: faker.name.firstName(),
             description: faker.lorem.sentence(),
             authorMail: faker.internet.email(),
@@ -41,9 +43,9 @@ describe('## Vision APIs', () => {
         }
         chai.request(`${prefix}`)
             .post('/vision')
+            .set('x-access-token', token)
             .send(vision)
             .end((err, res) => {
-              // console.log(res);
                 expect(err).to.be.null;
                 res.should.have.status(200);
               done();
@@ -51,25 +53,5 @@ describe('## Vision APIs', () => {
       });
   });
 
-  describe('/PUT/:id vision', () => {
-      it('it should UPDATE a vision given the id', (done) => {
-        const vision = new Vision({
-            creator: "111111111111111111111111",
-            author: faker.name.firstName(),
-            description: faker.lorem.sentence(),
-            authorMail: faker.internet.email(),
-            title: faker.random.word()
-        });
-        vision.save((err, book) => {
-                chai.request(`${prefix}`)
-                .put('/vision/' + vision.creator)
-                .send({ title: "Test Title" })
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.book.should.have.property('title').eql('Test Title');
-                  done();
-                });
-          });
-      });
-  });
+
 });

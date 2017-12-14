@@ -110,10 +110,11 @@ exports.answerRequest = function(req, res, next) {
       return res.status(403).send(Formatter({message:'All Fields Are Required'} , true));
     }
     const userId = req.userId;
+    const queryParams = { vision, requested:userId, requester, status: 'Waiting' };
 
     parallel({
       update : callback => {
-        invitationModel.update({ vision, requested:userId, requester } , { status: req.body.status })
+        invitationModel.update(queryParams , { status: req.body.status })
         .then(result => {
           callback(null, result);
         })

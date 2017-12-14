@@ -1,25 +1,23 @@
 var Git = require('../../nodegit');
 var path = require('path');
-const omit = require('omit');
 var { queryCheck , Formatter, defaultGitPath, picking} = require('../lib');
 var promisify = require("promisify-node");
 var fse = promisify(require("fs-extra"));
 
 exports.commit = function(req) {
-      var clientInput = req.body;
-      const visionId = req.params.id;
-      var checkRes = queryCheck(clientInput , ['fileContent' , 'fileName' , 'author' , 'authorMail' , 'message']);
+    var clientInput = req.body;
+    const visionId = req.params.id;
+    var checkRes = queryCheck(clientInput , ['fileContent' , 'fileName' , 'author' , 'authorMail' , 'message']);
 
-      if (checkRes !== true) {
-          throw new Error('Missing Required Paramenters');
-      }
+    if (checkRes !== true) {
+        throw new Error('Missing Required Paramenters');
+    }
 
-      var pathToRepo = defaultGitPath(visionId);
-      return Git.Repository.open(pathToRepo)
-      .then(function(repository){
-          console.log('about to register');
-          return registerCommit(clientInput , repository);
-      });
+    var pathToRepo = defaultGitPath(visionId);
+    return Git.Repository.open(pathToRepo)
+    .then(function(repository){
+        return registerCommit(clientInput , repository);
+    });
 };
 
 exports.history = function(res , params) {
@@ -46,7 +44,7 @@ exports.history = function(res , params) {
                   Author : commit.author().name() + " <" + commit.author().email() + ">",
                   Date : commit.date(),
                   comment : commit.message()
-              }
+              };
           });
           res.status(200).send(Formatter(results));
         });

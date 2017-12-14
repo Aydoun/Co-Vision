@@ -66,7 +66,7 @@ class discoverPage extends Component {
   render() {
     const { discoverList, loading } = this.props;
     const { visible, creator, vision } = this.state;
-
+    console.log('DISCOVER Render');
     if (!loading && discoverList.length === 0) {
       return (
         <div>

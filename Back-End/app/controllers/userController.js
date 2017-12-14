@@ -10,7 +10,11 @@ const { Formatter, generateToken } = require('../lib');
 exports.visionList = function(req, res, next) {
     UserModel.findById(req.userId)
     .then(user => {
-      return user.visions.map(item => item.visionId);
+      if (user !== null) {
+        console.log('user !== null');
+        return user.visions.map(item => item.visionId);
+      }
+      return ;
     })
     .then(userVisionsId => {
       return visionModel.find(

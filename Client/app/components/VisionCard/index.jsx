@@ -4,7 +4,6 @@ import { Link } from 'react-router';
 import { Icon, Tag, Avatar, Dropdown, Button, List } from 'antd';
 import VisionMenu from '../DropMenu/VisionCardMenu';
 import DiscoverVisionMenu from '../DropMenu/DiscoveryMenu';
-import DropButton from '../DropDownButton';
 import { formatDate } from '../../utils';
 
 const noop = () => {};
@@ -34,7 +33,8 @@ export default class VisionCard extends Component {
     const { discover, onClick, onConfirm } = this.props;
     const Menu = discover ?
     DiscoverVisionMenu(item._id, onClick)
-    : VisionMenu(item._id, onConfirm, item.creator === localStorage.userId);
+    : VisionMenu(item._id, () => onConfirm(item._id, item.creator),
+    item.creator === localStorage.userId);
 
     return Menu !== null ? (
       <Dropdown overlay={Menu} placement="bottomCenter">
