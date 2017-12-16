@@ -7,7 +7,7 @@ const parallel = require('async/parallel');
 exports.userWaitingInvitations = function(req, res, next) {
     const defaults = {
         status: 'Waiting',
-        requested: req.userId
+        requested: req.tokenData.iss
     };
 
     const query = Object.assign({}, defaults);
@@ -25,7 +25,7 @@ exports.userWaitingInvitations = function(req, res, next) {
 };
 
 exports.visionWaitingInvitations = function(req, res, next) {
-    userModel.findById(req.userId)
+    userModel.findById(req.tokenData.iss)
     .then((user) => {
       // extract All Visions Id
       const adminVisions = user.visions.filter(vs => vs.role !== 'Common').map(vs => vs._id);
@@ -54,7 +54,7 @@ exports.addJoinRequest = (req, res, next) => {
     if (!check) {
       return res.status(403).send(Formatter({message:'All Fields Are Required'} , true));
     }
-    const requester = req.userId;
+    const requester = req.tokenData.iss;
     let userName = '';
     invitationModel.find({ requester, requested: req.body.requested, vision, status: 'Waiting' })
     .then(request => {
@@ -109,7 +109,7 @@ exports.answerRequest = function(req, res, next) {
     if (!check) {
       return res.status(403).send(Formatter({message:'All Fields Are Required'} , true));
     }
-    const userId = req.userId;
+    const userId = req.tokenData.iss;
     const queryParams = { vision, requested:userId, requester, status: 'Waiting' };
 
     parallel({

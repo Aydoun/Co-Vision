@@ -36,11 +36,12 @@ const preCheck = (req, res, next) => {
   if (token) {
     try {
       const decoded = jwt.decode(token, config.secret);
+      // return res.status(200).send(decoded);
       if (decoded.exp <= Date.now()) {
         return res.status(403).send('Access token has expired');
       } else {
         //  save user id in the request object
-        req.userId = decoded.iss;
+        req.tokenData = decoded;
         next();
       }
     } catch (err) {

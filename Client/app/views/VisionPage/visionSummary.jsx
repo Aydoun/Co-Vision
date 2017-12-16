@@ -23,7 +23,7 @@ class VisionHistory extends React.Component {
 
   render() {
     // const { historyList, loading } = this.props;
-    console.log(this.props, 'props');
+
     return (
       <div />
     );

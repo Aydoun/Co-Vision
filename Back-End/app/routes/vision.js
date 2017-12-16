@@ -12,8 +12,9 @@ var {
   createBranch,
   readFile,
   checkoutBranch,
+  mergeBranches,
   branchList,
-  deleteBranch,
+  removeBranch,
   addLike,
   unRegister
 } = require('../controllers/visionController');
@@ -39,10 +40,11 @@ visions.get('/:id/summary', visionSummary);
 visions.get('/:id/status', visionStatus);
 visions.get('/:id/file', readFile);
 visions.post('/:id/contribute', contribute);
+visions.post('/:id/merge', mergeBranches);
 visions.get('/:id/branch', branchList);
 visions.post('/:id/branch', createBranch);
 visions.put('/:id/branch', checkoutBranch);
-visions.delete('/:id/branch', deleteBranch);
+visions.delete('/:id/branch', removeBranch);
 
 visions.post('/:id/like', addLike);
 visions.put('/:id/unregister', unRegister);

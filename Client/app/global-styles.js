@@ -90,6 +90,14 @@ injectGlobal`
       font-size: 16px;
   }
 
+  .head-example {
+    padding: 16px;
+    border: 1px solid #dcdcdc;
+    border-radius: 6px;
+    font-size: 16px;
+    color: #222;
+  }
+
   div.card-sub-info{
     position: absolute;
     bottom: 7px;

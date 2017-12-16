@@ -23,14 +23,14 @@ exports.search = function(req, res, next) {
 
 exports.discover = function(req, res, next) {
     const searchTerm = req.query.q || '';
-    UserModel.findById(req.userId)
+    UserModel.findById(req.tokenData.iss)
     .then(user => {
       return user.visions.map(item => item.visionId);
     })
     .then(userVisionsId => {
       return visionModel.find(
         { status:'Active', "_id": { "$nin": userVisionsId }
-      }).lean()
+      }).sort({updatedAt: 'desc'}).lean()
     })
     .then(visions => {
       return res.status(200).send(Formatter(visions.map(vs => {

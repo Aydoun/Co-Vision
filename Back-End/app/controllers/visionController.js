@@ -13,6 +13,8 @@ const {
     checkoutBranch,
     getAllBranchList,
     deleteBranch,
+    mergeBranches,
+    gitTest,
 } = require('./gitController');
 const { Formatter, queryCheck, isValidObjectId } = require('../lib');
 /*
@@ -34,9 +36,32 @@ exports.historyTree = function(req , res , next){
 }
 
 exports.visionStatus = function(req , res , next){
-    status(req.query).then(function(statuses){
+    status(req)
+    .then(function(statuses){
         res.status(200).send(Formatter(statuses));
     });
+}
+
+exports.mergeBranches = function(req , res , next){
+    if (!req.query.sourceBranch) {
+      return res.status(403).send(Formatter({data : 'Missing Required Parameters'} , true));
+    }
+
+    return mergeBranches(req)
+    .then(data => {
+      console.log('there');
+      return deleteBranch({
+        id: req.params.id,
+        branchName: req.query.sourceBranch
+      })
+      // res.status(200).send(Formatter('oki'));
+    })
+    // catch(err => {
+    //
+    // });
+    // catch(err => {
+    //   res.status(200).send(Formatter(err.message));
+    // });
 }
 
 exports.readFile = function(req , res , next){
@@ -58,7 +83,8 @@ exports.branchList = function(req , res , next){
 }
 
 exports.createBranch = function(req , res , next){
-    createBranch(req, res).then(function(ref){
+    createBranch(req, res)
+    .then(function(ref){
         res.status(200).send(Formatter({data : ref.name()}));
     })
     .catch(function(err){
@@ -75,9 +101,13 @@ exports.checkoutBranch = function(req , res , next){
     });
 }
 
-exports.deleteBranch = function(req , res , next){
-    deleteBranch(req.body).then(function(message){
-        res.status(200).send(Formatter({data : 'lala'}));
+exports.removeBranch = function(req , res , next){
+    deleteBranch({
+      id: req.params.id,
+      branchName: req.body.branchName
+    })
+    .then(function(message){
+        res.status(200).send(Formatter({data : {}}));
     })
     .catch(function(err){
         res.status(200).send(Formatter({data : err.message} , true));
@@ -103,7 +133,7 @@ exports.createVision = function(req , res , next){
         return res.status(403).send(Formatter({data : 'Missing Required Parameters'} , true));
     }
 
-    body.creator = req.userId;
+    body.creator = req.tokenData.iss;
 
     const newVision = new visionModel(body);
     newVision.save(function (err, data) {
@@ -142,7 +172,7 @@ exports.contribute = function(req , res , next){
 */
 
 exports.addLike = function(req , res , next){
-    const userId = req.userId;
+    const userId = req.tokenData.iss;
     const visionId = req.params.id;
     let foundUserIndex;
 
@@ -170,7 +200,7 @@ exports.unRegister = function(req , res , next){
     if(!isValidObjectId(req.params.id) || !req.body.creator) {
       return res.status(403).send(Formatter({message:'All Fields Are Required'} , true));
     }
-    const userId = req.userId;
+    const userId = req.tokenData.iss;
     const visionId = req.params.id;
 
     parallel({

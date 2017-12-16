@@ -24,10 +24,12 @@ exports.convertToObjectId = strId => ObjectId(strId);
 
 exports.isValidObjectId = (id) =>  ObjectId.isValid(id);
 
-exports.generateToken = function (userId, tokenSecret) {
+exports.generateToken = function (user, tokenSecret) {
     const expires = moment().add(7, 'days').valueOf();
     return jwt.encode({
-      iss: userId,
+      iss: user._id,
+      mail: user.email,
+      name: user.fullName,
       exp: expires
     }, tokenSecret);
 };

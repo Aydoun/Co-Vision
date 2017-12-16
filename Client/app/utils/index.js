@@ -5,6 +5,7 @@ export function saveUserData(serverResponse) {
     localStorage.setItem('email', serverResponse.email);
     localStorage.setItem('fullName', serverResponse.fullName);
     localStorage.setItem('userId', serverResponse._id);
+    localStorage.setItem('avatar', serverResponse.avatar);
 }
 
 export function logout() {

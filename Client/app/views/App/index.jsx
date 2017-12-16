@@ -32,7 +32,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log('APP Render');
     return (
       <div >
         <Layout style={{ minHeight: '100vh' }}>
@@ -88,7 +87,7 @@ class App extends React.Component {
                     cancelText="Cancel"
                   >
                     <Icon type="logout" />
-                    <a href="#">Logout</a>
+                    <span>Logout</span>
                   </Popconfirm>
                 </Menu.Item>
               </SubMenu>
@@ -101,11 +100,7 @@ class App extends React.Component {
           <Layout>
             <MyHeader />
             <Content style={{ margin: '0 16px' }}>
-              {
-
-              }
               <div style={{ padding: 24, background: '#fff', margin: '16px 0', minHeight: '100%' }}>
-
                 {this.props.children}
               </div>
             </Content>

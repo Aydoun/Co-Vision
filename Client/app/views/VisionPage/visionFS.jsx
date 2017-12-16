@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Table, Select, Card, Modal, Icon, Menu, Dropdown, Button, Breadcrumb } from 'antd';
+import { Table, Select, Card, Modal, Icon, Menu, Row, Col, Dropdown, Badge, Button, Breadcrumb } from 'antd';
 import Columns from './table-columns/fileSystem';
 import { preContent, preBranch, preStat } from 'actions/vision';
 import DraftForm from './createDraft';
+import { formatDate } from 'utils';
 
 const Option = Select.Option;
 
@@ -58,7 +59,6 @@ class VisionFS extends React.Component {
         this.setState({ newRows: newRows.concat({ type: 'folder', key: new Date().getTime() }) });
         break;
       case '3':
-
         break;
         default:
         break;
@@ -81,7 +81,7 @@ class VisionFS extends React.Component {
             branchList.map((item, i) => <Option key={i} value={item.name}>{item.name}</Option>)
           }
         </Select>&nbsp;&nbsp;&nbsp;
-        <Button icon="plus" shape="circle" onClick={() => this.setState({ visible:true })} />
+        <Button icon="plus" shape="circle"size="small" onClick={() => this.setState({ visible:true })} />
       </div>
     );
     const Choices = (
@@ -108,18 +108,40 @@ class VisionFS extends React.Component {
           </span>}
 
         >
-          <div style={{ margin:8 }}>
-            <div className="global-bottom-margin">
-              <span className="global-right-margin">
-                {contributionStats.totalContributions}
-              </span>
-              <span >Contributons
-                <Dropdown overlay={Choices} placement="bottomCenter">
-                  <Button type="dashed" icon="bars" shape="circle" />
-                </Dropdown>
-              </span>
-            </div>
-          </div>
+          <Row style={{ marginBottom: 8 }}>
+            <Col span={6}>
+              <Badge count={contributionStats.totalContributions}>
+                <div className="head-example" >
+                  Contribution
+                </div>
+              </Badge>
+            </Col>
+            <Col span={6}>
+              <Badge count={contributionStats.vision.likes}>
+                <div className="head-example" >
+                  Likes
+                </div>
+              </Badge>
+            </Col>
+            <Col span={6}>
+              <Badge count={contributionStats.totalContributors}>
+                <div className="head-example" >
+                  Contributors
+                </div>
+              </Badge>
+            </Col>
+            <Col span={6}>
+              <Badge
+                style={{ background: 'teal' }}
+                count={formatDate(contributionStats.vision.updatedAt)}
+              >
+                <div className="head-example" >
+                  Last update
+                </div>
+              </Badge>
+            </Col>
+          </Row>
+
           <Table
             columns={this.Columns()}
             dataSource={this.getRows()}

@@ -8,10 +8,9 @@ const { passwordHash } = require('../lib/crypto');
 const { Formatter, generateToken } = require('../lib');
 
 exports.visionList = function(req, res, next) {
-    UserModel.findById(req.userId)
+    UserModel.findById(req.tokenData.iss)
     .then(user => {
       if (user !== null) {
-        console.log('user !== null');
         return user.visions.map(item => item.visionId);
       }
       return ;
@@ -19,7 +18,7 @@ exports.visionList = function(req, res, next) {
     .then(userVisionsId => {
       return visionModel.find(
         { status:'Active', "_id": { "$in": userVisionsId },
-      }).lean()
+      }).sort({updatedAt: 'desc'}).lean()
     })
     .then(visions => {
       return res.status(200).send(
@@ -69,8 +68,9 @@ exports.LogIn = function(req, res, next){
                 res.status(200).send(Formatter({
                   _id : user._id,
                   email : user.email,
+                  avatar: user.avatar,
                   fullName : user.fullName,
-                  token: generateToken(user._id, config.secret)
+                  token: generateToken(user, config.secret)
                 }));
             }
           });
@@ -101,8 +101,9 @@ exports.Register = function(req, res, next){
                   res.status(200).send(Formatter({
                     email : email,
                     _id : userData._id,
+                    avatar: userData.avatar,
                     fullName : userData.fullName,
-                    token: generateToken(userData._id, config.secret)
+                    token: generateToken(userData, config.secret)
                   }));
                 }
               });

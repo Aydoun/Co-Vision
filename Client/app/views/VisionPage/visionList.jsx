@@ -85,7 +85,7 @@ class VisionList extends Component {
         </div>
       );
     }
-    console.log('V List Render');
+
     return (
       <div >
         <Button

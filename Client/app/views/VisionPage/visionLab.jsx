@@ -5,10 +5,15 @@ import find from 'lodash/find';
 import assign from 'lodash/assign';
 import { Form, Button, Card, Input, message } from 'antd';
 import { fileContent, preRead, preContribution } from 'actions/vision';
+import DraftEditor from 'components/Draft';
 
 const FormItem = Form.Item;
 
 class VisionLab extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
   handleSubmit() {
       this.props.form.validateFields((err, fieldsValue) => {
           if (err) {
@@ -66,7 +71,9 @@ class VisionLab extends React.Component {
                 )}
               </FormItem>
               <FormItem >
-                <Button type="primary" icon="save" onClick={this.handleSubmit.bind(this)}>Conribute</Button>
+                <Button type="primary" icon="save" onClick={this.handleSubmit}>
+                  Conribute
+                </Button>
               </FormItem>
             </Form>
           </Card>

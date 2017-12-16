@@ -15,7 +15,7 @@ module.exports = function (model){
   }
 
   function getById(req,res,next){
-    const finalId = req.params.id || req.userId;
+    const finalId = req.params.id || req.tokenData.iss;
     if (!finalId) {
       return res.status(403).send(Formatter({message:'All Fields Are Required'} , true));
     }
@@ -38,7 +38,7 @@ module.exports = function (model){
   }
 
   function create(req,res,next){
-    req.body.creator = req.userId;
+    req.body.creator = req.tokenData.iss;
     const newVision = new model(req.body);
 
   	newVision.save(function (err, data) {
@@ -49,7 +49,7 @@ module.exports = function (model){
   }
 
   function update(req,res,next){
-    const id = req.params.id || req.userId;
+    const id = req.params.id || req.tokenData.iss;
 
   	model.update({_id: id}, req.body, function (err, data) {
     		if (err) return res.status(403).send(Formatter(err, true));
@@ -59,7 +59,7 @@ module.exports = function (model){
   }
 
   function remove(req,res,next){
-    const id = req.params.id || req.userId;
+    const id = req.params.id || req.tokenData.iss;
 
     model.update({_id: id}, {status : 'Inactive'}, function (err, data) {
     		if (err) return res.status(403).send(Formatter(err , true));
@@ -69,7 +69,7 @@ module.exports = function (model){
   }
 
   function exists(req,res,next){
-    const id = req.params.id || req.userId;
+    const id = req.params.id || req.tokenData.iss;
 
     model.findById(id , function (err , data) {
         if (err) return res.status(403).send(Formatter(err , true));

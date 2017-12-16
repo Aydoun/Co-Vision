@@ -5,7 +5,7 @@ const groupBy = require('lodash/groupBy');
 const { Formatter, queryCheck, isValidObjectId } = require('../lib');
 
 exports.AllConversations = function(req, res, next) {
-    const userId = req.userId;
+    const userId = req.tokenData.iss;
     const query = { $or:[ {'creator': userId}, {'receiver': userId} ]};
     let ConversationData = null;
 
@@ -36,7 +36,7 @@ exports.AllConversations = function(req, res, next) {
 
 exports.sendMessage = function(req, res, next) {
     const { conversationId, receiver, content } = req.body;
-    const userId = req.userId;
+    const userId = req.tokenData.iss;
     const cehckParams = conversationId ?  ['content'] : ['content', 'receiver'];
     const check = queryCheck(req.body , cehckParams);
 
@@ -49,7 +49,7 @@ exports.sendMessage = function(req, res, next) {
       .then(data => {
         data.messages.push({
           content,
-          sender: req.userId
+          sender: req.tokenData.iss
         });
         return data.save();
       })
@@ -74,17 +74,17 @@ exports.sendMessage = function(req, res, next) {
           // Having a onGoing Conversation
           data[0].messages.push({
             content,
-            sender: req.userId
+            sender: req.tokenData.iss
           });
           return data[0].save();
         } else {
           // First Conversation
           const input = {
               receiver: req.body.receiver,
-              creator: req.userId,
+              creator: req.tokenData.iss,
               messages: [{
                 content,
-                sender: req.userId
+                sender: req.tokenData.iss
               }]
           };
           const newConversation = new conversationModel(input);

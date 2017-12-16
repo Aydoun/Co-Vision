@@ -1,8 +1,8 @@
-var Git = require('../../nodegit');
-var path = require('path');
-var { queryCheck , Formatter, defaultGitPath, picking} = require('../lib');
-var promisify = require("promisify-node");
-var fse = promisify(require("fs-extra"));
+const Git = require('../../nodegit');
+const path = require('path');
+const { queryCheck , Formatter, defaultGitPath, picking} = require('../lib');
+const promisify = require("promisify-node");
+const fse = promisify(require("fs-extra"));
 
 exports.commit = function(req) {
     var clientInput = req.body;
@@ -104,14 +104,13 @@ exports.treeWalk = function(res , req){
     });
 }
 
-exports.status = function(params){
-    var clientInput = params;
-    var pathToRepo = defaultGitPath(clientInput.title);
+exports.status = function(req){
+    var pathToRepo = defaultGitPath(req.params.id);
 
     return Git.Repository.open(pathToRepo)
     .then(function(repo) {
         return repo.getStatus().then(function(statuses) {
-          var allStatus = [];
+          var allStatus = {};
           function statusToText(status) {
             var words = [];
             if (status.isNew()) { words.push("NEW"); }
@@ -124,7 +123,12 @@ exports.status = function(params){
           }
 
           statuses.forEach(function(file) {
-            allStatus.push(file.path() + " " + statusToText(file));
+            const statusWord = statusToText(file);
+            if (allStatus.hasOwnProperty(statusWord)) {
+              allStatus[statusWord].push(file.path());
+            } else {
+              allStatus[statusWord] = [file.path()];
+            }
           });
 
           return allStatus;
@@ -142,11 +146,9 @@ exports.treeSummary = function(res , req, vision){
   })
   .then(function(firstCommit){
       const history = firstCommit.history();
-
       var contributors = {};
 
       history.on("commit", function(commit) {
-          console.log(commit.message());
           const author = commit.author();
           const email = author.email();
           const name = author.name();
@@ -163,8 +165,14 @@ exports.treeSummary = function(res , req, vision){
       history.on('end', function(commits) {
         return res.status(200).send(Formatter({
             totalContributions : commits.length,
-            contributorsList : contributors,
-            vision: picking(vision, ['title', 'status', 'descrption', '_id'])
+            totalContributors : Object.keys(contributors).length,
+            vision: {
+              title: vision.title,
+              description: vision.description,
+              id: vision._id,
+              likes: vision.likes.length,
+              updatedAt: vision.updatedAt
+            }
         }));
       });
 
@@ -206,11 +214,23 @@ exports.createBranch = function(req, res){
       return repo.getHeadCommit()
       .then(function(commit) {
         return repo.createBranch(
-          req.body.branchName,
+          req.body.branchName.replace(/ /g , '_'),
           commit,
           0);
       });
     });
+}
+
+exports.mergeBranches = function(req, res){
+  const pathToRepo = defaultGitPath(req.params.id);
+
+  return Git.Repository.open(pathToRepo)
+  .then(repo => {
+    const now = Date.now() / 1000;
+    const signature = Git.Signature.create(req.tokenData.name,
+      req.tokenData.mail, now, 480);
+    return repo.mergeBranches("master", req.query.sourceBranch, signature);
+  });
 }
 
 exports.checkoutBranch = function(params){
@@ -232,20 +252,18 @@ exports.checkoutBranch = function(params){
     });
 }
 
-exports.deleteBranch = (params) => {
-    var clientInput = params;
-
-    var checkRes = queryCheck(clientInput , ['title' , 'branchName']);
+exports.deleteBranch = (params, res) => {
+    const checkRes = queryCheck(params , ['branchName']);
 
     if (checkRes !== true) {
-        throw new Error('Missing Required Paramenters');
+      return res.status(403).send(Formatter({data : 'Missing Required Parameters'} , true));
     }
 
-    var pathToRepo = defaultGitPath(clientInput.title);
+    const pathToRepo = defaultGitPath(params.id);
 
     return Git.Repository.open(pathToRepo)
-    .then(function(repo) {
-        return repo.getBranch(clientInput.branchName).then(function(reference) {
+    .then(repo => {
+        return repo.getBranch(params.branchName).then(function(reference) {
             return Git.Branch.delete(reference);
         });
     });
@@ -280,31 +298,20 @@ exports.readFileContent = function(req){
       });
 }
 
-exports.gitTest = function(params){
-    var clientInput = params;
-    var _entry;
-    var checkRes = queryCheck(clientInput , ['title']);
+exports.gitTest = function(req, res){
+    var pathToRepo = defaultGitPath(req.params.id);
 
-    if (checkRes !== true) {
-        throw new Error('Missing Required Paramenters');
+    const checkRes = queryCheck(req.query , ['sourceBranch' ]);
+    if (!checkRes) {
+      return res.status(403).send(Formatter({data : 'Missing Required Parameters'} , true));
     }
 
-    var pathToRepo = defaultGitPath(clientInput.title);
-
     return Git.Repository.open(pathToRepo)
-    .then(function(repo) {
-      return repo.getReferences(3).then(function(arrayReference) {
-        // Use reference
-        var refs = [];
-        return arrayReference
-        .filter(function(elem){return elem.isBranch()})
-        .map(function(reference){
-            var _name = reference.toString().split('/');
-            return {
-                name : _name[_name.length - 1],
-            }
-        })
-      });
+    .then(repo => {
+      var now = Date.now() / 1000;
+      var signature = Git.Signature.create(req.tokenData.name,
+        req.tokenData.mail, now, 480);
+      return repo.mergeBranches("master", req.query.sourceBranch, signature);
     });
 }
 
@@ -352,11 +359,6 @@ function registerCommit(inputs , repo) {
                 return Git.Reference.nameToId(repo, "HEAD");
             }
         })
-        // .then(function(head){
-        //     if (!inputs.initalCommit) {
-        //         return repo.getCommit(head);
-        //     }
-        // })
         .then(function(parent){
             var _parent = inputs.initalCommit ? [] : [parent];
             var now = Date.now() / 1000;
