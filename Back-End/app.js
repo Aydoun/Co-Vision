@@ -2,13 +2,13 @@ const express = require('express');
 const logger = require('morgan');
 const path = require('path');
 const jwt = require('jwt-simple');
+const fileUpload = require('express-fileupload');
 const config = require('./app/config');
 const compression = require ('compression');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const routes = require('./app/routes');
 const { LogIn, Register } = require('./app/controllers/userController');
-const { defaultUploadPath } = require('./app/lib');
 
 const app = express();
 const subpath = express();
@@ -16,7 +16,8 @@ const swagger = require('swagger-node-express').createNew(subpath);
 
 // view engine setup
 app.set('view engine', 'pug');
-app.use('/media', express.static(`${defaultUploadPath()}`))
+app.use(fileUpload());
+app.use('/media', express.static(path.join(__dirname, '/app/media')));
 app.use(compression());
 app.use(logger('dev'));
 app.use(bodyParser.json({limit: "2mb"}));
@@ -30,12 +31,10 @@ subpath.post('/register', Register);
 
 const preCheck = (req, res, next) => {
   const token = req.body.token || req.query.token || req.headers['x-access-token'];
-  //decode token
-  // next();
+
   if (token) {
     try {
       const decoded = jwt.decode(token, config.secret);
-      // return res.status(200).send(decoded);
       if (decoded.exp <= Date.now()) {
         return res.status(403).send('Access token has expired');
       } else {

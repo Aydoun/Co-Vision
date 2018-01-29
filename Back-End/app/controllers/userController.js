@@ -48,6 +48,22 @@ exports.addVisionToContributor = function(req, res, next) {
     });
 };
 
+exports.saveAvatar = function(req, res, next) {
+    const { tokenData, fileUrl } = req;
+    const userId = tokenData.iss;
+
+    UserModel.update({_id: userId}, {avatar: fileUrl})
+    .then(user => {
+      res.status(200).send(Formatter({
+        url: fileUrl
+      }));
+    })
+    .catch(err => {
+      res.status(403).send(Formatter(err.message, true));
+    });
+
+};
+
 exports.LogIn = function(req, res, next){
     UserModel.findOne({
       email: req.body.email

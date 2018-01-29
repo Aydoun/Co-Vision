@@ -20,3 +20,6 @@ nodegit
 
 #package.json lock
 package-lock.json
+
+#media files
+media

@@ -2,7 +2,8 @@ var express = require('express');
 var users = express.Router();
 var contributorModel = require('../models/userModel');
 var base = require('../controllers/baseCrudController')(contributorModel);
-var { visionList , addVisionToContributor } = require('../controllers/userController');
+var { visionList , addVisionToContributor, saveAvatar } = require('../controllers/userController');
+const { uploadFile } = require('../controllers/fileController');
 
 //General Crud Routing
 users.get('/findOne', base.getOne);
@@ -12,5 +13,6 @@ users.get('/', base.getById);
 users.get('/exists', base.exists);
 users.put('/', base.update);
 users.post('/vision', addVisionToContributor);
+users.post('/upload', uploadFile, saveAvatar);
 
 module.exports = users;
