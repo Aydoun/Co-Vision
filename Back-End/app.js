@@ -7,7 +7,6 @@ const compression = require ('compression');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const routes = require('./app/routes');
-const notFound = require('./app/routes/notFound');
 const { LogIn, Register } = require('./app/controllers/userController');
 const { defaultUploadPath } = require('./app/lib');
 
@@ -59,7 +58,9 @@ const preCheck = (req, res, next) => {
 }
 
 subpath.use('/', preCheck, routes);
-subpath.use('*', notFound);
+subpath.use('*', (req, res, next) => {
+  return res.status(404).send({error : true , message:"End Point Doesn't Exist"});
+});
 
 swagger.setApiInfo({
         title: "Co-Vision Rest API",

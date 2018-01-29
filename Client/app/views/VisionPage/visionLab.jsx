@@ -1,11 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import find from 'lodash/find';
 import assign from 'lodash/assign';
-import { Form, Button, Card, Input, message } from 'antd';
+import { Form, Button, Card, Input } from 'antd';
 import { fileContent, preRead, preContribution } from 'actions/vision';
-import DraftEditor from 'components/Draft';
 
 const FormItem = Form.Item;
 
