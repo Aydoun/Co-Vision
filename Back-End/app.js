@@ -20,8 +20,8 @@ app.use(fileUpload());
 app.use('/media', express.static(path.join(__dirname, '/app/media')));
 app.use(compression());
 app.use(logger('dev'));
-app.use(bodyParser.json({limit: "2mb"}));
-app.use(bodyParser.urlencoded({limit: "2mb", extended: false, parameterLimit:50}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({limit: "2mb", extended: true, parameterLimit:5000}));
 app.use("/api", subpath);
 subpath.use(cors());
 

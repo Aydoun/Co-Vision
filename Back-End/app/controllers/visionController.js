@@ -49,7 +49,6 @@ exports.mergeBranches = function(req , res , next){
 
     return mergeBranches(req)
     .then(data => {
-      console.log('there');
       return deleteBranch({
         id: req.params.id,
         branchName: req.query.sourceBranch

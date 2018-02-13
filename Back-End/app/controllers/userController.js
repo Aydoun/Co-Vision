@@ -64,6 +64,20 @@ exports.saveAvatar = function(req, res, next) {
 
 };
 
+exports.getUser = function(req, res, next) {
+    const userId = req.tokenData.iss;
+    const omitValues = ['visions', 'password', 'salt', 'privacy'];
+
+    UserModel.findById(userId)
+    .lean()
+    .then(user => {
+      return res.status(200).send(Formatter(omit(user, omitValues)));
+    })
+    .catch(err => {
+      return res.status(403).send(Formatter(err , true));
+    })
+};
+
 exports.LogIn = function(req, res, next){
     UserModel.findOne({
       email: req.body.email

@@ -22,7 +22,7 @@ exports.search = function(req, res, next) {
 };
 
 exports.discover = function(req, res, next) {
-    const searchTerm = req.query.q || '';
+    
     UserModel.findById(req.tokenData.iss)
     .then(user => {
       return user.visions.map(item => item.visionId);

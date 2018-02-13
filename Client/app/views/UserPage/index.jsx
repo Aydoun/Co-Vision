@@ -10,6 +10,13 @@ const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 
 class UserProfile extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: false,
+      avatarUrl: ''
+    };
+  }
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
@@ -23,7 +30,22 @@ class UserProfile extends React.Component {
     this.props.preUserProfile({});
   }
 
+  handleChange = (info) => {
+    const { status, response } = info.file;
+    if (status === 'uploading') {
+      this.setState({ loading: true });
+      return;
+    }
+    if (status === 'done') {
+      this.setState({
+        avatarUrl: response.response.url,
+        loading: false
+      });
+    }
+  }
+
   render() {
+    const { loading, avatarUrl } = this.state;
     const { profile } = this.props;
     const { getFieldDecorator } = this.props.form;
     const options = [
@@ -31,19 +53,22 @@ class UserProfile extends React.Component {
       { label: 'Female', value: 1 },
       { label: 'Secret', value: -1 },
     ];
+    const iconType = loading ? 'loading' : 'plus';
+    const isAvatar = avatarUrl || profile.avatar;
 
     return (
       <div className="user-profile__form">
         <Upload
           className="avatar-uploader"
-          name="avatar"
+          name="file"
           showUploadList={false}
-          action={`${config.apiBase}/upload?token=${localStorage.token}`}
+          onChange={this.handleChange}
+          action={`${config.apiBase}/user/upload?token=${localStorage.token}`}
         >
           {
-         profile.avatar ?
-           <img src={profile.avatar} alt="profile-pic" className="avatar" /> :
-           <Icon type="plus" className="avatar-uploader-trigger" />
+         isAvatar && !loading ?
+           <img src={isAvatar} alt="profile-pic" className="avatar" /> :
+           <Icon type={iconType} className="avatar-uploader-trigger" />
        }
         </Upload>
         <Form layout="inline">

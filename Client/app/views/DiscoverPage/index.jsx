@@ -81,14 +81,7 @@ class discoverPage extends Component {
 
     return (
       <Layout style={{ background: '#fff' }}>
-        <Sider width={200} style={{ background: '#fff' }}>
-          <Filter
-            onSearch={obj => this.onFilterChanged(0, obj)}
-            onSliderChange={obj => this.onFilterChanged(1, obj)}
-            onSelectChange={obj => this.onFilterChanged(2, obj)}
-          />
-        </Sider>
-        <Content style={{ padding: '0 24px', minHeight: 280 }}>
+        <Content >
           <div>
             <VisionCard
               listData={discoverList}

@@ -332,7 +332,6 @@ function addFile(pathToFile, fileName, fileContent){
 
 
 function registerCommit(inputs , repo) {
-  console.log(inputs, 'inputs');
         var fileName = inputs.fileName;
         var fileContent = inputs.fileContent;
         var index;

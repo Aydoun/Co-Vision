@@ -17,7 +17,6 @@ class App extends React.Component {
 
   };
   onCollapse = (collapsed) => {
-    console.log(collapsed);
     this.setState({ collapsed });
   }
 
@@ -99,8 +98,8 @@ class App extends React.Component {
           </Sider>
           <Layout>
             <MyHeader />
-            <Content style={{ margin: '0 16px' }}>
-              <div style={{ padding: 24, background: '#fff', margin: '16px 0', minHeight: '100%' }}>
+            <Content >
+              <div style={{ padding: 24, background: '#fff', minHeight: '100%' }}>
                 {this.props.children}
               </div>
             </Content>

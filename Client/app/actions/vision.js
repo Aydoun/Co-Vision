@@ -1,7 +1,20 @@
 import assign from 'lodash/assign';
 import * as C from 'constants/vision';
 import { DISCOVER_LIKE_VISION } from 'constants/discover';
+import {
+  DUPLICATE_USER_ACTION
+} from 'constants/user';
+import { put } from 'redux-saga/effects';
 
+export function testAction() {
+  put({
+    type: DUPLICATE_USER_ACTION
+  });
+  // return {
+  //   type: DUPLICATE_USER_ACTION,
+  //   payload : {}
+  // };
+}
 
 export function prepareSaving(params) {
   return {

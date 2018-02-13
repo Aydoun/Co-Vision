@@ -27,7 +27,6 @@ function visionReducer(state = initialState, action) {
     case DUPLICATE_VISION_ACTION:
       return assign({}, state, { ...action }, { loading:false });
     case SAVE_USER_LIKE: {
-      console.log(action);
       const newVisionList = state.visionList.slice();
       const formalVisionIndex =
       newVisionList.findIndex(v => v._id === action.likedVisionId);
