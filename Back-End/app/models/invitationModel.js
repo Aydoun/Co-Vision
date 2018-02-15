@@ -5,7 +5,7 @@ module.exports = mongoose.model('cov_invitation', new Schema({
 	vision: { type : Schema.Types.ObjectId, required : true },
   requested: {type: Schema.Types.ObjectId },
   requester: {type: Schema.Types.ObjectId },
-  motivation: { type : String, default: 'Hi i Want to to Join The Vision'},
+  motivation: { type : String},
 	userName: {type: String, default: ''},
 	visionName: {type: String, default: ''},
 	visionAvatar: {type: String, default: ''},

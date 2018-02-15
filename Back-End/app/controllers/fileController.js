@@ -1,12 +1,12 @@
 const path = require('path');
 const fs = require('fs');
+const fse = require('fs-extra');
 const uuidv1 = require('uuid/v1');
 const promisify = require("promisify-node");
-const fse = promisify(fs);
+const pfse = promisify(fse);
+const pfs = promisify(fs);
 const { defaultUploadPath, defaultGitPath, Formatter } = require('../lib');
 const config = require('../config');
-const Git = require('../../nodegit');
-
 
 exports.uploadFile = function(req, res, next) {
     if (!req.files) {
@@ -42,7 +42,7 @@ exports.addFile = function(req, res, next) {
   const gitPath = defaultGitPath(id);
   const pathToRepo = `${gitPath}/${fileName}`;
 
-  fse.outputFile(pathToRepo, fileContent)
+  pfse.outputFile(pathToRepo, fileContent)
   .then(() => {
     res.status(200).send(Formatter({
       file: pathToRepo
@@ -55,15 +55,15 @@ exports.addFile = function(req, res, next) {
 
 exports.addDirectory = function(req, res, next) {
   const { id } = req.params;
-  const { fileName, fileContent } = req.body;
-  if (!fileName || !fileContent) {
+  const { fileName } = req.body;
+  if (!fileName) {
     return res.status(403).send(Formatter('All Fields are Required', true));
   }
 
   const gitPath = defaultGitPath(id);
   const pathToRepo = `${gitPath}/${fileName}`;
 
-  fse.outputFile(pathToRepo, fileContent)
+  fse.ensureDir(pathToRepo)
   .then(() => {
     res.status(200).send(Formatter({
       file: pathToRepo
@@ -76,18 +76,19 @@ exports.addDirectory = function(req, res, next) {
 
 exports.renameFile = function(req, res, next) {
   const { id } = req.params;
-  const { fileName, fileContent } = req.body;
-  if (!fileName || !fileContent) {
+  const { oldName, newName } = req.body;
+  if (!oldName || !newName) {
     return res.status(403).send(Formatter('All Fields are Required', true));
   }
 
   const gitPath = defaultGitPath(id);
-  const pathToRepo = `${gitPath}/${fileName}`;
+  const pathToFile = `${gitPath}/${oldName}`;
+  const newPath = `${gitPath}/${newName}`;
 
-  fse.outputFile(pathToRepo, fileContent)
-  .then(() => {
+  pfs.rename(pathToFile, newPath)
+  .then(result => {
     res.status(200).send(Formatter({
-      file: pathToRepo
+      file: newPath
     }));
   })
   .catch(err => {
@@ -105,7 +106,7 @@ exports.removeFile = function(req, res, next) {
   const gitPath = defaultGitPath(id);
   const pathToRepo = `${gitPath}/${fileName}`;
 
-  fse.remove(pathToRepo)
+  pfse.remove(pathToRepo)
   .then(() => {
     res.status(200).send(Formatter({}));
   })

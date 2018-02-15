@@ -9,7 +9,7 @@ const {
 
 files.post('/:id', addFile);
 files.post('/:id/directory', addDirectory);
-files.put('/:id', addFile);
+// files.put('/:id', addFile);
 files.put('/:id/rename', renameFile);
 files.delete('/:id', removeFile);
 
