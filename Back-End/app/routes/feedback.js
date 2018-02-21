@@ -1,9 +1,7 @@
-var express = require('express');
-var feedbacks = express.Router();
-var feedbackModel = require('../models/feedbackModel');
-var base = require('../controllers/baseCrudController')(feedbackModel);
+const feedbacks = require('express').Router();
+const feedbackModel = require('../models/feedbackModel');
+const base = require('../controllers/baseCrudController')(feedbackModel);
 
-//General Crud Routing
 feedbacks.post('/', base.create);
 
 module.exports = feedbacks;

@@ -7,6 +7,7 @@ const Messages = new Schema({
   sender: Schema.Types.ObjectId,
 	status : {type : String , enum:['read' , 'unread'] , default : 'unread'}
 } , {timestamps: true});
+
 const Conversation = new Schema({
   creator : {type : Schema.Types.ObjectId, required: true},
   receiver: {type : Schema.Types.ObjectId, required: true},

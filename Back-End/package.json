@@ -17,7 +17,6 @@
     "mocha": "^3.2.0",
     "mockgoose": "^7.3.3",
     "node-uuid": "^1.4.8",
-    "omit": "^1.0.1",
     "restler": "^3.4.0",
     "sinon": "^4.0.1",
     "sinon-as-promised": "^4.0.3",

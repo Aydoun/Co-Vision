@@ -68,7 +68,7 @@ exports.readFile = function(req , res , next){
         res.status(200).send(Formatter(fileContent));
     })
     .catch(function(err){
-        res.status(200).send(Formatter({data : err.message} , true));
+        res.status(403).send(Formatter({data : err.message} , true));
     });
 }
 

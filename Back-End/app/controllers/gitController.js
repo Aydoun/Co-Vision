@@ -5,7 +5,7 @@ const promisify = require("promisify-node");
 const fse = promisify(require("fs-extra"));
 
 exports.commit = function(req) {
-    var clientInput = req.body;
+    const clientInput = req.body;
     const visionId = req.params.id;
     var checkRes = queryCheck(clientInput , ['fileContent' , 'fileName' , 'author' , 'authorMail' , 'message']);
 
@@ -41,8 +41,9 @@ exports.history = function(res , params) {
           var results = commits.map(function(commit) {
               return {
                   sha : commit.sha(),
-                  Author : commit.author().name() + " <" + commit.author().email() + ">",
-                  Date : commit.date(),
+                  author : commit.author().name(),
+                  email: commit.author().email(),
+                  date : commit.date(),
                   comment : commit.message()
               };
           });
@@ -52,7 +53,7 @@ exports.history = function(res , params) {
         history.start();
     })
     .catch(function(err){
-        console.log(err , "Catched Error");
+        return res.status(403).send(Formatter({} , true));
     });
 };
 
@@ -157,7 +158,7 @@ exports.treeSummary = function(res , req, vision){
             //if contributor already counted in
             contributors[email] += 1;
           } else {
-            //save the first comer
+            //save the first commer
             contributors[email] = 1
           }
       });
@@ -182,7 +183,6 @@ exports.treeSummary = function(res , req, vision){
       throw new Error(err.message);
   });
 }
-
 
 exports.getAllBranchList = function(params){
     const pathToRepo = defaultGitPath(params.id);
@@ -319,17 +319,6 @@ exports.gitTest = function(req, res){
   Helper Functions
 
 */
-
-function addFile(pathToFile, fileName, fileContent){
-    if (typeof fileContent !== 'undefined') {
-      //File
-      return fse.writeFile(path.resolve(pathToFile));
-    } else {
-      //Folder
-      return fse.ensureDir(path.resolve(pathToFile));
-    }
-}
-
 
 function registerCommit(inputs , repo) {
         var fileName = inputs.fileName;

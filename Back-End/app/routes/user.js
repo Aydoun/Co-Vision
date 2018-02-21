@@ -11,8 +11,6 @@ var {
 const { uploadFile } = require('../controllers/fileController');
 
 //General Crud Routing
-// users.get('/findOne', base.getOne);
-// users.get('/count', base.count);
 users.get('/vision', visionList);
 users.get('/', getUser);
 users.get('/exists', base.exists);
