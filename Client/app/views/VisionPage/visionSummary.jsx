@@ -1,31 +1,46 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Timeline, Card, Tag, Spin, List } from 'antd';
-import { preHistory } from 'actions/vision';
-import { formatDate } from 'utils';
-
-const data = [
-  'Racing car sprays burning fuel into crowd.',
-  'Japanese princess to wed commoner.',
-  'Australian walks 100km after outback crash.',
-  'Man charged over missing wedding girl.',
-  'Los Angeles battles huge wildfires.',
-];
+import { Card, Icon, Row, Col } from 'antd';
+import SummaryBar from 'components/SummaryBar';
+import HistoryLogs from './visionHistory';
 
 class VisionHistory extends React.Component {
   componentDidMount() {
-      // const params = {
-      //    id : this.props.routeParams.id
-      // };
-      // this.props.preHistory(params);
+
   }
 
   render() {
-    // const { historyList, loading } = this.props;
+    const { vision, summaryData, routeParams } = this.props;
+    const cardTitle = (
+      <Row type="flex" gutter={12}>
+          <Col>
+            <Icon type="api" />
+          </Col>
+          <Col>
+            <h3>{vision.name }</h3>
+            <time>{vision.lastUpdate}</time>
+          </Col>
+        </Row>
+    )
 
     return (
-      <div />
+      <div>
+        <Card
+          title={cardTitle}
+        > 
+          <SummaryBar summaryData={summaryData} /><br/>
+          <Row gutter={8}>
+            <Col span={12} >
+            </Col>
+            <Col span={12} >
+              <h3>Vision Log</h3>
+              <hr />
+              <HistoryLogs id={routeParams.id} />
+            </Col>
+          </Row>
+        </Card>
+      </div>
     );
   }
 }
@@ -36,7 +51,8 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   return {
-
+    vision: {}, 
+    summaryData: {}
   };
 }
 

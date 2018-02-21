@@ -7,8 +7,11 @@ import { formatDate } from 'utils';
 
 class VisionHistory extends React.Component {
   componentDidMount() {
+      const { routeParams, id } = this.props;
+      
+      const visionId = routeParams ? routeParams.id : (id || 0);
       const params = {
-         id : this.props.routeParams.id
+         id : visionId
       };
       this.props.preHistory(params);
   }
@@ -23,9 +26,9 @@ class VisionHistory extends React.Component {
             {
                   historyList.map((elem, i) => (
                     <Timeline.Item key={i}>
-                      <p>{formatDate(elem.Date)}</p>
+                      <p>{formatDate(elem.date)}</p>
                       <Card title={elem.comment}  bordered={false} >
-                        <Tag>{elem.Author}</Tag>
+                        <Tag>{elem.author}</Tag>
                       </Card>
                     </Timeline.Item>
                   ))
