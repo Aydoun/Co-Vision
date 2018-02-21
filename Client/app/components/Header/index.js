@@ -15,7 +15,7 @@ export default class Header extends PureComponent {
           <Row type="flex">
             <Col span={3}>
               <Search
-                placeholder="Search Anything..."
+                placeholder="Search..."
                 style={{ width: 200 }}
                 onSearch={value => console.log(value)}
               />

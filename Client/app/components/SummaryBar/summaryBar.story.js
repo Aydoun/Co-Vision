@@ -4,9 +4,11 @@ import View from './index';
 
 const data = {
     creator: 'Mohamed Amine',
-    contributors: 9,
-    contributions: 120,
-    likes: 8
+    totalContributors: 9,
+    totalContributions: 120,   
+    vision: {
+      likes: 8
+    }
 }
 
 storiesOf('Summary Bar', module)

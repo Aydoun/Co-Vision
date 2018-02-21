@@ -10,24 +10,25 @@ const badgeStyle = {
 export default class SummaryBar extends Component {
   render() {
     const { summaryData } = this.props;
+
     return (
         <Menu
           mode="horizontal"
         >
         <Menu.Item key="creator">
-          <Icon type="user" />{summaryData.creator}
+          <Icon type="user" />{summaryData.creator || 'Unknown'}
         </Menu.Item>
         <Menu.Item key="contributions">
           <Icon type="coffee" />Contributions &nbsp;
-          <Badge count={summaryData.contributions} style={badgeStyle} overflowCount={500} />
+          <Badge count={summaryData.totalContributions} style={badgeStyle} overflowCount={500} />
         </Menu.Item>
         <Menu.Item key="group">
           <Icon type="usergroup-add" />Contributors &nbsp;
-          <Badge count={summaryData.contributors} style={badgeStyle} overflowCount={500} />
+          <Badge count={summaryData.totalContributors} style={badgeStyle} overflowCount={500} />
         </Menu.Item>
         <Menu.Item key="likes">
           <Icon type="like-o" />Likes &nbsp;
-          <Badge count={summaryData.likes} style={badgeStyle} overflowCount={500} />
+          <Badge count={summaryData.vision.likes} style={badgeStyle} overflowCount={500} />
         </Menu.Item>
       </Menu>
     );

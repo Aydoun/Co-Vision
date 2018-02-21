@@ -36,7 +36,7 @@ class App extends React.Component {
         <Layout style={{ minHeight: '100vh' }}>
           <Sider
             collapsible
-            collapsed={this.state.collapsed}
+            collapsed={true}
             onCollapse={this.onCollapse}
             className="app-sider-wrapper"
             breakpoint="sm"

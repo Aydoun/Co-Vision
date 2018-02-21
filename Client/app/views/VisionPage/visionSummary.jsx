@@ -3,33 +3,40 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Card, Icon, Row, Col } from 'antd';
 import SummaryBar from 'components/SummaryBar';
+import { preStat } from 'actions/vision';
 import HistoryLogs from './visionHistory';
+import { formatDate } from 'utils';
 
 class VisionHistory extends React.Component {
   componentDidMount() {
+    const _id = this.props.routeParams.id;
+      const params = {
+         id : _id,
+      };
 
+      this.props.preStat(params);
   }
 
   render() {
-    const { vision, summaryData, routeParams } = this.props;
+    const { vision, contributionStats, routeParams } = this.props;
     const cardTitle = (
       <Row type="flex" gutter={12}>
           <Col>
             <Icon type="api" />
           </Col>
           <Col>
-            <h3>{vision.name }</h3>
-            <time>{vision.lastUpdate}</time>
+            <h3>{vision.title }</h3>
+            <time>{formatDate(vision.updatedAt)}</time>
           </Col>
         </Row>
-    )
+    );
 
     return (
       <div>
         <Card
           title={cardTitle}
         > 
-          <SummaryBar summaryData={summaryData} /><br/>
+          <SummaryBar summaryData={contributionStats} /><br/>
           <Row gutter={8}>
             <Col span={12} >
             </Col>
@@ -46,13 +53,13 @@ class VisionHistory extends React.Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ }, dispatch);
+  return bindActionCreators({ preStat }, dispatch);
 }
 
 function mapStateToProps(state) {
   return {
-    vision: {}, 
-    summaryData: {}
+    vision: state.vision.contributionStats.vision,
+    contributionStats : state.vision.contributionStats,
   };
 }
 
