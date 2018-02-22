@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Form, Input, Radio, DatePicker, Upload, Button, Icon } from 'antd';
+const { TextArea } = Input;
 import { preUserProfile, saveProfile } from 'actions/user';
 import moment from 'moment';
 import './index.css';
@@ -128,12 +129,7 @@ class UserProfile extends React.Component {
             {getFieldDecorator('bio', {
               initialValue: profile.bio,
             })(
-              <Input
-                type="textarea"
-                rows={8}
-                style={{ width: 500 }}
-                placeholder="Tell Us About Yourself"
-              />
+              <TextArea />
             )}
           </FormItem>
           <h3 />

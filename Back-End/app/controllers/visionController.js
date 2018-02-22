@@ -127,34 +127,54 @@ exports.visionSummary = function(req , res , next){
 
 exports.createVision = function(req , res , next){
     const body = req.body;
+    let VisionData;
     const checkRes = queryCheck(body , ['author' , 'authorMail', 'title']);
     if (!checkRes) {
         return res.status(403).send(Formatter({data : 'Missing Required Parameters'} , true));
     }
 
-    body.creator = req.tokenData.iss;
+    const newVision = new visionModel(Object.assign(body, {
+        creator: req.tokenData.iss
+    }));
 
-    const newVision = new visionModel(body);
-    newVision.save(function (err, data) {
-      	  if (err) {
-            res.status(403).send(Formatter({data : err.message} , true));
-            return ;
-          }
-          body.id = data._id;
-          initRepository(body)
-          .then((commitSha) => {
-            const response = {
-              repository: commitSha,
-              db: data
-            };
-            req.visionId = data._id;
-            req.repoResponse = response;
-            next();
-          })
-          .catch((err) => {
-            res.status(200).send(Formatter({data : err} , true));
-          });
-    });
+    newVision.save()
+    .then(data => {
+        VisionData = data;
+        body.id = data._id;
+        return initRepository(body);
+    })
+    .then((commitSha) => {
+        const response = {
+          repository: commitSha,
+          db: VisionData
+        };
+        req.visionId = VisionData._id;
+        req.repoResponse = response;
+        next();
+    })
+    .catch(err => {
+        return res.status(403).send(Formatter({data : err.message} , true));
+    })
+    // newVision.save(function (err, data) {
+    //   	  if (err) {
+    //         res.status(403).send(Formatter({data : err.message} , true));
+    //         return ;
+    //       }
+    //       body.id = data._id;
+    //       initRepository(body)
+    //       .then((commitSha) => {
+    //         const response = {
+    //           repository: commitSha,
+    //           db: data
+    //         };
+    //         req.visionId = data._id;
+    //         req.repoResponse = response;
+    //         next();
+    //       })
+    //       .catch((err) => {
+            
+    //       });
+    // });
 }
 
 exports.contribute = function(req , res , next){

@@ -36,15 +36,23 @@ exports.visionList = function(req, res, next) {
 };
 
 exports.addVisionToContributor = function(req, res, next) {
-    var visionId = req.visionId;
-    if (!visionId) return res.status(403).send(Formatter({message:'All Fields Are Required'} , true));;
-    UserModel.findById(req.body.creator , function(err , data){
-        data.visions.push({
-            visionId : visionId
-        });
-        data.save(function(err , data){
-            res.status(200).send(Formatter(req.repoResponse));
-        });
+    const { visionId, tokenData, repoResponse } = req;
+    if (!visionId) {
+      return res.status(403).send(Formatter({message:'All Fields Are Required'} , true));
+    } 
+
+    UserModel.findById(tokenData.iss)
+    .then(data => {
+      data.visions.push({
+        visionId : visionId
+      });
+      return data.save();
+    })
+    .then(savedVision => {
+      return res.status(200).send(Formatter(repoResponse));
+    })
+    .catch(err => {
+      return res.status(403).send(Formatter(err.message, true));
     });
 };
 
