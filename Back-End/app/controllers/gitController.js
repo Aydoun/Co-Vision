@@ -2,7 +2,7 @@ const Git = require('../../nodegit');
 const path = require('path');
 const { queryCheck , Formatter, defaultGitPath, picking} = require('../lib');
 const promisify = require("promisify-node");
-const fse = promisify(require("fs-extra"));
+const fse = require("fs-extra");
 
 exports.commit = function(req) {
     const clientInput = req.body;
@@ -317,16 +317,16 @@ exports.gitTest = function(req, res){
 
 /*
   Helper Functions
-
 */
 
 function registerCommit(inputs , repo) {
-        var fileName = inputs.fileName;
-        var fileContent = inputs.fileContent;
+        const { fileName, fileContent } = inputs;
         var index;
         var oid;
- return fse.writeFile(path.join(repo.workdir(), fileName), fileContent)
+        console.log(inputs, 'inputs')
+        return fse.outputFile(path.join(repo.workdir(), fileName), 'hello!')
         .then(function() {
+            console.log('writing file....')
             return repo.refreshIndex();
         })
         .then(function(indexResult) {
@@ -359,5 +359,10 @@ function registerCommit(inputs , repo) {
         })
         .then(function(commitId){
             return commitId.tostrS();
+        })
+        .catch(err => {
+            console.log(err.message, 'message');
         });
+        // return fse.outputFile(path.join(repo.workdir(), fileName), fileContent)
+        
 }
