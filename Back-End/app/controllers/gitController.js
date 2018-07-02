@@ -2,7 +2,8 @@ const Git = require('../../nodegit');
 const path = require('path');
 const { queryCheck , Formatter, defaultGitPath, picking} = require('../lib');
 const promisify = require("promisify-node");
-const fse = require("fs-extra");
+const fse = promisify(require("fs-extra"));
+// fse.ensureDir = promisify(fse.ensureDir);
 
 exports.commit = function(req) {
     const clientInput = req.body;
@@ -59,18 +60,48 @@ exports.history = function(res , params) {
 
 exports.initRepository = function(inputs){
     const pathToRepo = defaultGitPath(inputs.id);
+    var repository;
+    var index;
 
+    fse.ensureDirSync(pathToRepo);
+    fse.outputFileSync(path.join(pathToRepo, 'Readme.md'), 'Yo');
+    console.log('File Created');
     return Git.Repository.init(pathToRepo, 0)
-    .then(function (repo) {
-        const extraInputs = Object.assign({} , inputs , {
-            fileName : "Readme.md",
-            fileContent : inputs.description || '',
-            message : `${inputs.title || '<No-Title>'} Vision is Born!`,
-            initalCommit : true
-        });
+    .then(function(repo) {
+        repository = repo;
+        console.log(repository.workdir());
+        // return 
+    })
+    .then(function(){
+        debugger;
+        return repository.refreshIndex();
+    })
+    .then(function(idx) {
+        index = idx;
+    })
+    .then(function() {
+        return index.addByPath(fileName);
+    })
+    .then(function() {
+        return index.write();
+    })
+    .then(function() {
+        return index.writeTree();
+    })
+    .then(function(oid) {
+        console.log('commit in progress...');
+        var author = nodegit.Signature.create("Scott Chacon",
+            "schacon@gmail.com", 123456789, 60);
+        var committer = nodegit.Signature.create("Scott A Chacon",
+            "scott@github.com", 987654321, 90);
 
-        return registerCommit(extraInputs , repo);
+        // Since we're creating an inital commit, it has no parents. Note that unlike
+        // normal we don't get the head either, because there isn't one yet.
+        return repository.createCommit("HEAD", author, committer, "message", oid, []);
     });
+    // .done(function(commitId) {
+    //     console.log("New Commit: ", commitId);
+    // });
 }
 
 exports.treeWalk = function(res , req){
@@ -320,49 +351,58 @@ exports.gitTest = function(req, res){
 */
 
 function registerCommit(inputs , repo) {
-        const { fileName, fileContent } = inputs;
-        var index;
-        var oid;
-        console.log(inputs, 'inputs')
-        return fse.outputFile(path.join(repo.workdir(), fileName), 'hello!')
-        .then(function() {
-            console.log('writing file....')
-            return repo.refreshIndex();
-        })
-        .then(function(indexResult) {
-            index = indexResult;
-        })
-        .then(function() {
-            return index.addByPath(fileName);
-        })
-        .then(function() {
-            return index.write();
-        })
-        .then(function() {
-            return index.writeTree();
-        })
-        .then(function(oidResult){
-            oid = oidResult;
-            if (!inputs.initalCommit) {
-                return Git.Reference.nameToId(repo, "HEAD");
-            }
-        })
-        .then(function(parent){
-            var _parent = inputs.initalCommit ? [] : [parent];
-            var now = Date.now() / 1000;
-            var author = Git.Signature.create(inputs.author,
-              inputs.authorMail, now, 480);
-            var committer = Git.Signature.create(inputs.author,
-              inputs.authorMail, now, 480);
+    var fileName = inputs.fileName;
+    var fileContent = inputs.fileContent;
+    var index;
+    var oid;
+    return fse.writeFile(path.join(repo.workdir(), fileName), fileContent)
+    .then(function() {
+        console.log('1')
+        return repo.refreshIndex();
+    })
+    .then(function(indexResult) {
 
-            return repo.createCommit("HEAD", author, committer, inputs.message, oid, _parent);
-        })
-        .then(function(commitId){
-            return commitId.tostrS();
-        })
-        .catch(err => {
-            console.log(err.message, 'message');
-        });
-        // return fse.outputFile(path.join(repo.workdir(), fileName), fileContent)
-        
+        console.log('1')
+        index = indexResult;
+    })
+    .then(function() {
+        console.log('1')
+        return index.addByPath(fileName);
+    })
+    .then(function() {
+
+        console.log('1')
+        return index.write();
+    })
+    .then(function() {
+        console.log('1')
+        return index.writeTree();
+    })
+    .then(function(oidResult){
+        console.log('1')
+        oid = oidResult;
+        if (!inputs.initalCommit) {
+            return Git.Reference.nameToId(repo, "HEAD");
+        }
+    })
+    // .then(function(head){
+    //     if (!inputs.initalCommit) {
+    //         return repo.getCommit(head);
+    //     }
+    // })
+    .then(function(parent){
+        console.log('1')
+        var _parent = inputs.initalCommit ? [] : [parent];
+        var now = Date.now() / 1000;
+        var author = Git.Signature.create(inputs.author,
+          inputs.authorMail, now, 480);
+        var committer = Git.Signature.create(inputs.author,
+          inputs.authorMail, now, 480);
+
+        return repo.createCommit("HEAD", author, committer, inputs.message, oid, _parent);
+    })
+    .then(function(commitId){
+        console.log('1')
+        return commitId.tostrS();
+    });
 }

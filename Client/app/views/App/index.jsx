@@ -2,8 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
-import { Layout, Menu, Icon, Avatar, Popconfirm, Alert, message } from 'antd';
-import MyHeader from 'components/Header';
+import { Layout, Menu, Icon, Avatar, Popconfirm, message } from 'antd';
 import MyFooter from 'components/Footer';
 import { logout } from 'utils';
 import './index.css';
@@ -33,13 +32,9 @@ class App extends React.Component {
   render() {
     return (
       <div >
-        <Layout style={{ minHeight: '100vh' }}>
-          <Sider
-            collapsible
-            collapsed={this.state.collapsed}
-            onCollapse={this.onCollapse}
+        <Layout style={{ height: 1000 }}>
+          <Sider          
             className="app-sider-wrapper"
-            breakpoint="sm"
           >
             <div className="logo" >
               <Avatar src="http://tse3.mm.bing.net/th?id=OIP.ZotSj2OR21ya9ySgfb9zlgD6D6&w=173&h=168&c=7&qlt=90&o=4&pid=1.7" />
@@ -63,11 +58,13 @@ class App extends React.Component {
                     <Link to="/app/invitation">Requests</Link>
                   </span>
                 </Menu.Item>
-                <Menu.Item key="4">
-                  <span><Icon type="message" />
-                    <Link to="/app/mail">Messages</Link>
-                  </span>
-                </Menu.Item>
+                <Link to="/app/mail">
+                  <Menu.Item key="4">
+                    <span><Icon type="message" />
+                      Messages
+                    </span>
+                  </Menu.Item>
+                </Link>
               </SubMenu>
               <SubMenu
                 key="sub2"
@@ -97,7 +94,7 @@ class App extends React.Component {
             </Menu>
           </Sider>
           <Layout>
-            <MyHeader />
+            
             <Content >
               <div style={{ padding: 24, background: '#fff', minHeight: '100%' }}>
                 {this.props.children}

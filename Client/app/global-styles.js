@@ -48,11 +48,7 @@ injectGlobal`
   .global-fontSize {
     font-size: 14px;
   }
-
-  .ant-modal-header {
-    background: #ffce3d;
-  }
-
+  
   hr {
     border: 0;
     border-bottom: 1px solid #ffbf00;

@@ -1,7 +1,7 @@
-.app-sider-wrapper a {
-  color: #ececec;
-  font-family: cursive;
+.ant-menu-item a {
+  color: white;
 }
+
 .logo {
   height: 32px;
   border-radius: 6px;
