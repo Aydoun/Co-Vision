@@ -74,7 +74,7 @@ exports.saveAvatar = function(req, res, next) {
 
 exports.getUser = function(req, res, next) {
     const userId = req.tokenData.iss;
-    const omitValues = ['visions', 'password', 'salt', 'privacy'];
+    const omitValues = ['password', 'salt', 'privacy'];
 
     UserModel.findById(userId)
     .lean()

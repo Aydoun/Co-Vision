@@ -4,7 +4,6 @@ var visionModel = require('../models/visionModel');
 var base = require('../controllers/baseCrudController')(visionModel);
 var {
   createVision,
-  contribute,
   historyList,
   historyTree,
   visionStatus,
@@ -39,7 +38,6 @@ visions.get('/:id/tree', historyTree);
 visions.get('/:id/summary', visionSummary);
 visions.get('/:id/status', visionStatus);
 visions.get('/:id/file', readFile);
-visions.post('/:id/contribute', contribute);
 visions.post('/:id/merge', mergeBranches);
 visions.get('/:id/branch', branchList);
 visions.post('/:id/branch', createBranch);

@@ -18,28 +18,47 @@ const {
 } = require('./gitController');
 const { Formatter, queryCheck, isValidObjectId } = require('../lib');
 const uuidv1 = require('uuid/v1');
-/*
- Git API
-*/
 
 exports.historyList = function (req, res, next) {
-    history(res , req.params);
+    const { id } = req.params;
+    visionModel.findById(id)
+    .then(vision => {
+      return history(vision.systemId, req.params);
+    })
+    .then(logs => {
+        return res.status(200).send(Formatter(logs));
+    })
+    .catch(err => {
+      return res.status(403).send(Formatter(err.message , true));
+    });
+    
 };
 
 exports.historyTree = function(req , res , next){
-    treeWalk(res , req)
-    .then(function(files){
-        res.status(200).send(Formatter(files));
+    const { id } = req.params;
+    visionModel.findById(id)
+    .then(vision => {
+      return treeWalk(vision.systemId, req.query);
     })
-    .catch(function(err){
-        res.status(200).send(Formatter({data : err.message} , true));
+    .then(files => {
+        return res.status(200).send(Formatter(files));
+    })
+    .catch(err => {
+      return res.status(403).send(Formatter(err.message , true));
     });
 }
 
 exports.visionStatus = function(req , res , next){
-    status(req)
+    const { id } = req.params;
+    visionModel.findById(id)
+    .then(vision => {
+        return status(vision.systemId);
+    })
     .then(function(statuses){
-        res.status(200).send(Formatter(statuses));
+        return res.status(200).send(Formatter(statuses));
+    })
+    .catch(err => {
+        return res.status(403).send(Formatter(err.message , true));
     });
 }
 
@@ -74,11 +93,16 @@ exports.readFile = function(req , res , next){
 }
 
 exports.branchList = function(req , res , next){
-    getAllBranchList(req.params).then(function(data){
-        res.status(200).send(Formatter(data));
+    const { id } = req.params;
+    visionModel.findById(id)
+    .then(vision => {
+        return getAllBranchList(vision.systemId);
     })
-    .catch(function(err){
-        res.status(200).send(Formatter({data : err.message} , true));
+    .then(function(branches){
+        return res.status(200).send(Formatter(branches));
+    })
+    .catch(err => {
+        return res.status(403).send(Formatter(err.message , true));
     });
 }
 
@@ -118,12 +142,14 @@ exports.visionSummary = function(req , res , next){
     const visionId = req.params.id;
     visionModel.findById(visionId)
     .then(vision => {
-      return treeSummary(res , req, vision);
+      return treeSummary(req.query, vision);
+    })
+    .then(summary => {
+      return res.status(200).send(Formatter(summary));
     })
     .catch(err => {
       return res.status(403).send(Formatter(err.message , true));
     });
-
 }
 
 exports.createVision = function(req , res , next){
@@ -151,15 +177,6 @@ exports.createVision = function(req , res , next){
     })
     .catch((err) => {
         return res.status(403).send(Formatter({data : err.message} , true));
-    });
-}
-
-exports.contribute = function(req , res , next){
-    commit(req).then(function(commitsha){
-        return res.status(200).send(Formatter(commitsha));
-    })
-    .catch(function(err){
-        return res.status(403).send(Formatter(err , true));
     });
 }
 
