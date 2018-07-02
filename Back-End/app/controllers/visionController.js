@@ -17,6 +17,7 @@ const {
     gitTest,
 } = require('./gitController');
 const { Formatter, queryCheck, isValidObjectId } = require('../lib');
+const uuidv1 = require('uuid/v1');
 /*
  Git API
 */
@@ -127,68 +128,30 @@ exports.visionSummary = function(req , res , next){
 
 exports.createVision = function(req , res , next){
     const body = req.body;
-    // const checkRes = queryCheck(body , ['author' , 'authorMail', 'title']);
-    // if (!checkRes) {
-    //     return res.status(403).send(Formatter({data : 'Missing Required Parameters'} , true));
-    // }
+    const checkRes = queryCheck(body , ['author' , 'authorMail', 'title']);
+    if (!checkRes) {
+        return res.status(403).send(Formatter({data : 'Missing Required Parameters'} , true));
+    }
+    const randomId = uuidv1()
 
     body.creator = req.tokenData.iss;
-    body.id = Math.floor(Math.random() * 1000);
+    body.systemId = randomId;
     initRepository(body)
-    .then((commitSha) => {
-        console.log(commitSha, 'commitSha');
-        const response = {
-            repository: commitSha,
-            db: data
-        };
+    .then(() => {
+        return randomId;
+    })
+    .then((id) => {
+        const newVision = new visionModel(body);
+        return newVision.save();
+    })
+    .then(data => {
         req.visionId = data._id;
-        req.repoResponse = response;
-        return res.status(200).send(Formatter({data: response}));
-        // next();
+        req.repoResponse = data;
+        next();
     })
     .catch((err) => {
-        return res.status(403).send(Formatter({data : err} , true));
+        return res.status(403).send(Formatter({data : err.message} , true));
     });
-    // const newVision = new visionModel(body);
-    // newVision.save()
-    // .then(data => {
-    //     body.id = data._id;
-    //     initRepository(body)
-    //     .then((commitSha) => {
-    //         const response = {
-    //             repository: commitSha,
-    //             db: data
-    //         };
-    //         req.visionId = data._id;
-    //         req.repoResponse = response;
-    //         next();
-    //     })
-    //     .catch((err) => {
-    //         return res.status(200).send(Formatter({data : err} , true));
-    //     });
-    // })
-    // .catch(err => {
-    //     return res.status(403).send(Formatter({data : err.message} , true));
-    // });
-    // newVision.save(function (err, data) {
-    //   	  if (err) {
-            
-    //       }
-    //       body.id = data._id;
-    //       initRepository(body)
-    //       .then((commitSha) => {
-    //         const response = {
-    //           repository: commitSha,
-    //           db: data
-    //         };
-    //         req.visionId = data._id;
-    //         req.repoResponse = response;
-    //         next();
-    //       })
-    //       .catch((err) => {
-    //         res.status(200).send(Formatter({data : err} , true));
-    //       });
-    // });
 }
 
 exports.contribute = function(req , res , next){
