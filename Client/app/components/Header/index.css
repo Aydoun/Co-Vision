@@ -5,6 +5,13 @@
   position:relative;
 }
 
+.welcome-header__wrapper {
+  background: #40a9ff;
+  height: 64px;
+  padding: 16px 8px;
+  font-size: 16px;
+}
+
 .profile-link {
   position: absolute;
   top: 13px;
