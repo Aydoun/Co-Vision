@@ -84,11 +84,16 @@ exports.mergeBranches = function(req , res , next){
 }
 
 exports.readFile = function(req , res , next){
-    readFileContent(req).then(function(fileContent){
-        res.status(200).send(Formatter(fileContent));
+    const { id } = req.params;
+    visionModel.findById(id)
+    .then(vision => {
+        return readFileContent(vision.systemId, req.query);
     })
-    .catch(function(err){
-        res.status(403).send(Formatter({data : err.message} , true));
+    .then(function(fileContent){
+        return res.status(200).send(Formatter(fileContent));
+    })
+    .catch(err => {
+        return res.status(403).send(Formatter(err.message , true));
     });
 }
 
@@ -107,34 +112,58 @@ exports.branchList = function(req , res , next){
 }
 
 exports.createBranch = function(req , res , next){
-    createBranch(req, res)
-    .then(function(ref){
-        res.status(200).send(Formatter({data : ref.name()}));
+    const { id } = req.params;
+    const checkRes = queryCheck(req.body , ['branchName' ]);
+    if (!checkRes) {
+        return res.status(403).send(Formatter({data : 'Missing Required Parameters'} , true));
+    }
+
+    visionModel.findById(id)
+    .then(vision => {
+        return createBranch(vision.systemId, req.body.branchName);
     })
-    .catch(function(err){
-        res.status(403).send(Formatter({data : err.message} , true));
+    .then(function(ref){
+        return res.status(200).send(Formatter({data : ref.name()}));
+    })
+    .catch(err => {
+        return res.status(403).send(Formatter(err.message , true));
     });
+
 }
 
 exports.checkoutBranch = function(req , res , next){
-    checkoutBranch(req.body).then(function(message){
-        res.status(200).send(Formatter({data : message}));
+    const { id } = req.params;
+    if (queryCheck(req.body , ['branchName']) !== true) {
+        return res.status(403).send(Formatter({data : 'Missing Required Parameters'} , true));
+    }
+
+    visionModel.findById(id)
+    .then(vision => {
+        return checkoutBranch(vision.systemId, req.body.branchName);
     })
-    .catch(function(err){
-        res.status(200).send(Formatter({data : err.message} , true));
+    .then(function(message){
+        return res.status(200).send(Formatter({data : message}));
+    })
+    .catch(err => {
+        return res.status(403).send(Formatter(err.message , true));
     });
 }
 
 exports.removeBranch = function(req , res , next){
-    deleteBranch({
-      id: req.params.id,
-      branchName: req.body.branchName
+    const { id } = req.params;
+    if (queryCheck(req.body , ['branchName']) !== true) {
+      return res.status(403).send(Formatter({data : 'Missing Required Parameters'} , true));
+    }
+
+    visionModel.findById(id)
+    .then(vision => {
+        return deleteBranch(vision.systemId, req.body.branchName);
     })
-    .then(function(message){
-        res.status(200).send(Formatter({data : {}}));
+    .then(function(){
+        return res.status(200).send(Formatter({data : {}}));
     })
-    .catch(function(err){
-        res.status(200).send(Formatter({data : err.message} , true));
+    .catch(err => {
+        return res.status(403).send(Formatter(err.message , true));
     });
 }
 
@@ -142,7 +171,7 @@ exports.visionSummary = function(req , res , next){
     const visionId = req.params.id;
     visionModel.findById(visionId)
     .then(vision => {
-      return treeSummary(req.query, vision);
+      return treeSummary(req.query.branchName, vision.systemId, vision.likes.length);
     })
     .then(summary => {
       return res.status(200).send(Formatter(summary));

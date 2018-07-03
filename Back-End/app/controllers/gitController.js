@@ -131,13 +131,12 @@ exports.status = function(systemId){
     });
 }
 
-exports.treeSummary = function(query, vision){
-  const pathToRepo = defaultGitPath(vision.systemId);
-  const branchName = query.branchName || 'master';
+exports.treeSummary = function(branchName, systemId, likesCount){
+  const pathToRepo = defaultGitPath(systemId);
 
   return Git.Repository.open(pathToRepo)
   .then(function(repository) {
-      return repository.getBranchCommit(branchName);
+      return repository.getBranchCommit(branchName || 'master');
   })
   .then(function(firstCommit){
       const history = firstCommit.history();
@@ -163,6 +162,7 @@ exports.treeSummary = function(query, vision){
                 resolve({
                     totalContributions : commits.length,
                     totalContributors : Object.keys(contributors).length,
+                    likes: likesCount,
                     vision: {
                       title: vision.title,
                       description: vision.description,
@@ -199,23 +199,17 @@ exports.getAllBranchList = function(systemId){
     
 }
 
-exports.createBranch = function(req, res){
-    const checkRes = queryCheck(req.body , ['branchName' ]);
-    if (!checkRes) {
-        return res.status(403).send(Formatter({data : 'Missing Required Parameters'} , true));
-    }
-
-    var pathToRepo = defaultGitPath(req.params.id);
+exports.createBranch = function(systemId, branchName){
+    const pathToRepo = defaultGitPath(systemId);
+    let repository;
 
     return Git.Repository.open(pathToRepo)
     .then(function(repo) {
-      return repo.getHeadCommit()
-      .then(function(commit) {
-        return repo.createBranch(
-          req.body.branchName.replace(/ /g , '_'),
-          commit,
-          0);
-      });
+      repository = repo;
+      return repository.getHeadCommit()
+    })
+    .then(function(commit) {
+        return repository.createBranch(branchName.replace(/ /g , '_'), commit, 0);
     });
 }
 
@@ -231,67 +225,52 @@ exports.mergeBranches = function(req, res){
   });
 }
 
-exports.checkoutBranch = function(params){
-    var clientInput = params;
-
-    var checkRes = queryCheck(clientInput , ['title' , 'branchName']);
-
-    if (checkRes !== true) {
-        throw new Error('Missing Required Paramenters');
-    }
-
-    var pathToRepo = defaultGitPath(clientInput.title);
+exports.checkoutBranch = function(systemId, branchName){
+    const pathToRepo = defaultGitPath(systemId);
 
     return Git.Repository.open(pathToRepo)
     .then(function(repo) {
-        repo.checkoutBranch(clientInput.branchName, {}).then(function() {
-          return 'switched to ' + clientInput.branchName;
-        });
+        return repo.checkoutBranch(branchName, {})
+    })
+    .then(function() {
+          return 'switched to ' + branchName;
     });
 }
 
-exports.deleteBranch = (params, res) => {
-    const checkRes = queryCheck(params , ['branchName']);
-
-    if (checkRes !== true) {
-      return res.status(403).send(Formatter({data : 'Missing Required Parameters'} , true));
-    }
-
-    const pathToRepo = defaultGitPath(params.id);
+exports.deleteBranch = (systemId, branchName) => {
+    const pathToRepo = defaultGitPath(systemId);
 
     return Git.Repository.open(pathToRepo)
     .then(repo => {
-        return repo.getBranch(params.branchName).then(function(reference) {
-            return Git.Branch.delete(reference);
-        });
+        return repo.getBranch(branchName);
+    })
+    .then(function(reference) {
+        return Git.Branch.delete(reference);
     });
 }
 
-exports.readFileContent = function(req){
-    const visionId = req.params.id;
-    var clientInput = req.query;
-    var _entry;
-    var checkRes = queryCheck(clientInput , ['fileName' , 'commitSha']);
+exports.readFileContent = function(systemId, query){
+    const pathToRepo = defaultGitPath(systemId);
+    const { commitSha, fileName } = query;
+    let _entry;
+    const checkRes = queryCheck(query , ['fileName' , 'commitSha']);
 
     if (!checkRes) {
         throw new Error('Missing Required Paramenters');
     }
 
-    var pathToRepo = defaultGitPath(visionId);
-
     return Git.Repository.open(pathToRepo)
       .then(function(repo) {
-        return repo.getCommit(clientInput.commitSha);
+        return repo.getCommit(commitSha);
       })
       .then(function(commit) {
-        return commit.getEntry(clientInput.fileName);
+        return commit.getEntry(fileName);
       })
       .then(function(entry) {
         _entry = entry;
         return _entry.getBlob();
       })
       .then(function(blob) {
-        //first Ten Lines
         return blob.toString();//  .split("\n").slice(0, 10).join("\n");
       });
 }
