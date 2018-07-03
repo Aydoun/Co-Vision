@@ -8,9 +8,9 @@ const {
 } = require('../controllers/fileController');
 
 files.post('/:id', addFile);
-// files.post('/:id/directory', addDirectory);
-// files.put('/:id', addFile);
-// files.put('/:id/rename', renameFile);
-// files.delete('/:id', removeFile);
+files.post('/:id/directory', addDirectory);
+files.put('/:id', addFile);
+files.put('/:id/rename', renameFile);
+files.delete('/:id', removeFile);
 
 module.exports = files;
