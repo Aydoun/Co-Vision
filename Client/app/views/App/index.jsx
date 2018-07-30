@@ -30,50 +30,24 @@ class App extends React.Component {
                 </Link>
               </Menu.Item>
               <Menu.Item key="2">
+                <Link to="/app/mail"><Icon type="message" />
+                  <span>Chat</span>
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="3">
                 <Link to="/app/discover"><Icon type="global" />
                   <span>Discover</span>
                 </Link>
               </Menu.Item>
-              <SubMenu
-                key="sub1"
-                title={<span><Icon type="mail" /><span>Courrier</span></span>}
-              >
-                <Menu.Item key="3">
-                  <Link to="/app/invitation"><Icon type="mail" />
-                    <span>Requests</span>
-                  </Link>
-                </Menu.Item>
-                <Menu.Item key="4">
-                  <Link to="/app/mail"><Icon type="mail" />
-                    <span>Messages</span>
-                  </Link>
-                </Menu.Item>
-              </SubMenu>
-              <SubMenu
-                key="sub2"
-                title={<span><Icon type="user" /><span>Me</span></span>}
-              >
-                <Menu.Item key="5">
-                  <Link to="/app/user/profile"><Icon type="user" />
-                    <span>Profile</span>
-                  </Link>
-                </Menu.Item>
-                <Menu.Item key="6">
-                  <Popconfirm
-                    title="Confirm Logout"
-                    onConfirm={logout}
-                    okText="Confirm"
-                    cancelText="Cancel"
-                  >
-                    <Icon type="logout" />
-                    <span>Logout</span>
-                  </Popconfirm>
-                </Menu.Item>
-              </SubMenu>
-              <Menu.Item key="7">
+              <Menu.Item key="4">
                 <Link to="/app/feedback"><Icon type="customer-service" />
                   <span>FeedBack</span>
                 </Link>
+              </Menu.Item>
+              <Menu.Item key="5">
+                  <Link to="/app/user/profile"><Icon type="user" />
+                    <span>Me</span>
+                  </Link>
               </Menu.Item>
             </Menu>
           </Sider>

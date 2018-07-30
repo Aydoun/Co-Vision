@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import { Table, Select, Card, Modal, Icon, Button, Tooltip } from 'antd';
 import Columns from './table-columns/fileSystem';
 import { preContent, preBranch, preStat } from 'actions/vision';
-import SummaryBar from 'components/SummaryBar';
 import DraftForm from './createDraft';
 
 const Option = Select.Option;
@@ -31,7 +30,6 @@ class VisionFS extends React.Component {
 
       this.props.preContent(params);
       this.props.preBranch(params);
-      this.props.preStat(params);
   }
 
   branchChanged(value) {
@@ -71,7 +69,7 @@ class VisionFS extends React.Component {
   }
 
   render() {
-    const { visionFS, branchList, contributionStats, vision } = this.props;
+    const { visionFS, branchList, vision } = this.props;
     const { visible } = this.state;
     const SelectBranch = (
       <div>
@@ -102,7 +100,6 @@ class VisionFS extends React.Component {
             {vision.title}
           </span>}
         >
-          <SummaryBar summaryData={contributionStats} /><br/>
           <div>
             <Tooltip title="Add File">
               <Button icon="file-add" />
@@ -147,8 +144,7 @@ function mapStateToProps(state) {
   return {
       visionFS : state.vision.visionFS,
       branchList : state.vision.branchList,
-      contributionStats : state.vision.contributionStats,
-      vision: state.vision.contributionStats.vision
+      vision: {},
   };
 }
 
