@@ -8,6 +8,7 @@ const { passwordHash } = require('../lib/crypto');
 const { Formatter, generateToken } = require('../lib');
 
 exports.visionList = function(req, res, next) {
+    console.log(req.tokenData.iss)
     UserModel.findById(req.tokenData.iss)
     .then(user => {
       if (user !== null) {
@@ -16,6 +17,7 @@ exports.visionList = function(req, res, next) {
       return ;
     })
     .then(userVisionsId => {
+      console.log(userVisionsId);
       return visionModel.find(
         { status:'Active', "_id": { "$in": userVisionsId },
       }).sort({updatedAt: 'desc'}).lean()

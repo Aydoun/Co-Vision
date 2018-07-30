@@ -79,9 +79,7 @@
     "react-router-scroll": "0.4.1",
     "redux": "3.6.0",
     "redux-logger": "3.0.6",
-    "redux-saga": "0.14.0",
-    "styled-components": "1.1.2",
-    "webpack": "^3.10.0"
+    "redux-saga": "0.14.0"
   },
   "devDependencies": {
     "babel-cli": "6.18.0",
@@ -117,16 +115,17 @@
     "eventsource-polyfill": "0.9.6",
     "exports-loader": "0.6.3",
     "extract-text-webpack-plugin": "^3.0.0",
+    "html-webpack-plugin": "^2.24.1",
     "file-loader": "0.9.0",
     "history": "3.3.0",
     "html-loader": "0.4.4",
-    "html-webpack-plugin": "^2.24.1",
     "image-webpack-loader": "2.0.0",
     "imports-loader": "0.6.5",
     "lint-staged": "3.2.1",
     "react-addons-test-utils": "15.4.1",
     "sinon": "2.0.0-pre",
     "style-loader": "0.13.1",
-    "url-loader": "0.5.7"
+    "url-loader": "0.5.7",
+    "webpack": "^3.10.0"
   }
 }

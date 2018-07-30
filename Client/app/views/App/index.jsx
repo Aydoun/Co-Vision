@@ -20,20 +20,22 @@ class App extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { notification } = nextProps;
-    const isNotif = notification && notification.message;
-    if (isNotif) {
-      const isSucess = isNotif && notification.status;
-      const messageNotif = isSucess ? message.success : message.error;
-      messageNotif(notification.message, 3);
-    }
+    // const { notification } = nextProps;
+    // const isNotif = notification && notification.message;
+    // if (isNotif) {
+    //   const isSucess = isNotif && notification.status;
+    //   const messageNotif = isSucess ? message.success : message.error;
+    //   messageNotif(notification.message, 3);
+    // }
   }
 
   render() {
     return (
       <div >
         <Layout style={{ height: 1000 }}>
-          <Sider          
+          <Sider    
+            collapsible
+            collapsed={true}      
             className="app-sider-wrapper"
           >
             <div className="logo" >
@@ -46,34 +48,33 @@ class App extends React.Component {
                 </Link>
               </Menu.Item>
               <Menu.Item key="2">
-                <Icon type="global" />
-                <span><Link to="/app/discover">Discover</Link></span>
+                <Link to="/app/discover"><Icon type="global" />
+                  <span>Discover</span>
+                </Link>
               </Menu.Item>
               <SubMenu
                 key="sub1"
                 title={<span><Icon type="mail" /><span>Courrier</span></span>}
               >
                 <Menu.Item key="3">
-                  <span><Icon type="mail" />
-                    <Link to="/app/invitation">Requests</Link>
-                  </span>
+                  <Link to="/app/invitation"><Icon type="mail" />
+                    <span>Requests</span>
+                  </Link>
                 </Menu.Item>
-                <Link to="/app/mail">
-                  <Menu.Item key="4">
-                    <span><Icon type="message" />
-                      Messages
-                    </span>
-                  </Menu.Item>
-                </Link>
+                <Menu.Item key="4">
+                  <Link to="/app/mail"><Icon type="mail" />
+                    <span>Messages</span>
+                  </Link>
+                </Menu.Item>
               </SubMenu>
               <SubMenu
                 key="sub2"
                 title={<span><Icon type="user" /><span>Me</span></span>}
               >
-                <Menu.Item key="5"><span>
-                  <Icon type="user" />
-                  <Link to="/app/user/profile">Profile</Link>
-                </span>
+                <Menu.Item key="5">
+                  <Link to="/app/user/profile"><Icon type="user" />
+                    <span>Profile</span>
+                  </Link>
                 </Menu.Item>
                 <Menu.Item key="6">
                   <Popconfirm
@@ -88,15 +89,16 @@ class App extends React.Component {
                 </Menu.Item>
               </SubMenu>
               <Menu.Item key="7">
-                <Icon type="customer-service" />
-                <span><Link to="/app/feedback">FeedBack</Link></span>
+                <Link to="/app/feedback"><Icon type="customer-service" />
+                  <span>FeedBack</span>
+                </Link>
               </Menu.Item>
             </Menu>
           </Sider>
           <Layout>
             
             <Content >
-              <div style={{ padding: 24, background: '#fff', minHeight: '100%' }}>
+              <div style={{ padding: 24, background: '#fff' }}>
                 {this.props.children}
               </div>
             </Content>
@@ -116,7 +118,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   return {
-    notification: state.notif
+    // notification: state.notif
   };
 }
 

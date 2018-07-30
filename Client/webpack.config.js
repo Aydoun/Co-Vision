@@ -1,4 +1,6 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
@@ -11,7 +13,6 @@ module.exports = {
     filename: 'bundle.js',
     publicPath: '/dist',
   },
-  watch: true,
   module: {
     rules: [
       {
@@ -33,13 +34,20 @@ module.exports = {
           }
         }
       },
+      // {
+      //   test: /\.css$/,
+      //   use:[
+      //     { loader:'style-loader' },
+      //     { loader:'css-loader' }
+      //   ]
+      // },
       {
         test: /\.css$/,
-        use:[
-          { loader:'style-loader' },
-          { loader:'css-loader' }
-        ]
-      },
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader'
+        })
+      }
     ]
   },
   performance: {
@@ -50,6 +58,8 @@ module.exports = {
     modules : [path.resolve(__dirname, 'app'), 'node_modules']
   },
   plugins: [
+    new ExtractTextPlugin('styles.css'),
     new webpack.HotModuleReplacementPlugin(),
+    // new HtmlWebpackPlugin()
   ]
 };

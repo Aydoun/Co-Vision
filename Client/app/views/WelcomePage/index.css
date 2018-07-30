@@ -2,10 +2,13 @@
   height: 42px;
 }
 
+div#app {
+  background: #fafafa;
+}
+
 .main {
-  /* margin: 80px 112px; */
-  /* background: #fffaf4; */
-  padding: 24px 12px;
+  width: 50%;
+  margin: 32px auto;
 }
 
 .login-form {

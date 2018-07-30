@@ -38,7 +38,7 @@ export default class VisionCard extends Component {
 
     return Menu !== null ? (
       <Dropdown overlay={Menu} placement="bottomCenter">
-        <Button icon="down" style={{ background: '#fafafa' }} shape="circle" />
+        <Button icon="ellipsis" style={{ background: '#fafafa' }} shape="circle" />
       </Dropdown>
     ) : null;
   }
