@@ -6,6 +6,7 @@ import { Layout, Menu, Icon, Avatar } from 'antd';
 import MyFooter from 'components/Footer';
 import Header from 'components/Header';
 import Notificator from 'components/Notificator';
+import Breadcrumb from 'components/Breadcrumb';
 import './index.css';
 
 const { Content, Footer, Sider } = Layout;
@@ -54,8 +55,10 @@ class App extends React.Component {
           <Layout>
             <Notificator notificationData={notificationData} key={notificationKey} />
             <Header />
+            
             <Content >
               <div style={{ padding: 24, background: '#fff' }}>
+                <Breadcrumb appBreadCrumb={this.props.appBreadCrumb}/>
                 {this.props.children}
               </div>
             </Content>
@@ -76,7 +79,8 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   return {
     notificationData: state.app.notificationData,
-    notificationKey: state.app.notificationKey
+    notificationKey: state.app.notificationKey,
+    appBreadCrumb: state.app.appBreadCrumb,
   };
 }
 

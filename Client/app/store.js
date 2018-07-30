@@ -8,12 +8,17 @@ import rootReducer from './reducers';
 
 const LocationChangedMiddleware = store => next => (action) => {
   if (action.type.indexOf('LOCATION_CHANGE') >= 0) {
-    const notifMessage = store.getState().notif.message;
-    if (notifMessage.length > 0) {
-      store.dispatch({
-        type: 'APP_CHANGED_LOCATION'
-      });
-    }
+    // const appBreadCrumb = store.getState().app.appBreadCrumb;
+    // store.dispatch({
+    //   type: 'UPDATE_NOTIFCATION',
+    //   data: {
+    //     message: 'mamammia',
+    //     type: 'success',
+    //   }
+    // });
+    // if (notifMessage.length > 0) {
+      
+    // }
   }
   next(action);
 };

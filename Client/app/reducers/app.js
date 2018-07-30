@@ -10,7 +10,8 @@ const initialState = {
   notificationData: {
     type: 'success',
     message: '',
-  }
+  },
+  appBreadCrumb: ['ok', 'doki']
 };
 
 function appReducer(state = initialState, action) {

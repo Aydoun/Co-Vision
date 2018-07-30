@@ -12,7 +12,6 @@ const initialState = {
 function userReducer(state = initialState, action) {
   switch (action.type) {
     case DUPLICATE_USER_ACTION:
-      console.log('Hey MAMA');
       return assign({}, state, { ...action }, { loading:false });
     default:
       return assign({}, state, { loading:true });
