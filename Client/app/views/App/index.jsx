@@ -2,8 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
-import { Layout, Menu, Icon, Avatar, Popconfirm, message } from 'antd';
+import { Layout, Menu, Icon, Avatar, Popconfirm } from 'antd';
 import MyFooter from 'components/Footer';
+import Header from 'components/Header';
 import { logout } from 'utils';
 import './index.css';
 
@@ -11,30 +12,11 @@ const { Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
 
 class App extends React.Component {
-  state = {
-    collapsed: false,
-
-  };
-  onCollapse = (collapsed) => {
-    this.setState({ collapsed });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // const { notification } = nextProps;
-    // const isNotif = notification && notification.message;
-    // if (isNotif) {
-    //   const isSucess = isNotif && notification.status;
-    //   const messageNotif = isSucess ? message.success : message.error;
-    //   messageNotif(notification.message, 3);
-    // }
-  }
-
   render() {
     return (
       <div >
         <Layout style={{ height: 1000 }}>
           <Sider    
-            
             collapsed={true}      
             className="app-sider-wrapper"
           >
@@ -96,7 +78,7 @@ class App extends React.Component {
             </Menu>
           </Sider>
           <Layout>
-            
+            <Header  />
             <Content >
               <div style={{ padding: 24, background: '#fff' }}>
                 {this.props.children}
@@ -118,7 +100,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   return {
-    // notification: state.notif
+    
   };
 }
 

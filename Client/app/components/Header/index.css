@@ -1,31 +1,16 @@
 .header-wrapper {
-  background: rgb(64, 64, 64);
+  background:rgb(225, 241, 255);
   height: 56px;
   padding: 9px 22px;
   position:relative;
 }
 
-.welcome-header__wrapper {
-  background: #40a9ff;
-  height: 64px;
-  padding: 16px 8px;
-  font-size: 16px;
+.header-wrapper a {
+  color: #001529;
 }
 
 .profile-link {
   position: absolute;
   top: 13px;
   right: 18px;
-}
-
-.profile-link a {
-
-  text-decoration: none;
-  font-size: 14px;
-  color: #bfbfbf;
-}
-
-.profile-link a:hover {
-  color: white;
-  transition: 0.2s;
 }
