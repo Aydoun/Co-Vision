@@ -1,13 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Table, Select, Card, Modal, Icon, Menu, Row, Col, Dropdown, Badge, Button, Breadcrumb } from 'antd';
+import { Table, Select, Card, Modal, Icon, Button, Tooltip } from 'antd';
 import Columns from './table-columns/fileSystem';
 import { preContent, preBranch, preStat } from 'actions/vision';
 import SummaryBar from 'components/SummaryBar';
 import DraftForm from './createDraft';
-
-import { formatDate } from 'utils';
 
 const Option = Select.Option;
 
@@ -106,8 +104,13 @@ class VisionFS extends React.Component {
         >
           <SummaryBar summaryData={contributionStats} /><br/>
           <div>
-            <Button icon="file-add"  />&nbsp;&nbsp;
-            <Button icon="folder-add"  />&nbsp;&nbsp;
+            <Tooltip title="Add File">
+              <Button icon="file-add" />
+            </ Tooltip>&nbsp;&nbsp;
+            <Tooltip title="Add Folder">
+              <Button icon="folder-add"  />
+            </ Tooltip>
+            &nbsp;&nbsp;
             <Button type="primary" icon="fork" >
                 Merge
             </Button>

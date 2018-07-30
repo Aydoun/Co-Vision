@@ -169,12 +169,24 @@ exports.removeBranch = function(req , res , next){
 
 exports.visionSummary = function(req , res , next){
     const visionId = req.params.id;
+    let foundVision = {};
     visionModel.findById(visionId)
     .then(vision => {
-      return treeSummary(req.query.branchName, vision.systemId, vision.likes.length);
+        if(vision) {
+            foundVision = vision;
+            return treeSummary(req.query.branchName, vision.systemId);
+        }
     })
     .then(summary => {
-      return res.status(200).send(Formatter(summary));
+      return res.status(200).send(Formatter(Object.assign({}, summary, {
+        likes: foundVision.likes.length,
+        vision: {
+          title: foundVision.title,
+          description: foundVision.description,
+          id: foundVision._id,
+          updatedAt: foundVision.updatedAt
+        }
+      })));
     })
     .catch(err => {
       return res.status(403).send(Formatter(err.message , true));

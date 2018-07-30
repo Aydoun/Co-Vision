@@ -5,7 +5,7 @@ const badgeStyle = {
     backgroundColor: '#fff', 
     color: '#43b10c', 
     boxShadow: '0 0 0 1px #d9d9d9 inset'
-}
+};
 
 export default class SummaryBar extends Component {
   render() {
@@ -15,9 +15,6 @@ export default class SummaryBar extends Component {
         <Menu
           mode="horizontal"
         >
-        <Menu.Item key="creator">
-          <Icon type="user" />{summaryData.creator || 'Unknown'}
-        </Menu.Item>
         <Menu.Item key="contributions">
           <Icon type="coffee" />Contributions &nbsp;
           <Badge count={summaryData.totalContributions} style={badgeStyle} overflowCount={500} />
@@ -28,7 +25,7 @@ export default class SummaryBar extends Component {
         </Menu.Item>
         <Menu.Item key="likes">
           <Icon type="like-o" />Likes &nbsp;
-          <Badge count={summaryData.vision.likes} style={badgeStyle} overflowCount={500} />
+          <Badge count={summaryData.likes} style={badgeStyle} overflowCount={500} showZero/>
         </Menu.Item>
       </Menu>
     );

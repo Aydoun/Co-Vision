@@ -34,7 +34,7 @@ class App extends React.Component {
       <div >
         <Layout style={{ height: 1000 }}>
           <Sider    
-            collapsible
+            
             collapsed={true}      
             className="app-sider-wrapper"
           >

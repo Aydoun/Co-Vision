@@ -131,7 +131,7 @@ exports.status = function(systemId){
     });
 }
 
-exports.treeSummary = function(branchName, systemId, likesCount){
+exports.treeSummary = function(branchName, systemId){
   const pathToRepo = defaultGitPath(systemId);
 
   return Git.Repository.open(pathToRepo)
@@ -162,14 +162,6 @@ exports.treeSummary = function(branchName, systemId, likesCount){
                 resolve({
                     totalContributions : commits.length,
                     totalContributors : Object.keys(contributors).length,
-                    likes: likesCount,
-                    vision: {
-                      title: vision.title,
-                      description: vision.description,
-                      id: vision._id,
-                      likes: vision.likes.length,
-                      updatedAt: vision.updatedAt
-                    }
                 });
             });
       
