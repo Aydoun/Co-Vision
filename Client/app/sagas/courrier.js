@@ -6,6 +6,7 @@ import {
   GetRequestsList,
   preRequests
 } from 'actions/courrier';
+import { showNotification } from 'actions/app';
 import { notify } from 'actions/notif';
 import request from 'utils/request';
 

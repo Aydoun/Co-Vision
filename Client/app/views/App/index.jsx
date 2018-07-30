@@ -2,17 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
-import { Layout, Menu, Icon, Avatar, Popconfirm } from 'antd';
+import { Layout, Menu, Icon, Avatar } from 'antd';
 import MyFooter from 'components/Footer';
 import Header from 'components/Header';
-import { logout } from 'utils';
+import Notificator from 'components/Notificator';
 import './index.css';
 
 const { Content, Footer, Sider } = Layout;
-const SubMenu = Menu.SubMenu;
 
 class App extends React.Component {
   render() {
+    const { notificationData, notificationKey } = this.props;
     return (
       <div >
         <Layout style={{ height: 1000 }}>
@@ -52,7 +52,8 @@ class App extends React.Component {
             </Menu>
           </Sider>
           <Layout>
-            <Header  />
+            <Notificator notificationData={notificationData} key={notificationKey} />
+            <Header />
             <Content >
               <div style={{ padding: 24, background: '#fff' }}>
                 {this.props.children}
@@ -74,7 +75,8 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   return {
-    
+    notificationData: state.app.notificationData,
+    notificationKey: state.app.notificationKey
   };
 }
 
