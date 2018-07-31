@@ -8,6 +8,7 @@ import rootReducer from './reducers';
 
 const LocationChangedMiddleware = store => next => (action) => {
   if (action.type.indexOf('LOCATION_CHANGE') >= 0) {
+    console.log(action, 'action')
     // const appBreadCrumb = store.getState().app.appBreadCrumb;
     // store.dispatch({
     //   type: 'UPDATE_NOTIFCATION',

@@ -2,7 +2,6 @@ import { call, put, takeLatest, fork } from 'redux-saga/effects';
 import {
   SEND_FEEDBACK
 } from 'constants/feedback';
-import { notify } from 'actions/notif';
 import request from 'utils/request';
 
 function* sendFeedback(returnedData) {
@@ -16,15 +15,9 @@ function* sendFeedback(returnedData) {
 
   try {
     const res = yield call(request, PostOptions);
-    yield put(notify({
-      status: res.data.status,
-      message: 'FeedBack Received, Thanks'
-    }));
+    
   } catch (err) {
-    yield put(notify({
-      status: false,
-      message: 'Network Error, Check your are Connected to the Internet'
-    }));
+    console.log(err);
   }
 }
 

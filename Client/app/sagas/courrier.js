@@ -7,7 +7,6 @@ import {
   preRequests
 } from 'actions/courrier';
 import { showNotification } from 'actions/app';
-import { notify } from 'actions/notif';
 import request from 'utils/request';
 
 
@@ -56,16 +55,10 @@ function* sendMessage(returnedData) {
     const res = yield call(request, PostOptions);
     yield put(saveMessage(res, isExternal));
     if (isExternal) {
-      yield put(notify({
-        status: res.data.status,
-        message: 'Message Successfully Sent'
-      }));
+      
     }
   } catch (err) {
-    yield put(notify({
-      status: false,
-      message: err.message
-    }));
+    console.log(err);
   }
 }
 
@@ -79,15 +72,9 @@ function* sendRequest(returnedData) {
 
   try {
     const res = yield call(request, PostOptions);
-    yield put(notify({
-      status: res.data.status,
-      message: 'Request Successfully Sent'
-    }));
+    
   } catch (err) {
-    yield put(notify({
-      status: false,
-      message: 'Couldn\'t Send Your Request, Check Your Network Connection'
-    }));
+    console.log(err);
   }
 }
 
@@ -103,10 +90,7 @@ function* answerRequest(returnedData) {
     yield call(request, PutOptions);
     yield put(preRequests());
   } catch (err) {
-    yield put(notify({
-      status: false,
-      message: 'Couldn\'t Perform Action, Check Your Network Connection'
-    }));
+    console.log(err);
   }
 }
 

@@ -4,23 +4,16 @@ import assign from 'lodash/assign';
 import appReducer from './app';
 import visionReducer from './vision';
 import userReducer from './user';
-import notifReducer from './notif';
 import discoverReducer from './discover';
 import courrierReducer from './courrier';
-
-const loadingReducer = (state, _) => (
-  assign({}, state, { loading: true })
-);
 
 const rootReducer = combineReducers({
   routing: routerReducer,
   vision : visionReducer,
   user : userReducer,
-  notif : notifReducer,
   discover: discoverReducer,
   app : appReducer,
   courrier: courrierReducer
-  // loading: loadingReducer
 });
 
 export default rootReducer;

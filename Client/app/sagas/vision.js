@@ -2,7 +2,6 @@ import { call, put, takeLatest, fork } from 'redux-saga/effects';
 import * as C from 'constants/vision';
 import * as A from 'actions/vision';
 import { saveDiscoverLike } from 'actions/discover';
-import { notify } from 'actions/notif';
 import request from 'utils/request';
 
 function* createVision(returnedData) {
@@ -16,16 +15,10 @@ function* createVision(returnedData) {
   try {
     const res = yield call(request, PostOptions);
     yield put(A.visionSaved(res));
-    yield put(notify({
-      status: res.data.status,
-      message: 'Vision Created Successfully'
-    }));
+    
     yield put(A.prepareListing({}));
   } catch (err) {
-    yield put(notify({
-      status: false,
-      message: 'Network Error'
-    }));
+    console.log(err);
   }
 }
 
@@ -39,18 +32,11 @@ function* createBranch(returnedData) {
 
   try {
     const res = yield call(request, PostOptions);
-    yield put(notify({
-      status: res.data.status,
-      message: 'Draft Created Successfully'
-    }));
     yield put(A.preBranch({
       id: returnedData.payload.id
     }));
   } catch (err) {
-    yield put(notify({
-      status: false,
-      message: 'Network Error'
-    }));
+    console.log(err);
   }
 }
 
@@ -207,10 +193,7 @@ function* unregisterUser(returnedData) {
     yield call(request, PostOptions);
     yield put(A.prepareListing({}));
   } catch (err) {
-    yield put(notify({
-      status: false,
-      message: 'Network Error'
-    }));
+    console.log(err);
   }
 }
 
@@ -230,10 +213,7 @@ function* userLikeVision(returnedData) {
       yield put(A.saveLike(res));
     }
   } catch (err) {
-    yield put(notify({
-      status: false,
-      message: 'Couldn\'t perform action'
-    }));
+    console.log(err);
   }
 }
 

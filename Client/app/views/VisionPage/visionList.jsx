@@ -68,17 +68,21 @@ class VisionList extends Component {
       </Modal>
     );
 
+    const addVisionButton = (
+      <Button
+        icon="plus" type="primary"
+        onClick={() => this.setState({ visible: true })}
+      >
+            Add Vision
+      </Button>
+    );
+
     if (!loading && visionList.length === 0) {
       return (
         <div>
           <Empty
             message={<span>
-              <Button
-                icon="plus" type="primary"
-                onClick={() => this.setState({ visible:true })}
-              >
-                Add Vision
-              </Button>
+              { addVisionButton }
             </span>}
           />
           { AddModal }
@@ -87,18 +91,12 @@ class VisionList extends Component {
     }
 
     return (
-      <div >
-        <Button
-          icon="plus" type="primary"
-          onClick={() => this.setState({ visible: true })}
-        >
-            Add Vision
-          </Button>
+      <div >        
         {
           <VisionCard
             onConfirm={this.unregister}
             onLike={this.userLike}
-            header={<span><Icon type="api" /> Active Visions</span>}
+            header={<span><Icon type="api" /> Active Visions { addVisionButton }</span>}
             listData={visionList}
             loading={loading}
           />
