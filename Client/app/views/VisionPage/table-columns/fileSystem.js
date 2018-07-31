@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { Icon, Input } from 'antd';
+import { formatDate } from 'utils';
 
 export default function Columns() {
     const _this = this;
@@ -21,9 +22,22 @@ export default function Columns() {
           }
       },
       {
+        title: 'Timestamp',
+        dataIndex: 'date',
+        render(item) {
+          return formatDate(item);
+        }
+      },
+      {
+        title: 'Type',
+        dataIndex: 'isFile',
+        render(item) {
+          return item ? 'File' : 'Folder';
+        }
+      },
+      {
           title: 'Action',
           render(item, row) {
-              console.log(row, 'row');
               return (
                 <div>
                   { row.isFile && <span><Icon type="edit" />&nbsp;&nbsp;</span>}

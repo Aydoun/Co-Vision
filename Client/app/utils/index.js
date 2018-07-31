@@ -4,14 +4,13 @@ function hasNumber(str) {
   return /\d/.test(str);
 }
 
-const pathMapping = {
-  '/app/vision/list' : [],
-  '/app/feedback': [{ link: '/app/feedback', label: 'Feedback' }],
-  '/app/user/profile': [{ link: '/app/user/profile', label: 'User' }],
-  '/app/discover': [{ link: '/app/discover', label: 'Discover' }],
-  '/app/mail': [{ link: '/app/mail', label: 'Chat' }],
-  '/app/vision/content': [{ link: '', label: 'Vision Page' }],
+
+
+const extraFormatting = path => {
+  
+
 };
+
 
 export function saveUserData(serverResponse) {
     localStorage.setItem('token', serverResponse.token);
@@ -39,5 +38,26 @@ export function formatDate(date) {
 
 export function getBreadcrumb(path) {
   const filteredPath = path.split('/').filter(p => !hasNumber(p)).join('/');
+  const pathMapping = {
+    '/app/vision/list' : [],
+    '/app/feedback': [{ link: '/app/feedback', label: 'Feedback' }],
+    '/app/user/profile': [{ link: '/app/user/profile', label: 'User' }],
+    '/app/discover': [{ link: '/app/discover', label: 'Discover' }],
+    '/app/mail': [{ link: '/app/mail', label: 'Chat' }],
+    '/app/vision/content': [{ link: null, label: 'Vision Page' }],
+    '/app/vision/lab': [
+        { link: null, 
+          label: 'Vision Page', 
+          format: () => {
+            const filtered = path.split('/').filter(p => hasNumber(p));
+            if (filtered.length > 0) {
+              return `/app/vision/${filtered[0]}/content`;
+            }
+            return null;
+          },
+        }, 
+        { link: null, label: 'Vision Lab' }
+    ],
+  }; 
   return pathMapping[filteredPath] || [];
 }

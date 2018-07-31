@@ -74,6 +74,7 @@ exports.initRepository = function(inputs){
 }
 
 exports.treeWalk = function(systemId , query){
+    let date;
     let sha;
     const branchName = query.branchName || 'master';
     const pathToRepo = defaultGitPath(systemId);
@@ -83,6 +84,7 @@ exports.treeWalk = function(systemId , query){
       return repo.getBranchCommit(branchName);
     })
     .then(function(firstCommit) {
+      date = firstCommit.date();
       sha = firstCommit.sha();
       return firstCommit.getTree();
     })
@@ -91,15 +93,15 @@ exports.treeWalk = function(systemId , query){
         try{
             const files = tree.entries().map(entry => {
                 return {
-                    path:entry.path(),
                     key : entry.sha(),
-                    sha : sha,
+                    sha,
+                    date,
                     isDirectory : entry.isDirectory(),
                     isFile : entry.isFile(),
                     isTree : entry.isTree(),
                     name : entry.name(), 
                 };
-            })
+            });
             resolve(files);
         } catch(e) {
             reject(e);

@@ -18,7 +18,7 @@ export default props => {
                         <Breadcrumb.Item 
                             key={index}
                         >
-                         <Link to={item.link} >{item.label}</Link>                          
+                         <Link to={item.format ? item.format() : item.link} >{item.label}</Link>                          
                         </Breadcrumb.Item>
                     )
                 })

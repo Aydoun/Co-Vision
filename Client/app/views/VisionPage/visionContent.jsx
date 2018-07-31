@@ -121,7 +121,7 @@ class VisionFS extends React.Component {
           style={{ marginTop: 20 }}
           pagination={false}
           loading={false}
-          bordered
+          size="small"
         />
         <Modal
           visible={visible}
