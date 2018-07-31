@@ -14,7 +14,8 @@ const initialState = {
     contributorsList: {},
     vision: {}
   },
-  historyList : []
+  historyList : [],
+  currentVision: {},
 };
 
 function visionReducer(state = initialState, action) {

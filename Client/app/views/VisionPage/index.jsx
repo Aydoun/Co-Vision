@@ -8,7 +8,7 @@ class VisionPage extends PureComponent {
   render() {
     return (
       <div>
-        <Layout style={{ padding: '24px 0', background:'#fff', marginTop: '-17px' }}>
+        <Layout style={{ background:'#fff' }}>
           <Content >
             {this.props.children}
           </Content>

@@ -96,7 +96,7 @@ class VisionList extends Component {
           <VisionCard
             onConfirm={this.unregister}
             onLike={this.userLike}
-            header={<span><Icon type="api" /> Active Visions { addVisionButton }</span>}
+            header={<span><Icon type="api" /> Active Visions &nbsp;&nbsp; { addVisionButton }</span>}
             listData={visionList}
             loading={loading}
           />

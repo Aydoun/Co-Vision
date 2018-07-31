@@ -1,6 +1,7 @@
 const visionModel = require('../models/visionModel');
 const userModel = require('../models/userModel');
 const parallel = require('async/parallel');
+const pick = require('lodash/pick');
 const {
     commit,
     initRepository,
@@ -36,12 +37,16 @@ exports.historyList = function (req, res, next) {
 
 exports.historyTree = function(req , res , next){
     const { id } = req.params;
+    let foundVision = {};
     visionModel.findById(id)
     .then(vision => {
+      foundVision = vision;
       return treeWalk(vision.systemId, req.query);
     })
     .then(files => {
-        return res.status(200).send(Formatter(files));
+      return res.status(200).send(Formatter(Object.assign({}, { files } , {
+          vision: pick(foundVision, ['title', 'avatar', 'createdAt', 'type'])
+      })));
     })
     .catch(err => {
       return res.status(403).send(Formatter(err.message , true));

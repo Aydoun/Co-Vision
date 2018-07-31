@@ -6,23 +6,9 @@ export default function Columns() {
     const _this = this;
     return [
       {
+          title: 'Title',
           dataIndex: 'name',
           render(item, row) {
-              if (row.type === 'file') {
-                return (
-                  <Input
-                    placeholder="Name"
-                    prefix={<Icon type="file-text" style={{ color: '#52c41a' }} />}
-                  />
-                );
-              } else if (row.type === 'folder') {
-                return (
-                  <Input
-                    placeholder="Name"
-                    prefix={<Icon type="folder" style={{ color: '#52c41a' }} />}
-                  />
-                );
-              }
               const iconType = row.isDirectory ? 'folder' : 'file-text';
               const visionId = _this.props.routeParams.id;
               return (
@@ -35,12 +21,13 @@ export default function Columns() {
           }
       },
       {
+          title: 'Action',
           render(item, row) {
-              const iconType = row.type === 'file' || row.type === 'folder' ?
-              'save' : 'edit';
+              console.log(row, 'row');
               return (
                 <div>
-                  <Icon type={iconType} />
+                  { row.isFile && <span><Icon type="edit" />&nbsp;&nbsp;</span>}
+                  <Icon type="delete" />
                 </div>
               );
           }

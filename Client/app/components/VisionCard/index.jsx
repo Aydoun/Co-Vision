@@ -53,7 +53,7 @@ export default class VisionCard extends Component {
     } = this.props;
 
     return (
-      <div className="global-top-margin">
+      <div >
         <List
           itemLayout="vertical"
           size="large"

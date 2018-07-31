@@ -3,7 +3,7 @@ import axios from 'axios';
 
 function checkStatus(response) {
   const _data = response.data;
-  if (response.status >= 200 && response.status < 300 && _data.status) {
+  if (response.status === 200 && _data.status) {
     return response;
   }
 
@@ -14,7 +14,8 @@ function checkStatus(response) {
 
  export default function request(options) {
    return axios(assign(options, {
-     headers: { 'x-access-token': localStorage.getItem('token') }
+     headers: { 'x-access-token': localStorage.getItem('token') },
+     timeout: 15 * 1000,
    }))
    .then(checkStatus);
  }

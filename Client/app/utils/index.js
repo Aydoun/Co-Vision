@@ -1,5 +1,18 @@
 import moment from 'moment';
 
+function hasNumber(str) {
+  return /\d/.test(str);
+}
+
+const pathMapping = {
+  '/app/vision/list' : [],
+  '/app/feedback': [{ link: '/app/feedback', label: 'Feedback' }],
+  '/app/user/profile': [{ link: '/app/user/profile', label: 'User' }],
+  '/app/discover': [{ link: '/app/discover', label: 'Discover' }],
+  '/app/mail': [{ link: '/app/mail', label: 'Chat' }],
+  '/app/vision/content': [{ link: '', label: 'Vision Page' }],
+};
+
 export function saveUserData(serverResponse) {
     localStorage.setItem('token', serverResponse.token);
     localStorage.setItem('email', serverResponse.email);
@@ -22,4 +35,9 @@ export function formatDate(date) {
       return dateMoment.format(format);
     }
     return '';
+}
+
+export function getBreadcrumb(path) {
+  const filteredPath = path.split('/').filter(p => !hasNumber(p)).join('/');
+  return pathMapping[filteredPath] || [];
 }

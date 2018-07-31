@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Table, Select, Card, Modal, Icon, Button, Tooltip } from 'antd';
+import { Table, Select, Row, Col, Modal, Icon, Button, Tooltip, Avatar } from 'antd';
 import Columns from './table-columns/fileSystem';
-import { preContent, preBranch, preStat } from 'actions/vision';
+import { preContent, preBranch } from 'actions/vision';
 import DraftForm from './createDraft';
 
 const Option = Select.Option;
@@ -73,53 +73,56 @@ class VisionFS extends React.Component {
     const { visible } = this.state;
     const SelectBranch = (
       <div>
-        <span>Drafts ({branchList.length || 0}) : </span>
         <Select
           style={{ width:200 }}
           onChange={this.branchChanged}
           defaultValue="master"
-          size="large"
         >
           {
-            branchList.map((item, i) => <Option key={i} value={item.name}>{item.name}</Option>)
+            branchList.map((item, i) => <Option key={i} value={item}>{item}</Option>)
           }
-          <Option key={-1} value="-1">Add Draft</Option>
-        </Select>&nbsp;&nbsp;&nbsp;
-        <Button icon="save" type="primary" >
-          Save
-        </Button>
+          <Option key={branchList.length + 1} value="-1">Add Draft</Option>
+        </Select>
       </div>
     );
 
-
     return (
       <div>
-        <Card
-          extra={SelectBranch}
-          title={<span><Icon type="api" />&nbsp;&nbsp;
-            {vision.title}
-          </span>}
-        >
-          <div>
+        <div className="vision-container__global">
+          <Avatar style={{ verticalAlign: 'middle' }} src={vision.avatar} shape="circle" size="large" />
+          <span className="vision-name">{vision.title}</span>
+        </div>
+        <Row type="flex" gutter={8}>
+          <Col>
             <Tooltip title="Add File">
               <Button icon="file-add" />
-            </ Tooltip>&nbsp;&nbsp;
-            <Tooltip title="Add Folder">
-              <Button icon="folder-add"  />
             </ Tooltip>
-            &nbsp;&nbsp;
+          </Col>
+          <Col>
+            <Tooltip title="Add Folder">
+              <Button icon="folder-add" />
+            </ Tooltip>
+          </Col>
+          <Col>{SelectBranch}</Col>
+          <Col>
             <Button type="primary" icon="fork" >
                 Merge
             </Button>
-          </div><br/>
-          <Table
-            columns={this.Columns()}
-            dataSource={this.getRows()}
-            showHeader={false}
-            pagination={false}
-            loading={false}
-          />
-        </Card>
+          </Col>
+          <Col>
+            <Button icon="save" type="primary" >
+              Save
+            </Button>
+          </Col>
+        </Row>
+        <Table
+          columns={this.Columns()}
+          dataSource={this.getRows()}
+          style={{ marginTop: 20 }}
+          pagination={false}
+          loading={false}
+          bordered
+        />
         <Modal
           visible={visible}
           title={<span><Icon type="plus" /> Add Draft</span>}
@@ -137,14 +140,14 @@ class VisionFS extends React.Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ preContent, preBranch, preStat }, dispatch);
+  return bindActionCreators({ preContent, preBranch }, dispatch);
 }
 
 function mapStateToProps(state) {
   return {
       visionFS : state.vision.visionFS,
       branchList : state.vision.branchList,
-      vision: {},
+      vision: state.vision.currentVision,
   };
 }
 

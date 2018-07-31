@@ -159,7 +159,8 @@ export function showContentList(res) {
 
   return {
     type: C.DUPLICATE_VISION_ACTION,
-    visionFS : response,
+    visionFS : response.files,
+    currentVision: response.vision,
   };
 }
 

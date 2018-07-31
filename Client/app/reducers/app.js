@@ -1,8 +1,6 @@
 import assign from 'lodash/assign';
-import {
-  APP_MENU_CHANGE,
-  UPDATE_NOTIFCATION
-} from 'constants/app';
+import * as C from 'constants/app';
+import { getBreadcrumb } from '../utils';
 
 const initialState = {
   menuContent : [],
@@ -11,17 +9,21 @@ const initialState = {
     type: 'success',
     message: '',
   },
-  appBreadCrumb: ['ok', 'doki']
+  appBreadCrumb: []
 };
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
-    case APP_MENU_CHANGE:
+    case C.APP_MENU_CHANGE:
       return assign({}, state, { ...action });
-    case UPDATE_NOTIFCATION:
+    case C.UPDATE_NOTIFCATION:
       return assign({}, state, {
         notificationKey: state.notificationKey + 1,
         notificationData: action.data
+      });
+    case C.UPDATE_BREADCRUMB:
+      return assign({}, state, {
+        appBreadCrumb: getBreadcrumb(action.path),
       });
     default:
       return state;

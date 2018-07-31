@@ -192,4 +192,26 @@ injectGlobal`
     height: auto;
   }
 
+  .vision-container__global {
+    margin: 12px 0px;
+    border: 1px solid #e8e8e8;
+    padding: 8px;
+    border-radius: 6px;
+  }
+
+  span.vision-name {
+    margin-left: 8px;
+    font-weight: bold;
+    color: rgba(0,0,0,.45);
+  }
+
+  .breadcrumb-styles {
+    margin-bottom: 8px;
+  }
+
+  .breadcrumb-styles a{
+    text-decoration: none;
+    color: rgba(0,0,0,.45);
+  }
+
 `;

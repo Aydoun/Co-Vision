@@ -1,25 +1,24 @@
 import React from 'react';
-import { Breadcrumb } from 'antd';
+import { Breadcrumb, Icon } from 'antd';
+import { Link } from 'react-router';
 
-export default class extends React.Component {
-  componentDidMount() {
-    const { appBreadCrumb } = this.props;
+export default props => {
+    const { appBreadCrumb } = props;
 
-  }
-
-  render() {
-    const { appBreadCrumb } = this.props;
     return (
-        <div style={{ margin: 8 }}>
+        <div className="breadcrumb-styles">
             <Breadcrumb separator=">">
+                <Breadcrumb.Item >
+                    <Icon type="home" />&nbsp;
+                    <Link to="/app/vision/list" >Home</Link>
+                </Breadcrumb.Item>
             {
                 appBreadCrumb.map((item, index) => {
                     return (
                         <Breadcrumb.Item 
                             key={index}
-                            href=""
                         >
-                            {item}    
+                         <Link to={item.link} >{item.label}</Link>                          
                         </Breadcrumb.Item>
                     )
                 })
@@ -27,5 +26,4 @@ export default class extends React.Component {
             </Breadcrumb>
         </div> 
     );
-  }
 }
