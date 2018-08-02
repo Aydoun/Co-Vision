@@ -79,7 +79,7 @@ function* listHistory(returnedData) {
   const GetOptions = {
     method: 'GET',
     url: requestURL,
-    params: returnedData.payload
+    params: {}
   };
 
   try {

@@ -163,6 +163,7 @@ exports.treeSummary = function(branchName, systemId){
             history.on('end', function(commits) {
                 resolve({
                     totalContributions : commits.length,
+                    contributors,
                     totalContributors : Object.keys(contributors).length,
                 });
             });

@@ -22,12 +22,12 @@ export default (visionId, onConfirm, isAdmin) => {
             </Menu.Item>
           ) : null
         }
-        <Menu.Item>
+        {/* <Menu.Item>
           <Link to={`/app/vision/${visionId}/history`} >
             <Icon type="team" />
             <span className="global-left-margin">TimeLine</span>
           </Link>
-        </Menu.Item>
+        </Menu.Item> */}
         <Menu.Item>
           <Link to={`/app/vision/${visionId}/summary`} >
             <Icon type="coffee" />

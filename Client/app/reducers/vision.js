@@ -12,7 +12,8 @@ const initialState = {
   branchList : [],
   contributionStats : {
     contributorsList: {},
-    vision: {}
+    vision: {},
+    contributors: [],
   },
   historyList : [],
   currentVision: {},

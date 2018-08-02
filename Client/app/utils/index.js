@@ -1,16 +1,6 @@
 import moment from 'moment';
 
-function hasNumber(str) {
-  return /\d/.test(str);
-}
-
-
-
-const extraFormatting = path => {
-  
-
-};
-
+const hasNumber = str => /\d/.test(str);
 
 export function saveUserData(serverResponse) {
     localStorage.setItem('token', serverResponse.token);
@@ -41,10 +31,10 @@ export function getBreadcrumb(path) {
   const pathMapping = {
     '/app/vision/list' : [],
     '/app/feedback': [{ link: '/app/feedback', label: 'Feedback' }],
-    '/app/user/profile': [{ link: '/app/user/profile', label: 'User' }],
+    '/app/user/profile': [{ link: '/app/user/profile', label: 'Profile' }],
     '/app/discover': [{ link: '/app/discover', label: 'Discover' }],
     '/app/mail': [{ link: '/app/mail', label: 'Chat' }],
-    '/app/vision/content': [{ link: null, label: 'Vision Page' }],
+    '/app/vision/content': [{ link: null, label: 'Files' }],
     '/app/vision/lab': [
         { link: null, 
           label: 'Vision Page', 
@@ -58,6 +48,7 @@ export function getBreadcrumb(path) {
         }, 
         { link: null, label: 'Vision Lab' }
     ],
+    '/app/vision/summary': [{ link: null, label: 'Vision Page' }],
   }; 
   return pathMapping[filteredPath] || [];
 }

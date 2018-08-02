@@ -189,7 +189,8 @@ exports.visionSummary = function(req , res , next){
           title: foundVision.title,
           description: foundVision.description,
           id: foundVision._id,
-          updatedAt: foundVision.updatedAt
+          updatedAt: foundVision.updatedAt,
+          likes: foundVision.likes.length,
         }
       })));
     })
@@ -234,14 +235,13 @@ exports.addLike = function(req , res , next){
     const userId = req.tokenData.iss;
     const visionId = req.params.id;
     let foundUserIndex;
-
     visionModel.findById(visionId)
-    .then(data => {
+    .then(data => {      
       foundUserIndex = data.likes.findIndex((likeItem => likeItem.userId == userId));
       if (foundUserIndex >= 0) {
         data.likes.splice(foundUserIndex, 1);
       } else {
-        data.likes.push({ userId });
+        data.likes = data.likes.concat([{ userId }]);
       }
       return data.save();
     })

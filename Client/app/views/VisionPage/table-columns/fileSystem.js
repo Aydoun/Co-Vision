@@ -9,6 +9,7 @@ export default function Columns() {
       {
           title: 'Title',
           dataIndex: 'name',
+          sorter: (a, b) => a.name.localeCompare(b.name),
           render(item, row) {
               const iconType = row.isDirectory ? 'folder' : 'file-text';
               const visionId = _this.props.routeParams.id;
@@ -21,13 +22,14 @@ export default function Columns() {
               );
           }
       },
-      {
-        title: 'Timestamp',
-        dataIndex: 'date',
-        render(item) {
-          return formatDate(item);
-        }
-      },
+      // {
+      //   title: 'Timestamp',
+      //   dataIndex: 'date',
+      //   sorter: (a, b) => new Date(a.date) - new Date(b.date),
+      //   render(item) {
+      //     return formatDate(item);
+      //   }
+      // },
       {
         title: 'Type',
         dataIndex: 'isFile',
@@ -40,8 +42,8 @@ export default function Columns() {
           render(item, row) {
               return (
                 <div>
-                  { row.isFile && <span><Icon type="edit" />&nbsp;&nbsp;</span>}
-                  <Icon type="delete" />
+                  { row.isFile && <a href="javascript:void(0)"><Icon type="edit" />&nbsp;&nbsp;</a>}
+                  <a href="javascript:void(0)"><Icon type="delete" /></a>
                 </div>
               );
           }
