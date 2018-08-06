@@ -4,3 +4,12 @@
   border-bottom: 1px solid #ececec;
   padding-bottom: 40px;
 }
+
+.vision-title_wrapper a {
+  margin-left: 8px;
+}
+
+.vision-title_wrapper .ant-avatar {
+  width: 64px;
+  height: 64px;
+}

@@ -5,6 +5,7 @@ import { Icon, Tag, Avatar, Dropdown, Button, List } from 'antd';
 import VisionMenu from '../DropMenu/VisionCardMenu';
 import DiscoverVisionMenu from '../DropMenu/DiscoveryMenu';
 import { formatDate } from '../../utils';
+import './index.css';
 
 const noop = () => {};
 
@@ -51,6 +52,7 @@ export default class VisionCard extends Component {
         discover,
         loading
     } = this.props;
+    console.log(listData, 'listData')
 
     return (
       <div >
@@ -63,27 +65,30 @@ export default class VisionCard extends Component {
           renderItem={(item, i) => (
             <List.Item
               key={item.id}
-              actions={[<Tag color="#448bb1" onClick={() => onLike(item._id)}>
+              actions={[<Tag color="#1890ff" onClick={() => onLike(item._id)}>
                 <Icon type="like-o" /> {item.likes}
               </Tag>,
-                <Tag color="#52c41a">
+                <Tag >
                   <Icon type="clock-circle-o" /> {formatDate(item.updatedAt)}
                 </Tag>
                       ]}
               extra={this.getExtraMenu(item)}
             >
               <List.Item.Meta
-                avatar={<Avatar src={item.avatar} />}
                 title={
-                  <Link
-                    to={discover ? `/app/vision/${item._id}/summary` :
-                    `/app/vision/${item._id}/content`}
-                  >
-                    {`${i + 1}. ${item.title}`}
-                  </Link>
+                  <div className="vision-title_wrapper">
+                    <Avatar style={{ verticalAlign: 'middle' }} src={item.avatar} shape="circle" size={128} />
+                    <Link
+                      to={discover ? `/app/vision/${item._id}/summary` :
+                      `/app/vision/${item._id}/content`}
+                    >
+                      {`${item.title}`}
+                    </Link>
+                  </div>     
                 }
-                description={item.description}
+                
               />
+              {item.description}
             </List.Item>
           )}
         />
