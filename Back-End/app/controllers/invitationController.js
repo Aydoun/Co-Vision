@@ -126,10 +126,10 @@ exports.answerRequest = function(req, res, next) {
         if (status === 'Accepted') {
           userModel.findById(requester)
           .then(user => {
-            user.visions.push({
+            user.visions = user.visions.concat([{
               visionId:vision,
               role: role || 'Common',
-            });
+            }]);
             user.save((err, data) => {
               callback(null, data);
             });

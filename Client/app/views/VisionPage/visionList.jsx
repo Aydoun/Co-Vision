@@ -36,11 +36,6 @@ class VisionList extends Component {
     });
   }
 
-  cb() {
-    this.props.prepareListing({
-    });
-  }
-
   userLike(visionId) {
     this.props.preLike({
       id: visionId
@@ -64,7 +59,7 @@ class VisionList extends Component {
         title={<span><Icon type="plus" /> Add Vision</span>}
         footer={null}
       >
-        <CreateForm cb={this.cb} onCancel={() => this.setState({ visible: false })} />
+        <CreateForm onCancel={() => this.setState({ visible: false })} />
       </Modal>
     );
 

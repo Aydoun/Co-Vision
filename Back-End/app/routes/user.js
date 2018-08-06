@@ -16,6 +16,6 @@ users.get('/', getUser);
 users.get('/exists', base.exists);
 users.put('/', base.update);
 users.post('/vision', addVisionToContributor);
-users.post('/upload', uploadFile, saveAvatar);
+users.post('/upload', (req, res, next) => { req.avatarType = 'users'; next(); }, uploadFile, saveAvatar);
 
 module.exports = users;

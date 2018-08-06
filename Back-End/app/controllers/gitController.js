@@ -4,16 +4,8 @@ const { queryCheck , Formatter, defaultGitPath, picking} = require('../lib');
 const promisify = require("promisify-node");
 const fse = promisify(require("fs-extra"));
 
-exports.commit = function(req) {
-    const clientInput = req.body;
-    const visionId = req.params.id;
-    var checkRes = queryCheck(clientInput , ['fileContent' , 'fileName' , 'author' , 'authorMail' , 'message']);
-
-    if (checkRes !== true) {
-        throw new Error('Missing Required Paramenters');
-    }
-
-    var pathToRepo = defaultGitPath(visionId);
+exports.commit = function(systemId, clientInput) {
+    const pathToRepo = defaultGitPath(systemId);
     return Git.Repository.open(pathToRepo)
     .then(function(repository){
         return registerCommit(clientInput , repository);
@@ -69,6 +61,7 @@ exports.initRepository = function(inputs){
             message : `${inputs.title || '<No-Title>'} Vision is Born!`,
             initalCommit : true
         });
+        fse.outputFileSync(path.join(repo.workdir(), extraInputs.fileName), extraInputs.title)
         return registerCommit(extraInputs , repo);
     });
 }
@@ -270,40 +263,23 @@ exports.readFileContent = function(systemId, query){
       });
 }
 
-exports.gitTest = function(req, res){
-    var pathToRepo = defaultGitPath(req.params.id);
-
-    const checkRes = queryCheck(req.query , ['sourceBranch' ]);
-    if (!checkRes) {
-      return res.status(403).send(Formatter({data : 'Missing Required Parameters'} , true));
-    }
-
-    return Git.Repository.open(pathToRepo)
-    .then(repo => {
-      var now = Date.now() / 1000;
-      var signature = Git.Signature.create(req.tokenData.name,
-        req.tokenData.mail, now, 480);
-      return repo.mergeBranches("master", req.query.sourceBranch, signature);
-    });
-}
-
 /*
   Helper Functions
 */
 
 function registerCommit(inputs , repo) {
-    const { systemId, fileContent, author, authorMail, title, fileName } = inputs;
+    const { author, authorMail } = inputs;
     var index;
     var oid;
-    fse.outputFileSync(path.join(repo.workdir(), fileName), title)
+
     return repo.refreshIndex()
     .then(function(indexResult) {
         index = indexResult;
     })
     .then(function() {
-        return index.addByPath(fileName);
+        return index.addAll(['.']);
     })
-    .then(function() {
+    .then(function(){
         return index.write();
     })
     .then(function() {
@@ -323,7 +299,7 @@ function registerCommit(inputs , repo) {
         const committer = Git.Signature.create(inputs.author,
           inputs.authorMail, now, 480);
 
-        return repo.createCommit("HEAD", author, committer, inputs.message, oid, _parent);
+        return repo.createCommit("HEAD", author, committer, inputs.message || 'No Message', oid, _parent);
     })
 }
 

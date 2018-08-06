@@ -1,8 +1,10 @@
 import { call, put, takeLatest, fork } from 'redux-saga/effects';
 import * as C from 'constants/vision';
 import * as A from 'actions/vision';
+import { UPDATE_NOTIFCATION } from 'constants/app';
 import { saveDiscoverLike } from 'actions/discover';
 import request from 'utils/request';
+
 
 function* createVision(returnedData) {
   const requestURL = `${config.apiBase}/vision`;
@@ -197,6 +199,36 @@ function* unregisterUser(returnedData) {
   }
 }
 
+function* saveVision(returnedData) {
+  const requestURL =
+  `${config.apiBase}/vision/${returnedData.payload.id}`;
+
+  const PostOptions = {
+    method: 'PUT',
+    url: requestURL,
+    data: returnedData.payload
+  };
+
+  try {
+    yield call(request, PostOptions);
+    yield put({
+      type: UPDATE_NOTIFCATION,
+      data: {
+        type: 'success',
+        message: 'Vision Successfully Saved',
+      }
+    });
+  } catch (err) {
+    yield put({
+      type: UPDATE_NOTIFCATION,
+      data: {
+        type: 'error',
+        message: 'Error Saving Vision',
+      }
+    });
+  }
+}
+
 function* userLikeVision(returnedData) {
   const requestURL = `${config.apiBase}/vision/${returnedData.payload.id}/like`;
 
@@ -217,8 +249,11 @@ function* userLikeVision(returnedData) {
   }
 }
 
-
 function* _saveVisionSaga() {
+  yield takeLatest(C.SAVE_VISION_DATA, saveVision);
+}
+
+function* _createVisionSaga() {
     yield takeLatest(C.VISION_SAVE_LOADING, createVision);
 }
 
@@ -266,7 +301,6 @@ function* createBranchSaga() {
   yield takeLatest(C.SAVE_BRANCH, createBranch);
 }
 
-
 export default [
   fork(_saveVisionSaga),
   fork(_listVisionSaga),
@@ -279,5 +313,6 @@ export default [
   fork(_visionStat),
   fork(unregiterVision),
   fork(likeVision),
-  fork(createBranchSaga)
+  fork(createBranchSaga),
+  fork(_createVisionSaga),
 ];

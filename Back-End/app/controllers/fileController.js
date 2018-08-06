@@ -8,10 +8,12 @@ const { defaultUploadPath, defaultGitPath, Formatter } = require('../lib');
 const config = require('../config');
 
 exports.uploadFile = function(req, res, next) {
-    if (!req.files) {
+    const { avatarType } = req;
+    const { files } = req;
+    if (!files) {
       return res.status(200).send(Formatter('No files were uploaded.', true  ));
     }
-    let avatarFile = req.files.file;
+    let avatarFile = files.file;
     if (!avatarFile) {
       return res.status(200).send(Formatter('File name should be avatar', true  ));
     }
@@ -19,9 +21,9 @@ exports.uploadFile = function(req, res, next) {
     const filename = avatarFile.name;
     const extension = filename.split('.').pop();
     const newFileName = `${uuidv1()}.${extension}`;
-    const fileUrl = `http://${config.hostname}:${config.port}/media/avatars/${newFileName}`;
+    const fileUrl = `http://${config.hostname}:${config.mediaPort}/${avatarType}/${newFileName}`;
 
-    avatarFile.mv(path.join(__dirname, '../', `/media/avatars/${newFileName}`), function(err) {
+    avatarFile.mv(path.join(defaultUploadPath(), avatarType , newFileName), function(err) {
       if (err) {
         return res.status(500).send(err.message);
       }
@@ -71,19 +73,6 @@ exports.addDirectory = function(req, res, next) {
   .catch(err => {
     return res.status(403).send(Formatter(err.message , true));
   });
-
-  // const gitPath = defaultGitPath(id);
-  // const pathToRepo = `${gitPath}/${fileName}`;
-
-  // fse.ensureDir(pathToRepo)
-  // .then(() => {
-  //   res.status(200).send(Formatter({
-  //     file: pathToRepo
-  //   }));
-  // })
-  // .catch(err => {
-  //   res.status(403).send(Formatter(err.message, true));
-  // });
 };
 
 exports.renameFile = function(req, res, next) {

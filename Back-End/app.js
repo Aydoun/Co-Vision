@@ -17,7 +17,7 @@ const swagger = require('swagger-node-express').createNew(subpath);
 // view engine setup
 app.set('view engine', 'pug');
 app.use(fileUpload());
-app.use('/media', express.static(path.join(__dirname, '/app/media')));
+// app.use('/media', express.static(path.join(__dirname, '/app/media')));
 app.use(compression());
 app.use(logger('dev'));
 app.use(bodyParser.json());

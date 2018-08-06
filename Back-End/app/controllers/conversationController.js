@@ -47,10 +47,10 @@ exports.sendMessage = function(req, res, next) {
     if (conversationId) {
       conversationModel.findById(conversationId)
       .then(data => {
-        data.messages.push({
+        data.messages = data.messages.concat([{
           content,
           sender: req.tokenData.iss
-        });
+        }]);
         return data.save();
       })
       .then(savedData => {
@@ -72,10 +72,10 @@ exports.sendMessage = function(req, res, next) {
       .then(data => {
         if (data.length > 0) {
           // Having a onGoing Conversation
-          data[0].messages.push({
+          data[0].messages = data[0].messages.concat([{
             content,
             sender: req.tokenData.iss
-          });
+          }]);
           return data[0].save();
         } else {
           // First Conversation

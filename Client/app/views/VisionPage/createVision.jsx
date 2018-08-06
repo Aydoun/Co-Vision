@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import assign from 'lodash/assign';
-import { Form, Button, Input, Card, Alert } from 'antd';
+import { Form, Button, Input, Card } from 'antd';
 import { prepareSaving } from 'actions/vision';
 
 const FormItem = Form.Item;
@@ -15,6 +15,7 @@ class addVision extends React.Component {
   handleSubmit() {
     this.props.form.validateFields((err, fieldsValue) => {
       if (!err) {
+        this.props.onCancel();
         const { authInfo } = this.props;
         const params = assign({}, {
             author : localStorage.fullName,
@@ -22,7 +23,6 @@ class addVision extends React.Component {
         }, fieldsValue);
 
         this.props.prepareSaving(params);
-        // this.props.cb();
       }
     });
   }

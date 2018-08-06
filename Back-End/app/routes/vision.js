@@ -1,8 +1,8 @@
-var express = require('express');
-var visions = express.Router();
-var visionModel = require('../models/visionModel');
-var base = require('../controllers/baseCrudController')(visionModel);
-var {
+const express = require('express');
+const visions = express.Router();
+const visionModel = require('../models/visionModel');
+const base = require('../controllers/baseCrudController')(visionModel);
+const {
   createVision,
   historyList,
   historyTree,
@@ -15,13 +15,15 @@ var {
   branchList,
   removeBranch,
   addLike,
-  unRegister
+  unRegister,
+  addContribution,
+  saveAvatar,
 } = require('../controllers/visionController');
-
-var {
+const { defaultUploadPath } = require('../lib');
+const {
   addVisionToContributor,
 } = require('../controllers/userController');
-
+const { uploadFile } = require('../controllers/fileController');
 
 //General Crud Routing
 visions.get('/', base.get);
@@ -30,6 +32,10 @@ visions.get('/count', base.count);
 visions.get('/:id', base.getById);
 visions.get('/:id/exists', base.exists);
 visions.post('/', createVision, addVisionToContributor);
+visions.post('/:id/upload', 
+              (req, res, next) => { req.avatarType = 'visions'; next(); }, 
+              uploadFile, saveAvatar);
+visions.post('/:id/contribute', addContribution);
 visions.put('/:id', base.update);
 visions.delete('/:id', base.remove);
 

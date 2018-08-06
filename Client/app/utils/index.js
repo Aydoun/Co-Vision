@@ -33,6 +33,7 @@ export function getBreadcrumb(path) {
     '/app/feedback': [{ link: '/app/feedback', label: 'Feedback' }],
     '/app/user/profile': [{ link: '/app/user/profile', label: 'Profile' }],
     '/app/discover': [{ link: '/app/discover', label: 'Discover' }],
+    '/app/vision/edit': [{ link: null, label: 'Vision Edit' }],
     '/app/mail': [{ link: '/app/mail', label: 'Chat' }],
     '/app/vision/content': [{ link: null, label: 'Files' }],
     '/app/vision/lab': [

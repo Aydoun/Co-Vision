@@ -227,6 +227,25 @@ exports.createVision = function(req , res , next){
     });
 }
 
+exports.addContribution = function(req , res , next){
+    const { id } = req.params;
+    const checkRes = queryCheck(req.body , ['author' , 'authorMail', 'message']);
+    if (!checkRes) {
+        return res.status(403).send(Formatter({data : 'Missing Required Parameters'} , true));
+    }
+
+    visionModel.findById(id)
+    .then(vision => {
+        return commit(vision.systemId, req.body);
+    })
+    .then(data => {
+        return  res.status(200).send(Formatter({ data }));
+    })
+    .catch((err) => {
+        return res.status(403).send(Formatter({data : err.message} , true));
+    });
+}
+
 /*
   Vision API
 */
@@ -235,6 +254,7 @@ exports.addLike = function(req , res , next){
     const userId = req.tokenData.iss;
     const visionId = req.params.id;
     let foundUserIndex;
+
     visionModel.findById(visionId)
     .then(data => {      
       foundUserIndex = data.likes.findIndex((likeItem => likeItem.userId == userId));
@@ -302,5 +322,19 @@ exports.unRegister = function(req , res , next){
           res.status(403).send(Formatter(results));
         }
         res.status(200).send(Formatter(results));
+    });
+}
+
+exports.saveAvatar = (req, res, next) => {
+    const { fileUrl, params } = req;
+
+    visionModel.update({_id: params.id}, { avatar: fileUrl })
+    .then(user => {
+      return res.status(200).send(Formatter({
+        url: fileUrl
+      }));
+    })
+    .catch(err => {
+      return res.status(403).send(Formatter(err.message, true));
     });
 }

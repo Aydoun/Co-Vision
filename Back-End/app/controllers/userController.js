@@ -45,9 +45,9 @@ exports.addVisionToContributor = function(req, res, next) {
 
     UserModel.findById(tokenData.iss)
     .then(data => {
-      data.visions.push({
+      data.visions = data.visions.concat([{
         visionId : visionId
-      });
+      }])
       return data.save();
     })
     .then(savedVision => {
@@ -64,19 +64,18 @@ exports.saveAvatar = function(req, res, next) {
 
     UserModel.update({_id: userId}, {avatar: fileUrl})
     .then(user => {
-      res.status(200).send(Formatter({
+      return res.status(200).send(Formatter({
         url: fileUrl
       }));
     })
     .catch(err => {
-      res.status(403).send(Formatter(err.message, true));
+      return res.status(403).send(Formatter(err.message, true));
     });
-
 };
 
 exports.getUser = function(req, res, next) {
     const userId = req.tokenData.iss;
-    const omitValues = ['password', 'salt', 'privacy'];
+    const omitValues = ['password', 'salt', 'privacy', 'visions'];
 
     UserModel.findById(userId)
     .lean()

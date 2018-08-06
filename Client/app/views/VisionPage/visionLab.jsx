@@ -61,13 +61,6 @@ class VisionLab extends React.Component {
                   <Input type="textarea" rows={8} />
                 )}
               </FormItem>
-              <FormItem
-                label="Contribution Comment"
-              >
-                {getFieldDecorator('message', config)(
-                  <Input />
-                )}
-              </FormItem>
               <FormItem >
                 <Button type="primary" icon="save" onClick={this.handleSubmit}>
                   Conribute

@@ -43,5 +43,5 @@ exports.defaultGitPath = (repoName) => {
 }
 
 exports.defaultUploadPath = () => {
-    return path.resolve(`C://fileUpload/`);
+    return path.resolve(`C://visionMedia/`);
 }

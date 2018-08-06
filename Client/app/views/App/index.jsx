@@ -22,7 +22,7 @@ class App extends React.Component {
             className="app-sider-wrapper"
           >
             <div className="logo" >
-              <Avatar src="http://tse3.mm.bing.net/th?id=OIP.ZotSj2OR21ya9ySgfb9zlgD6D6&w=173&h=168&c=7&qlt=90&o=4&pid=1.7" />
+              <Avatar src="" />
             </div>
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
               <Menu.Item key="1">

@@ -22,25 +22,25 @@ exports.search = function(req, res, next) {
 };
 
 exports.discover = function(req, res, next) {
-    
-    UserModel.findById(req.tokenData.iss)
-    .then(user => {
-      return user.visions.map(item => item.visionId);
-    })
-    .then(userVisionsId => {
-      return visionModel.find(
-        { status:'Active', "_id": { "$nin": userVisionsId }
-      }).sort({updatedAt: 'desc'}).lean()
-    })
-    .then(visions => {
-      return res.status(200).send(Formatter(visions.map(vs => {
-        const likesCount = vs.likes.length;
-        delete vs['likes'];
-        vs.likes = likesCount;
-        return vs;
-      })));
-    })
-    .catch(err => {
-      return res.status(403).send(Formatter(err, true));
-    });
+      return res.status(200).send(Formatter([]));
+    // UserModel.findById(req.tokenData.iss)
+    // .then(user => {
+    //   return user.visions.map(item => item.visionId);
+    // })
+    // .then(userVisionsId => {
+    //   return visionModel.find(
+    //     { status:'Active', "_id": { "$nin": userVisionsId }
+    //   }).sort({updatedAt: 'desc'}).lean()
+    // })
+    // .then(visions => {
+    //   return res.status(200).send(Formatter(visions.map(vs => {
+    //     const likesCount = vs.likes.length;
+    //     delete vs['likes'];
+    //     vs.likes = likesCount;
+    //     return vs;
+    //   })));
+    // })
+    // .catch(err => {
+    //   return res.status(403).send(Formatter(err, true));
+    // });
 };

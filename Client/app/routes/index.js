@@ -35,7 +35,7 @@ function IsLogin(nextState, replace) {
 export default () => (
   <Route>
     <Route path="/app" onEnter={loginCheck}>
-      <IndexRedirect to="vision" />
+      <IndexRedirect to="/app/vision/list" />
       <Route component={App} >
         {VisionRoutes}
         {UserRoute}

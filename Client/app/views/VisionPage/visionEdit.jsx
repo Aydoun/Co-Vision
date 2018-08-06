@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Form, Input, Upload, Button, Icon } from 'antd';
-import { testAction } from 'actions/vision';
 import './index.css';
 
 const FormItem = Form.Item;
@@ -12,21 +11,32 @@ class VisionEdit extends React.Component {
     super(props);
     this.state = {
       loading: false,
-      avatarUrl: ''
+      avatarUrl: '',
+      currentVision: {}
     };
   }
   handleSubmit = (e) => {
     e.preventDefault();
-    // this.props.form.validateFieldsAndScroll((err, values) => {
-    //   if (!err) {
-    //     this.props.saveProfile(values);
-    //   }
-    // });
-    // this.props.testAction();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        this.props.saveVisionAction({
+          ...values,
+          id: this.props.routeParams.id,
+        });
+      }
+    });
   }
 
   componentDidMount() {
-    // this.props.preUserProfile({});
+    const { id } = this.props.routeParams;
+    const foundVision = this.props.visionList.find(l => l._id === id);
+    if (typeof foundVision !== 'undefined') {
+      this.setState(() => {
+        return {
+          currentVision: foundVision,
+        };
+      });
+    }
   }
 
   handleChange = (info) => {
@@ -44,11 +54,12 @@ class VisionEdit extends React.Component {
   }
 
   render() {
-    const { loading, avatarUrl } = this.state;
-    const { profile } = this.props;
+    console.log(this.state.currentVision, 'currentVision');
+    const { loading, avatarUrl, currentVision } = this.state;
+    const { id } = this.props.routeParams;
     const { getFieldDecorator } = this.props.form;
     const iconType = loading ? 'loading' : 'plus';
-    const isAvatar = avatarUrl || profile.avatar;
+    const isAvatar = avatarUrl || currentVision.avatar;
 
     return (
       <div className="user-profile__form">
@@ -57,7 +68,7 @@ class VisionEdit extends React.Component {
           name="file"
           showUploadList={false}
           onChange={this.handleChange}
-          action={`${config.apiBase}/user/upload?token=${localStorage.token}`}
+          action={`${config.apiBase}/vision/${id}/upload?token=${localStorage.token}`}
         >
           {
          isAvatar && !loading ?
@@ -68,16 +79,16 @@ class VisionEdit extends React.Component {
         <Form layout="inline">
           <h3>Vision Name:</h3>
           <FormItem >
-            {getFieldDecorator('fullName', {
-              initialValue: profile.fullName,
+            {getFieldDecorator('title', {
+              initialValue: currentVision.title,
             })(
               <Input placeholder="name" />
             )}
           </FormItem>
           <h3>Vision Description:</h3>
           <FormItem >
-            {getFieldDecorator('fullName', {
-              initialValue: profile.fullName,
+            {getFieldDecorator('description', {
+              initialValue: currentVision.description,
             })(
               <Input placeholder="description" />
             )}
@@ -100,12 +111,19 @@ class VisionEdit extends React.Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ testAction }, dispatch);
+  return {
+    saveVisionAction : (data) => {
+      dispatch({
+        type: 'SAVE_VISION_DATA',
+        payload: data,
+      });
+    },
+  }
 }
 
 function mapStateToProps(state) {
   return {
-    profile: state.user.profile
+    visionList: state.vision.visionList,
   };
 }
 
