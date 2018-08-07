@@ -31,10 +31,8 @@ class MyEditor extends React.Component {
   onChange(editorState) {
     this.setState({ editorState });
     const contentState = editorState.getCurrentContent();
-    console.log(convertToRaw(editorState));
   }
   render() {
-    console.log(this.props, 'props');
     return (
       <Editor
         editorState={this.state.editorState}

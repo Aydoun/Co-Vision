@@ -67,6 +67,7 @@ class VisionList extends Component {
       <Button
         icon="plus" type="primary"
         onClick={() => this.setState({ visible: true })}
+        size="small"
       >
             Add Vision
       </Button>

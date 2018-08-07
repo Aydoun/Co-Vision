@@ -15,7 +15,6 @@ const {
     getAllBranchList,
     deleteBranch,
     mergeBranches,
-    gitTest,
 } = require('./gitController');
 const { Formatter, queryCheck, isValidObjectId } = require('../lib');
 const uuidv1 = require('uuid/v1');
@@ -32,7 +31,6 @@ exports.historyList = function (req, res, next) {
     .catch(err => {
       return res.status(403).send(Formatter(err.message , true));
     });
-    
 };
 
 exports.historyTree = function(req , res , next){
@@ -175,6 +173,7 @@ exports.removeBranch = function(req , res , next){
 exports.visionSummary = function(req , res , next){
     const visionId = req.params.id;
     let foundVision = {};
+    let resultSummary = {};
     visionModel.findById(visionId)
     .then(vision => {
         if(vision) {
@@ -183,16 +182,21 @@ exports.visionSummary = function(req , res , next){
         }
     })
     .then(summary => {
-      return res.status(200).send(Formatter(Object.assign({}, summary, {
-        likes: foundVision.likes.length,
-        vision: {
-          title: foundVision.title,
-          description: foundVision.description,
-          id: foundVision._id,
-          updatedAt: foundVision.updatedAt,
-          likes: foundVision.likes.length,
-        }
-      })));
+        resultSummary = summary;
+        return userModel.find( { email : { $in : Object.keys(summary.contributors) } }, '_id avatar fullName email')
+    })
+    .then(users => {
+        return res.status(200).send(Formatter(Object.assign({}, resultSummary, {
+            contributors: users,
+            vision: {
+                title: foundVision.title,
+                description: foundVision.description,
+                id: foundVision._id,
+                updatedAt: foundVision.updatedAt,
+                likes: foundVision.likes.length,
+                avatar: foundVision.avatar,
+            }
+        })));
     })
     .catch(err => {
       return res.status(403).send(Formatter(err.message , true));

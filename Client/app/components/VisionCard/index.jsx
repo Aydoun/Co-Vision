@@ -52,7 +52,6 @@ export default class VisionCard extends Component {
         discover,
         loading
     } = this.props;
-    console.log(listData, 'listData')
 
     return (
       <div >

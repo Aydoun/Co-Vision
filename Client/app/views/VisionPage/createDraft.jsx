@@ -15,7 +15,6 @@ class addDraft extends React.Component {
   handleSubmit() {
     this.props.form.validateFields((err, fieldsValue) => {
       if (!err) {
-        console.log(fieldsValue);
         this.props.saveBranch({
           branchName: fieldsValue.branchName,
           id: this.props.visionId

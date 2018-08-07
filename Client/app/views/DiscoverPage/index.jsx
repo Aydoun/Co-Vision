@@ -43,7 +43,6 @@ class discoverPage extends Component {
     switch (key) {
       case 0:
         // Term Search
-        console.log(object);
         break;
       case 1:
         // Active Time
@@ -66,7 +65,6 @@ class discoverPage extends Component {
   render() {
     const { discoverList, loading } = this.props;
     const { visible, creator, vision } = this.state;
-    console.log('DISCOVER Render');
     if (!loading && discoverList.length === 0) {
       return (
         <div>

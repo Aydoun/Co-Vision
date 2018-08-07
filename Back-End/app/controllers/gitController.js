@@ -4,6 +4,16 @@ const { queryCheck , Formatter, defaultGitPath, picking} = require('../lib');
 const promisify = require("promisify-node");
 const fse = promisify(require("fs-extra"));
 
+exports.gitTest = function(systemId, branchName) {
+
+    const pathToRepo = defaultGitPath(systemId);
+
+    return Git.Repository.open(pathToRepo)
+    .then(function(repo) {
+      return repo.getBranch(branchName);
+    })
+};
+
 exports.commit = function(systemId, clientInput) {
     const pathToRepo = defaultGitPath(systemId);
     return Git.Repository.open(pathToRepo)
@@ -215,13 +225,16 @@ exports.mergeBranches = function(req, res){
 
 exports.checkoutBranch = function(systemId, branchName){
     const pathToRepo = defaultGitPath(systemId);
+    var checkoutOpts = {
+        checkoutStrategy: Git.Checkout.STRATEGY.UPDATE_SUBMODULES_IF_CHANGED
+    };
 
     return Git.Repository.open(pathToRepo)
     .then(function(repo) {
-        return repo.checkoutBranch(branchName, {})
+        return repo.checkoutBranch(branchName, checkoutOpts)
     })
     .then(function() {
-          return 'switched to ' + branchName;
+        return 'switched to ' + branchName;
     });
 }
 

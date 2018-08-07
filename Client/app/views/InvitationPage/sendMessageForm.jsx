@@ -15,7 +15,6 @@ class sendMessage extends React.Component {
   handleSubmit() {
     this.props.form.validateFields((err, fieldsValue) => {
       if (!err) {
-        // console.log({ ...fieldsValue, requesterId: this.props.requesterId });
         this.props.preSend({
           ...fieldsValue,
           receiver: this.props.requesterId,

@@ -1,27 +1,16 @@
-var {
+const {
     gitTest
 } = require('./gitController');
-const promisify = require("promisify-node");
-const fse = require("fs-extra");
-const fs = require('fs');
-const pfs = promisify(require("fs"));
-
-var { Formatter, defaultGitPath } = require('../lib');
+const { Formatter } = require('../lib');
 
 exports.testify = function(req , res , next){
-    example("output.txt");
+   gitTest('138011e0-96fe-11e8-af0e-41ce4683de5f', req.query.branchName)
+   .then((data) => {
+    return res.status(403).send(Formatter(err.message));
+   })
+   .catch(err => {
+    return res.status(403).send(Formatter(err.message , true));
+   });
     
 }
-
-async function example (f) {
-    try {
-      await fse.outputFile(f, 'hello!')
-  
-      const data = await fs.readFile(f, 'utf8')
-  
-      console.log(data) // => hello!
-    } catch (err) {
-      console.error(err)
-    }
-  }
 

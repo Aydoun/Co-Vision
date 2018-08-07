@@ -54,7 +54,6 @@ class VisionEdit extends React.Component {
   }
 
   render() {
-    console.log(this.state.currentVision, 'currentVision');
     const { loading, avatarUrl, currentVision } = this.state;
     const { id } = this.props.routeParams;
     const { getFieldDecorator } = this.props.form;
